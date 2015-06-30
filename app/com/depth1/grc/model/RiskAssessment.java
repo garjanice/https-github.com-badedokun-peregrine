@@ -1,6 +1,11 @@
-package assessment;
+package com.depth1.grc.model;
 
-public class riskAssessment {
+/**
+ * @author Team B
+ *Risk Assessment object, holds all of the necessary variables to assess risks.
+ *
+ */
+public class RiskAssessment {
 	
 	private String tentantId;
 	private String assessmentId;
@@ -22,7 +27,7 @@ public class riskAssessment {
 	private String consequence;
 	
 	//constructor
-	riskAssessment(){
+	RiskAssessment(){
 		
 		
 		

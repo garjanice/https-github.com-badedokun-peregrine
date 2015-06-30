@@ -1,11 +1,11 @@
-package assessment;
+package com.depth1.grc.model;
 
-public interface riskAssessmentDao {
+public interface RiskAssessmentDao {
 
-	int createRiskAssessment();
-	boolean updateRiskAssessment();
-	boolean deleteRiskAssessment();
-	void viewRiskAssessment();
-	riskAssessment findRiskAssessment();
+	void createRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
+	boolean updateRiskAssessment() throws DaoException;
+	boolean deleteRiskAssessment() throws DaoException;
+	void viewRiskAssessment() throws DaoException;
+	RiskAssessment findRiskAssessment() throws DaoException;
 	void findAll(); //not type void, some list of riskAssessments
 }
