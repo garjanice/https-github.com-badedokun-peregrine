@@ -14,24 +14,24 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					
 			Statement insert = QueryBuilder
-					.insertInto("grc", "riskAssessment")
-					.value("tentantId", riskAssessment.getTentantId())
-					.value("assessmentId", riskAssessment.getAssessmentId())
+					.insertInto("grc", "riskassessment")
+					.value("tenantid", riskAssessment.getTenantId())
+					.value("assessmentid", riskAssessment.getAssessmentId())
 					.value("severity", riskAssessment.getSeverity())
-					.value("severityDescription", riskAssessment.getSeverityDescription())
+					.value("severity_description", riskAssessment.getSeverityDescription())
 					.value("likelihood", riskAssessment.getLikelihood())
-					.value("likelihoodDescription", riskAssessment.getLikelihoodDescription())
-					.value("matrixRed", riskAssessment.getMatrixRed())
-					.value("matrixYellow", riskAssessment.getMatrixYellow())
-					.value("matrixLightGreen", riskAssessment.getMatrixLightGreen())
-					.value("matrixGreen", riskAssessment.getMatrixGreen())
+					.value("likelihood_description", riskAssessment.getLikelihoodDescription())
+					.value("red", riskAssessment.getMatrixRed())
+					.value("yellow", riskAssessment.getMatrixYellow())
+					.value("light_green", riskAssessment.getMatrixLightGreen())
+					.value("green", riskAssessment.getMatrixGreen())
 					.value("vulnerabilty", riskAssessment.getVulnerabilty())
 					.value("risk", riskAssessment.getRisk())
-					.value("speedOfOnset", riskAssessment.getSpeedOfOnset())
+					.value("onset_speed", riskAssessment.getSpeedOfOnset())
 					.value("impact", riskAssessment.getImpact())
 					.value("oppurtunity", riskAssessment.getOppurtunity())
-					.value("triggerEvent", riskAssessment.getTriggerEvent())
-					.value("riskFactor", riskAssessment.getRiskFactor())	
+					.value("trigger_event", riskAssessment.getTriggerEvent())
+					.value("risk_factor", riskAssessment.getRiskFactor())	
 					.value("consequence", riskAssessment.getConsequence());					
 					dbSession.execute(insert);
 		} catch (DriverException e) {
@@ -39,7 +39,8 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 		} finally {			
 			CassandraDaoFactory.close(dbSession);
 		}		
-	}			
+	}		
+	
 	
 
 	@Override

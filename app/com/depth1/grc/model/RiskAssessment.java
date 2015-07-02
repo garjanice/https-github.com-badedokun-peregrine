@@ -7,7 +7,7 @@ package com.depth1.grc.model;
  */
 public class RiskAssessment {
 	
-	private String tentantId;
+	private String tenantId;
 	private String assessmentId;
 	private float severity;
 	private String severityDescription;
@@ -27,19 +27,19 @@ public class RiskAssessment {
 	private String consequence;
 	
 	//constructor
-	RiskAssessment(){
+	public RiskAssessment(){
 		
 		
 		
 	}
 	
 	//getters and setters
-	public String getTentantId() {
-		return tentantId;
+	public String getTenantId() {
+		return tenantId;
 	}
 
-	public void setTentantId(String tentantId) {
-		this.tentantId = tentantId;
+	public void setTenantId(String tentantId) {
+		this.tenantId = tentantId;
 	}
 
 	public String getAssessmentId() {

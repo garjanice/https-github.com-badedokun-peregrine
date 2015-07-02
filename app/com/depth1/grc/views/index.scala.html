@@ -1,7 +1,28 @@
-@(message: String)
+@(rAForm: Form[com.depth1.grc.model.RiskAssessment])
+@import helper._
 
-@main("Welcome to Play") {
-
-    @play20.welcome(message, style = "Java")
-
+@main("Create RA") {
+	<h1>Create Risk Assessment</h1>
+	@helper.form(action = com.depth1.grc.controllers.routes.Application.addRiskAssessment(), 'id -> "rAForm") {
+		@helper.inputText(rAForm("tentantId"))
+		@helper.inputText(rAForm("assessmentId"))
+		@helper.inputText(rAForm("severity"))
+		@helper.inputText(rAForm("severityDescription"))
+		@helper.inputText(rAForm("likelihood"))
+		@helper.inputText(rAForm("likelihoodDescription"))
+		@helper.inputText(rAForm("matrixRed"))
+		@helper.inputText(rAForm("matrixYellow"))
+		@helper.inputText(rAForm("matrixLightGreen"))
+		@helper.inputText(rAForm("matrixGreen"))
+		@helper.inputText(rAForm("vulnerabilty"))
+		@helper.inputText(rAForm("risk"))
+		@helper.inputText(rAForm("speedOfOnset"))
+		@helper.inputText(rAForm("impact"))
+		@helper.inputText(rAForm("oppurtunity"))
+		@helper.inputText(rAForm("triggerEvent"))
+		@helper.inputText(rAForm("riskFactor"))
+		@helper.inputText(rAForm("consequence"))
+		
+		<button type="submit" name="action" value="edit">Create</button>
+	}
 }
