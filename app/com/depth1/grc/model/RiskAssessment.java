@@ -1,5 +1,7 @@
 package com.depth1.grc.model;
 
+import java.util.UUID;
+
 /**
  * @author Team B
  *Risk Assessment object, holds all of the necessary variables to assess risks.
@@ -7,8 +9,8 @@ package com.depth1.grc.model;
  */
 public class RiskAssessment {
 	
-	private String tenantId;
-	private String assessmentId;
+	private int tenantId;
+	private UUID assessmentId;
 	private float severity;
 	private String severityDescription;
 	private float likelihood;
@@ -17,11 +19,11 @@ public class RiskAssessment {
 	private String matrixYellow;
 	private String matrixLightGreen;
 	private String matrixGreen;
-	private float vulnerabilty;
+	private float vulnerability;
 	private String risk;
 	private float speedOfOnset;
 	private float impact;
-	private String oppurtunity;
+	private String opportunity;
 	private String triggerEvent;
 	private String riskFactor;
 	private String consequence;
@@ -29,24 +31,22 @@ public class RiskAssessment {
 	//constructor
 	public RiskAssessment(){
 		
-		
-		
 	}
 	
 	//getters and setters
-	public String getTenantId() {
+	public int getTenantId() {
 		return tenantId;
 	}
 
-	public void setTenantId(String tentantId) {
-		this.tenantId = tentantId;
+	public void setTenantId(int tenantId) {
+		this.tenantId = tenantId;
 	}
 
-	public String getAssessmentId() {
+	public UUID getAssessmentId() {
 		return assessmentId;
 	}
 
-	public void setAssessmentId(String assessmentId) {
+	public void setAssessmentId(UUID assessmentId) {
 		this.assessmentId = assessmentId;
 	}
 
@@ -114,12 +114,12 @@ public class RiskAssessment {
 		this.matrixGreen = matrixGreen;
 	}
 
-	public float getVulnerabilty() {
-		return vulnerabilty;
+	public float getVulnerability() {
+		return vulnerability;
 	}
 
-	public void setVulnerabilty(float vulnerabilty) {
-		this.vulnerabilty = vulnerabilty;
+	public void setVulnerability(float vulnerability) {
+		this.vulnerability = vulnerability;
 	}
 
 	public String getRisk() {
@@ -146,12 +146,12 @@ public class RiskAssessment {
 		this.impact = impact;
 	}
 
-	public String getOppurtunity() {
-		return oppurtunity;
+	public String getOpportunity() {
+		return opportunity;
 	}
 
-	public void setOppurtunity(String oppurtunity) {
-		this.oppurtunity = oppurtunity;
+	public void setOpportunity(String oppurtunity) {
+		this.opportunity = oppurtunity;
 	}
 
 	public String getTriggerEvent() {

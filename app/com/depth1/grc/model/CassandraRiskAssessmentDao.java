@@ -1,5 +1,7 @@
 package com.depth1.grc.model;
 
+import java.util.UUID;
+
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.DriverException;
@@ -15,8 +17,9 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 		try {					
 			Statement insert = QueryBuilder
 					.insertInto("grc", "riskassessment")
-					.value("tenantid", riskAssessment.getTenantId())
-					.value("assessmentid", riskAssessment.getAssessmentId())
+					.value("id", UUID.randomUUID())
+					// .value("tenantid", fillThis) needs to be some random text?
+					// .value("assessmentid", fillThis) needs to be some random int
 					.value("severity", riskAssessment.getSeverity())
 					.value("severity_description", riskAssessment.getSeverityDescription())
 					.value("likelihood", riskAssessment.getLikelihood())
@@ -25,11 +28,11 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 					.value("yellow", riskAssessment.getMatrixYellow())
 					.value("light_green", riskAssessment.getMatrixLightGreen())
 					.value("green", riskAssessment.getMatrixGreen())
-					.value("vulnerabilty", riskAssessment.getVulnerabilty())
+					.value("vulnerability", riskAssessment.getVulnerability())
 					.value("risk", riskAssessment.getRisk())
 					.value("onset_speed", riskAssessment.getSpeedOfOnset())
 					.value("impact", riskAssessment.getImpact())
-					.value("oppurtunity", riskAssessment.getOppurtunity())
+					.value("opportunity", riskAssessment.getOpportunity())
 					.value("trigger_event", riskAssessment.getTriggerEvent())
 					.value("risk_factor", riskAssessment.getRiskFactor())	
 					.value("consequence", riskAssessment.getConsequence());					
