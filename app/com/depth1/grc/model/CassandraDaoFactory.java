@@ -67,10 +67,13 @@ public class CassandraDaoFactory extends DaoFactory {
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getRiskAssesmentDao()
 	 */
-	public RiskAssessmentDao getRiskAssesmentDao() {
-		    
-		    return null;
-		  }	
+	@Override
+	public RiskAssessmentDao getRiskAssessmentDao() throws DaoException {
+		// TODO Auto-generated method stub
+		return new CassandraRiskAssessmentDao();
+	}
+
+
 	
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getPolicyDao()
@@ -88,5 +91,7 @@ public class CassandraDaoFactory extends DaoFactory {
 		    
 		    return new CassandraTenantDao();
 		  }
+
+
 
 }
