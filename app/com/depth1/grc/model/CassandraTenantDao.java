@@ -44,13 +44,13 @@ public class CassandraTenantDao implements TenantDao
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Deletes a tenant from the tenant table
+	 * @param tenantId The ID of the tenant to delete
+	 * @return boolean True if the delete is successful, false otherwise
+	 * @throws DaoException When error occurs while deleting a tenant from the tenant table
 	 */
 	
-	public boolean deleteTenant(int tenantId) {
+	public boolean deleteTenant(int tenantId) throws DaoException {
 		boolean del = false;
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					
@@ -71,10 +71,9 @@ public class CassandraTenantDao implements TenantDao
 	
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Creates a new tenant in the tenant table
+	 * @param tenant The tenant to create
+	 * @throws DaoException When an error occurs while creating a tenant in the tenant table
 	 */
 	
 	public void createTenant(Tenant tenant) throws DaoException {
@@ -108,10 +107,9 @@ public class CassandraTenantDao implements TenantDao
 				
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * List all tenants in the tenant table
+	 * @return A list of tenants
+	 * @throws DaoException When an error occurs whiles retrieving tenant from the table
 	 */
 	
 	public List<Tenant> listTenant() throws DaoException {
