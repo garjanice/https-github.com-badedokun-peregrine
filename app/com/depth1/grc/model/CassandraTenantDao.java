@@ -41,7 +41,7 @@ public class CassandraTenantDao implements TenantDao
 	 * @throws DaoException When error occurs while deleting a tenant from the tenant table
 	 */
 	
-	public boolean deleteTenant(int tenantId) {
+	public boolean deleteTenant(int tenantId) throws DaoException {
 		boolean del = false;
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					

@@ -23,7 +23,7 @@ public class IdGenerator {
 
     /**
      * Compute a new unique ID. It is assumed that the specified table
-     * has a column named 'id' of type 'long'. It is assumed that
+     * has a column named 'id' of type 'int'. It is assumed that
      * that all parts of the program will use this method to compute
      * new IDs.
      * @param tableName the table to query to get the maximum id from
