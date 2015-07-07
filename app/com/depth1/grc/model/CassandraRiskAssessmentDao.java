@@ -12,12 +12,13 @@ import play.Logger;
 public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 
 	@Override
+	//not complete
 	public void createRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					
 			Statement insert = QueryBuilder
 					.insertInto("grc", "riskassessment")
-					.value("id", UUID.randomUUID())
+					.value("id", UUID.randomUUID()) //need to change this to not be random
 					// .value("tenantid", fillThis) needs to be some random text?
 					// .value("assessmentid", fillThis) needs to be some random int
 					.value("severity", riskAssessment.getSeverity())
