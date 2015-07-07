@@ -9,7 +9,7 @@ import java.util.UUID;
  */
 public class RiskAssessment {
 	
-	private int tenantId;
+//	private int tenantId;
 	private UUID assessmentId;
 	private float severity;
 	private String severityDescription;
@@ -34,13 +34,13 @@ public class RiskAssessment {
 	}
 	
 	//getters and setters
-	public int getTenantId() {
-		return tenantId;
-	}
-
-	public void setTenantId(int tenantId) {
-		this.tenantId = tenantId;
-	}
+//	public int getTenantId() {
+//		return tenantId;
+//	}
+//
+//	public void setTenantId(int tenantId) {
+//		this.tenantId = tenantId;
+//	}
 
 	public UUID getAssessmentId() {
 		return assessmentId;

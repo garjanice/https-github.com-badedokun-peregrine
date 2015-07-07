@@ -23,12 +23,8 @@ import play.Logger;
  * @generated
  */
 
-public class CassandraTenantDao implements TenantDao
-{
-	
-	
+public class CassandraTenantDao implements TenantDao {
 	public Tenant tenant;
-	
 
 	public CassandraTenantDao(){
 		super();
@@ -59,8 +55,7 @@ public class CassandraTenantDao implements TenantDao
 		}
 		return del;
 	}	
-	
-	
+
 	/**
 	 * Creates a new tenant in the tenant table
 	 * @param tenant The tenant to create
