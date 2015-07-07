@@ -1,6 +1,6 @@
 package com.depth1.grc.model;
 
-
+import java.util.List;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,7 +25,7 @@ public  interface TenantDao
 	 * @ordered
 	 */
 	
-	public boolean deleteTenant() throws DaoException;
+	public boolean deleteTenant(int tenantId) throws DaoException;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -34,7 +34,7 @@ public  interface TenantDao
 	 * @ordered
 	 */
 	
-	public void listTenant() throws DaoException;
+	public List<Tenant> listTenant() throws DaoException;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -43,7 +43,15 @@ public  interface TenantDao
 	 * @ordered
 	 */
 	
-	public boolean updateTenant() throws DaoException;
+	public boolean updateTenant(Tenant tenant) throws DaoException;
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	public Tenant findTenant(int tenantId) throws DaoException;
 	
 	
 }

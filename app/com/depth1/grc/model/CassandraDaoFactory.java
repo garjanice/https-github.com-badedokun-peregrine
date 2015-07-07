@@ -6,7 +6,6 @@ package com.depth1.grc.model;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.depth1.grc.db.util.CassandraPoolImpl;
-import com.depth1.grc.db.util.DataException;
 
 import play.Logger;
 
