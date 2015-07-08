@@ -1,5 +1,6 @@
 package com.depth1.grc.model;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.datastax.driver.core.Session;
@@ -21,6 +22,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 					.value("id", UUID.randomUUID()) //need to change this to not be random
 					// .value("tenantid", fillThis) needs to be some random text?
 					// .value("assessmentid", fillThis) needs to be some random int
+					.value("risk", riskAssessment.getRisk())
 					.value("severity", riskAssessment.getSeverity())
 					.value("severity_description", riskAssessment.getSeverityDescription())
 					.value("likelihood", riskAssessment.getLikelihood())
@@ -30,7 +32,6 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 					.value("light_green", riskAssessment.getMatrixLightGreen())
 					.value("green", riskAssessment.getMatrixGreen())
 					.value("vulnerability", riskAssessment.getVulnerability())
-					.value("risk", riskAssessment.getRisk())
 					.value("onset_speed", riskAssessment.getSpeedOfOnset())
 					.value("impact", riskAssessment.getImpact())
 					.value("opportunity", riskAssessment.getOpportunity())
@@ -72,9 +73,9 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	}
 
 	@Override
-	public void findAll() {
+	public List<RiskAssessment> listRiskAssessment() {
 		// TODO Auto-generated method stub
-		return;
+		return null;
 	}
 
 }

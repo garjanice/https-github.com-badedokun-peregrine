@@ -1,5 +1,7 @@
 package com.depth1.grc.controllers;
 
+import java.util.List;
+
 import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
@@ -26,6 +28,7 @@ public class Application extends Controller {
 	static DaoFactory cassandraFactory = DaoFactory
 			.getDaoFactory(DaoFactory.CASSANDRA);
 	final static Form<RiskAssessment> rAForm = Form.form(RiskAssessment.class);
+	static List<RiskAssessment> riskAssessments;
 
 	public Result index() {
 		// test connection to the cassandra cluster
@@ -37,8 +40,19 @@ public class Application extends Controller {
 		 * System.out.println("============================");
 		 * printState(session); session.close();
 		 */
+		
+		//gets the list of previous RA, this code will be moved from the index to RA page method later
+		try {
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory
+					.getRiskAssessmentDao();
+			riskAssessments = riskAssessmentDao.listRiskAssessment();
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while creating risk assessment criteria ",
+					e);
+		}
 
-		return ok(index.render()); // change to main page
+		return ok(index.render(riskAssessments)); // change to main page
 	}
 
 	/**
