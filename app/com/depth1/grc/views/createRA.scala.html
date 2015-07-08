@@ -1,17 +1,20 @@
-@import com.depth1.grc.model.RiskAssessment
-@(rAForm: Form[RiskAssessment])
-@import helper._
-
+@import com.depth1.grc.model.RiskAssessment 
+@(rAForm:Form[RiskAssessment]) 
+@import helper._ 
 @main("Create RA") {
+
+<section class=wrapper>
 	<h1>Risk Assessment</h1>
-	@helper.form(action = com.depth1.grc.controllers.routes.Application.addRiskAssessment(), 'id -> "rAForm") {
-		<fieldset>
+	@helper.form(action =
+	com.depth1.grc.controllers.routes.Application.addRiskAssessment(), 'id
+	-> "rAForm") {
+	<fieldset>
 		<legend> Create Risk Assessment</legend>
 		@helper.inputText(rAForm("risk"), '_label -> "Risk")
 		@helper.inputText(rAForm("severity"), '_label -> "Severity")
-		@helper.textarea(rAForm("severityDescription"), '_label -> "Severity Description")
-		@helper.inputText(rAForm("likelihood"), '_label -> "Likelihood")
-		@helper.textarea(rAForm("likelihoodDescription"), '_label -> "Likelihood Description")
+		@helper.textarea(rAForm("severityDescription"), '_label -> "SeverityDescription") 
+		@helper.inputText(rAForm("likelihood"), '_label ->"Likelihood") 
+		@helper.textarea(rAForm("likelihoodDescription"),'_label -> "Likelihood Description")
 		@helper.inputText(rAForm("vulnerability"), '_label -> "Vulnerability")
 		@helper.inputText(rAForm("speedOfOnset"), '_label -> "Speed of Onset")
 		@helper.inputText(rAForm("impact"), '_label -> "Impact")
@@ -19,7 +22,12 @@
 		@helper.textarea(rAForm("triggerEvent"), '_label -> "Trigger Event")
 		@helper.textarea(rAForm("riskFactor"), '_label -> "Risk Factor")
 		@helper.textarea(rAForm("consequence"), '_label -> "Consequence")
-		</fieldset>
-		<button type="submit" name="action" value="edit">Create</button>
+	</fieldset>
+	<button type="submit" name="action" value="edit">Submit</button>
 	}
-}
+	<form action=/ />
+	<input type="submit"
+		style="position: relative; left: 100px; bottom : 26px;" value="Cancel">
+	</form>
+</section>
+} 

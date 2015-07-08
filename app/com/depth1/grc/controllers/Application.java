@@ -20,7 +20,10 @@ import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.createRA;
+import com.depth1.grc.views.html.deleteRA;
 import com.depth1.grc.views.html.index;
+import com.depth1.grc.views.html.updateRA;
+import com.depth1.grc.views.html.viewRA;
 
 public class Application extends Controller {
 
@@ -29,6 +32,7 @@ public class Application extends Controller {
 			.getDaoFactory(DaoFactory.CASSANDRA);
 	final static Form<RiskAssessment> rAForm = Form.form(RiskAssessment.class);
 	static List<RiskAssessment> riskAssessments;
+	static RiskAssessment selectedRA;
 
 	public Result index() {
 		// test connection to the cassandra cluster
@@ -134,17 +138,17 @@ public class Application extends Controller {
 
 	public Result showViewRAPage() {
 
-		return TODO;
+		return ok(viewRA.render(selectedRA));
 	}
 
 	public Result showUpdateRAPage() {
 
-		return TODO;
+		return ok(updateRA.render(selectedRA));
 	}
 
 	public Result showDeleteRAPage() {
 
 		return TODO;
-
 	}
+
 }
