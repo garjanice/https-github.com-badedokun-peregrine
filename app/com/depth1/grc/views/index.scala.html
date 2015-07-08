@@ -1,49 +1,21 @@
-@import com.depth1.grc.model.RiskAssessment
-@(riskAssessments: List[RiskAssessment]) @main("Risk Assessment") {
-
+@main("Risk Assessment Page") {
 <h1>Risk Assessment</h1>
 <legend> Front Page</legend>
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>UUID</th>
-			<th>Risk</th>
-			<th>Severity</th>
-		</tr>
-	</thead>
-	<tbody>
-	@* 	@for(RiskAssessment <- riskAssessments) {
-		<tr>
-			<td><a href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-					@RiskAssessment.getAssessmentId </a></td>
-			<td><a href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-					@RiskAssessment.getRisk</a></td>
-			<td><a href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-					@RiskAssessment.getSeverity</a></td>
-		</tr>
-		}
-	</tbody> *@
-</table>
-
 
 <!--the buttons, using just html forms-->
 <FORM ACTION=/riskAssessment/create/>
-<INPUT TYPE="submit" style="position: absolute; top: 800px; left: 25px;"
-	VALUE="Create">
+<INPUT TYPE="submit" style="position:absolute; top:100px; left:25px;" VALUE="Create Risk Assessment">
 </FORM>
-
+	
 <FORM ACTION=/riskAssessment/view/>
-<INPUT TYPE="submit"
-	style="position: absolute; top: 800px; left: 225px;" VALUE="View">
+<INPUT TYPE="submit" style="position:absolute; top:100px; left:225px;" VALUE="View Risk Assessment">
 </FORM>
 
 <FORM ACTION=/riskAssessment/update/>
-<INPUT TYPE="submit"
-	style="position: absolute; top: 800px; left: 425px;" VALUE="Update">
+<INPUT TYPE="submit" style="position:absolute; top:100px; left:425px;" VALUE="Update Risk Assessment">
 </FORM>
 
 <FORM ACTION=/riskAssessment/delete/>
-<INPUT TYPE="submit"
-	style="position: absolute; top: 800px; left: 625px;" VALUE="Delete">
+<INPUT TYPE="submit" style="position:absolute; top:100px; left:625px;" VALUE="Delete Risk Assessment">
 </FORM>
 }

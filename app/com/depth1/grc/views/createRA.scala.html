@@ -1,5 +1,4 @@
-@import com.depth1.grc.model.RiskAssessment
-@(rAForm: Form[RiskAssessment])
+@(rAForm: Form[com.depth1.grc.model.RiskAssessment])
 @import helper._
 
 @main("Create RA") {
@@ -7,12 +6,12 @@
 	@helper.form(action = com.depth1.grc.controllers.routes.Application.addRiskAssessment(), 'id -> "rAForm") {
 		<fieldset>
 		<legend> Create Risk Assessment</legend>
-		@helper.inputText(rAForm("risk"), '_label -> "Risk")
 		@helper.inputText(rAForm("severity"), '_label -> "Severity")
 		@helper.textarea(rAForm("severityDescription"), '_label -> "Severity Description")
 		@helper.inputText(rAForm("likelihood"), '_label -> "Likelihood")
 		@helper.textarea(rAForm("likelihoodDescription"), '_label -> "Likelihood Description")
 		@helper.inputText(rAForm("vulnerability"), '_label -> "Vulnerability")
+		@helper.inputText(rAForm("risk"), '_label -> "Risk")
 		@helper.inputText(rAForm("speedOfOnset"), '_label -> "Speed of Onset")
 		@helper.inputText(rAForm("impact"), '_label -> "Impact")
 		@helper.textarea(rAForm("opportunity"), '_label -> "Opportunity")
