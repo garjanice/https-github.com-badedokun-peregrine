@@ -1,5 +1,7 @@
 package com.depth1.grc.controllers;
 
+import java.util.List;
+
 import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
@@ -18,7 +20,10 @@ import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.createRA;
+import com.depth1.grc.views.html.deleteRA;
 import com.depth1.grc.views.html.index;
+import com.depth1.grc.views.html.updateRA;
+import com.depth1.grc.views.html.viewRA;
 
 public class Application extends Controller {
 
@@ -26,6 +31,8 @@ public class Application extends Controller {
 	static DaoFactory cassandraFactory = DaoFactory
 			.getDaoFactory(DaoFactory.CASSANDRA);
 	final static Form<RiskAssessment> rAForm = Form.form(RiskAssessment.class);
+	static List<RiskAssessment> riskAssessments;
+	static RiskAssessment selectedRA;
 
 	public Result index() {
 		// test connection to the cassandra cluster
@@ -37,8 +44,19 @@ public class Application extends Controller {
 		 * System.out.println("============================");
 		 * printState(session); session.close();
 		 */
+		
+		//gets the list of previous RA, this code will be moved from the index to RA page method later
+		try {
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory
+					.getRiskAssessmentDao();
+			riskAssessments = riskAssessmentDao.listRiskAssessment();
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while creating risk assessment criteria ",
+					e);
+		}
 
-		return ok(index.render()); // change to main page
+		return ok(index.render(riskAssessments)); // change to main page
 	}
 
 	/**
@@ -120,17 +138,17 @@ public class Application extends Controller {
 
 	public Result showViewRAPage() {
 
-		return TODO;
+		return ok(viewRA.render(selectedRA));
 	}
 
 	public Result showUpdateRAPage() {
 
-		return TODO;
+		return ok(updateRA.render(selectedRA));
 	}
 
 	public Result showDeleteRAPage() {
 
 		return TODO;
-
 	}
+
 }
