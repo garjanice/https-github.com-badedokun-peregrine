@@ -41,7 +41,7 @@ public abstract class DaoFactory {
 	 * @ordered
 	 */
 	
-	public abstract RiskAssessmentDao getRiskAssesmentDao() throws DaoException;
+	public abstract RiskAssessmentDao getRiskAssessmentDao() throws DaoException;
 	
 	/**
 	 * <!-- begin-user-doc -->

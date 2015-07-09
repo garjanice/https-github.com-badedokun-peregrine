@@ -20,6 +20,9 @@ libraryDependencies ++= Seq(
 // Play provides two styles of routers, one expects its actions to be injected, the
 // other, legacy style, accesses its actions statically.
 routesGenerator := InjectedRoutesGenerator
+<<<<<<< HEAD
 
 
 fork in run := true
+=======
+>>>>>>> bcbd35c592117a330be90ee48ad07ee419e12668

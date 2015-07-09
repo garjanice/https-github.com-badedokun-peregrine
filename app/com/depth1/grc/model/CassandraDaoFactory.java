@@ -6,7 +6,6 @@ package com.depth1.grc.model;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.depth1.grc.db.util.CassandraPoolImpl;
-import com.depth1.grc.db.util.DataException;
 
 import play.Logger;
 
@@ -68,10 +67,13 @@ public class CassandraDaoFactory extends DaoFactory {
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getRiskAssesmentDao()
 	 */
-	public RiskAssessmentDao getRiskAssesmentDao() {
-		    
-		    return null;
-		  }	
+
+	@Override
+	public RiskAssessmentDao getRiskAssessmentDao() throws DaoException {
+		// TODO Auto-generated method stub
+		return new CassandraRiskAssessmentDao();
+	}
+
 	
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getPolicyDao()
