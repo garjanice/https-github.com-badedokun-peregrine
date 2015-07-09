@@ -1,0 +1,74 @@
+@import com.depth1.grc.model.RiskAssessment
+@(riskAssessments:List[RiskAssessment]) 
+@main("Risk Assessment") {
+
+<script>
+	function del(urlToDelete) {
+		$.ajax({
+			url : urlToDelete,
+			type : 'DELETE',
+			success : function(results) {
+				// Refresh the page
+				location.reload();
+			}
+		});
+	}
+</script>
+
+<section class="wrapper">
+	<h1>Risk Assessment</h1>
+	<legend> Front Page</legend>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>UUID</th>
+				<th>Risk</th>
+				<th>Severity</th>
+			</tr>
+		</thead>
+		<tbody>
+			@* @for(RiskAssessment <- riskAssessments) {
+			<tr>
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
+						@RiskAssessment.getAssessmentId </a></td>
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
+						@RiskAssessment.getRisk</a></td>
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
+						@RiskAssessment.getSeverity</a></td>
+			</tr>
+			}
+		</tbody>
+		*@
+	</table>
+
+
+	<!--the buttons, using just html forms-->
+	<FORM ACTION=/riskAssessment/create />
+	<INPUT TYPE="submit"
+		style="position: relative; top: 450px; left: 50px; height: 50px; width: 100px;"
+		VALUE="Create">
+	</FORM>
+
+	<FORM ACTION=/riskAssessment/view />
+	<INPUT TYPE="submit"
+		style="position: relative; top: 400px; left: 250px; height: 50px; width: 100px;"
+		VALUE="View">
+	</FORM>
+
+	<FORM ACTION=/riskAssessment/update />
+	<INPUT TYPE="submit"
+		style="position: relative; top: 350px; left: 450px; height: 50px; width: 100px;"
+		VALUE="Update">
+	</FORM>
+
+	<FORM
+		onsubmit="var result = confirm('Do you really want to delete the selected criteria?');if (result) {del('com.depth1.grc.controllers.routes.Application.deleteRiskAssessment()')}" />
+	<INPUT TYPE="submit"
+		style="position: relative; top: 300px; left: 650px; height: 50px; width: 100px;"
+		VALUE="Delete">
+	</FORM>
+	}
+</section>
