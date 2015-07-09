@@ -44,32 +44,39 @@
 		</tbody>
 
 	</table>
-
-
+</section>
+<section class=centered>
 	<!--the buttons, using just html forms-->
 	<FORM ACTION=/riskAssessment/create />
 	<INPUT TYPE="submit"
-		style="position: relative; bottom: 0px; left: 50px; height: 50px; width: 100px;"
+		style="position: relative; bottom: 0px; left: -225px; height: 50px; width: 100px;"
 		VALUE="Create">
 	</FORM>
 
 	<FORM ACTION=/riskAssessment/view />
 	<INPUT TYPE="submit"
-		style="position: relative; bottom: 50px; left: 250px; height: 50px; width: 100px;"
+		style="position: relative; bottom: 50px; left: -75px; height: 50px; width: 100px;"
 		VALUE="View">
 	</FORM>
 
 	<FORM ACTION=/riskAssessment/update />
 	<INPUT TYPE="submit"
-		style="position: relative; bottom: 100px; left: 450px; height: 50px; width: 100px;"
+		style="position: relative; bottom: 100px; left: 75px; height: 50px; width: 100px;"
 		VALUE="Update">
 	</FORM>
 
 	<FORM
 		onsubmit="var result = confirm('Do you really want to delete the selected criteria?');if (result) {del('com.depth1.grc.controllers.routes.Application.deleteRiskAssessment()')}" />
 	<INPUT TYPE="submit"
-		style="position: relative; bottom: 150px; left: 650px; height: 50px; width: 100px;"
+		style="position: relative; bottom: 150px; left: 225px; height: 50px; width: 100px;"
 		VALUE="Delete">
 	</FORM>
 	}
+</section>
+<section class=centered>
+	<FORM ACTION="/"/>
+	<INPUT TYPE="submit"
+		style="position: relative; top: 100px; height: 50px; width: 100px;"
+		VALUE="Back">
+	</FORM>
 </section>

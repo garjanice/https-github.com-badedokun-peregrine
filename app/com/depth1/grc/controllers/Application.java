@@ -119,7 +119,7 @@ public class Application extends Controller {
 					e);
 		}
 
-		return ok("Risk Assessment Created");
+		return redirect("/riskAssessment");
 	}
 	
 	public Result deleteRiskAssessment() {
@@ -157,6 +157,7 @@ public class Application extends Controller {
 		return ok(updateRA.render(selectedRA));
 	}
 
+	//remove this later
 	public Result showDeleteRAPage() {
 
 		return TODO;
