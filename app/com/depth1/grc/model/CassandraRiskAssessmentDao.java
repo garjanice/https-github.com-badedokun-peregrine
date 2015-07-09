@@ -5,12 +5,15 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.DriverException;
+import com.datastax.driver.core.querybuilder.Delete;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import play.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 
 public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 
@@ -57,9 +60,20 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	}
 
 	@Override
-	public boolean deleteRiskAssessment() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
+        boolean del = false;
+        Session dbSession = CassandraDaoFactory.connect();
+        try {
+            Delete.Where delete = QueryBuilder.delete().from("grc", "riskassessment")
+                    .where(eq("assessmentid", riskAssessment.getAssessmentId()));
+            dbSession.execute(delete);
+            del = true;
+        } catch (DriverException e) {
+            Logger.error("Error occurred while attempting to delete Risk Assessment", e);
+        } finally {
+            CassandraDaoFactory.close(dbSession);
+        }
+        return del;
 	}
 
 	/*
