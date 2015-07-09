@@ -62,11 +62,43 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 		return false;
 	}
 
-	@Override
-	public void viewRiskAssessment() {
-		// TODO Auto-generated method stub
-		
-	}
+	/*
+    Shelving the viewRA() function for now; unsure if needed due to unnecessary process.
+    Leaving uncommented just in case.
+     */
+//    @Override
+//    public void viewRiskAssessment(RiskAssessment riskAssessment) {
+//        Session dbSession = CassandraDaoFactory.connect();
+//        try {
+//            Statement viewRA = QueryBuilder.select().from("grc", "riskassessment")
+//                    .where(eq("assessmentId", riskAssessment.getAssessmentId()));
+//            ResultSet result = dbSession.execute(viewRA);
+//            Row row = result.one();
+//
+//            riskAssessment.setAssessmentId(row.getUUID("id"));
+//            riskAssessment.setRisk(row.getString("risk"));
+//            riskAssessment.setSeverity(row.getFloat("severity"));
+//            riskAssessment.setSeverityDescription(row.getString("severity_description"));
+//            riskAssessment.setLikelihood(row.getFloat("likelihood"));
+//            riskAssessment.setLikelihoodDescription(row.getString("likelihood_description"));
+//            riskAssessment.setMatrixRed(row.getString("red"));
+//            riskAssessment.setMatrixYellow(row.getString("yellow"));
+//            riskAssessment.setMatrixLightGreen(row.getString("light_green"));
+//            riskAssessment.setMatrixGreen(row.getString("green"));
+//            riskAssessment.setVulnerability(row.getFloat("vulnerability"));
+//            riskAssessment.setRisk(row.getString("risk"));
+//            riskAssessment.setSpeedOfOnset(row.getFloat("onset_speed"));
+//            riskAssessment.setImpact(row.getFloat("impact"));
+//            riskAssessment.setOpportunity(row.getString("opportunity"));
+//            riskAssessment.setTriggerEvent(row.getString("trigger_event"));
+//            riskAssessment.setRiskFactor(row.getString("risk_factor"));
+//            riskAssessment.setConsequence(row.getString("consequence"));
+//        } catch (DriverException e) {
+//            Logger.error("Error occurred while attempting to view Risk Assessment ", e);
+//        } finally {
+//            CassandraDaoFactory.close(dbSession);
+//        }
+//    }
 
 	@Override
 	public RiskAssessment findRiskAssessment() {
@@ -76,7 +108,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 
 	@Override
 	public List<RiskAssessment> listRiskAssessment() throws DaoException {
-		List<RiskAssessment> listRA = new ArrayList<>();
+        List<RiskAssessment> listRA = new ArrayList<>();
         Session dbSession = CassandraDaoFactory.connect();
         try {
             Statement listAllRA = QueryBuilder.select().all()
@@ -89,23 +121,23 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 
             for (Row row : result.all()) {
                 RiskAssessment riskAssessment = new RiskAssessment();
-                riskAssessment.setAssessmentId(row.getUUID("assessmentId"));
+                riskAssessment.setAssessmentId(row.getUUID("id"));
                 riskAssessment.setRisk(row.getString("risk"));
                 riskAssessment.setSeverity(row.getFloat("severity"));
-                riskAssessment.setSeverityDescription(row.getString("severityDescription"));
+                riskAssessment.setSeverityDescription(row.getString("severity_description"));
                 riskAssessment.setLikelihood(row.getFloat("likelihood"));
-                riskAssessment.setLikelihoodDescription(row.getString("likelihoodDescription"));
-                riskAssessment.setMatrixRed(row.getString("matrixRed"));
-                riskAssessment.setMatrixYellow(row.getString("matrixYellow"));
-                riskAssessment.setMatrixLightGreen(row.getString("matrixLightGreen"));
-                riskAssessment.setMatrixGreen(row.getString("matrixGreen"));
+                riskAssessment.setLikelihoodDescription(row.getString("likelihood_description"));
+                riskAssessment.setMatrixRed(row.getString("red"));
+                riskAssessment.setMatrixYellow(row.getString("yellow"));
+                riskAssessment.setMatrixLightGreen(row.getString("light_green"));
+                riskAssessment.setMatrixGreen(row.getString("green"));
                 riskAssessment.setVulnerability(row.getFloat("vulnerability"));
                 riskAssessment.setRisk(row.getString("risk"));
-                riskAssessment.setSpeedOfOnset(row.getFloat("speedOfOnset"));
+                riskAssessment.setSpeedOfOnset(row.getFloat("onset_speed"));
                 riskAssessment.setImpact(row.getFloat("impact"));
                 riskAssessment.setOpportunity(row.getString("opportunity"));
-                riskAssessment.setTriggerEvent(row.getString("triggerEvent"));
-                riskAssessment.setRiskFactor(row.getString("riskFactor"));
+                riskAssessment.setTriggerEvent(row.getString("trigger_event"));
+                riskAssessment.setRiskFactor(row.getString("risk_factor"));
                 riskAssessment.setConsequence(row.getString("consequence"));
                 listRA.add(riskAssessment);
                 result.iterator();
