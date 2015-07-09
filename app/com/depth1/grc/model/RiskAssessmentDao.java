@@ -9,5 +9,5 @@ public interface RiskAssessmentDao {
 	public boolean deleteRiskAssessment() throws DaoException;
 	public void viewRiskAssessment() throws DaoException;
 	public RiskAssessment findRiskAssessment() throws DaoException;
-	public List<RiskAssessment> listRiskAssessment(); 
+	public List<RiskAssessment> listRiskAssessment() throws DaoException;
 }
