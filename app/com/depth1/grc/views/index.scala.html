@@ -1,7 +1,22 @@
 @(message: String)
 
-@main("Welcome to Play") {
+@main("main page"){
+<FORM ACTION=/riskRegister/create/>
+<INPUT TYPE="submit" style="position:absolute; top:100px; left:40px;" VALUE="Create Risk Register">
+</FORM>
+	
+<FORM ACTION=/riskRegister/view/>
+<INPUT TYPE="submit" style="position:absolute; top:100px; left:240px;" VALUE="View Risk Register">
+</FORM>
 
-    @play20.welcome(message, style = "Java")
+<FORM ACTION=/riskRegister/update/>
+<INPUT TYPE="submit" style="position:absolute; top:100px; left:440px;" VALUE="Update Risk Register">
+</FORM>
+
+<FORM ACTION=/riskRegister/delete/>
+<INPUT TYPE="submit" style="position:absolute; top:100px; left:640px;" VALUE="Delete Risk Register">
+</FORM>
 
 }
+
+

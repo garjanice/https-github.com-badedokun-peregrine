@@ -15,10 +15,17 @@ import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.*;
+import com.depth1.grc.model.RiskRegister;
+import com.depth1.grc.model.RiskAssessmentDao;
+import com.depth1.grc.model.Tenant;
+import com.depth1.grc.model.TenantDao;
+import com.depth1.grc.views.html.createRR;
+import com.depth1.grc.views.html.index;
 
 
 public class Application extends Controller {
 	
+	final static play.data.Form<RiskRegister> rRForm = play.data.Form.form(RiskRegister.class);
 	// create the required DAO Factory
 	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
 
@@ -33,7 +40,7 @@ public class Application extends Controller {
     	printState(session);
     	session.close();
    	
-        return ok(index.render("Welcome to Depth1 GRC."));
+        return ok(index.render("Welcome to Depth1Grc"));
     }
     
     
@@ -83,4 +90,27 @@ public class Application extends Controller {
 		return ok();
 	}
 
+	
+	public Result showCreateRRPage() {
+
+		return ok(createRR.render(rRForm));
+	}
+
+	public Result showViewRRPage() {
+
+		return TODO;
+	}
+
+	public Result showUpdateRRPage() {
+
+		return TODO;
+	}
+
+	public Result showDeleteRRPage() {
+
+		return TODO;
+
+	}
+	
 }
+	
