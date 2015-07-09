@@ -7,6 +7,7 @@ import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.querybuilder.Delete;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import com.datastax.driver.core.querybuilder.Update;
 import play.Logger;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 
 public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 
@@ -54,9 +56,40 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	
 
 	@Override
-	public boolean updateRiskAssessment() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
+        boolean update = false;
+        Session dbSession = CassandraDaoFactory.connect();
+        try {
+            Update.Assignments updateRA = QueryBuilder
+                    .update("grc", "riskassessment")
+                    .with(set("risk", riskAssessment.getRisk()))
+                    .and(set("severity", riskAssessment.getSeverity()))
+                    .and(set("severity_description", riskAssessment.getSeverityDescription()))
+                    .and(set("likelihood", riskAssessment.getLikelihood()))
+                    .and(set("likelihood_description", riskAssessment.getLikelihoodDescription()))
+                    .and(set("red", riskAssessment.getMatrixRed()))
+                    .and(set("yellow", riskAssessment.getMatrixYellow()))
+                    .and(set("light_green", riskAssessment.getMatrixLightGreen()))
+                    .and(set("green", riskAssessment.getMatrixGreen()))
+                    .and(set("vulnerability", riskAssessment.getVulnerability()))
+                    .and(set("onset_speed", riskAssessment.getSpeedOfOnset()))
+                    .and(set("impact", riskAssessment.getImpact()))
+                    .and(set("opportunity", riskAssessment.getOpportunity()))
+                    .and(set("trigger_event", riskAssessment.getTriggerEvent()))
+                    .and(set("risk_factor", riskAssessment.getRiskFactor()))
+                    .and(set("consequence", riskAssessment.getConsequence()));
+
+            Statement updateDetails = updateRA
+                    .where(eq("assessmentid", riskAssessment.getAssessmentId()));
+
+            dbSession.execute(updateDetails);
+            update = true;
+        } catch (DriverException e) {
+            Logger.error("Error occurred while attempting to update Risk Assessment ", e);
+        } finally {
+            CassandraDaoFactory.close(dbSession);
+        }
+        return update;
 	}
 
 	@Override
