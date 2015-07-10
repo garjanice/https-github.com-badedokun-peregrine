@@ -19,7 +19,7 @@ public class Tenant
 	 * @ordered
 	 */
 	
-	private String tenantId;
+	private int tenantId;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -207,11 +207,11 @@ public class Tenant
 		return null;	
 	}
 
-	public String getTenantId() {
+	public int getTenantId() {
 		return tenantId;
 	}
 
-	public void setTenantId(String tenantId) {
+	public void setTenantId(int tenantId) {
 		this.tenantId = tenantId;
 	}
 
