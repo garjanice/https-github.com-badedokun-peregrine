@@ -193,7 +193,20 @@ public class Application extends Controller {
 
 	
 	public Result addRiskRegister(){
-		return TODO;
+		Form<Register> rR1Form=rRForm.bindFromRequest();
+    	if(rRForm1.hasErrors()){
+    		flash("Error","Please Correct the Form");
+    		return badRequest(index.render(rRForm1));
+    	Register register=rRForm1.get();
+    	}
+		try {
+			 	RiskRegisterDao riskregisterDao = cassandraFactory.getRiskRegisterDao();
+			 	riskregisterDao.createRiskRegister(register);
+		} catch(DaoException e) {
+			Logger.error("Error occures while creating Risk Register", e);
+		}
+   	 return ok(index.render("Risk is Registered Successfully"));
+	}
 	}
 	
 	
