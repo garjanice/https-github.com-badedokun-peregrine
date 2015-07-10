@@ -23,7 +23,7 @@ public class NoSqlDaoFactory extends DaoFactory
 	 */
 	public PolicyDao getPolicyDao() {
 		    
-		    return null;
+		    return new CassandraRiskRegisterDao();
 		  }
 	
 	/* (non-Javadoc)
