@@ -14,16 +14,17 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.model.CassandraDaoFactory;
 
 /**
- * Helper methods for relational database access using JDBC.
+ * Helper class to compute unique ID for classes that requires unique integer or long Id
  */
 public class IdGenerator {
 
     // a map of table names to maximum ID numbers
-    private static Map<String, Integer> tableToMaxIDMap = new HashMap<String, Integer>( );
+    private static Map<String, Integer> tableToMaxIntegerIdMap = new HashMap<String, Integer>( );
+    private static Map<String, Long> tableToMaxLongIdMap = new HashMap<String, Long>( );
 
     /**
-     * Compute a new unique ID. It is assumed that the specified table
-     * has a column named 'id' of type 'int'. It is assumed that
+     * Compute a new unique int ID. It is assumed that the specified table
+     * has a column named 'id' of type 'int.' It is assumed 
      * that all parts of the program will use this method to compute
      * new IDs.
      * @param tableName the table to query to get the maximum id from
@@ -31,37 +32,69 @@ public class IdGenerator {
      * @return the next available unique ID for a table
      * @throws DataException when a query exception occurs
      */
-	public static synchronized long getNextID(String tableName,
-			Session dbSession) throws DataException {
-		// Statement stmt = null;
+	public static synchronized int getNextIntegerId(String tableName, Session dbSession) throws DataException {
 		dbSession = CassandraDaoFactory.connect();
 		try {
 			// if a max has already been retrieved from this table,
 			// compute the next id without hitting the database
-			if (tableToMaxIDMap.containsKey(tableName)) {
-				Integer curMax = (Integer) tableToMaxIDMap.get(tableName);
+			if (tableToMaxIntegerIdMap.containsKey(tableName)) {
+				Integer curMax = (Integer) tableToMaxIntegerIdMap.get(tableName);
 				Integer newMax = new Integer(curMax.intValue() + 1);
-				tableToMaxIDMap.put(tableName, newMax);
+				tableToMaxIntegerIdMap.put(tableName, newMax);
 				return newMax.intValue();
 			}
-			/*
-			 * ResultSet rs = stmt.executeQuery( "SELECT MAX(id) FROM " +
-			 * tableName); if (result.one( )) { max = rs.getLong(1); }
-			 */
-			Statement select = QueryBuilder.select().column("id")
-					.from(tableName);
+
+			Statement select = QueryBuilder.select().column("id").from(tableName);
 			ResultSet result = dbSession.execute(select);
 			Row row = result.one();
 			int max = row.getInt(1);
 			max++;
-			tableToMaxIDMap.put(tableName, new Integer(max));
+			tableToMaxIntegerIdMap.put(tableName, new Integer(max));
 			return max;
 		} catch (QueryExecutionException e) {
 			Logger.error("Error occurred while executing a query ", e);
 			throw new DataException(e);
 		} finally {
-			// just close the session
+			// done, close the session
 			CassandraDaoFactory.close(dbSession);
 		}
 	}
+	
+    /**
+     * Compute a new unique long ID. It is assumed that the specified table
+     * has a column named 'id' of type 'bigint.' It is assumed 
+     * that all parts of the program will use this method to compute
+     * new IDs.
+     * @param tableName the table to query to get the maximum id from
+     * @param dbSession the cluster session to connect to
+     * @return the next available unique ID for a table
+     * @throws DataException when a query exception occurs
+     */
+	public static synchronized long getNextLongId(String tableName, Session dbSession) throws DataException {
+		dbSession = CassandraDaoFactory.connect();
+		try {
+			// if a max has already been retrieved from this table,
+			// compute the next id without hitting the database
+			if (tableToMaxLongIdMap.containsKey(tableName)) {
+				Long curMax = (Long) tableToMaxLongIdMap.get(tableName);
+				Long newMax = new Long(curMax.longValue() + 1L);
+				tableToMaxLongIdMap.put(tableName, newMax);
+				return newMax.longValue();
+			}
+
+			Statement select = QueryBuilder.select().column("id").from(tableName);
+			ResultSet result = dbSession.execute(select);
+			Row row = result.one();
+			long max = row.getLong(1);
+			max++;
+			tableToMaxLongIdMap.put(tableName, new Long(max));
+			return max;
+		} catch (QueryExecutionException e) {
+			Logger.error("Error occurred while executing a query ", e);
+			throw new DataException(e);
+		} finally {
+			// done, close the session
+			CassandraDaoFactory.close(dbSession);
+		}
+	}	
 } 

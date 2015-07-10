@@ -10,6 +10,8 @@ import com.depth1.grc.db.util.CassandraPoolImpl;
 import play.Logger;
 
 /**
+ * This class is a Data Access Object factory method and extends an abstract factory method that implements
+ * the abstract factory method pattern for creating data access object for a specific type of data store
  * @author Bisi Adedokun
  *
  */

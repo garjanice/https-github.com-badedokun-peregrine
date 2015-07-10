@@ -9,9 +9,11 @@ import java.util.Hashtable;
 import com.datastax.driver.core.exceptions.DriverException;
 
 /**
+ * 
+ * This class implements the ObjectPool pattern to provide an efficient way of accessing data store 
+ * resource pool.
  * @author Bisi Adedokun
- * This class implements the ObjectPool pattern to provide an efficient way of accessing data store resource
- * pool.
+ * Date: 07/01/2015
  *
  */
 public abstract class ConnectionPool<T> {
@@ -23,50 +25,46 @@ public abstract class ConnectionPool<T> {
 	//public Client client;
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * No argument constructor
+	 * 
 	 */
 	public ConnectionPool(){
 		expirationTime = 30000; // 30 seconds
 	    locked = new Hashtable<T, Long>();
 	    unlocked = new Hashtable<T, Long>();
-		//super();
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Creates a connection to the data store
+	 * @throws DriverException When error occurs while connecting to the data store
+	 * 
 	 */
 	
 	public abstract T create() throws DriverException;
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Validates the connection to determine if it expired or still valid
+	 * @return boolean True if the connection is still valid, false otherwise
+	 * @throws DriverException When error occurs while validating the connection to the data store
+	 * 
 	 */
 	
 	public abstract boolean validate(T reusable) throws DriverException ;
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Expires/Closes a connection to the data store
+	 * @throws DriverException When error occurs while closing a connection to the data store
+	 *
 	 */
 	
 	public abstract void expire(T reusable) throws DriverException;
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @throws DataException 
-	 * @generated
-	 * @ordered
+	 * Checks out a connection from the connection pool if an object is available in the pool.
+	 * If no object is available it creates a new object and put it in the pool
+	 * @return The type of connection to check out from the pool
+	 * @throws DataException When error occurs while creating an object to put in the pool
+	 *
 	 */
 	
 	public synchronized T checkOut() throws DriverException {
@@ -108,10 +106,9 @@ public abstract class ConnectionPool<T> {
 	}
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
+	 * Puts object in the pool
+	 * @param pool The type of object to put in the pool
+	 * 
 	 */
 	
 	public synchronized void checkIn(T pool) {

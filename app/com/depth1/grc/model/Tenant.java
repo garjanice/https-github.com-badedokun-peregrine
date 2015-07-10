@@ -5,9 +5,6 @@ import java.util.List;
 
 /**
  * This class is the business object for creating, updating, deleting, viewing, and finding a tenant.<br>
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
  */
 
 public class Tenant

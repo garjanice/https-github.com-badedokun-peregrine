@@ -18,9 +18,9 @@ import com.datastax.driver.core.querybuilder.Update;
 import play.Logger;
 
 /**
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
+ * This class is a data store specific Data Access Object for Tenant. In this case, it is for Cassandra
+ * No SQL data store.
+ * 
  */
 
 public class CassandraTenantDao implements TenantDao
