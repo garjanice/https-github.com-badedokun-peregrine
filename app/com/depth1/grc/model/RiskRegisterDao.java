@@ -15,7 +15,7 @@ public interface RiskRegisterDao {
 	
 	//public boolean viewRiskRegister() throws DaoException;
 	
-	public List<Register> listRegister throws DaoException;
+	public List<Register> listRegister() throws DaoException;
 	
 	public Register findRegister(int riskId) throws DaoException; 
 
