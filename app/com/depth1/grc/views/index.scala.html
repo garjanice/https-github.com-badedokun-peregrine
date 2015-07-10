@@ -1,22 +1,18 @@
-@(message: String)
 
-@main("main page"){
-<FORM ACTION=/riskRegister/create/>
-<INPUT TYPE="submit" style="position:absolute; top:100px; left:40px;" VALUE="Create Risk Register">
-</FORM>
+@main("Main Page") {
+<section class=wrapper>
+	<h1>Main Page</h1>
+	<legend> Links to other pages</legend>
+	<FORM ACTION=/riskAssessment />
+	<INPUT TYPE="submit"
+		style="position: static; height:50px; width:200px;" VALUE="Risk Assessment Criteria">
+	</FORM>
 	
-<FORM ACTION=/riskRegister/view/>
-<INPUT TYPE="submit" style="position:absolute; top:100px; left:240px;" VALUE="View Risk Register">
-</FORM>
-
-<FORM ACTION=/riskRegister/update/>
-<INPUT TYPE="submit" style="position:absolute; top:100px; left:440px;" VALUE="Update Risk Register">
-</FORM>
-
-<FORM ACTION=/riskRegister/delete/>
-<INPUT TYPE="submit" style="position:absolute; top:100px; left:640px;" VALUE="Delete Risk Register">
-</FORM>
-
+	<FORM ACTION=/riskRegister />
+	<INPUT TYPE="submit"
+		style="position: static; height:50px; width:200px;" VALUE="Risk Register">
+	</FORM>
+</section>
 }
 
 

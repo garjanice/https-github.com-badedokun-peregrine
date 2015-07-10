@@ -4,15 +4,32 @@
 
 # Home page
 
-GET     /                           com.depth1.grc.controllers.Application.index()
+GET     /                          		com.depth1.grc.controllers.Application.index()
 
-GET 	/riskRegister/create/			com.depth1.grc.controllers.Application.showCreateRRPage()
+GET     /riskAssessment                 com.depth1.grc.controllers.Application.showFrontRAPage()
 
-GET 	/riskRegister/view/			com.depth1.grc.controllers.Application.showViewRRPage()
+GET 	/riskAssessment/create			com.depth1.grc.controllers.Application.showCreateRAPage()
 
-GET 	/riskRegister/update/			com.depth1.grc.controllers.Application.showUpdateRRPage()
+GET 	/riskAssessment/view			com.depth1.grc.controllers.Application.showViewRAPage()
 
-GET 	/riskRegister/delete/			com.depth1.grc.controllers.Application.showDeleteRRPage()
+GET 	/riskAssessment/update			com.depth1.grc.controllers.Application.showUpdateRAPage()
+
+DELETE 	/riskAssessment					com.depth1.grc.controllers.Application.deleteRiskAssessment()
+
+POST  	/riskAssessment/create/done		com.depth1.grc.controllers.Application.addRiskAssessment()
+
+GET		/riskRegister					com.depth1.grc.controllers.Application.showFrontRRPage()
+
+GET 	/riskRegister/create			com.depth1.grc.controllers.Application.showCreateRRPage()
+
+GET 	/riskRegister/view		com.depth1.grc.controllers.Application.showViewRRPage()
+
+GET 	/riskRegister/update			com.depth1.grc.controllers.Application.showUpdateRRPage()
+
+GET 	/riskRegister/delete			com.depth1.grc.controllers.Application.showDeleteRRPage()
+
+
+POST  	/riskRegister/create/done		com.depth1.grc.controllers.Application.addRiskRegister()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

@@ -1,79 +1,74 @@
-@(rRForm: Form[com.depth1.grc.model.RiskRegister])
-@import helper._
-        
+@import com.depth1.grc.model.RiskRegister 
+@(rRForm:Form[RiskRegister]) 
+@import helper._ 
 @main("Create RR") {
-	<h1>Product form</h1>
-	<form id="myform">
 
-
-    	@inputText(field = rRForm("Tenant ID"), args = 'size -> 10)
-    	@inputText(field = rRForm("Risk ID"), args = 'size -> 10, 'placeholder -> "Must be unique")
-    	@inputText(field = rRForm("Risk Name"), args = 'size -> 10)
-    	@inputText(field = rRForm("Risk Owner"), args = 'size -> 10)
-    	
-    	@inputRadioGroup(
+<section class=wrapper>
+	<h1>Risk Register</h1>
+	@helper.form(action =
+	com.depth1.grc.controllers.routes.Application.addRiskRegister(), 'id
+	-> "rRForm") {
+	<fieldset>
+		<legend> Create Risk Register</legend>
+		@helper.inputText(field = rRForm("Tenant ID"), args = 'size -> 10)
+		@helper.inputText(field = rRForm("Risk ID"), args = 'size -> 10, 'placeholder -> "Must be unique")
+		@helper.inputText(field = rRForm("Risk Name"), args = 'size -> 10)
+		@helper.inputText(field = rRForm("Risk Owner"), args = 'size -> 10)
+		@helper.inputRadioGroup(
     		rRForm("risk status"),
     		options = Seq("A"->"Active","IA"->"Inactive"),
     		'_label -> "Risk Status"
     		)
-    		
-    	@select(
+		@helper.select(
    		rRForm("reporting level"),
    		options(Seq("A","B","C","D")),
    		'_label -> "Risk Reporting Level", '_default -> "-- Select level --"
 		)
 		
-		@select(
-   		rRForm("category rating"),
+		@helper.select(
+   		rRForm("reporting level"),
    		options(Seq("A","B","C","D")),
-   		'_label -> "Risk Category Rating", '_default -> "-- Select rating --"
+   		'_label -> "Risk Reporting Level", '_default -> "-- Select level --"
 		)
 		
-		@textarea(field = rRForm("Risk Description"), args = 'rows -> 3, 'cols -> 50)
-		
-		@textarea(field = rRForm("Impact Description"), args = 'rows -> 3, 'cols -> 50)
-		
-		@inputDate(field= rRForm("Impact Date"))
-		
-		@inputRadioGroup(
+		@helper.textarea(field = rRForm("Risk Description"), args = 'rows -> 3, 'cols -> 50)
+		@helper.textarea(field = rRForm("Impact Description"), args = 'rows -> 3, 'cols -> 50)
+		@helper.inputDate(field= rRForm("Impact Date"))
+		@helper.inputRadioGroup(
     		rRForm("risk probability"),
     		options = Seq("H"->"High","M"->"Medium", "L"->"Low"),
     		'_label -> "Risk Probability"
     		)
-    		
-    	@inputRadioGroup(
+		@helper.inputRadioGroup(
     		rRForm("risk priority"),
     		options = Seq("H"->"High","M"->"Medium", "L"->"Low"),
     		'_label -> "Risk Priority"
     		)
-    		
-    	@inputRadioGroup(
-    		rRForm("risk impact"),
-    		options = Seq("H"->"High","M"->"Medium", "L"->"Low"),
-    		'_label -> "Risk Impact"
-    		)
-    		
-    	@textarea(field = rRForm("Resolution Mitigation"), args = 'rows -> 3, 'cols -> 50)
     	
-    	@inputDate(field= rRForm("Target Resolution Date"))
+    	@helper.textarea(field = rRForm("Resolution Mitigation"), args = 'rows -> 3, 'cols -> 50)
     	
-    	@inputDate(field= rRForm("Actual Resolution Date"))
+    	@helper.inputDate(field= rRForm("Target Resolution Date"))
+    	@helper.inputDate(field= rRForm("Actual Resolution Date"))
     	
-    	@select(
+    	@helper.select(
    		rRForm("response type"),
    		options(Seq("A","B","C","D")),
    		'_label -> "Risk Response Type", '_default -> "-- Select type --"
 		)
 		
-		@textarea(field = rRForm("Associated Risk"), args = 'rows -> 3, 'cols -> 50)
-		@textarea(field = rRForm("Associated Issue"), args = 'rows -> 3, 'cols -> 50)
-		@textarea(field = rRForm("Risk Assumptions"), args = 'rows -> 3, 'cols -> 50)
-		@textarea(field = rRForm("Risk Symptoms"), args = 'rows -> 3, 'cols -> 50)
+		@helper.textarea(field = rRForm("Associated Risk"), args = 'rows -> 3, 'cols -> 50)
+		@helper.textarea(field = rRForm("Associated Issue"), args = 'rows -> 3, 'cols -> 50)
+		@helper.textarea(field = rRForm("Risk Assumptions"), args = 'rows -> 3, 'cols -> 50)
+		@helper.textarea(field = rRForm("Risk Symptoms"), args = 'rows -> 3, 'cols -> 50)
     	
-    	
-		<button type="submit" name="action" value="create">Create</button>
-		
-		<button type="cancel" name="action" value="cancel">Cancel</button>
-		
+	</fieldset>
+	<button type="submit" name="action" value="edit">Submit</button>
+	}
+	<form action=/riskRegister />
+	<input type="submit"
+		style="position: relative; left: 100px; bottom : 26px;" value="Cancel">
 	</form>
+</section>
+	
+	
 }

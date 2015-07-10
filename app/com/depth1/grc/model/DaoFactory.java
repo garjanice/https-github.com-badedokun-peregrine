@@ -4,16 +4,16 @@
 package com.depth1.grc.model;
 
 /**
+ * 
+ * An Abstract factory pattern for Data Access Object (DAO)
  * @author Bisi Adedokun
- * An Abstract factory pattern for DAO
  *
  */
 public abstract class DaoFactory {
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
+	 * No argument constructor
+	 * 
 	 */
 	public DaoFactory(){
 		super();
@@ -41,7 +41,7 @@ public abstract class DaoFactory {
 	 * @ordered
 	 */
 	
-	public abstract RiskAssessmentDao getRiskAssesmentDao() throws DaoException;
+	public abstract RiskAssessmentDao getRiskAssessmentDao() throws DaoException;
 	
 	/**
 	 * <!-- begin-user-doc -->

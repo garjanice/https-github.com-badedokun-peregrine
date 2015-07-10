@@ -5,9 +5,6 @@ import java.util.List;
 
 /**
  * This class is the business object for creating, updating, deleting, viewing, and finding a tenant.<br>
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
  */
 
 public class Tenant
@@ -19,7 +16,7 @@ public class Tenant
 	 * @ordered
 	 */
 	
-	private String tenantId;
+	private int tenantId;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -207,11 +204,11 @@ public class Tenant
 		return null;	
 	}
 
-	public String getTenantId() {
+	public int getTenantId() {
 		return tenantId;
 	}
 
-	public void setTenantId(String tenantId) {
+	public void setTenantId(int tenantId) {
 		this.tenantId = tenantId;
 	}
 

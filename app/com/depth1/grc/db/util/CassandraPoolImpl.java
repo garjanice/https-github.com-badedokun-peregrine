@@ -8,12 +8,21 @@ import com.datastax.driver.core.exceptions.DriverException;
 
 import play.Play;
 
+/**
+ * This class is the concrete implementation of the object pool pattern
+ * It implements the 3 abstract methods in the ConnectionPool class
+ * @author Bisi Adedokun
+ *
+ */
 public class CassandraPoolImpl extends ConnectionPool<Session> {
 	
 	private final static String REMOTE_CLUSTER = Play.application().configuration().getString("cassandra.remote.cluster");
     private Cluster cluster;
     private Session session;
 
+	/* (non-Javadoc)
+	 * @see com.depth1.grc.db.util.ConnectionPool#create()
+	 */
 	@Override
 	public Session create() throws DriverException {
 		cluster = Cluster.builder().addContactPoint(REMOTE_CLUSTER).build();
@@ -30,6 +39,9 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 		return session;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.depth1.grc.db.util.ConnectionPool#validate(java.lang.Object)
+	 */
 	@Override
 	public boolean validate(Session pool) throws DriverException {
 		try {
@@ -42,6 +54,9 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see com.depth1.grc.db.util.ConnectionPool#expire(java.lang.Object)
+	 */
 	@Override
 	public void expire(Session pool) throws DriverException {
 		  try {
