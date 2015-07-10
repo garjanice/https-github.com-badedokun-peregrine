@@ -82,7 +82,7 @@ public class CassandraDaoFactory extends DaoFactory {
 	 */
 	public RiskRegisterDao getRiskRegisterDao() {
 		    
-		    return null;
+		    return new CassandraRiskRegisterDao();
 		  }
 	  	
 	
