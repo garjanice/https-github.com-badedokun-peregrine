@@ -1,6 +1,6 @@
 package com.depth1.grc.model;
 
-import java.util.UUID;
+import java.util.Date;
 
 /**
  * @author Team C
@@ -10,23 +10,29 @@ import java.util.UUID;
 public class RiskRegister {
 	
 	private int tenantId;
-	private UUID assessmentId;
-	private float severity;
-	private String severityDescription;
-	private float likelihood;
-	private String likelihoodDescription;
-	private String matrixRed;
-	private String matrixYellow;
-	private String matrixLightGreen;
-	private String matrixGreen;
-	private float vulnerability;
-	private String risk;
-	private float speedOfOnset;
-	private float impact;
-	private String opportunity;
-	private String triggerEvent;
-	private String riskFactor;
-	private String consequence;
+	private String riskCategoryRating;
+	private int riskId;
+	private String riskName;
+	private String riskOwner;
+	private String riskStatus;
+	private String riskReportingLevel;
+	private String description;
+	private String impactDescription;
+	private String riskProbability;
+	private String riskPriority;
+	private String riskImpact;
+	private String resolutionMitigation;
+	private Date targetResolutionDate;
+	private Date actualResolutionDate;
+	private String responseType;
+	private String associatedRisk;
+	private String associatedIssue;
+	private String riskCreator;
+	private String riskLastUpdatedPerson;
+	private String riskLastUpdatedDescription;
+	private Date dateLastUpdated;
+	private String riskAssumptions;
+	private String riskSymptoms;
 	
 	//constructor
 	public RiskRegister(){
@@ -42,140 +48,179 @@ public class RiskRegister {
 		this.tenantId = tenantId;
 	}
 
-	public UUID getAssessmentId() {
-		return assessmentId;
+	public String getRiskCategoryRating() {
+		return riskCategoryRating;
 	}
-
-	public void setAssessmentId(UUID assessmentId) {
-		this.assessmentId = assessmentId;
+	
+	public void setRiskCategoryRating(String tenantId) {
+		this.riskCategoryRating = riskCategoryRating;
 	}
-
-	public float getSeverity() {
-		return severity;
+	
+	public int getRiskId() {
+		return riskId;
 	}
-
-	public void setSeverity(float severity) {
-		this.severity = severity;
+	
+	public void setRiskID(int riskId) {
+		this.riskId= riskId;
 	}
-
-	public String getSeverityDescription() {
-		return severityDescription;
+	
+	public String getRiskName() {
+		return riskName;
 	}
-
-	public void setSeverityDescription(String severityDescription) {
-		this.severityDescription = severityDescription;
+	public void setRiskName(String riskName) {
+		this.riskName = riskName;
 	}
-
-	public float getLikelihood() {
-		return likelihood;
+	
+	public String getRiskOwner() {
+		return riskOwner;
 	}
-
-	public void setLikelihood(float likelihood) {
-		this.likelihood = likelihood;
+	public void setRiskOwner(String riskOwner) {
+		this.riskOwner = riskOwner;
 	}
-
-	public String getLikelihoodDescription() {
-		return likelihoodDescription;
+	
+	public String getRiskStatus() {
+		return riskStatus;
 	}
-
-	public void setLikelihoodDescription(String likelihoodDescription) {
-		this.likelihoodDescription = likelihoodDescription;
+	public void setRiskStatus(String riskStatus) {
+		this.riskStatus = riskStatus;
 	}
-
-	public String getMatrixRed() {
-		return matrixRed;
+	
+	public String getRiskReportingLevel() {
+		return riskReportingLevel;
 	}
-
-	public void setMatrixRed(String matrixRed) {
-		this.matrixRed = matrixRed;
+	public void setRiskReportingLevel(String riskReportingLevel) {
+		this.riskReportingLevel = riskReportingLevel;
 	}
-
-	public String getMatrixYellow() {
-		return matrixYellow;
+	
+	public String getDescription() {
+		return description;
 	}
-
-	public void setMatrixYellow(String matrixYellow) {
-		this.matrixYellow = matrixYellow;
+	
+	public void setDescription(String description) {
+		this.description = description;
 	}
-
-	public String getMatrixLightGreen() {
-		return matrixLightGreen;
+	
+	public String getImpactDescription() {
+		return impactDescription;
 	}
-
-	public void setMatrixLightGreen(String matrixLightGreen) {
-		this.matrixLightGreen = matrixLightGreen;
+	
+	public void setImpactDescription(String impactDescription) {
+		this.impactDescription=impactDescription;
 	}
-
-	public String getMatrixGreen() {
-		return matrixGreen;
+	
+	public String getRiskProbability() {
+		return riskProbability;
 	}
-
-	public void setMatrixGreen(String matrixGreen) {
-		this.matrixGreen = matrixGreen;
+	public void setRiskProbability(String riskProbability) {
+		this.riskProbability = riskProbability;
 	}
-
-	public float getVulnerability() {
-		return vulnerability;
+	
+	public String getRiskPriority() {
+		return riskPriority;
 	}
-
-	public void setVulnerability(float vulnerability) {
-		this.vulnerability = vulnerability;
+	public void setRiskPriority(String riskPriorty) {
+		this.riskPriority = riskPriority;
 	}
-
-	public String getRisk() {
-		return risk;
+	
+	public String getRiskImpact() {
+		return riskImpact;
 	}
-
-	public void setRisk(String risk) {
-		this.risk = risk;
+	public void setRiskImpact(String riskImpact) {
+		this.riskImpact= riskImpact;
 	}
-
-	public float getSpeedOfOnset() {
-		return speedOfOnset;
+	
+	public String getResolutionMitigation() {
+		return resolutionMitigation;
 	}
-
-	public void setSpeedOfOnset(float speedOfOnset) {
-		this.speedOfOnset = speedOfOnset;
+	public void setResolutionMitigation(String resolutionMitigation) {
+		this.resolutionMitigation = resolutionMitigation;
 	}
-
-	public float getImpact() {
-		return impact;
+	
+	public Date getTargetResolutionDate() {
+		return targetResolutionDate;
 	}
-
-	public void setImpact(float impact) {
-		this.impact = impact;
+	
+	public void setTargetResolutionDate(Date targetResolutionDate) {
+		this.targetResolutionDate = targetResolutionDate;
 	}
-
-	public String getOpportunity() {
-		return opportunity;
+	
+	public Date getActualResolutionDate() {
+		return actualResolutionDate;
 	}
-
-	public void setOpportunity(String oppurtunity) {
-		this.opportunity = oppurtunity;
+	
+	public void setActualResolutionDate(Date actualResolutionDate) {
+		this.actualResolutionDate = actualResolutionDate;
 	}
-
-	public String getTriggerEvent() {
-		return triggerEvent;
+	
+	public String getResponseType(){
+		return responseType;
 	}
-
-	public void setTriggerEvent(String triggerEvent) {
-		this.triggerEvent = triggerEvent;
+	
+	public void setResponseType(String responseType) {
+		this.responseType = responseType;
 	}
-
-	public String getRiskFactor() {
-		return riskFactor;
+	
+	public String getAssociatedRisk(){
+		return associatedRisk;
 	}
-
-	public void setRiskFactor(String riskFactor) {
-		this.riskFactor = riskFactor;
+	public void setAssociatedRisk(String associatedRisk) {
+		this.associatedRisk = associatedRisk;
 	}
-
-	public String getConsequence() {
-		return consequence;
+	
+	public String getAssociatedIssue(){
+		return associatedIssue;
 	}
-
-	public void setConsequence(String consequence) {
-		this.consequence = consequence;
+	
+	public void setAssociatedIssue(String associatedIssue) {
+		this.associatedIssue = associatedIssue;
 	}
+	
+	public String getRiskCreator(){
+		return riskCreator;
+	}
+	public void setRiskCreator(String riskCreator) {
+		this.riskCreator = riskCreator;
+	}
+	public String getRiskLastUpdatedPerson(){
+		return riskLastUpdatedPerson;
+	}
+	
+	public void setRiskLastUpdatedPerson(String riskLastUpdatedPerson) {
+		this.riskLastUpdatedPerson = riskLastUpdatedPerson;
+	}
+	public String getRiskLastUpdatedDescription(){
+		return riskLastUpdatedDescription;
+	}
+	public void setRiskLastUpdatedDescription(String riskLastUpdatedDescription) {
+		this.riskLastUpdatedDescription = riskLastUpdatedDescription;
+	}
+	
+	public Date getDateLastUpdated(){
+		return dateLastUpdated;
+	}
+	public void setDateLastUpdated(Date dateLastUpdated) {
+		this.dateLastUpdated = dateLastUpdated;
+	}
+	public String getRiskAssumptions(){
+		return riskAssumptions;
+	}
+	public void setRiskAssumptions(String riskAssumptions) {
+		this.riskAssumptions = riskAssumptions;
+	}
+	
+	public String getRiskSymptoms(){
+		return riskSymptoms;
+	}	
+	
+	public void setRiskSymptoms(String riskSymptoms) {
+		this.riskSymptoms = riskSymptoms;
+	}
+	
+	//other methods
+	//TODO - to be implemented later
+	public int findRiskId(){
+		return 0;
+	}
+	
 	
 }

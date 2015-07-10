@@ -26,9 +26,6 @@ GET 	/riskRegister/view		com.depth1.grc.controllers.Application.showViewRRPage()
 
 GET 	/riskRegister/update			com.depth1.grc.controllers.Application.showUpdateRRPage()
 
-GET 	/riskRegister/delete			com.depth1.grc.controllers.Application.showDeleteRRPage()
-
-
 POST  	/riskRegister/create/done		com.depth1.grc.controllers.Application.addRiskRegister()
 
 # Map static resources from the /public folder to the /assets URL path

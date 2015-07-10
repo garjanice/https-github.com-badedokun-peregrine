@@ -191,10 +191,6 @@ public class Application extends Controller {
 		return TODO;
 	}
 
-	public Result showDeleteRRPage() {
-
-		return TODO;
-	}
 	
 	public Result addRiskRegister(){
 		return TODO;
