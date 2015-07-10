@@ -40,7 +40,7 @@ public class XmlDaoFactory extends DaoFactory
 	 */
 	public RiskRegisterDao getRiskRegisterDao() {
 		    
-		    return null;
+		    return new CassandraRiskRegisterDao();
 		  }
 	  	
 	
