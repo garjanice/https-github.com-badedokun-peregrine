@@ -40,7 +40,7 @@ public class RdbDaoFactory extends DaoFactory
 	 */
 	public RiskRegisterDao getRiskRegisterDao() {
 		    
-		    return null;
+		    return new CassandraRiskRegisterDao();
 		  }
 	  	
 	
