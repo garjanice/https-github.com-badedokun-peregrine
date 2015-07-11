@@ -32,8 +32,8 @@ public class IdGenerator {
      * @return the next available unique ID for a table
      * @throws DataException when a query exception occurs
      */
-	public static synchronized int getNextIntegerId(String tableName, Session dbSession) throws DataException {
-		dbSession = CassandraDaoFactory.connect();
+	public static synchronized int getNextIntegerId(String tableName) throws DataException {
+		Session dbSession = CassandraDaoFactory.connect();
 		try {
 			// if a max has already been retrieved from this table,
 			// compute the next id without hitting the database
@@ -44,7 +44,7 @@ public class IdGenerator {
 				return newMax.intValue();
 			}
 
-			Statement select = QueryBuilder.select().column("id").from(tableName);
+			Statement select = QueryBuilder.select().column("id").from("grc", tableName);
 			ResultSet result = dbSession.execute(select);
 			Row row = result.one();
 			int max = row.getInt(1);
@@ -70,8 +70,8 @@ public class IdGenerator {
      * @return the next available unique ID for a table
      * @throws DataException when a query exception occurs
      */
-	public static synchronized long getNextLongId(String tableName, Session dbSession) throws DataException {
-		dbSession = CassandraDaoFactory.connect();
+	public static synchronized long getNextLongId(String tableName) throws DataException {
+		Session dbSession = CassandraDaoFactory.connect();
 		try {
 			// if a max has already been retrieved from this table,
 			// compute the next id without hitting the database
@@ -82,7 +82,7 @@ public class IdGenerator {
 				return newMax.longValue();
 			}
 
-			Statement select = QueryBuilder.select().column("id").from(tableName);
+			Statement select = QueryBuilder.select().column("id").from("grc", tableName);
 			ResultSet result = dbSession.execute(select);
 			Row row = result.one();
 			long max = row.getLong(1);
