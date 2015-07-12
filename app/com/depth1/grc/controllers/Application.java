@@ -19,13 +19,10 @@ import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
-import com.depth1.grc.views.html.createRA;
-import com.depth1.grc.views.html.deleteRA;
-import com.depth1.grc.views.html.index;
-import com.depth1.grc.views.html.updateRA;
-import com.depth1.grc.views.html.viewRA;
+import com.depth1.grc.views.html.*;
 
 public class Application extends Controller {
+	
 
 	// create the required DAO Factory
 	static DaoFactory cassandraFactory = DaoFactory
@@ -107,7 +104,9 @@ public class Application extends Controller {
 
 		return ok();
 	}
+	
 
+	
 	/**
 	 * @param RiskAssessment
 	 *            The RA criteria to create
