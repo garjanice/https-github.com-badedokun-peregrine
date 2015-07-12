@@ -14,8 +14,10 @@ import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.querybuilder.Delete.Where;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Update;
+import com.depth1.grc.model.common.Keyspace;
 
 import play.Logger;
+import play.Play;
 
 /**
  * This class is a data store specific Data Access Object for Tenant. In this case, it is for Cassandra
@@ -26,8 +28,8 @@ import play.Logger;
 public class CassandraTenantDao implements TenantDao
 {
 	
-	
-	public Tenant tenant;
+	//select the type of deployment model from the configuration file
+	private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
 	
 
 	public CassandraTenantDao(){
@@ -36,9 +38,10 @@ public class CassandraTenantDao implements TenantDao
 
 	/**
 	 * Deletes a tenant from the tenant table
+	 * 
 	 * @param tenantId The ID of the tenant to delete
 	 * @return boolean True if the delete is successful, false otherwise
-	 * @throws DaoException When error occurs while deleting a tenant from the tenant table
+	 * @throws DaoException if error occurs while deleting a tenant from the tenant table
 	 */
 	
 	public boolean deleteTenant(int tenantId) throws DaoException {
@@ -62,16 +65,17 @@ public class CassandraTenantDao implements TenantDao
 	
 	
 	/**
-	 * Creates a new tenant in the tenant table
-	 * @param tenant The tenant to create
-	 * @throws DaoException When an error occurs while creating a tenant in the tenant table
+	 * Creates a new tenant in the tenant table.
+	 * 
+	 * @param tenant the tenant to create
+	 * @throws DaoException if an error occurs while creating a tenant in the tenant table
 	 */
 	
 	public void createTenant(Tenant tenant) throws DaoException {
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					
 			Statement insert = QueryBuilder
-					.insertInto("grc", "tenant")
+					.insertInto(Keyspace.valueOf(keyspace), "tenant")
 					.value("name", tenant.getName())
 					.value("type", tenant.getType())
 					.value("address1", tenant.getAddress1())
@@ -98,9 +102,10 @@ public class CassandraTenantDao implements TenantDao
 				
 	
 	/**
-	 * List all tenants in the tenant table
-	 * @return A list of tenants
-	 * @throws DaoException When an error occurs whiles retrieving tenant from the table
+	 * List all tenants in the tenant table.
+	 * 
+	 * @return list of tenants
+	 * @throws DaoException if an error occurs while retrieving tenant from the tenant table
 	 */
 	
 	public List<Tenant> listTenant() throws DaoException {
@@ -108,7 +113,7 @@ public class CassandraTenantDao implements TenantDao
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					
 			Statement listAll = QueryBuilder.select().all()
-					.from("grc", "tenant");
+					.from(Keyspace.valueOf(keyspace), "tenant");
 
 			ResultSet result = dbSession.execute(listAll);
 			if (result == null) {
@@ -150,9 +155,11 @@ public class CassandraTenantDao implements TenantDao
 	
 	
 	/**
-	 * Updates tenant information in the tenant table
-     * @param tenant The tenant to update
+	 * Updates tenant information in the tenant table.
+	 * 
+     * @param tenant the tenant to update
      * @return boolean true if update succeed, false otherwise
+     * @throws DaoException if an error occurs while updating tenant from the table
      */
 	@Override
 	public boolean updateTenant(final Tenant tenant) throws DaoException {
@@ -160,7 +167,7 @@ public class CassandraTenantDao implements TenantDao
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					
 			Update.Assignments updateAssignments = QueryBuilder
-					.update("grc", "tenant")
+					.update(Keyspace.valueOf(keyspace), "tenant")
 					.with(set("type", tenant.getType()))
 					.and(set("address1", tenant.getAddress1()))
 					.and(set("address2", tenant.getAddress2()))
@@ -191,10 +198,11 @@ public class CassandraTenantDao implements TenantDao
 	}
 	
 	/**
-	 * Finds a tenant given a tenant Id
-	 * @param tenantId The tenant Id to find
-	 * @return tenant The tenant profile 
-	 * @throws DaoException When error occurs while retrieving a tenant 
+	 * Finds a tenant given a tenant Id.
+	 * 
+	 * @param tenantId the tenant Id to find
+	 * @return tenant the tenant profile 
+	 * @throws DaoException When error occurs while retrieving a tenant from the tenant table
 	 */
 	
 	@Override
@@ -203,7 +211,7 @@ public class CassandraTenantDao implements TenantDao
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					
 			Statement find = QueryBuilder.select().all()
-					.from("grc", "tenant")
+					.from(Keyspace.valueOf(keyspace), "tenant")
 					.where(eq("tenantid", tenantId));
 
 			ResultSet result = dbSession.execute(find);
