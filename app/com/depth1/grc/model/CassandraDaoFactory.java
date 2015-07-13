@@ -6,11 +6,12 @@ package com.depth1.grc.model;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.depth1.grc.db.util.CassandraPoolImpl;
-import com.depth1.grc.db.util.DataException;
 
 import play.Logger;
 
 /**
+ * This class is a Data Access Object factory method and extends an abstract factory method that implements
+ * the abstract factory method pattern for creating data access object for a specific type of data store
  * @author Bisi Adedokun
  *
  */
@@ -68,10 +69,13 @@ public class CassandraDaoFactory extends DaoFactory {
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getRiskAssesmentDao()
 	 */
-	public RiskAssessmentDao getRiskAssesmentDao() {
-		    
-		    return null;
-		  }	
+
+	@Override
+	public RiskAssessmentDao getRiskAssessmentDao() throws DaoException {
+		// TODO Auto-generated method stub
+		return new CassandraRiskAssessmentDao();
+	}
+
 	
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getPolicyDao()

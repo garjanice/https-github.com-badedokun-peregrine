@@ -5,9 +5,6 @@ import java.util.List;
 
 /**
  * This class is the business object for creating, updating, deleting, viewing, and finding a tenant.<br>
- * <!-- begin-user-doc -->
- * <!--  end-user-doc  -->
- * @generated
  */
 
 public class Tenant
@@ -19,7 +16,7 @@ public class Tenant
 	 * @ordered
 	 */
 	
-	private String tenantId;
+	private int tenantId;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -127,7 +124,18 @@ public class Tenant
 	 * @ordered
 	 */
 	
+	@play.data.format.Formats.DateTime(pattern = "yyyy-MM-dd")
 	private Date serviceStartDate;
+	
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!--  end-user-doc  -->
+	 * @generated
+	 * @ordered
+	 */
+	
+	@play.data.format.Formats.DateTime(pattern = "yyyy-MM-dd")
+	private Date createDate;
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -144,7 +152,7 @@ public class Tenant
 	 * @generated
 	 * @ordered
 	 */
-	
+
 	private String phoneNumber;
 	
 	/**
@@ -183,35 +191,12 @@ public class Tenant
 		super();
 	}
 
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	protected List<Tenant> findAll() {
-		// TODO implement me
-		return null;	
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
-	 * @generated
-	 * @ordered
-	 */
-	
-	protected Tenant findTenant(String id) {
-		// TODO implement me
-		return null;	
-	}
-
-	public String getTenantId() {
+	public int getTenantId() {
 		return tenantId;
 	}
 
-	public void setTenantId(String tenantId) {
+	public void setTenantId(int tenantId) {
+
 		this.tenantId = tenantId;
 	}
 
@@ -309,6 +294,20 @@ public class Tenant
 
 	public void setServiceStartDate(Date serviceStartDate) {
 		this.serviceStartDate = serviceStartDate;
+	}
+
+	/**
+	 * @return the createDate
+	 */
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	/**
+	 * @param createDate the createDate to set
+	 */
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	public String getCompanyUrl() {
