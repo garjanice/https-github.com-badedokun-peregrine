@@ -22,8 +22,10 @@ import play.Logger;
 public class Location {
 
     /**
-     * This method retrieves all countries of the world
-     * @return A list of countries
+     * Retrieves all countries of the world.
+     * 
+     * @return a list of countries
+     * @throws DaoException if error occurs while executing the query statement
      */
     public static List<String> getCountry() throws DaoException {
     	Session dbSession = CassandraDaoFactory.connect();
@@ -43,9 +45,11 @@ public class Location {
 	}
 
     /**
-     * This method retrieves states in a given country
-     * @param country The ISO name of the country, for example 'US' or 'CA' or 'CH'
-     * @return A list of all states in the specified country
+     * Retrieves states in a given country.
+     * 
+     * @param country the ISO name of the country, for example 'US' or 'CA' or 'CH'
+     * @return list of all states in the specified country
+     * @throws DaoException if error occurs while executing the query statement
      */
     public static List<String> getState(String country) throws DaoException {
     	Session dbSession = CassandraDaoFactory.connect();
@@ -65,15 +69,18 @@ public class Location {
 	}
     
     /**
-     * This method returns a list of values for a given column 
+     * Returns a list of values for a given column.
+     *  
      * @param result The result set returned from the querying the table
      * @param columnName The column name that we want to return it value
-     * @return A list of values for the column
+     * @return a list of values for the column
      */
     private static List<String> getColumnValues(ResultSet result, String columnName) {
         if (result == null) {
             return null;
         }
+        assert columnName != null;
+        
         final List<Row> allRows = result.all();
         if (allRows == null) {
             return null;

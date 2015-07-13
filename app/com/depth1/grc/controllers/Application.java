@@ -21,6 +21,7 @@ import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.*;
 
+
 public class Application extends Controller {
 	
 
@@ -43,17 +44,8 @@ public class Application extends Controller {
 		 */
 		
 		//gets the list of previous RA, this code will be moved from the index to RA page method later
-		try {
-			RiskAssessmentDao riskAssessmentDao = cassandraFactory
-					.getRiskAssessmentDao();
-			riskAssessments = riskAssessmentDao.listRiskAssessment();
-		} catch (DaoException e) {
-			Logger.error(
-					"Error occurred while creating risk assessment criteria ",
-					e);
-		}
 
-		return ok(index.render(riskAssessments)); // change to main page
+		return ok(index.render()); 
 	}
 
 	/**
@@ -127,7 +119,27 @@ public class Application extends Controller {
 					e);
 		}
 
-		return ok("Risk Assessment Created");
+		return redirect("/riskAssessment");
+	}
+	
+	public Result deleteRiskAssessment() {
+	
+		return TODO;
+	}
+	
+	public Result showFrontRAPage() {
+
+		try {
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory
+					.getRiskAssessmentDao();
+			riskAssessments = riskAssessmentDao.listRiskAssessment();
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while creating risk assessment criteria ",
+					e);
+		}
+
+		return ok(frontRA.render(riskAssessments)); // change to main page
 	}
 
 	public Result showCreateRAPage() {
@@ -145,6 +157,7 @@ public class Application extends Controller {
 		return ok(updateRA.render(selectedRA));
 	}
 
+	//remove this later
 	public Result showDeleteRAPage() {
 
 		return TODO;

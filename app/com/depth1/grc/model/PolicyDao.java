@@ -1,12 +1,9 @@
-/**
- * 
- */
 package com.depth1.grc.model;
 
 import java.util.UUID;
 
 /**
- * @author Bisi Adedokun
+ * @author Team-A
  *
  */
 public interface PolicyDao {
