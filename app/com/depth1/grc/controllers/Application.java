@@ -156,7 +156,6 @@ public class Application extends Controller {
 	 *            The policy to create
 	 * @return Result the result of the policy creation
 	 */
-	/*
 	public static Result createPolicy(Policy policy) {
 		try {
 			PolicyDao policyDao = cassandraFactory.getPolicyDao();
@@ -167,6 +166,25 @@ public class Application extends Controller {
 
 		return ok();
 	}
-	*/
+	
 
+	public Result showCreatePolicyPage() {
+
+		return ok(createPoilcy.render());
+	}
+
+	public Result showViewPolicyPage() {
+
+		return ok(viewPolicy.render(selectedPolicy));
+	}
+
+	public Result showUpdatePolicyPage() {
+
+		return ok(updatePolicy.render(selectedPolicy));
+	}
+
+	public Result showDeletePolicyPage() {
+
+		return TODO;
+	}
 }

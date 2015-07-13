@@ -3,9 +3,7 @@
 # ~~~~
 
 # Home page
-<<<<<<< HEAD
-GET     /                           com.depth1.grc.controllers.Application.index()
-=======
+
 GET     /                          com.depth1.grc.controllers.Application.index()
 
 GET 	/riskAssessment/create			com.depth1.grc.controllers.Application.showCreateRAPage()
@@ -17,7 +15,17 @@ GET 	/riskAssessment/update		com.depth1.grc.controllers.Application.showUpdateRA
 GET 	/riskAssessment/delete		com.depth1.grc.controllers.Application.showDeleteRAPage()
 
 POST  	/riskAssessment/create/done			com.depth1.grc.controllers.Application.addRiskAssessment()
->>>>>>> bcbd35c592117a330be90ee48ad07ee419e12668
+
+GET		/policy/create			com.depth1.grc.controllers.Application.showCreatePolicyPage()
+
+GET		/policy/view			com.depth1.grc.controllers.Application.showViewPolicyPage()
+
+GET		/policy/update			com.depth1.grc.controllers.Application.showCreatePolicyPage()
+
+GET		/policy/delete			com.depth1.grc.controllers.Application.showDeletePolicyPage()
+
+POST  	/policy/create/done			com.depth1.grc.controllers.Application.createPolicy()
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
