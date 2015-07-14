@@ -2,14 +2,15 @@ package com.depth1.grc.model;
 
 import java.util.Date; 
 import java.util.List;
+import java.util.UUID;
 
 public class Register {
 
-	private String id;
+	private UUID id;
 
-	private String tenantId;
+	private int tenantId;
 
-	private String riskId;
+	private int riskId;
 
 	private String name;
 
@@ -30,8 +31,10 @@ public class Register {
 	private String priority;
 
 	private String impact;
+	
+	private Date impact_date;
 
-	private String score;
+	private float score;
 
 	private String resolution;
 
@@ -64,24 +67,27 @@ public class Register {
 		super();
 	}
 
-	protected Register findriskid(){
-		//This is for ViewRegisterPage to View risk using the riskId
-		return null;
-	}
 
-	public String getid(){
+	public UUID getid(){
 		return id;
 	}
 	
-	public String getTenantId() {
+	public void setid(UUID id){
+		this.id=id;
+	}
+	
+	public int getTenantId() {
 		return tenantId;
 	}
 
-	public String getriskId() {
+	public void setTenantId(int tenantID) {
+		this.tenantId=tenantId;
+	}
+	public int getriskId() {
 		return riskId;
 	}
 
-	public void setriskId(String riskId) {
+	public void setriskId(int riskId) {
 		this.riskId=riskId;
 	}
 
@@ -164,12 +170,20 @@ public class Register {
 	public void setimpact(String impact) {
 		this.impact=impact;
 	}
-
-	public String getscore() {
+	
+	public Date getimpactdate(){
+		return impact_date;
+	}
+	
+	public void setimpactdate(Date impact_date){
+		this.impact_date=impact_date;
+	}
+	
+	public float getscore() {
 		return score;
 	}
 
-	public void setscore(String score) {
+	public void setscore(float score) {
 		this.score=score;
 	}
 
