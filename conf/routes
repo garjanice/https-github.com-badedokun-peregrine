@@ -5,7 +5,7 @@
 # Home page
 GET     /                           com.depth1.grc.controllers.Application.index()
 
-POST    /register/create/done		com.depth1.grc.controllers.Application.addRisk()
+POST  /register/create/done		com.depth1.grc.controllers.Application.addRisk()
 
 GET		/register/create			com.depth1.grc.controllers.Application.showCreateRRPage()
 
