@@ -1,18 +1,15 @@
+@(message: String)
 
-@main("Main Page") {
+@main("Register Page") {
 <section class=wrapper>
-	<h1>Main Page</h1>
-	<legend> Links to other pages</legend>
-	<FORM ACTION=/riskAssessment />
+	<h1>Register Page</h1>
+	<FORM ACTION=/register/create />
 	<INPUT TYPE="submit"
-		style="position: static; height:50px; width:200px;" VALUE="Risk Assessment Criteria">
-	</FORM>
-	
-	<FORM ACTION=/riskRegister />
+		style="position: static; height:50px; width:200px;" VALUE="Create Risk">
+        </FORM><BR />
+        <FORM ACTION=/register />
 	<INPUT TYPE="submit"
 		style="position: static; height:50px; width:200px;" VALUE="Risk Register">
-	</FORM>
+        </FORM>
 </section>
 }
-
-
