@@ -1,60 +1,54 @@
-@import com.depth1.grc.model.RiskRegister
-@(riskRegister:List[RiskRegister]) 
-@main("Risk Register") {
+@import com.depth1.grc.model.Register
+@(registers:List[Register])
 
-<script>
-	function del(urlToDelete) {
-		$.ajax({
-			url : urlToDelete,
-			type : 'DELETE',
-			success : function(results) {
-				// Refresh the page
-				location.reload();
-			}
-		});
-	}
-</script>
+@main("Front page of the risk") {
+
 
 <section class="wrapper">
-	<h1>Risk Register</h1>
-	<legend> Front Page</legend>
+	<h1>Risk Register Page</h1>
+	<legend> Take a look</legend>
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th>Risk</th>
-				<th>Severity</th>
-				<th>UUID</th>
+				<th>RiskId</th>
+				<th>Risk Name</th>
+				<th>Description</th>
 			</tr>
 		</thead>
-		
+		<tbody>
+			@for(Register <- registers) {
+			<tr>
+
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.listRegister()">
+						@Register.getname</a></td>
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.listRegister()">
+						@Register.getdescription</a></td>
+			</tr>
+			}
+		</tbody>
 
 	</table>
 </section>
 <section class=centered>
 	<!--the buttons, using just html forms-->
-	<FORM ACTION=/riskRegister/create />
+	<FORM ACTION=/register/create />
 	<INPUT TYPE="submit"
 		style="position: relative; bottom: 0px; left: -225px; height: 50px; width: 100px;"
 		VALUE="Create">
 	</FORM>
 
-	<FORM ACTION=/riskRegister/view />
+	<FORM ACTION=/vregister />
 	<INPUT TYPE="submit"
 		style="position: relative; bottom: 50px; left: -75px; height: 50px; width: 100px;"
 		VALUE="View">
 	</FORM>
 
-	<FORM ACTION=/riskRegister/update />
+	<FORM ACTION=/uregister />
 	<INPUT TYPE="submit"
 		style="position: relative; bottom: 100px; left: 75px; height: 50px; width: 100px;"
 		VALUE="Update">
 	</FORM>
-	}
-</section>
-<section class=centered>
-	<FORM ACTION="/"/>
-	<INPUT TYPE="submit"
-		style="position: relative; top: 100px; height: 50px; width: 100px;"
-		VALUE="Back">
-	</FORM>
+}
 </section>
