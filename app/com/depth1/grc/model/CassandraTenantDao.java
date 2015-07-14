@@ -49,7 +49,7 @@ public class CassandraTenantDao implements TenantDao
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					
 			Where delete = QueryBuilder.delete()
-					.from("grc", "tenant")
+					.from(Keyspace.valueOf(keyspace), "tenant")
 					.where(eq("tenantid", tenantId));							
 
 			dbSession.execute(delete);
