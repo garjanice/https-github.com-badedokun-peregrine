@@ -5,9 +5,13 @@
 # Home page
 GET     /                           com.depth1.grc.controllers.Application.index()
 
-POST  /register/create/done		com.depth1.grc.controllers.Application.addRisk()
+POST    /register/create/done		com.depth1.grc.controllers.Application.addRisk()
 
 GET		/register/create			com.depth1.grc.controllers.Application.showCreateRRPage()
+
+GET		/register/view				com.depth1.grc.controllers.Application.showViewRRPage()
+
+POST	/register/update			com.depth1.grc.controllers.Application.showUpdateRRPage()
 
 GET		/register					com.depth1.grc.controllers.Application.showFrontRRPage()
 
