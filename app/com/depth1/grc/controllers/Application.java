@@ -113,7 +113,7 @@ public class Application extends Controller {
 		
 		try {
 		 	RiskRegisterDao riskregisterDao = cassandraFactory.getRiskRegisterDao();
-		 	riskregisterDao.listRegister();
+		 	registers=riskregisterDao.listRegister();
 	} catch(DaoException e) {
 		Logger.error("Error occures while creating Risk Register", e);
 	}		
