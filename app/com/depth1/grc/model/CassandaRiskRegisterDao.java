@@ -168,11 +168,6 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 		return update;
 	}
 	
-	//public boolean viewRiskRegister(){
-		
-		//return false;
-	//}
-	
 	
 	public Register findRegister(int riskId){
 		Register register=new Register();
