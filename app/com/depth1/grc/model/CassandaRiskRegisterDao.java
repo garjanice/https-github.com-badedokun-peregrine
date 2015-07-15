@@ -26,6 +26,10 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	public Register register;
 	
 	//private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
+	
+	public CassandraRiskRegisterDao() {
+		super();
+	}
 		
 	public void createRiskRegister(Register register) throws DaoException{
 		Session dbSession = CassandraDaoFactory.connect();
@@ -33,7 +37,7 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 			Statement insert = QueryBuilder
 					.insertInto("grc", "riskregister")
 					.value("id",UUID.randomUUID())
-					//.value("tenantId", register.getTenantId())
+					//.value("tenantId", register.gettenantId())
 					//.value("riskID",register.getriskId())
 					.value("name",register.getname())
 					.value("owner",register.getowner())
@@ -45,17 +49,17 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 					.value("probability",register.getprobability())
 					.value("priority",register.getpriority())
 					.value("impact",register.getimpact())
-					.value("impact_date",register.getimpactdate())
+					//.value("impact_date",register.getimpact_date())
 					.value("score",register.getscore())
 					.value("resolution",register.getresolution())
-					.value("target_resoltuion_date",register.gettargetresolutiondate())
-					.value("actual_resolution_date",register.getactualresolutiondate())
-					.value("response_type",register.getresponsetype())
-					.value("associated_risk",register.getassociatedrisk())
-					.value("associated_issue",register.getassociatedissue())
-					.value("risk_creator",register.getriskcreator())
+					//.value("target_resolution_date",register.gettarget_resolution_date())
+					//.value("actual_resolution_date",register.getactual_resolution_date())
+					.value("response_type",register.getresponse_type())
+					.value("associated_risk",register.getassociated_risk())
+					.value("associated_issue",register.getassociated_issue())
+					.value("risk_creator",register.getrisk_creator())
 					.value("assumption",register.getassumption())
-					.value("symptom",register.getSymptom());
+					.value("symptom",register.getsymptom());
 					dbSession.execute(insert);
 		} 
 		
@@ -85,7 +89,7 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 		Register register=new Register();
 		register.setid(row.getUUID("id"));
 		//register.setriskId(row.getInt("riskId"));
-		//register.setTenantId(row.getInt("tenantId"));
+		//register.settenantId(row.getInt("tenantId"));
 		register.setname(row.getString("name"));
 		register.setowner(row.getString("owner"));
 		register.setstatus(row.getString("status"));
@@ -96,16 +100,16 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 		register.setprobability(row.getString("probability"));
 		register.setpriority(row.getString("priority"));
 		register.setimpact(row.getString("impact"));
-		register.setimpactdate(row.getDate("impact_date"));
+		//register.setimpact_date(row.getDate("impact_date"));
 		register.setscore(row.getFloat("score"));
-		register.settargetresolutiondate(row.getDate("target_resolution_date"));
-		register.setactualresolutiondate(row.getDate("actual_resolution_date"));
-		register.setresponsetype(row.getString("response_type"));
-		register.setassociatedrisk(row.getString("associated_risk"));
-		register.setassociatedissue(row.getString("associated_issue"));
-		register.setriskcreator(row.getString("risk_creator"));
+		//register.settarget_resolution_date(row.getDate("target_resolution_date"));
+		//register.setactual_resolution_date(row.getDate("actual_resolution_date"));
+		register.setresponse_type(row.getString("response_type"));
+		register.setassociated_risk(row.getString("associated_risk"));
+		register.setassociated_issue(row.getString("associated_issue"));
+		register.setrisk_creator(row.getString("risk_creator"));
 		register.setassumption(row.getString("assumption"));
-		register.setSymptom(row.getString("symptom"));
+		register.setsymptom(row.getString("symptom"));
 		list.add(register);
 		result.iterator();
 		}
@@ -125,7 +129,7 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 		try {					
 			Update.Assignments updateAssignments = QueryBuilder
 					.update("grc", "riskregister")
-					.with(set("tenantId",register.getTenantId()))
+					.with(set("tenantId",register.gettenantId()))
 					.and(set("name", register.getname()))
 					.and(set("owner",register.getowner()))
 					.and(set("status",register.getstatus()))
@@ -138,17 +142,17 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 					.and(set("impact",register.getimpact()))
 					.and(set("score",register.getscore()))
 					.and(set("resolution",register.getresolution()))
-					.and(set("target_resolution_date",register.gettargetresolutiondate()))
-					.and(set("actual_resolution_date",register.getactualresolutiondate()))
-					.and(set("response_type",register.getresponsetype()))
-					.and(set("associated_risk",register.getassociatedrisk()))
-					.and(set("associated_issue",register.getassociatedissue()))
-					.and(set("risk_creator",register.getriskcreator()))
-					.and(set("last_updated_person",register.getlastupdatedperson()))
-					.and(set("last_updated_desc",register.getlastupdateddesc()))
-					.and(set("last_updated",register.getlastupdated()))
+					//.and(set("target_resolution_date",register.gettarget_resolution_date()))
+					//.and(set("actual_resolution_date",register.getactual_resolution_date()))
+					.and(set("response_type",register.getresponse_type()))
+					.and(set("associated_risk",register.getassociated_risk()))
+					.and(set("associated_issue",register.getassociated_issue()))
+					.and(set("risk_creator",register.getrisk_creator()))
+					.and(set("last_updated_person",register.getlast_updated_person()))
+					.and(set("last_updated_desc",register.getlast_updated_desc()))
+					.and(set("last_updated",register.getlast_updated()))
 					.and(set("assumption",register.getassumption()))
-					.and(set("symptom",register.getSymptom()));
+					.and(set("symptom",register.getsymptom()));
 					
 					Statement updateDetails = updateAssignments
 					.where(eq("riskId", register.getriskId()));							
@@ -176,7 +180,7 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 		try {					
 			Statement find = QueryBuilder.select().all()
 					.from("grc", "riskregister")
-					.where(eq("riskid", register.getriskId()));
+					.where(eq("riskId", register.getriskId()));
 
 			ResultSet result = dbSession.execute(find);
 			if (result == null) {
@@ -186,7 +190,7 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 			
 			register.setid(row.getUUID("id"));
 			//register.setriskId(row.getInt("riskId"));
-			//register.setTenantId(row.getInt("tenantId"));
+			//register.settenantId(row.getInt("tenantId"));
 			register.setname(row.getString("name"));
 			register.setowner(row.getString("owner"));
 			register.setstatus(row.getString("status"));
@@ -197,19 +201,19 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 			register.setprobability(row.getString("probability"));
 			register.setpriority(row.getString("priority"));
 			register.setimpact(row.getString("impact"));
-			register.setimpactdate(row.getDate("impact_date"));
+			//register.setimpact_date(row.getDate("impact_date"));
 			register.setscore(row.getFloat("score"));
-			register.settargetresolutiondate(row.getDate("target_resolution_date"));
-			register.setactualresolutiondate(row.getDate("actual_resolution_date"));
-			register.setresponsetype(row.getString("response_type"));
-			register.setassociatedrisk(row.getString("associated_risk"));
-			register.setassociatedissue(row.getString("associated_issue"));
-			register.setriskcreator(row.getString("risk_creator"));
-			//register.setlastupdatedperson(row.getString("last_updated_person"));
-			//register.setlastupdateddesc(row.getString("last_updated_desc"));
-			//register.setlastupdated(row.getDate("last_updated"));
+			//register.settargetresolutiondate(row.getDate("target_resolution_date"));
+			//register.setactualresolutiondate(row.getDate("actual_resolution_date"));
+			register.setresponse_type(row.getString("response_type"));
+			register.setassociated_risk(row.getString("associated_risk"));
+			register.setassociated_issue(row.getString("associated_issue"));
+			register.setrisk_creator(row.getString("risk_creator"));
+			//register.setlast_updated_person(row.getString("last_updated_person"));
+			//register.setlast_updated_desc(row.getString("last_updated_desc"));
+			//register.setlast_updated(row.getDate("last_updated"));
 			register.setassumption(row.getString("assumption"));
-			register.setSymptom(row.getString("symptom"));
+			register.setsymptom(row.getString("symptom"));
 	}
 		catch (DriverException e) {
 			Logger.error("Error occurred while retrieving data from the risk register table ", e);
