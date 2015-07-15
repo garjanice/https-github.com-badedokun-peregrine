@@ -44,12 +44,8 @@
     		'_label -> "Risk Priority"
     		)
     	@helper.inputText(field = rRForm("impact"), args = 'size -> 10)
-    	@helper.inputDate(field= rRForm("impact_date"))
-    	@helper.inputText(field=rRForm("score"))
+    	@helper.inputText(field= rRForm("score"))
     	@helper.textarea(field = rRForm("resolution"), args = 'rows -> 3, 'cols -> 50)
-    	
-    	@helper.inputDate(field= rRForm("target_resolution_date"))
-    	@helper.inputDate(field= rRForm("actual_resolution_date"))
     	
     	@helper.select(
    		rRForm("response_type"),
@@ -59,9 +55,9 @@
 		
 		@helper.inputText(field = rRForm("associated_risk"), args = 'rows -> 3, 'cols -> 50)
 		@helper.textarea(field = rRForm("associated_issue"), args = 'rows -> 3, 'cols -> 50)
-		@helper.inputText(field=rRForm("risk_creator"), args= 'rows -> 3, 'cols -> 50)
-		@helper.textarea(field = rRForm("risk_assumptions"), args = 'rows -> 3, 'cols -> 50)
-		@helper.textarea(field = rRForm("risk_symptoms"), args = 'rows -> 3, 'cols -> 50)
+		@helper.inputText(field= rRForm("risk_creator"), args= 'rows -> 3, 'cols -> 50)
+		@helper.textarea(field = rRForm("assumption"), args = 'rows -> 3, 'cols -> 50)
+		@helper.textarea(field = rRForm("symptom"), args = 'rows -> 3, 'cols -> 50)
     	
 
 	<button type="submit" name="action" value="edit">Submit</button>
