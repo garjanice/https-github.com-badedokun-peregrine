@@ -76,11 +76,11 @@ public class Register {
 		this.id=id;
 	}
 	
-	public int getTenantId() {
+	public int gettenantId() {
 		return tenantId;
 	}
 
-	public void setTenantId(int tenantID) {
+	public void settenantId(int tenantID) {
 		this.tenantId=tenantId;
 	}
 	public int getriskId() {
@@ -171,11 +171,11 @@ public class Register {
 		this.impact=impact;
 	}
 	
-	public Date getimpactdate(){
+	public Date getimpact_date(){
 		return impact_date;
 	}
 	
-	public void setimpactdate(Date impact_date){
+	public void setimpact_date(Date impact_date){
 		this.impact_date=impact_date;
 	}
 	
@@ -195,75 +195,75 @@ public class Register {
 		this.resolution=resolution;
 	}
 
-	public Date gettargetresolutiondate() {
+	public Date gettarget_resolution_date() {
 		return target_resolution_date;
 	}
 
-	public void settargetresolutiondate(Date target_resolution_date) {
+	public void settarget_resolution_date(Date target_resolution_date) {
 		this.target_resolution_date=target_resolution_date;
 	}
 
-	public Date getactualresolutiondate() {
+	public Date getactual_resolution_date() {
 		return actual_resolution_date;
 	}
 
-	public void setactualresolutiondate(Date actual_resolution_date) {
+	public void setactual_resolution_date(Date actual_resolution_date) {
 		this.actual_resolution_date=actual_resolution_date;
 	}
 
-	public String getresponsetype() {
+	public String getresponse_type() {
 		return response_type;
 	}
 
-	public void setresponsetype(String response_type) {
+	public void setresponse_type(String response_type) {
 		this.response_type=response_type;
 	}
 
-	public String getassociatedrisk() {
+	public String getassociated_risk() {
 		return associated_risk;
 	}
 
-	public void setassociatedrisk(String associated_risk) {
+	public void setassociated_risk(String associated_risk) {
 		this.associated_risk=associated_risk;
 	}
 
-	public String getassociatedissue() {
+	public String getassociated_issue() {
 		return associated_issue;
 	}
 
-	public void setassociatedissue(String associated_issue) {
+	public void setassociated_issue(String associated_issue) {
 		this.associated_issue=associated_issue;
 	}
 
-	public String getriskcreator() {
+	public String getrisk_creator() {
 		return risk_creator;
 	}
 
-	public void setriskcreator(String risk_creator) {
+	public void setrisk_creator(String risk_creator) {
 		this.risk_creator=risk_creator;
 	}
 
-	public String getlastupdatedperson() {
+	public String getlast_updated_person() {
 		return last_updated_person;
 	}
 
-	public void setlastupdatedperson(String last_updated_person) {
+	public void setlast_updated_person(String last_updated_person) {
 		this.last_updated_person=last_updated_person;
 	}
 
-	public String getlastupdateddesc() {
+	public String getlast_updated_desc() {
 		return last_updated_desc;
 	}
 
-	public void setlastupdateddesc(String last_updated_desc) {
+	public void setlast_updated_desc(String last_updated_desc) {
 		this.last_updated_desc=last_updated_desc;
 	}
 
-	public Date getlastupdated() {
+	public Date getlast_updated() {
 		return last_updated;
 	}
 
-	public void setlastupdated(Date last_updated) {
+	public void setlast_updated(Date last_updated) {
 		this.last_updated=last_updated;
 	}
 
@@ -275,11 +275,11 @@ public class Register {
 		this.assumption=assumption;
 	}
 
-	public String getSymptom() {
+	public String getsymptom() {
 		return symptom;
 	}
 
-	public void setSymptom(String symptom) {
+	public void setsymptom(String symptom) {
 		this.symptom=symptom;
 	}
 
