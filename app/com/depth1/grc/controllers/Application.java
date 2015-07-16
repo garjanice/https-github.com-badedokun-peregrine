@@ -120,7 +120,11 @@ public class Application extends Controller {
 
 		return redirect("/riskAssessment");
 	}
-	
+
+    /**
+     * Action method for the 'Delete' button. Deletes selected Risk Assessment
+     * @return
+     */
 	public Result deleteRiskAssessment() {
 		checkSelectedRA();
 		

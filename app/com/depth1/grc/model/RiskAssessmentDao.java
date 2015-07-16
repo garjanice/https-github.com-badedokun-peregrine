@@ -2,7 +2,11 @@ package com.depth1.grc.model;
 
 import java.util.List;
 
+/**
+ * Interface for Risk Assessment DAO's.
+ */
 public interface RiskAssessmentDao {
+
 
 	public void createRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
 	public boolean updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException;

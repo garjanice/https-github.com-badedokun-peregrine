@@ -5,7 +5,6 @@ import java.util.UUID;
 /**
  * @author Team B
  *Risk Assessment object, holds all of the necessary variables to assess risks.
- *
  */
 public class RiskAssessment {
 	
@@ -32,7 +31,7 @@ public class RiskAssessment {
 	public RiskAssessment(){
 		
 	}
-	
+
 	//getters and setters
 	public int getTenantId() {
 		return tenantId;

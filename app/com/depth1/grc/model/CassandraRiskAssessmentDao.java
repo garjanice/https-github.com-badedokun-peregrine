@@ -19,6 +19,12 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 
 public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 
+    /**
+     * This method is called when the user clicks on the 'Create' button.
+     * Assigns the inputted fields to a new Risk Assessment form.
+     * @param riskAssessment form
+     * @throws DaoException error if insertion to database fails.
+     */
 	@Override
 	//not complete
 	public void createRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
@@ -51,10 +57,15 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 		} finally {			
 			CassandraDaoFactory.close(dbSession);
 		}		
-	}		
-	
-	
+	}
 
+    /**
+     * This method updates the selected Risk Assessment with newly inputted data fields by the user.
+     * Replaces old Risk Assessment with the new.
+     * @param riskAssessment form is passed in to be updated.
+     * @return true if updated successfully.
+     * @throws DaoException error if update failed
+     */
 	@Override
 	public boolean updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
         boolean update = false;
@@ -92,6 +103,13 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
         return update;
 	}
 
+    /**
+     * This method is called when the 'Delete' button is clicked and prompts the user if they want to
+     * delete the selected Risk Assessment.
+     * @param riskAssessment to be deleted.
+     * @return true if the deletion was successful.
+     * @throws DaoException error if deletion failed.
+     */
 	@Override
 	public boolean deleteRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
         boolean del = false;
@@ -153,6 +171,11 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 		return null;
 	}
 
+    /**
+     * Lists all of the Risk Assessments on the front-end UI
+     * @return List containing all Risk Assessments
+     * @throws DaoException error if unable to retrieve list of Risk Assessment
+     */
 	@Override
 	public List<RiskAssessment> listRiskAssessment() throws DaoException {
         List<RiskAssessment> listRA = new ArrayList<>();
