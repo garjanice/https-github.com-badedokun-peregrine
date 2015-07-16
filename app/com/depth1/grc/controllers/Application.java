@@ -15,15 +15,13 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
+import com.depth1.grc.model.Policy;
+import com.depth1.grc.model.PolicyDao;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
-import com.depth1.grc.views.html.createRA;
-import com.depth1.grc.views.html.frontRA;
-import com.depth1.grc.views.html.index;
-import com.depth1.grc.views.html.updateRA;
-import com.depth1.grc.views.html.viewRA;
+import com.depth1.grc.views.html.*;
 
 public class Application extends Controller {
 
@@ -33,6 +31,10 @@ public class Application extends Controller {
 	final static Form<RiskAssessment> rAForm = Form.form(RiskAssessment.class);
 	static List<RiskAssessment> riskAssessments;
 	static RiskAssessment selectedRA;
+	
+	final static Form<Policy> policyForm = Form.form(Policy.class);
+	static List<Policy> policies;
+	static Policy selectedPolicy;
 
 	public Result index() {
 		// test connection to the cassandra cluster
@@ -48,7 +50,7 @@ public class Application extends Controller {
 		//gets the list of previous RA, this code will be moved from the index to RA page method later
 
 		return ok(index.render()); 
-	}
+	}	
 
 	/**
 	 * This method is used as a client to test getting data from the Cassandra
@@ -163,4 +165,80 @@ public class Application extends Controller {
 		return TODO;
 	}
 
+	/**
+	 * @param Policy
+	 *
+	 * @return 
+	 */
+	public Result createPolicy() {
+		//create form object from the request
+		Form<Policy> filledPolicy = policyForm.bindFromRequest();
+		//check for required and validate input fields
+		//TODO : Validate input fields for Date and Strings
+		if (filledPolicy.hasErrors()) {
+			 Logger.error("The error in the form are " + filledPolicy.errorsAsJson());
+			  return badRequest(filledPolicy.errorsAsJson());
+		}
+		//Bind policy object with the form object
+		Policy criteria = filledPolicy.get();
+		System.out.println("Here it is: " + criteria.getDescription());
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			//create policy on DB
+			policyDao.createPolicy(criteria);
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy ", e);
+		}
+
+		return redirect("/policy");
+	}
+	
+	public Result deletePolicy() {
+	
+		return TODO;
+	}
+	
+	public Result showPolicyListPage() {
+
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllPolicy();
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+
+		return ok(policyListPage.render(policies));
+	}
+
+	public Result showCreatePolicyPage() {
+
+		return ok(createPolicy.render(policyForm));
+	}
+	
+	public Result showCreatePolicyEditorPage() {
+
+//		return ok(viewPolicy.render(selectedPolicy));
+		return ok();
+	}
+
+
+	public Result showViewPolicyPage() {
+
+//		return ok(viewPolicy.render(selectedPolicy));
+		return ok();
+	}
+
+	public Result showUpdatePolicyPage() {
+
+//		return ok(updatePolicy.render(selectedPolicy));
+		return ok();
+	}
+
+	//remove this later, we may not have a specific delete policy page
+	public Result showDeletePolicyPage() {
+
+		return ok();
+	}
+
+	
 }
