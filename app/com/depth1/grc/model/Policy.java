@@ -7,10 +7,11 @@ import play.data.format.*;
 
 public class Policy {
 	
-	private UUID policyId;			//unique
+	private UUID id;			//unique
 	private int tenantId;
 	@Required
 	private String name;
+	private String policyId;
 	private String description;
 	@Required
 	private String version;
@@ -64,11 +65,11 @@ public class Policy {
 	}
 			
 	public void setPolicyId(UUID id){
-		this.policyId = id;
+		this.id = id;
 	}
 			
 	public UUID getPolicyId(){
-		return policyId;
+		return id;
 	}
 			
 	public void setName(String name){
