@@ -290,5 +290,8 @@ public class Register {
 	public void setCassandraRiskRegisterDao(CassandraRiskRegisterDao cassandraRiskRegisterDao) {
 		this.cassandraRiskRegisterDao = cassandraRiskRegisterDao;
 	}
-
+        public String getSystemDateTime(){ 
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd"); 
+		return df.format(Calendar.getInstance().getTime()); 
+        }
 }
