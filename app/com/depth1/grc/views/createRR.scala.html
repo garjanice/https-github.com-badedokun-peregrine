@@ -32,6 +32,7 @@
 		)
 		
 		@helper.textarea(field = rRForm("description"), args = 'rows -> 3, 'cols -> 50)
+		@helper.inputDate(field= rRForm("target_resolution_date"))
 		@helper.textarea(field = rRForm("impact_description"), args = 'rows -> 3, 'cols -> 50)
 		@helper.inputRadioGroup(
     		rRForm("probability"),
