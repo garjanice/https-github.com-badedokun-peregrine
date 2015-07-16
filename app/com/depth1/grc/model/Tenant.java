@@ -2,6 +2,7 @@ package com.depth1.grc.model;
 
 import java.util.Date;
 
+import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 
 /**
@@ -44,6 +45,7 @@ public class Tenant
 	private String contactPersonName;
 	
 	@Required
+	@Email
 	private String contactPersonEmail;
 	
 	@Required
