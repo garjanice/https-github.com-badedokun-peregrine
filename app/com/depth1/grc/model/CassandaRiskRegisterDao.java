@@ -24,7 +24,7 @@ import play.Play;
 public class CassandraRiskRegisterDao implements RiskRegisterDao {
 
 	public Register register;
-	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	//private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
 	
 	public CassandraRiskRegisterDao() {
@@ -50,9 +50,11 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 					.value("priority",register.getpriority())
 					.value("impact",register.getimpact())
 					//.value("impact_date",register.getimpact_date())
+					.value("impact_date",register.getSystemDateTime())
 					.value("score",register.getscore())
 					.value("resolution",register.getresolution())
 					//.value("target_resolution_date",register.gettarget_resolution_date())
+					.value("target_resolution_date",sdf.format(register.gettarget_resolution_date()))
 					//.value("actual_resolution_date",register.getactual_resolution_date())
 					.value("response_type",register.getresponse_type())
 					.value("associated_risk",register.getassociated_risk())
