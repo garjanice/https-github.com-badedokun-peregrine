@@ -2,6 +2,10 @@
 @(riskAssessments:List[RiskAssessment]) 
 @main("Risk Assessment") {
 
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+
 <script>
 <!--
 	function del(urlToDelete) {
@@ -15,16 +19,39 @@
 		});
 	}
 	-->
-	function confirmDelete()
-	{
-	  var x = confirm("Are you sure you want to delete?");
-	  if (x)
-		 return x;
+	function confirmDelete() {
+		var x = confirm("Are you sure you want to delete?");
+		if (x)
+			return x;
 	}
+	$(function() {
+
+		var rows = $('tr');
+		rows.on('click', function(e) {
+			var row = $(this);
+			if ((e.ctrlKey || e.metaKey) || e.shiftKey) {
+				row.addClass('highlight');
+			} else {
+				rows.removeClass('highlight');
+				row.addClass('highlight');
+			}
+
+		});
+		$(document).bind('selectstart dragstart', function(e) {
+			e.preventDefault();
+			return false;
+		});
+
+	});
 </script>
 
+<style>
+tr { cursor: default; }
+.highlight { background: #00CCFF; }
+</style>
 
-	 <!-- header -->
+
+<!-- header -->
     <header class="header">
         <div class="header-children">
             <h1 class="logo" id="header-logo"><a href="/">Nebrhood</a></h1>
@@ -65,38 +92,27 @@
  <section class="wrapper">
    <h1>Risk Assessment</h1>
 	<legend> Front Page</legend>
-	<table style="text-align:center;" class="table table-striped">
+	<table style="text-align:center;" class="table">
 		<thead>
 			<tr>
 				<th>Risk </th>
 				<th>Likelihood</th>
 				<th>Severity</th>
 				<th>Consequence</th>
-				<th>Select</th>
 			</tr>
 		</thead>
 		<tbody>
 			@for(RiskAssessment <- riskAssessments) {
 			<tr>
 
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-						@RiskAssessment.getRisk</a></td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-						@RiskAssessment.getLikelihood</a></td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-						@RiskAssessment.getSeverity </a></td>
-
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-						@RiskAssessment.getAssessmentId </a></td>
-
-				<td><form action="">
-							<input type="checkbox" name="selected" value="RA"><br> 
-						</form></td>
-
+				<td>
+					@RiskAssessment.getRisk</td>
+				<td>
+					@RiskAssessment.getLikelihood</td>
+				<td>
+					@RiskAssessment.getSeverity</td>
+				<td>
+					@RiskAssessment.getConsequence</td>
 			</tr>
 			}
 		</tbody>
