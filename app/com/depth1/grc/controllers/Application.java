@@ -1,6 +1,7 @@
 package com.depth1.grc.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import play.Logger;
 import play.data.Form;
@@ -107,8 +108,6 @@ public class Application extends Controller {
 	public Result addRiskAssessment() {
 		Form<RiskAssessment> filledRA = rAForm.bindFromRequest();
 		RiskAssessment criteria = filledRA.get();
-		System.out
-				.println("Here it is: " + criteria.getLikelihoodDescription());
 		try {
 			RiskAssessmentDao riskAssessmentDao = cassandraFactory
 					.getRiskAssessmentDao();
@@ -123,10 +122,29 @@ public class Application extends Controller {
 	}
 	
 	public Result deleteRiskAssessment() {
-	
-		return TODO;
+		checkSelectedRA();
+		
+		try {
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory
+					.getRiskAssessmentDao();
+			riskAssessmentDao.deleteRiskAssessment(selectedRA);
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while deleting risk assessment criteria ",
+					e);
+		}
+
+		return redirect("/riskAssessment");
 	}
 	
+	public void checkSelectedRA() {
+		// TODO Puts selected RA as selectedRA, right now just checking delete functionality
+		String stringId = "b35cdd7f-ca47-4883-9d27-68f49a643d8a";
+		UUID udel = UUID.fromString(stringId);
+		selectedRA = new RiskAssessment();
+		selectedRA.setAssessmentId(udel);
+	}
+
 	public Result showFrontRAPage() {
 
 		try {

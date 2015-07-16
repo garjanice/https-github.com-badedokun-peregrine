@@ -70,7 +70,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
                     .and(set("red", riskAssessment.getMatrixRed()))
                     .and(set("yellow", riskAssessment.getMatrixYellow()))
                     .and(set("light_green", riskAssessment.getMatrixLightGreen()))
-                    .and(set("green", riskAssessment.getMatrixGreen()))
+                    .and(set("green", riskAssessment.getMatrixGreen())) 
                     .and(set("vulnerability", riskAssessment.getVulnerability()))
                     .and(set("onset_speed", riskAssessment.getSpeedOfOnset()))
                     .and(set("impact", riskAssessment.getImpact()))
@@ -98,7 +98,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
         Session dbSession = CassandraDaoFactory.connect();
         try {
             Delete.Where delete = QueryBuilder.delete().from("grc", "riskassessment")
-                    .where(eq("assessmentid", riskAssessment.getAssessmentId()));
+                    .where(eq("id", riskAssessment.getAssessmentId()));
             dbSession.execute(delete);
             del = true;
         } catch (DriverException e) {

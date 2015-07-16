@@ -3,6 +3,7 @@
 @main("Risk Assessment") {
 
 <script>
+<!--
 	function del(urlToDelete) {
 		$.ajax({
 			url : urlToDelete,
@@ -13,17 +14,64 @@
 			}
 		});
 	}
+	-->
+	function confirmDelete()
+	{
+	  var x = confirm("Are you sure you want to delete?");
+	  if (x)
+		 return x;
+	}
 </script>
 
-<section class="wrapper">
-	<h1>Risk Assessment</h1>
+
+	 <!-- header -->
+    <header class="header">
+        <div class="header-children">
+            <h1 class="logo" id="header-logo"><a href="/">Nebrhood</a></h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">Dashboard</a>
+                    </li>
+                    <li><a href="#">Policy</a>
+                    </li>
+                    <li><a href="#">Enterprise Risk</a>
+                    </li>
+                    <li><a href="#">Governance</a>
+                    </li>
+                    <li><a href="#">Compliance</a>
+                    </li>
+                    <li><a href="#">Navigation Option</a>
+                    </li>
+                    <li><a href="#">Navigation Option</a>
+                    </li>
+                </ul>
+            </nav>
+            <nav class="search-settings">
+                <ul>
+                    <li>
+                        <input type="text" name="search" id="search-bar" placeholder="Search">
+                    </li>
+                    <li>
+                    	<a href="#" id="logout">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!--end of header-->
+
+ <main id="home-main" class="page-main">
+ <section class="wrapper">
+   <h1>Risk Assessment</h1>
 	<legend> Front Page</legend>
-	<table class="table table-striped">
+	<table style="text-align:center;" class="table table-striped">
 		<thead>
 			<tr>
-				<th>Risk</th>
+				<th>Risk </th>
+				<th>Likelihood</th>
 				<th>Severity</th>
-				<th>UUID</th>
+				<th>Consequence</th>
+				<th>Select</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,48 +83,85 @@
 						@RiskAssessment.getRisk</a></td>
 				<td><a
 					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-						@RiskAssessment.getSeverity</a></td>
+						@RiskAssessment.getLikelihood</a></td>
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
+						@RiskAssessment.getSeverity </a></td>
+
 				<td><a
 					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
 						@RiskAssessment.getAssessmentId </a></td>
+
+				<td><form action="">
+							<input type="checkbox" name="selected" value="RA"><br> 
+						</form></td>
+
 			</tr>
 			}
 		</tbody>
 
 	</table>
-</section>
-<section class=centered>
+
 	<!--the buttons, using just html forms-->
 	<FORM ACTION=/riskAssessment/create />
 	<INPUT TYPE="submit"
-		style="position: relative; bottom: 0px; left: -225px; height: 50px; width: 100px;"
+		style="position: relative; bottom: 0px; left: -225px; height: 30px; width: 100px;"
 		VALUE="Create">
 	</FORM>
 
 	<FORM ACTION=/riskAssessment/view />
 	<INPUT TYPE="submit"
-		style="position: relative; bottom: 50px; left: -75px; height: 50px; width: 100px;"
+		style="position: relative; bottom: 30px; left: -75px; height: 30px; width: 100px;"
 		VALUE="View">
 	</FORM>
 
 	<FORM ACTION=/riskAssessment/update />
 	<INPUT TYPE="submit"
-		style="position: relative; bottom: 100px; left: 75px; height: 50px; width: 100px;"
+		style="position: relative; bottom: 60px; left: 75px; height: 30px; width: 100px;"
 		VALUE="Update">
 	</FORM>
 
-	<FORM
-		onsubmit="var result = confirm('Do you really want to delete the selected criteria?');if (result) {del('com.depth1.grc.controllers.routes.Application.deleteRiskAssessment()')}" />
+	<FORM ACTION=/riskAssessment/delete
+		onsubmit="return confirmDelete()"/>
 	<INPUT TYPE="submit"
-		style="position: relative; bottom: 150px; left: 225px; height: 50px; width: 100px;"
+		style="position: relative; bottom: 90px; left: 225px; height: 30px; width: 100px;"
 		VALUE="Delete">
 	</FORM>
 	}
-</section>
-<section class=centered>
+
 	<FORM ACTION="/"/>
 	<INPUT TYPE="submit"
-		style="position: relative; top: 100px; height: 50px; width: 100px;"
+		style="position:relative; bottom: 50px; height: 30px; width: 100px;"
 		VALUE="Back">
 	</FORM>
 </section>
+   </main>
+   
+    <!-- footer -->
+    <footer>
+        <div id="footer">
+            <div class="wrapper">
+                <ul id="nav-legal">
+                    <li>
+                        <span>Nebrhood © 2014</span>
+                    </li>
+                    <li>
+                        <a href="">User Agreement</a>
+                    </li>
+                    <li>
+                        <a href="">Community Guidelines</a>
+                    </li>
+                    <li>
+                        <a href="">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a href="">Cookie Policy</a>
+                    </li>
+                    <li>
+                        <a href="">Copyright Policy</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <!-- end of footer -->
