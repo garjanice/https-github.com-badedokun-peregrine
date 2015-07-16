@@ -1,7 +1,6 @@
 package com.depth1.grc.model;
 
 import java.util.UUID;
-import java.util.Date;
 
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
@@ -50,7 +49,7 @@ public class Policy {
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	private UUID lastUpdatedDate;
 	
-	//Constructor(s)
+	//Constructor
 	public Policy(){
 		
 	}
