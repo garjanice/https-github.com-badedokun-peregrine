@@ -57,7 +57,7 @@ public class Application extends Controller {
 	 * 
 	 * @param session
 	 *            The established session to the cluster
-	 * @return Returns a result in the future in an non-blocking fashion
+	 * @return a result in the future in an non-blocking fashion
 	 */
 	public ResultSetFuture getState(Session session) {
 		Statement query = QueryBuilder.select().all().from("member", "state");
@@ -87,7 +87,7 @@ public class Application extends Controller {
 	/**
 	 * @param tenant
 	 *            The tenant to create
-	 * @return Result the result of the tenant creation
+	 * @return Result of the tenant creation
 	 */
 	public static Result createTenant(Tenant tenant) {
 		try {
@@ -103,7 +103,7 @@ public class Application extends Controller {
 	/**
 	 * @param RiskAssessment
 	 *            The RA criteria to create
-	 * @return Result the result of the RAC creation
+	 * @return the result of the RAC creation
 	 */
 	public Result addRiskAssessment() {
 		Form<RiskAssessment> filledRA = rAForm.bindFromRequest();
@@ -140,7 +140,11 @@ public class Application extends Controller {
 
 		return redirect("/riskAssessment");
 	}
-	
+
+    /**
+     * Intended to select the highlighted criteria and specify the criteria to be worked with
+     * (<i>Deletion, updating, viewing</i>)
+     */
 	public void checkSelectedRA() {
 		// TODO Puts selected RA as selectedRA, right now just checking delete functionality
 		String stringId = "b35cdd7f-ca47-4883-9d27-68f49a643d8a";
@@ -149,6 +153,10 @@ public class Application extends Controller {
 		selectedRA.setAssessmentId(udel);
 	}
 
+    /**
+     * Shows the front page of the Risk Assessment UI
+     * @return to the main page
+     */
 	public Result showFrontRAPage() {
 
 		try {
@@ -161,19 +169,31 @@ public class Application extends Controller {
 					e);
 		}
 
-		return ok(frontRA.render(riskAssessments)); // change to main page
+		return ok(frontRA.render(riskAssessments));
 	}
 
+    /**
+     * This method shows the create Risk Assessment page if the 'Create' button is clicked
+     * @return create Risk Assessment page
+     */
 	public Result showCreateRAPage() {
 
 		return ok(createRA.render(rAForm));
 	}
 
+    /**
+     * This method allows users to view Risk Assessments
+     * @return view Risk Assessment page
+     */
 	public Result showViewRAPage() {
 
 		return ok(viewRA.render(selectedRA));
 	}
 
+    /**
+     * This method allows users to update selected Risk Assessments
+     * @return update Risk Assessment page
+     */
 	public Result showUpdateRAPage() {
 
 		return ok(updateRA.render(selectedRA));
