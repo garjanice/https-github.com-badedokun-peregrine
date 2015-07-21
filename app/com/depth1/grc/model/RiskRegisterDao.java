@@ -13,8 +13,6 @@ public interface RiskRegisterDao {
 	
 	public abstract boolean updateRiskRegister() throws DaoException;
 	
-	//public boolean viewRiskRegister() throws DaoException;
-	
 	public abstract List<Register> listRegister() throws DaoException;
 	
 	public abstract Register findRegister(int riskId) throws DaoException; 
