@@ -23,7 +23,7 @@ import play.Play;
 /**
  * This class is used to implementation of the exposed methods declared in RiskRegisterDao interface, 
  * achieves basic data processing. Add, view, update and find specified data to and from DB.
- * @throws DaoException if a failed file input-output exception, a faulty db connection occurs
+ * @throws DaoException if a failed file input-output exception occurs
  * @throws DriverException if a unsuccessful pool connection occurs 
  */
 public class CassandraRiskRegisterDao implements RiskRegisterDao {
@@ -37,9 +37,9 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	}
 	
 	/**
-	 * This method registers new risk and inserts a record into the Keyspace called "grc", riskregister table.
+	 * Register new risk and insert a record into the Keyspace called "grc", riskregister table.
 	 * @param register This object to obtain attributes to map column items
-	 * @throws InvalidQueryException if a mismatched type stored in a predefined data type column
+	 * @throws InvalidQueryException if a mismatched data type stored in a predefined column
 	 */	
 	public void createRiskRegister(Register register) throws DaoException{
 		Session dbSession = CassandraDaoFactory.connect();
@@ -86,8 +86,8 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 }		
 	
 	/**
-	 * This method lists all the registered risks stored in the Keyspace called "grc", riskregister table.
-	 * 
+	 * Lists all the registered risks stored in the Keyspace called "grc", riskregister table.
+	 * @return the list of all registered risks stored in riskregister table  
 	 */
 	public List<Register> listRegister() throws DaoException {
 		List<Register> list = new ArrayList<>();
@@ -141,8 +141,9 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	}
 	
 	/**
-	 * This method update an existed specified risk stored in the Keyspace called "grc", riskregister table.
+	 * Update an existed specified risk stored in the Keyspace called "grc", riskregister table.
 	 * @param register This object to obtain attributes to map column items
+	 * @return the success or failure status of updating a record in DB
 	 */
 	public boolean updateRiskRegister(Register register){
 		boolean update= false;
@@ -189,7 +190,11 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 		return update;
 	}
 	
-	
+	/**
+	 * Query a specified risk in the Keyspace "grc", table "riskregister" by risk ID.
+	 * @param riskId the primary key ID to query to get corresponding risk record.
+	 * @return the Register object stored in riskregister table
+	 */
 	public Register findRegister(int riskId){
 		Register register=new Register();
 		Session dbSession = CassandraDaoFactory.connect();
