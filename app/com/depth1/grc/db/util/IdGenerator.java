@@ -32,7 +32,7 @@ public class IdGenerator {
      * @return the next available unique ID for a table
      * @throws DataException when a query exception occurs
      */
-	public static synchronized int getNextIntegerId(String tableName) throws DataException {
+	public final static synchronized int getNextIntegerId(String tableName) throws DataException {
 		Session dbSession = CassandraDaoFactory.connect();
 		try {
 			// if a max has already been retrieved from this table,
@@ -70,7 +70,7 @@ public class IdGenerator {
      * @return the next available unique ID for a table
      * @throws DataException when a query exception occurs
      */
-	public static synchronized long getNextLongId(String tableName) throws DataException {
+	public final static synchronized long getNextLongId(String tableName) throws DataException {
 		Session dbSession = CassandraDaoFactory.connect();
 		try {
 			// if a max has already been retrieved from this table,
