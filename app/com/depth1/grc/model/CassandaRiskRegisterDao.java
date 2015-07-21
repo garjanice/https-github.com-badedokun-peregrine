@@ -20,7 +20,12 @@ import com.depth1.grc.model.Register;
 
 import play.Logger;
 import play.Play;
-
+/**
+ * This class is used to implementation of the exposed methods declared in RiskRegisterDao interface, 
+ * achieves basic data processing. Add, view, update and find specified data to and from DB.
+ * @throws DaoException if a failed file input-output exception, a faulty db connection occurs
+ * @throws DriverException if a unsuccessful pool connection occurs 
+ */
 public class CassandraRiskRegisterDao implements RiskRegisterDao {
 
 	public Register register;
@@ -30,7 +35,12 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	public CassandraRiskRegisterDao() {
 		super();
 	}
-		
+	
+	/**
+	 * This method registers new risk and inserts a record into the Keyspace called "grc", riskregister table.
+	 * @param register This object to obtain attributes to map column items
+	 * @throws InvalidQueryException if a mismatched type stored in a predefined data type column
+	 */	
 	public void createRiskRegister(Register register) throws DaoException{
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					
@@ -75,6 +85,10 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 		
 }		
 	
+	/**
+	 * This method lists all the registered risks stored in the Keyspace called "grc", riskregister table.
+	 * 
+	 */
 	public List<Register> listRegister() throws DaoException {
 		List<Register> list = new ArrayList<>();
 		Session dbSession = CassandraDaoFactory.connect();
@@ -87,35 +101,35 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 				return null;
 			}
 			
-	for (Row row : result.all()) {
-		Register register=new Register();
-		register.setid(row.getUUID("id"));
-		//register.setriskId(row.getInt("riskId"));
-		//register.settenantId(row.getInt("tenantId"));
-		register.setname(row.getString("name"));
-		register.setowner(row.getString("owner"));
-		register.setstatus(row.getString("status"));
-		register.setcategory_rating(row.getString("category_rating"));
-		register.setreporting_level(row.getString("reporting_level"));
-		register.setdescription(row.getString("description"));
-		register.setimpact_description(row.getString("impact_description"));
-		register.setprobability(row.getString("probability"));
-		register.setpriority(row.getString("priority"));
-		register.setimpact(row.getString("impact"));
-		//register.setimpact_date(row.getDate("impact_date"));
-		register.setscore(row.getFloat("score"));
-		//register.settarget_resolution_date(row.getDate("target_resolution_date"));
-		//register.setactual_resolution_date(row.getDate("actual_resolution_date"));
-		register.setresponse_type(row.getString("response_type"));
-		register.setassociated_risk(row.getString("associated_risk"));
-		register.setassociated_issue(row.getString("associated_issue"));
-		register.setrisk_creator(row.getString("risk_creator"));
-		register.setassumption(row.getString("assumption"));
-		register.setsymptom(row.getString("symptom"));
-		list.add(register);
-		result.iterator();
-		}
-	}
+			for (Row row : result.all()) {
+				Register register=new Register();
+				register.setid(row.getUUID("id"));
+				//register.setriskId(row.getInt("riskId"));
+				//register.settenantId(row.getInt("tenantId"));
+				register.setname(row.getString("name"));
+				register.setowner(row.getString("owner"));
+				register.setstatus(row.getString("status"));
+				register.setcategory_rating(row.getString("category_rating"));
+				register.setreporting_level(row.getString("reporting_level"));
+				register.setdescription(row.getString("description"));
+				register.setimpact_description(row.getString("impact_description"));
+				register.setprobability(row.getString("probability"));
+				register.setpriority(row.getString("priority"));
+				register.setimpact(row.getString("impact"));
+				//register.setimpact_date(row.getDate("impact_date"));
+				register.setscore(row.getFloat("score"));
+				//register.settarget_resolution_date(row.getDate("target_resolution_date"));
+				//register.setactual_resolution_date(row.getDate("actual_resolution_date"));
+				register.setresponse_type(row.getString("response_type"));
+				register.setassociated_risk(row.getString("associated_risk"));
+				register.setassociated_issue(row.getString("associated_issue"));
+				register.setrisk_creator(row.getString("risk_creator"));
+				register.setassumption(row.getString("assumption"));
+				register.setsymptom(row.getString("symptom"));
+				list.add(register);
+				result.iterator();
+				}
+	        }
 		catch (DriverException e) {
 			Logger.error("Error occurred while retrieving from database ", e);
 		} 
@@ -125,6 +139,11 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 			}
 		return list;
 	}
+	
+	/**
+	 * This method update an existed specified risk stored in the Keyspace called "grc", riskregister table.
+	 * @param register This object to obtain attributes to map column items
+	 */
 	public boolean updateRiskRegister(Register register){
 		boolean update= false;
 		Session dbSession = CassandraDaoFactory.connect();
