@@ -30,6 +30,10 @@ public class XmlDaoFactory extends DaoFactory
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getRiskAssesmentDao()
 	 */
+<<<<<<< HEAD
+=======
+
+>>>>>>> ae63f32bcf04bfaabf8330deea14f06142062780
 	@Override
 	public RiskAssessmentDao getRiskAssessmentDao() throws DaoException {
 		// TODO Auto-generated method stub

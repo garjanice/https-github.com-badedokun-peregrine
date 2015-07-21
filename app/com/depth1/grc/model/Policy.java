@@ -1,20 +1,6 @@
 package com.depth1.grc.model;
 
 import java.util.UUID;
-import java.sql.Date;
-
-public class Policy {
-	private int tenantId;
-	private UUID policyId;			//unique
-	private String name;
-	private String description;
-	private String version;
-	private String author;
-	private Date creationDate;
-=======
-package com.depth1.grc.model;
-
-import java.util.UUID;
 
 import play.data.validation.Constraints.Required;
 import play.data.format.*;

@@ -23,6 +23,7 @@ import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.*;
 
+
 public class Application extends Controller {
 	
 
@@ -243,4 +244,13 @@ public class Application extends Controller {
 		return ok();
 	}
 
+	public Result showUpdatePolicyPage() {
+
+		return ok(updatePolicy.render(selectedPolicy));
+	}
+
+	public Result showDeletePolicyPage() {
+
+		return TODO;
+	}
 }

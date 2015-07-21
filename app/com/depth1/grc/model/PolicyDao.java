@@ -17,4 +17,5 @@ public interface PolicyDao {
 	public Policy viewPolicyByClassification(String policyClassification) throws DaoException;
 	public void importPolicy(Policy policy) throws DaoException;
 	public List<Policy> viewAllPolicy() throws DaoException;
+
 }

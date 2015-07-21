@@ -3,6 +3,7 @@
 # ~~~~
 
 # Home page
+
 GET     /                          		com.depth1.grc.controllers.Application.index()
 
 GET     /riskAssessment                 com.depth1.grc.controllers.Application.showFrontRAPage()

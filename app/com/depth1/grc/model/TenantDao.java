@@ -42,7 +42,7 @@ public  interface TenantDao
 	 * @return boolean True if the tenant is successfully updated, false otherwise
 	 * @throws DaoException if error occurs while updating a tenant in the data store
 	 */
-	
+
 	public boolean updateTenant(Tenant tenant) throws DaoException;
 	
 	/**
@@ -53,7 +53,6 @@ public  interface TenantDao
 	 * @throws DaoException if error occurs while finding a tenant in the data store
 	 */
 	public Tenant findTenant(int tenantId) throws DaoException;
-	
 	
 }
 

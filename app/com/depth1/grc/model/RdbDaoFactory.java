@@ -30,7 +30,6 @@ public class RdbDaoFactory extends DaoFactory
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getRiskAssesmentDao()
 	 */
-
 	@Override
 	public RiskAssessmentDao getRiskAssessmentDao() throws DaoException {
 		// TODO Auto-generated method stub
