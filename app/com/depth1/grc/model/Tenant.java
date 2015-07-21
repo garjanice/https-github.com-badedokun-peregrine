@@ -2,6 +2,8 @@ package com.depth1.grc.model;
 
 import java.util.Date;
 
+import com.depth1.grc.model.common.DateFormat;
+
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
 
@@ -49,11 +51,11 @@ public class Tenant
 	private String contactPersonEmail;
 	
 	@Required
-	@play.data.format.Formats.DateTime(pattern = "yyyy-MM-dd")
+	@DateFormat("MM-dd-yyyy")
 	private Date serviceStartDate;
 	
 	@Required
-	@play.data.format.Formats.DateTime(pattern = "yyyy-MM-dd")
+	@DateFormat("MM-dd-yyyy")
 	private Date createDate;
 	
 	@Required
