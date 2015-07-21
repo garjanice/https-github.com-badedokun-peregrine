@@ -4,10 +4,9 @@
 package com.depth1.grc.db.util;
 
 /**
- * @author Bisi Adedokun
  * An exception that indicates some operation with the back-end data source failed.
+ * @author Bisi Adedokun
  * 
- *
  */
 public class DataException extends Exception {
 

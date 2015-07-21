@@ -5,9 +5,9 @@ import java.util.List;
 public interface RiskAssessmentDao {
 
 	public void createRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
-	public boolean updateRiskAssessment() throws DaoException;
-	public boolean deleteRiskAssessment() throws DaoException;
-	public void viewRiskAssessment() throws DaoException;
+	public boolean updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
+	public boolean deleteRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
+//	public void viewRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
 	public RiskAssessment findRiskAssessment() throws DaoException;
-	public List<RiskAssessment> listRiskAssessment(); 
+	public List<RiskAssessment> listRiskAssessment() throws DaoException;
 }

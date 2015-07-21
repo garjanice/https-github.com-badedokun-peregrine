@@ -1,12 +1,10 @@
-/**
- * 
- */
 package com.depth1.grc.model;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
- * @author Bisi Adedokun
+ * @author Team-A
  *
  */
 public interface PolicyDao {
@@ -18,5 +16,5 @@ public interface PolicyDao {
 	public Policy viewPolicyById(UUID policyId) throws DaoException;
 	public Policy viewPolicyByClassification(String policyClassification) throws DaoException;
 	public void importPolicy(Policy policy) throws DaoException;
-
+	public List<Policy> viewAllPolicy() throws DaoException;
 }

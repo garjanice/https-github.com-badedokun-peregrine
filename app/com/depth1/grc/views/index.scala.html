@@ -1,55 +1,14 @@
-@import com.depth1.grc.model.RiskAssessment
-@(riskAssessments:List[RiskAssessment]) @main("Risk Assessment") {
-
-<section class="wrapper">
-	<h1>Risk Assessment</h1>
-	<legend> Front Page</legend>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>UUID</th>
-				<th>Risk</th>
-				<th>Severity</th>
-			</tr>
-		</thead>
-		<tbody>
-			@* @for(RiskAssessment <- riskAssessments) {
-			<tr>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-						@RiskAssessment.getAssessmentId </a></td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-						@RiskAssessment.getRisk</a></td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRiskAssessment()">
-						@RiskAssessment.getSeverity</a></td>
-			</tr>
-			}
-		</tbody>
-		*@
-	</table>
-
-
-	<!--the buttons, using just html forms-->
-	<FORM ACTION=/riskAssessment/create />
+@main("Main Page") {
+<section class=wrapper>
+	<h1>Main Page</h1>
+	<legend> Links to other pages</legend>
+	<FORM ACTION=/riskAssessment />
 	<INPUT TYPE="submit"
-		style="position: absolute; top: 700px; left: 50px; height:50px; width:100px;" VALUE="Create">
+		style="position: static; height:50px; width:200px;" VALUE="Risk Assessment Criteria">
 	</FORM>
-
-	<FORM ACTION=/riskAssessment/view />
+	<FORM ACTION=/policy />
 	<INPUT TYPE="submit"
-		style="position: absolute; top: 700px; left: 250px; height:50px; width:100px;" VALUE="View">
+		style="position: relative; height:50px; width:200px; top:30px;" VALUE="Policy">
 	</FORM>
-
-	<FORM ACTION=/riskAssessment/update />
-	<INPUT TYPE="submit"
-		style="position: absolute; top: 700px; left: 450px; height:50px; width:100px;" VALUE="Update">
-	</FORM>
-
-	<FORM onsubmit="return confirm('Do you really want to delete the selected criteria?')""; ACTION=/riskAssessment/delete />
-	<INPUT TYPE="submit"
-		style="position: absolute; top: 700px; left: 650px; height:50px; width:100px;" VALUE="Delete">
-	</FORM>
-	}
 </section>
+}
