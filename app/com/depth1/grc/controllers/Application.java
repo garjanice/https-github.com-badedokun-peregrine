@@ -59,7 +59,7 @@ public class Application extends Controller {
 	 * 
 	 * @param session
 	 *            The established session to the cluster
-	 * @return Returns a result in the future in an non-blocking fashion
+	 * @return a result in the future in an non-blocking fashion
 	 */
 	public ResultSetFuture getState(Session session) {
 		Statement query = QueryBuilder.select().all().from("member", "state");
@@ -89,7 +89,7 @@ public class Application extends Controller {
 	/**
 	 * @param tenant
 	 *            The tenant to create
-	 * @return Result the result of the tenant creation
+	 * @return Result of the tenant creation
 	 */
 	public static Result createTenant(Tenant tenant) {
 		try {
@@ -105,7 +105,7 @@ public class Application extends Controller {
 	/**
 	 * @param RiskAssessment
 	 *            The RA criteria to create
-	 * @return Result the result of the RAC creation
+	 * @return the result of the RAC creation
 	 */
 	public Result addRiskAssessment() {
 		Form<RiskAssessment> filledRA = rAForm.bindFromRequest();
@@ -153,31 +153,49 @@ public class Application extends Controller {
 		return ok();
 	}
 	
+	/**
+	 * Shows the front page of the Risk Assessment UI
+	 * 
+	 * @return to the main page
+	 */
 	public Result showFrontRAPage() {
 
 		try {
-			RiskAssessmentDao riskAssessmentDao = cassandraFactory
-					.getRiskAssessmentDao();
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory.getRiskAssessmentDao();
 			riskAssessments = riskAssessmentDao.listRiskAssessment();
 		} catch (DaoException e) {
-			Logger.error(
-					"Error occurred while creating risk assessment criteria ",
-					e);
+			Logger.error("Error occurred while creating risk assessment criteria ", e);
 		}
 
 		return ok(frontRA.render(riskAssessments));
 	}
 
+	/**
+	 * This method shows the create Risk Assessment page if the 'Create' button
+	 * is clicked
+	 * 
+	 * @return create Risk Assessment page
+	 */
 	public Result showCreateRAPage() {
 
 		return ok(createRA.render(rAForm));
 	}
 
+	/**
+	 * This method allows users to view Risk Assessments
+	 * 
+	 * @return view Risk Assessment page
+	 */
 	public Result showViewRAPage() {
 
 		return ok(viewRA.render(selectedRA));
 	}
 
+	/**
+	 * This method allows users to update selected Risk Assessments
+	 * 
+	 * @return update Risk Assessment page
+	 */
 	public Result showUpdateRAPage() {
 
 		return ok(updateRA.render(selectedRA));
