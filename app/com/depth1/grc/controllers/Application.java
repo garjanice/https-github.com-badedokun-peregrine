@@ -6,6 +6,7 @@ import java.util.UUID;
 import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Http.RequestBody;
 import play.mvc.Result;
 
 import com.datastax.driver.core.ResultSetFuture;
@@ -25,6 +26,7 @@ import com.depth1.grc.views.html.frontRA;
 import com.depth1.grc.views.html.index;
 import com.depth1.grc.views.html.updateRA;
 import com.depth1.grc.views.html.viewRA;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class Application extends Controller {
 
@@ -126,8 +128,6 @@ public class Application extends Controller {
      * @return
      */
 	public Result deleteRiskAssessment() {
-		checkSelectedRA();
-		
 		try {
 			RiskAssessmentDao riskAssessmentDao = cassandraFactory
 					.getRiskAssessmentDao();
@@ -141,14 +141,18 @@ public class Application extends Controller {
 		return redirect("/riskAssessment");
 	}
 	
-	public void checkSelectedRA() {
-		// TODO Puts selected RA as selectedRA, right now just checking delete functionality
-		String stringId = "b35cdd7f-ca47-4883-9d27-68f49a643d8a";
-		UUID udel = UUID.fromString(stringId);
-		selectedRA = new RiskAssessment();
-		selectedRA.setAssessmentId(udel);
+	public Result setSelectedRA() {
+		JsonNode node = request().body().asJson().get("val");
+		 if(node == null){
+		        return badRequest("empty json"); 
+		    }
+		String inputString = node.textValue();
+		//System.out.println(inputString);
+		int index = Integer.parseInt(inputString);
+		selectedRA = riskAssessments.get(index);
+		return ok();
 	}
-
+	
 	public Result showFrontRAPage() {
 
 		try {
@@ -161,7 +165,7 @@ public class Application extends Controller {
 					e);
 		}
 
-		return ok(frontRA.render(riskAssessments)); // change to main page
+		return ok(frontRA.render(riskAssessments));
 	}
 
 	public Result showCreateRAPage() {
@@ -177,12 +181,6 @@ public class Application extends Controller {
 	public Result showUpdateRAPage() {
 
 		return ok(updateRA.render(selectedRA));
-	}
-
-	//remove this later
-	public Result showDeleteRAPage() {
-
-		return TODO;
 	}
 
 }
