@@ -4,11 +4,12 @@ import java.util.UUID;
 
 /**
  * @author Team B
- *Risk Assessment object, holds all of the necessary variables to assess risks.
- *
+ * Risk Assessment object, holds all of the necessary variables to assess risks.
  */
 public class RiskAssessment {
-	
+    /**
+     * Parameters associated with the Risk Assessment form
+     */
 	private int tenantId;
 	private UUID assessmentId;
 	private float severity;
@@ -27,13 +28,18 @@ public class RiskAssessment {
 	private String triggerEvent;
 	private String riskFactor;
 	private String consequence;
-	
-	//constructor
+
+    /**
+     * Empty Risk Assessment constructor that gets created by the user's input values
+     */
 	public RiskAssessment(){
 		
 	}
-	
-	//getters and setters
+
+	/*
+	Getters and Setters for all input parameters associated with the Risk Assessment form
+	 */
+
 	public int getTenantId() {
 		return tenantId;
 	}

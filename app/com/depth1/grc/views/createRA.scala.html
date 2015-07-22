@@ -3,16 +3,54 @@
 @import helper._ 
 @main("Create RA") {
 
-<section class=wrapper>
-	<h1>Risk Assessment</h1>
+	 <!-- header -->
+    <header class="header">
+        <div class="header-children">
+            <h1 class="logo" id="header-logo"><a href="/">Nebrhood</a></h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">Dashboard</a>
+                    </li>
+                    <li><a href="#">Policy</a>
+                    </li>
+                    <li><a href="#">Enterprise Risk</a>
+                    </li>
+                    <li><a href="#">Governance</a>
+                    </li>
+                    <li><a href="#">Compliance</a>
+                    </li>
+                    <li><a href="#">Navigation Option</a>
+                    </li>
+                    <li><a href="#">Navigation Option</a>
+                    </li>
+                </ul>
+            </nav>
+            <nav class="search-settings">
+                <ul>
+                    <li>
+                        <input type="text" name="search" id="search-bar" placeholder="Search">
+                    </li>
+                    <li>
+                    	<a href="#" id="logout">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!--end of header-->
+
+<!-- main -->
+ <main id="home-main" class="page-main">
+ <section class="wrapper">
+   <h1>Risk Assessment</h1>
+   <legend> Create Risk Assessment</legend>
 	@helper.form(action =
 	com.depth1.grc.controllers.routes.Application.addRiskAssessment(), 'id
 	-> "rAForm") {
 	<fieldset>
-		<legend> Create Risk Assessment</legend>
 		@helper.inputText(rAForm("risk"), '_label -> "Risk")
 		@helper.inputText(rAForm("severity"), '_label -> "Severity")
-		@helper.textarea(rAForm("severityDescription"), '_label -> "SeverityDescription") 
+		@helper.textarea(rAForm("severityDescription"), '_label -> "Severity Description") 
 		@helper.inputText(rAForm("likelihood"), '_label ->"Likelihood") 
 		@helper.textarea(rAForm("likelihoodDescription"),'_label -> "Likelihood Description")
 		@helper.inputText(rAForm("vulnerability"), '_label -> "Vulnerability")
@@ -23,11 +61,41 @@
 		@helper.textarea(rAForm("riskFactor"), '_label -> "Risk Factor")
 		@helper.textarea(rAForm("consequence"), '_label -> "Consequence")
 	</fieldset>
-	<button type="submit" name="action" value="edit">Submit</button>
+	<button type="submit" name="action" value="edit" style = "position: relative; left: -50px;" >Submit</button>
 	}
 	<form action=/riskAssessment />
 	<input type="submit"
-		style="position: relative; left: 100px; bottom : 26px;" value="Cancel">
+		style="position: relative; left: 50px; bottom : 26px;" value="Cancel">
 	</form>
 </section>
 } 
+<!-- end of main -->
+
+<!-- footer -->
+    <footer>
+        <div id="footer">
+            <div class="wrapper">
+                <ul id="nav-legal">
+                    <li>
+                        <span>Nebrhood © 2014</span>
+                    </li>
+                    <li>
+                        <a href="">User Agreement</a>
+                    </li>
+                    <li>
+                        <a href="">Community Guidelines</a>
+                    </li>
+                    <li>
+                        <a href="">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a href="">Cookie Policy</a>
+                    </li>
+                    <li>
+                        <a href="">Copyright Policy</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+<!-- end of footer -->
