@@ -222,10 +222,14 @@ public class Application extends Controller {
 	}
 
 
-	public Result showViewPolicyPage() {
-
-//		return ok(viewPolicy.render(selectedPolicy));
-		return ok();
+	public Result showViewPolicyPage(Policy selectedPolicy) {
+		//String source = selectedPolicy.source;
+		String source = "/documents/policy/test.pdf";
+       	//File file = new java.io.File(source);
+		//return ok(file);
+		return ok(new java.io.File(source));
+		//return ok(viewPolicy.render(selectedPolicy));
+		//return ok();
 	}
 
 	public Result showUpdatePolicyPage() {

@@ -1,0 +1,36 @@
+@import com.depth1.grc.model.Policy
+@(selectedPolicy : Policy, policyFile:java.io.File)
+@import helper._
+@main("View Policy"){
+
+<html>
+
+    <head>
+    </head>
+
+    <body>
+		<div class="view/edit specifier">
+			<p>You are <h4> Viewing @selectedPolicy.name</h4> </p>
+		</div>
+
+		<div class="button bar">
+			<button class="edit button" onclick=""> Edit </button>
+			<button class="edit button" onclick=""> Delete </button>
+			<button class="edit button" onclick=""> Download </button>
+			<button class="edit button" onclick=""> Close </button>
+		</div>
+            
+		<div class="policy displayer">
+
+		</div>
+       
+    </body>
+
+
+
+
+</html>
+
+}
+
+
