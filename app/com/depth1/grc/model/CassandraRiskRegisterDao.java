@@ -6,6 +6,7 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.text.SimpleDateFormat;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;

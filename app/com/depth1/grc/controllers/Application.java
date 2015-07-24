@@ -22,7 +22,7 @@ import com.depth1.grc.model.RiskRegisterDao;
 import com.depth1.grc.model.Register;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
-import com.depth1.grc.views.html.createregister;
+import com.depth1.grc.views.html.createRR;
 import com.depth1.grc.views.html.index;
 import com.depth1.grc.views.html.frontRR;
 
@@ -96,7 +96,7 @@ public class Application extends Controller {
 		Form<Register> risky=rRForm.bindFromRequest();
     	if(risky.hasErrors()){
     		flash("Error","Please Correct the Form");
-    		return badRequest(createregister.render(rRForm));
+    		return badRequest(createRR.render(rRForm));
     	}
     	Register register=risky.get();
 		try {
@@ -122,7 +122,7 @@ public class Application extends Controller {
 	
 	public Result showCreateRRPage() {
 
-		return ok(createregister.render(rRForm));
+		return ok(createRR.render(rRForm));
 	}
 
 	
