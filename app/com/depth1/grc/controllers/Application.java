@@ -105,7 +105,8 @@ public class Application extends Controller {
 		} catch(DaoException e) {
 			Logger.error("Error occures while creating Risk Register", e);
 		}
-		System.out.println("The data is retrieved into the database successfully!");
+		
+	 System.out.println("The data is retrieved into the database successfully!");
    	 return redirect("/register");
 	}
     	

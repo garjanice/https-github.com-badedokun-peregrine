@@ -9,32 +9,45 @@
 	<table class="table table-striped">
 		<thead>
 			<tr>
+				<th> Select </th>
 				<th>Risk Name</th>
+				<th>Risk ID</th>
 				<th>Description</th>
+				<th>Target Resolution Date</th>
+				<th>Impact Date</th>
+				<th>Risk Status</th>
+				
 			</tr>
 		</thead>
 		<tbody>
 			@for(Register <- registers) {
 			<tr>
+			<td><form action="">
+<input type="radio" name="select" value="Select">
+</form>
 
 				<td><a
 					href="com.depth1.grc.controllers.routes.Application.listRegister()">
 						@Register.getname</a></td>
 				<td><a
 					href="com.depth1.grc.controllers.routes.Application.listRegister()">
+						@Register.getriskId</a></td>
+						
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.listRegister()">
 						@Register.getdescription</a></td>
 						
-				<td><FORM ACTION=/register/view />
-	<INPUT TYPE="submit"
-		style="position: relative;  height: 30px; width: 100px;"
-		VALUE="View">
-	</FORM></td>
-
-	<td><FORM ACTION=/register/update />
-	<INPUT TYPE="submit"
-		style="position: relative;  height: 30px; width: 100px;"
-		VALUE="Update">
-	</FORM></td>
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.listRegister()">
+						@Register.gettarget_resolution_date</a></td>
+						
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.listRegister()">
+						@Register.getimpact_date</a></td>
+						
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.listRegister()">
+						@Register.getstatus</a></td>
 			</tr>
 			}
 		</tbody>
@@ -52,6 +65,17 @@
 	<INPUT TYPE="submit"
 		style="position: relative; bottom: -100px; left: 370px; height: 50px; width: 100px;"
 		VALUE="Create">
+	</FORM>
+	<FORM ACTION=/register/view />
+	<INPUT TYPE="submit"
+		style="position: relative; bottom: -50px; left: -100px; height: 50px; width: 100px;"
+		VALUE="View">
+	</FORM></td>
+
+	<td><FORM ACTION=/register/update />
+	<INPUT TYPE="submit"
+		style="position: relative;  bottom: 0px; left: 0; height: 50px; width: 100px;"
+		VALUE="Update">
 	</FORM>
 
 	
