@@ -1,6 +1,7 @@
 package com.depth1.grc.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import play.Logger;
 import play.data.Form;
@@ -11,6 +12,7 @@ import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.querybuilder.Delete;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.model.DaoException;
@@ -193,10 +195,49 @@ public class Application extends Controller {
 		return redirect("/policy");
 	}
 	
-	public Result deletePolicy() {
 	
-		return TODO;
+	
+	
+	
+	
+	
+	
+	public Result deletePolicy(String policyId) {
+		//Logger.error("correct");
+		//call cassandra policy dao
+		boolean result = false;
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			result = policyDao.deletePolicy(policyId);
+			//System.out.println("COMPLETED result = " + result );
+		} catch (DaoException e) {
+			System.out.println("ERROR OCCURED");
+			Logger.error("Error occurred while creating Policy Front Page ", e);
 	}
+		
+		return ok(deletePolicy.render(policies));
+		
+		//return TODO;
+	}
+	public Result restorePolicy(String policyId) {
+		//Logger.error("correct");
+		//call cassandra policy dao
+		boolean result = false;
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			result = policyDao.restorePolicy(policyId);
+			//System.out.println("COMPLETED result = " + result );
+		} catch (DaoException e) {
+			System.out.println("ERROR OCCURED");
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+	}
+		
+		return ok(restorePolicy.render(policies));
+		
+		//return TODO;
+	}
+	
+	
 	
 	public Result showPolicyListPage() {
 
@@ -225,7 +266,7 @@ public class Application extends Controller {
 	public Result showViewPolicyPage() {
 
 //		return ok(viewPolicy.render(selectedPolicy));
-		return ok();
+		return TODO;
 	}
 
 	public Result showUpdatePolicyPage() {
@@ -236,8 +277,26 @@ public class Application extends Controller {
 
 	//remove this later, we may not have a specific delete policy page
 	public Result showDeletePolicyPage() {
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllPolicy();
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
 
-		return ok();
+		return ok(deletePolicy.render(policies));
+		
+	}
+	
+	public Result showRestorePolicyPage(){
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllDeletedPolicy();
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+
+		return ok(restorePolicy.render(policies));
 	}
 
 }

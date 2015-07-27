@@ -42,13 +42,19 @@
 	</FORM>
 	</span>
 	<span>
-	<FORM
-		onsubmit="var result = confirm('Do you really want to delete the selected criteria?');if (result) {del('com.depth1.grc.controllers.routes.Application.deletePolicy()')}" />
+	<FORM ACTION=/policy/delete />
 	<INPUT TYPE="submit"
-		style="display: inline; float:left; height: 50px; width: 100px;"
-		VALUE="Delete">
+		style="position: relative; height:50px; width:100px; " VALUE="Delete">
 	</FORM>
 	</span>
+	
+	<span>
+	<FORM ACTION=/policy/restore />
+	<INPUT TYPE="submit"
+		style="position: relative; height:50px; width:100px; " VALUE="Restore">
+	</FORM>
+	</span>
+	
 	}
 </section>
 	<table class="table table-striped">
@@ -63,7 +69,6 @@
 		<tbody>
 			@for(Policy <- policies) {
 			<tr>
-
 				<td><a
 					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
 						@Policy.getName()</a></td>
