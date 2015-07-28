@@ -22,10 +22,8 @@ import com.depth1.grc.model.Register;
 import play.Logger;
 import play.Play;
 /**
- * This class is used to implementation of the exposed methods declared in RiskRegisterDao interface, 
- * achieves basic data processing. Add, view, update and find specified data to and from DB.
- * @throws DaoException if a failed file input-output exception occurs
- * @throws DriverException if a unsuccessful pool connection occurs 
+ * This class is used to implement methods declared in RiskRegisterDao interface. 
+ * Achieves basic data processing: Add, view, update and find specified data to and from DB.
  */
 public class CassandraRiskRegisterDao implements RiskRegisterDao {
 
@@ -38,9 +36,10 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	}
 	
 	/**
-	 * Register new risk and insert a record into the Keyspace called "grc", riskregister table.
+	 * Register new risk and insert a record into "grc" Keyspace, riskregister table.
 	 * @param register This object to obtain attributes to map column items
-	 * @throws InvalidQueryException if a mismatched data type stored in a predefined column
+	 * @throws DaoException if a failed file input-output exception occurs
+         * @throws DriverException if a unsuccessful pool connection occurs 
 	 */	
 	public void createRiskRegister(Register register) throws DaoException{
 		Session dbSession = CassandraDaoFactory.connect();
@@ -87,8 +86,10 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 }		
 	
 	/**
-	 * Lists all the registered risks stored in the Keyspace called "grc", riskregister table.
-	 * @return the list of all registered risks stored in riskregister table  
+	 * List all the registered risks stored in "grc" Keyspace, riskregister table.
+	 * @return the list of all registered risks stored in riskregister table
+	 * @throws DaoException if a failed file input-output exception occurs
+         * @throws DriverException if a unsuccessful pool connection occurs  
 	 */
 	public List<Register> listRegister() throws DaoException {
 		List<Register> list = new ArrayList<>();
@@ -142,9 +143,11 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	}
 	
 	/**
-	 * Update an existed specified risk stored in the Keyspace called "grc", riskregister table.
+	 * Update an existed specified risk stored in "grc" Keyspace, riskregister table.
 	 * @param register This object to obtain attributes to map column items
 	 * @return the success or failure status of updating a record in DB
+	 * @throws DaoException if a failed file input-output exception occurs
+         * @throws DriverException if a unsuccessful pool connection occurs
 	 */
 	public boolean updateRiskRegister(Register register){
 		boolean update= false;
@@ -195,6 +198,8 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	 * Query a specified risk in the Keyspace "grc", table "riskregister" by risk ID.
 	 * @param riskId the primary key ID to query to get corresponding risk record.
 	 * @return the Register object stored in riskregister table
+	 * @throws DaoException if a failed file input-output exception occurs
+         * @throws DriverException if a unsuccessful pool connection occurs
 	 */
 	public Register findRegister(int riskId){
 		Register register=new Register();
