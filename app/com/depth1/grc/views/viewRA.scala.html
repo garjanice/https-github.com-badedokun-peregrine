@@ -11,21 +11,21 @@
  <main id="home-main" class="page-main">
  <section class="wrapper">
    <h1>Risk Assessment</h1>
-   <legend> Update Risk Assessment</legend>
+   <legend> View Risk Assessment</legend>
    
-		Risk : <input type = "text" name = "risk" value="@selectedRA.getRisk" readonly><br>
-		Severity : <input type = "text" name = "risk" value="@selectedRA.getSeverity" readonly><br>
-		Severity Description : <textarea readonly>@selectedRA.getSeverityDescription</textarea><br>
-		Likelihood : <input type = "text" name = "risk" value="@selectedRA.getLikelihood" readonly><br>
-		Likelihood Description : <textarea readonly>@selectedRA.getLikelihoodDescription</textarea><br>
-		Vulnerability : <input type = "text" name = "risk" value="@selectedRA.getVulnerability" readonly><br>
-		Speed of Onset : <input type = "text" name = "risk" value="@selectedRA.getSpeedOfOnset" readonly><br>
-		Impact : <input type = "text" name = "risk" value="@selectedRA.getImpact" readonly><br>
-		Opportunity : <textarea readonly>@selectedRA.getOpportunity" </textarea><br>
-		Trigger Event : <textarea readonly>@selectedRA.getTriggerEvent</textarea> <br>
-		Risk Factor : <textarea readonly>@selectedRA.getRiskFactor</textarea> <br>
-		Consequence : <textarea readonly>@selectedRA.getConsequence</textarea> <br>
-
+		<label>Risk :</label> <input type = "text" name = "risk" value="@selectedRA.getRisk" readonly><br>
+		<label>Severity :</label> <input type = "text" name = "risk" value="@selectedRA.getSeverity" readonly><br>
+		<label>Severity Description :</label> <textarea class = textareas readonly>@selectedRA.getSeverityDescription</textarea><br>
+		<label>Likelihood :</label> <input type = "text" name = "risk" value="@selectedRA.getLikelihood" readonly><br>
+		<label>Likelihood Description :</label> <textarea class = textareas readonly>@selectedRA.getLikelihoodDescription</textarea><br>
+		<label>Vulnerability :</label> <input type = "text" name = "risk" value="@selectedRA.getVulnerability" readonly><br>
+		<label>Speed of Onset :</label> <input type = "text" name = "risk" value="@selectedRA.getSpeedOfOnset" readonly><br>
+		<label>Impact :</label> <input type = "text" name = "risk" value="@selectedRA.getImpact" readonly><br>
+		<label>Opportunity :</label> <textarea  class = textareas readonly>@selectedRA.getOpportunity" </textarea><br>
+		<label>Trigger Event :</label> <textarea class = textareas readonly>@selectedRA.getTriggerEvent</textarea><br>
+		<label>Risk Factor :</label> <textarea class = textareas readonly>@selectedRA.getRiskFactor</textarea><br>
+		<label>Consequence :</label> <textarea class = textareas readonly>@selectedRA.getConsequence</textarea><br>
+ 	
 	<FORM ACTION="/riskAssessment" />
 	<INPUT TYPE="submit"
 		VALUE="Back">

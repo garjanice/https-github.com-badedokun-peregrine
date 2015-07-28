@@ -123,6 +123,15 @@ p {
     float: left;
     width: 45%;
 }
+
+.textareas {
+	width: 300px; 
+	height: 150px;
+}
+
+.formfield {
+    vertical-align: middle;
+}
 /* --------------------------------- Header -------------------------------- */
 
 .header a {
