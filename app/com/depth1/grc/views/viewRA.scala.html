@@ -2,44 +2,10 @@
 @(selectedRA:RiskAssessment) 
 @import helper._ 
 
-@*
 @main("View RA") {
 
 	 <!-- header -->
-    <header class="header">
-        <div class="header-children">
-            <h1 class="logo" id="header-logo"><a href="/">Nebrhood</a></h1>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#">Dashboard</a>
-                    </li>
-                    <li><a href="#">Policy</a>
-                    </li>
-                    <li><a href="#">Enterprise Risk</a>
-                    </li>
-                    <li><a href="#">Governance</a>
-                    </li>
-                    <li><a href="#">Compliance</a>
-                    </li>
-                    <li><a href="#">Navigation Option</a>
-                    </li>
-                    <li><a href="#">Navigation Option</a>
-                    </li>
-                </ul>
-            </nav>
-            <nav class="search-settings">
-                <ul>
-                    <li>
-                        <input type="text" name="search" id="search-bar" placeholder="Search">
-                    </li>
-                    <li>
-                    	<a href="#" id="logout">Logout</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <!--end of header-->
+@header()
 
 <!-- main -->
  <main id="home-main" class="page-main">
@@ -47,54 +13,28 @@
    <h1>Risk Assessment</h1>
    <legend> Update Risk Assessment</legend>
    
-   val filledForm = userForm.fill(UserData("Bob", 18))
+		Risk : <input type = "text" name = "risk" value="@selectedRA.getRisk" readonly><br>
+		Severity : <input type = "text" name = "risk" value="@selectedRA.getSeverity" readonly><br>
+		Severity Description : <textarea readonly>@selectedRA.getSeverityDescription</textarea><br>
+		Likelihood : <input type = "text" name = "risk" value="@selectedRA.getLikelihood" readonly><br>
+		Likelihood Description : <textarea readonly>@selectedRA.getLikelihoodDescription</textarea><br>
+		Vulnerability : <input type = "text" name = "risk" value="@selectedRA.getVulnerability" readonly><br>
+		Speed of Onset : <input type = "text" name = "risk" value="@selectedRA.getSpeedOfOnset" readonly><br>
+		Impact : <input type = "text" name = "risk" value="@selectedRA.getImpact" readonly><br>
+		Opportunity : <textarea readonly>@selectedRA.getOpportunity" </textarea><br>
+		Trigger Event : <textarea readonly>@selectedRA.getTriggerEvent</textarea> <br>
+		Risk Factor : <textarea readonly>@selectedRA.getRiskFactor</textarea> <br>
+		Consequence : <textarea readonly>@selectedRA.getConsequence</textarea> <br>
 
-		@helper.inputText(rAForm("risk"), '_label -> "Risk")
-		@helper.inputText(rAForm("severity"), '_label -> "Severity")
-		@helper.textarea(rAForm("severityDescription"), '_label -> "Severity Description") 
-		@helper.inputText(rAForm("likelihood"), '_label ->"Likelihood") 
-		@helper.textarea(rAForm("likelihoodDescription"),'_label -> "Likelihood Description")
-		@helper.inputText(rAForm("vulnerability"), '_label -> "Vulnerability")
-		@helper.inputText(rAForm("speedOfOnset"), '_label -> "Speed of Onset")
-		@helper.inputText(rAForm("impact"), '_label -> "Impact")
-		@helper.textarea(rAForm("opportunity"), '_label -> "Opportunity")
-		@helper.textarea(rAForm("triggerEvent"), '_label -> "Trigger Event")
-		@helper.textarea(rAForm("riskFactor"), '_label -> "Risk Factor")
-		@helper.textarea(rAForm("consequence"), '_label -> "Consequence")
-
-	<button type="submit" name="action" value="edit" style = "position: relative; left: -50px;" >Return</button>
-	}
-	<form action=/riskAssessment />
+	<FORM ACTION="/riskAssessment" />
+	<INPUT TYPE="submit"
+		VALUE="Back">
+	</FORM>
+	
 </section>
-} 
+
 <!-- end of main -->
 
 <!-- footer -->
-    <footer>
-        <div id="footer">
-            <div class="wrapper">
-                <ul id="nav-legal">
-                    <li>
-                        <span>Nebrhood © 2014</span>
-                    </li>
-                    <li>
-                        <a href="">User Agreement</a>
-                    </li>
-                    <li>
-                        <a href="">Community Guidelines</a>
-                    </li>
-                    <li>
-                        <a href="">Privacy Policy</a>
-                    </li>
-                    <li>
-                        <a href="">Cookie Policy</a>
-                    </li>
-                    <li>
-                        <a href="">Copyright Policy</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-<!-- end of footer -->
-*@
+@footer()
+}

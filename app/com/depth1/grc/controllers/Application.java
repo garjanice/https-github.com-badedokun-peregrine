@@ -103,6 +103,7 @@ public class Application extends Controller {
 	}
 
 	/**
+	 * Adds a new RiskAssessmet to the database
 	 * @param RiskAssessment
 	 *            The RA criteria to create
 	 * @return the result of the RAC creation
@@ -141,6 +142,10 @@ public class Application extends Controller {
 		return redirect("/riskAssessment");
 	}
 	
+    /**
+     * Takes the POST from the html table and sets the selectedRA variable to the selected risk assessment
+     * @return
+     */
 	public Result setSelectedRA() {
 		JsonNode node = request().body().asJson().get("val");
 		 if(node == null){

@@ -178,7 +178,10 @@ p {
 #search-bar-connections {
     background: url(../images/search.png) right top no-repeat #fff;
     width: 200px;
-    margin-right: 3px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    
 }
 #password-login,
 #key-login,

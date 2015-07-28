@@ -12,7 +12,7 @@ public class RiskAssessment {
      */
 	private int tenantId;
 	private UUID assessmentId;
-	private float severity;
+	private float severity; 
 	private String severityDescription;
 	private float likelihood;
 	private String likelihoodDescription;
