@@ -31,6 +31,12 @@ GET		/policy/update					com.depth1.grc.controllers.Application.showCreatePolicyP
 
 GET		/policy/delete					com.depth1.grc.controllers.Application.showDeletePolicyPage()
 
+GET 	/policy/restore					com.depth1.grc.controllers.Application.showRestorePolicyPage()
+
+GET 	/policy/restore/done			com.depth1.grc.controllers.Application.restorePolicy(policyId: String)
+
+GET		/policy/delete/done				com.depth1.grc.controllers.Application.deletePolicy(policyId: String)
+
 POST  	/policy/create/done				com.depth1.grc.controllers.Application.createPolicy()
 
 

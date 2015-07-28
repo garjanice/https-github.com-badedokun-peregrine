@@ -1,7 +1,7 @@
 @import com.depth1.grc.model.Policy
 @(policies:List[Policy]) 
 @import helper._ 
-@main("Policy Delete") {
+@main("Policy Restore") {
 
 <script>
 	function del(urlToDelete) {
@@ -16,8 +16,6 @@
 	}
 </script>
 
-
-
 <section class="wrapper">
 	
 	<section>
@@ -29,7 +27,7 @@
 	}
 </section>
 	
-	<FORM name= "delete" ACTION=/policy/delete/done />
+	<FORM name= "Restore" ACTION=/policy/restore/done />
 	
 	
 	<table class="table table-striped">
@@ -71,13 +69,9 @@
 
 	</table>
 	<INPUT TYPE="submit"
-		style="position: relative; height:25px; width:50px; " VALUE="Delete">
+		style="position: relative; height:25px; width:50px; " VALUE="Restore">
 	</FORM>
 </section>
-
-
-
-
 
 
 <section>
@@ -87,3 +81,8 @@
 		VALUE="Back to policy">
 	</FORM>
 </section>
+
+
+
+
+
