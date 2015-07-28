@@ -38,7 +38,7 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	/**
 	 * Register new risk and insert a record into "grc" Keyspace, riskregister table.
 	 * @param register This object to obtain attributes to map column items
-	 * @throws DaoException if a failed file input-output exception occurs
+	 * @throws DaoException if insertion to database failed
          * @throws DriverException if a unsuccessful pool connection occurs 
 	 */	
 	public void createRiskRegister(Register register) throws DaoException{
@@ -88,7 +88,7 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	/**
 	 * List all the registered risks stored in "grc" Keyspace, riskregister table.
 	 * @return the list of all registered risks stored in riskregister table
-	 * @throws DaoException if a failed file input-output exception occurs
+	 * @throws DaoException if demonstration of risks list failed
          * @throws DriverException if a unsuccessful pool connection occurs  
 	 */
 	public List<Register> listRegister() throws DaoException {
@@ -146,7 +146,7 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	 * Update an existed specified risk stored in "grc" Keyspace, riskregister table.
 	 * @param register This object to obtain attributes to map column items
 	 * @return the success or failure status of updating a record in DB
-	 * @throws DaoException if a failed file input-output exception occurs
+	 * @throws DaoException if update failed
          * @throws DriverException if a unsuccessful pool connection occurs
 	 */
 	public boolean updateRiskRegister(Register register){
@@ -198,7 +198,7 @@ public class CassandraRiskRegisterDao implements RiskRegisterDao {
 	 * Query a specified risk in the Keyspace "grc", table "riskregister" by risk ID.
 	 * @param riskId the primary key ID to query to get corresponding risk record.
 	 * @return the Register object stored in riskregister table
-	 * @throws DaoException if a failed file input-output exception occurs
+	 * @throws DaoException if a finding a specified risk failed
          * @throws DriverException if a unsuccessful pool connection occurs
 	 */
 	public Register findRegister(int riskId){
