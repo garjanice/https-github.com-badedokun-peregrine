@@ -1,7 +1,5 @@
 package com.depth1.grc.model;
 
-import play.data.validation.Constraints.*;
-
 import java.util.UUID;
 
 /**
@@ -12,48 +10,23 @@ public class RiskAssessment {
     /**
      * Parameters associated with the Risk Assessment form
      */
-    @Required
 	private int tenantId;
-
-    @Required
 	private UUID assessmentId;
-
-    @Required
 	private float severity;
-
 	private String severityDescription;
-
-    @Required
 	private float likelihood;
-
 	private String likelihoodDescription;
-
 	private String matrixRed;
-
 	private String matrixYellow;
-
 	private String matrixLightGreen;
-
 	private String matrixGreen;
-
-    @Required
 	private float vulnerability;
-
-    @Required
 	private String risk;
-
 	private float speedOfOnset;
-
-    @Required
 	private float impact;
-
 	private String opportunity;
-
 	private String triggerEvent;
-
 	private String riskFactor;
-
-    @Required
 	private String consequence;
 
     /**
