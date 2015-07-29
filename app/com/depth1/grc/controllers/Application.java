@@ -124,8 +124,8 @@ public class Application extends Controller {
 	}
 
     /**
-     * Action method for the 'Delete' button. Deletes selected Risk Assessment
-     * @return
+     * Deletes selected Risk Assessment
+     * @return to main page
      */
 	public Result deleteRiskAssessment() {
 		try {
@@ -140,7 +140,11 @@ public class Application extends Controller {
 
 		return redirect("/riskAssessment");
 	}
-	
+
+    /**
+     * Sets the currently selected Risk Assessment
+     * @return a Result object
+     */
 	public Result setSelectedRA() {
 		JsonNode node = request().body().asJson().get("val");
 		 if(node == null){
@@ -171,8 +175,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * This method shows the create Risk Assessment page if the 'Create' button
-	 * is clicked
+	 * Shows the create Risk Assessment page
 	 * 
 	 * @return create Risk Assessment page
 	 */
@@ -182,7 +185,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * This method allows users to view Risk Assessments
+	 * Views selected Risk Assessment
 	 * 
 	 * @return view Risk Assessment page
 	 */
@@ -192,7 +195,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * This method allows users to update selected Risk Assessments
+	 * Shows the update Risk Assessment page
 	 * 
 	 * @return update Risk Assessment page
 	 */
