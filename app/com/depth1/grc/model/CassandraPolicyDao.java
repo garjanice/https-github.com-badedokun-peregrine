@@ -91,11 +91,6 @@ public class CassandraPolicyDao implements PolicyDao {
 			dbSession.execute(update);
 			
 			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("create_date", UUIDs.timeBased()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
 					.with(QueryBuilder.set("effective_date", policy.getEffectiveDate()))
 					.where(QueryBuilder.eq("id", policyId));
 			dbSession.execute(update);
