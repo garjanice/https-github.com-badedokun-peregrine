@@ -31,15 +31,6 @@ public interface RiskAssessmentDao {
 	public boolean deleteRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
 
     /**
-     * Views selected Risk Assessment
-     * @return void
-     * @throws DaoException if viewing failed
-     */
-//	public void viewRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
-
-	public RiskAssessment findRiskAssessment() throws DaoException;
-
-    /**
      * Lists all of the Risk Assessments in the database
      * @return a list containing all Risk Assessments
      * @throws DaoException if failed to retrieve list of Risk Assessments

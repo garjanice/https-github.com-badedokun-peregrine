@@ -20,8 +20,7 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 
     /**
-     * This method is called when the user clicks on the 'Create' button.
-     * Assigns the inputted fields to a new Risk Assessment form.
+     * Creates a new Risk Assessment Form and assigns the inputted fields to a new Risk Assessment form.
      * @param riskAssessment form
      * @throws DaoException error if insertion to database fails.
      */
@@ -60,7 +59,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	}
 
     /**
-     * This method updates the selected Risk Assessment with newly inputted data fields by the user.
+     * Updates the selected Risk Assessment with newly inputted data fields by the user.
      * Replaces old Risk Assessment with the new.
      * @param riskAssessment form is passed in to be updated.
      * @return true if updated successfully.
@@ -104,8 +103,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	}
 
     /**
-     * This method is called when the 'Delete' button is clicked and prompts the user if they want to
-     * delete the selected Risk Assessment.
+     * Prompts the user if they want to delete the selected Risk Assessment.
      * @param riskAssessment to be deleted.
      * @return true if the deletion was successful.
      * @throws DaoException error if deletion failed.
@@ -125,50 +123,6 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
             CassandraDaoFactory.close(dbSession);
         }
         return del;
-	}
-
-	/*
-    Shelving the viewRA() function for now; unsure if needed due to unnecessary process.
-    Leaving uncommented just in case.
-     */
-//    @Override
-//    public void viewRiskAssessment(RiskAssessment riskAssessment) {
-//        Session dbSession = CassandraDaoFactory.connect();
-//        try {
-//            Statement viewRA = QueryBuilder.select().from("grc", "riskassessment")
-//                    .where(eq("assessmentId", riskAssessment.getAssessmentId()));
-//            ResultSet result = dbSession.execute(viewRA);
-//            Row row = result.one();
-//
-//            riskAssessment.setAssessmentId(row.getUUID("id"));
-//            riskAssessment.setRisk(row.getString("risk"));
-//            riskAssessment.setSeverity(row.getFloat("severity"));
-//            riskAssessment.setSeverityDescription(row.getString("severity_description"));
-//            riskAssessment.setLikelihood(row.getFloat("likelihood"));
-//            riskAssessment.setLikelihoodDescription(row.getString("likelihood_description"));
-//            riskAssessment.setMatrixRed(row.getString("red"));
-//            riskAssessment.setMatrixYellow(row.getString("yellow"));
-//            riskAssessment.setMatrixLightGreen(row.getString("light_green"));
-//            riskAssessment.setMatrixGreen(row.getString("green"));
-//            riskAssessment.setVulnerability(row.getFloat("vulnerability"));
-//            riskAssessment.setRisk(row.getString("risk"));
-//            riskAssessment.setSpeedOfOnset(row.getFloat("onset_speed"));
-//            riskAssessment.setImpact(row.getFloat("impact"));
-//            riskAssessment.setOpportunity(row.getString("opportunity"));
-//            riskAssessment.setTriggerEvent(row.getString("trigger_event"));
-//            riskAssessment.setRiskFactor(row.getString("risk_factor"));
-//            riskAssessment.setConsequence(row.getString("consequence"));
-//        } catch (DriverException e) {
-//            Logger.error("Error occurred while attempting to view Risk Assessment ", e);
-//        } finally {
-//            CassandraDaoFactory.close(dbSession);
-//        }
-//    }
-
-	@Override
-	public RiskAssessment findRiskAssessment() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
     /**
