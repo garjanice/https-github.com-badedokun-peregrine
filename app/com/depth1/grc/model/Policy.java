@@ -9,9 +9,9 @@ public class Policy {
 	
 	private UUID id;			//unique
 	private int tenantId;
+	public String tempid;
 	@Required
 	private String name;
-	private String policyId;
 	private String description;
 	@Required
 	private String version;

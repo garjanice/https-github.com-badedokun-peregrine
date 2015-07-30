@@ -1,6 +1,7 @@
 package com.depth1.grc.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import play.Logger;
 import play.data.Form;
@@ -13,6 +14,8 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.db.util.CassandraPoolImpl;
+import com.depth1.grc.model.CassandraDaoFactory;
+import com.depth1.grc.model.CassandraPolicyDao;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Policy;
@@ -193,6 +196,29 @@ public class Application extends Controller {
 		return redirect("/policy");
 	}
 	
+	public Result updatePolicy() {
+		//create form object from the request
+		Form<Policy> filledPolicy = policyForm.bindFromRequest();
+		//check for required and validate input fields
+		//TODO : Validate input fields for Date and Strings
+		if (filledPolicy.hasErrors()) {
+			 Logger.error("The error in the form are " + filledPolicy.errorsAsJson());
+			  return badRequest(filledPolicy.errorsAsJson());
+		}
+		//Bind policy object with the form object
+		Policy criteria = filledPolicy.get();
+		System.out.println("Here it is: " + criteria.getDescription());
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			//create policy on DB
+			policyDao.updatePolicy(UUID.fromString(criteria.tempid), criteria);
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy ", e);
+		}
+
+		return redirect("/policy");
+	}
+	
 	public Result deletePolicy() {
 	
 		return TODO;
@@ -228,9 +254,18 @@ public class Application extends Controller {
 		return ok();
 	}
 
-	public Result showUpdatePolicyPage() {
-
+	public Result showUpdatePolicyPage(UUID id) {
 //		return ok(updatePolicy.render(selectedPolicy));
+		PolicyDao policyDao;
+		try {
+			policyDao = cassandraFactory.getPolicyDao();
+			final Policy policy = policyDao.viewPolicyById(id);
+			Form<Policy> filledForm = policyForm.fill(policy);
+			return ok(updatePolicy.render(filledForm));
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+		
 		return ok();
 	}
 

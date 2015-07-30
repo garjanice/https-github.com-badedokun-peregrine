@@ -9,7 +9,7 @@ import java.util.UUID;
  */
 public interface PolicyDao {
 	public void createPolicy(Policy policy) throws DaoException;
-	public boolean updatePolicy(UUID policyId) throws DaoException;
+	public boolean updatePolicy(UUID policyId, Policy policy) throws DaoException;
 	public boolean deletePolicy(UUID policyId) throws DaoException;
 	public boolean restorePolicy(UUID policyId) throws DaoException;
 	public Policy viewPolicyByName(String policyName) throws DaoException;

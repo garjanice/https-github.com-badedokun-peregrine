@@ -1,8 +1,8 @@
-@import com.depth1.grc.model.Policy
-@(policies:List[Policy]) 
+@import com.depth1.grc.model.Policy 
+@(policies:List[Policy])
 @main("Policy") {
 
-<script>
+<script type='text/javascript'>
 	function del(urlToDelete) {
 		$.ajax({
 			url : urlToDelete,
@@ -13,44 +13,57 @@
 			}
 		});
 	}
+
+	function selectRow(rowID){
+		var children = document.getElementById("rows").childNodes;
+		for(var i = 0; i < children.length; ++i) {
+			//children[i].setAttribute("selected", "false");
+			children[i].removeAttribute("class");
+		}
+		//document.getElementById(rowID).setAttribute("selected", "true");
+		document.getElementById(rowID).setAttribute("class", "highlight");
+	}
+
+	
 </script>
+
+<style type='text/css'>
+
+.table-striped tbody tr.highlight td { 
+    background-color: red;
+}
+
+</style>
 
 <section class="wrapper">
 	<h1>Policy</h1>
 	<legend> Front Page</legend>
 	<section>
-	<!--the buttons, using just html forms-->
-	<span>
-	<FORM ACTION=/policy/create />
-	<INPUT TYPE="submit"
-		style="display: inline; float:left; right: 30px; height: 50px;  width: 100px;"
-		VALUE="Create">
-	</FORM>
-	</span>
-	<span>
-	<FORM ACTION=/policy/view />
-	<INPUT TYPE="submit"
-		style="display: inline; float:left; right: 30px; height: 50px; width: 100px;"
-		VALUE="View">
-	</FORM>
-	</span>
-	<span>
-	<FORM ACTION=/policy/update />
-	<INPUT TYPE="submit"
-		style="display: inline; float:left; right: 30px; height: 50px; width: 100px;"
-		VALUE="Update">
-	</FORM>
-	</span>
-	<span>
-	<FORM
-		onsubmit="var result = confirm('Do you really want to delete the selected criteria?');if (result) {del('com.depth1.grc.controllers.routes.Application.deletePolicy()')}" />
-	<INPUT TYPE="submit"
-		style="display: inline; float:left; height: 50px; width: 100px;"
-		VALUE="Delete">
-	</FORM>
-	</span>
-	}
-</section>
+		<!--the buttons, using just html forms-->
+		<span>
+			<FORM ACTION=/policy/create /> <INPUT TYPE="submit"
+			style="display: inline; float: left; right: 30px; height: 50px; width: 100px;"
+			VALUE="Create">
+			</FORM>
+		</span> <span>
+			<FORM ACTION=/policy/view /> <INPUT TYPE="submit"
+			style="display: inline; float: left; right: 30px; height: 50px; width: 100px;"
+			VALUE="View">
+			</FORM>
+		</span> <span>
+			<FORM ACTION=/policy/update /> <INPUT TYPE="submit"
+			style="display: inline; float: left; right: 30px; height: 50px; width: 100px;"
+			VALUE="Update">
+			</FORM>
+		</span> <span>
+			<FORM
+				onsubmit="var result = confirm('Do you really want to delete the selected criteria?');if (result) {del('com.depth1.grc.controllers.routes.Application.deletePolicy()')}" />
+			<INPUT TYPE="submit"
+			style="display: inline; float: left; height: 50px; width: 100px;"
+			VALUE="Delete">
+			</FORM>
+		</span> }
+	</section>
 	<table class="table table-striped">
 		<thead>
 			<tr>
@@ -60,32 +73,22 @@
 				<th>Last Updated</th>
 			</tr>
 		</thead>
-		<tbody>
-			@for(Policy <- policies) {
-			<tr>
-
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
-						@Policy.getName()</a></td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
-						@Policy.getPolicyId()</a></td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
-						@Policy.getVersion()</a></td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
-						@Policy.getLastUpdatedDate()</a></td>		
+		<tbody id="rows">
+			@for(policy <- policies) {
+			<tr onclick="selectRow('@policy.getPolicyId()')" id="@policy.getPolicyId()">
+				<td><a href="@com.depth1.grc.controllers.routes.Application.showUpdatePolicyPage(policy.getPolicyId())">@policy.getName()</a></td>
+				<td><a href="@com.depth1.grc.controllers.routes.Application.showUpdatePolicyPage(policy.getPolicyId())">@policy.getPolicyId()</a></td>
+				<td>@policy.getVersion()</td>
+				<td>@policy.getLastUpdatedDate()</td>
 			</tr>
 			}
 		</tbody>
-
 	</table>
 </section>
 <section>
-	<FORM ACTION="/"/>
+	<FORM ACTION="/" />
 	<INPUT TYPE="submit"
-		style="position: relative; top: 100px; bottom:50px; left:50px; height: 50px; width: 100px;"
+		style="position: relative; top: 100px; bottom: 50px; left: 50px; height: 50px; width: 100px;"
 		VALUE="Back">
 	</FORM>
 </section>
