@@ -214,8 +214,11 @@ public class Application extends Controller {
 			policyDao.updatePolicy(UUID.fromString(criteria.tempid), criteria);
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating Policy ", e);
+		} catch (IllegalArgumentException e) {
+			Logger.error("Invalid UUID");
+			return badRequest("Invalid UUID");
 		}
-
+		
 		return redirect("/policy");
 	}
 	
@@ -264,8 +267,7 @@ public class Application extends Controller {
 			return ok(updatePolicy.render(filledForm));
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating Policy Front Page ", e);
-		}
-		
+		} 
 		return ok();
 	}
 
