@@ -2,6 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Login page
+GET		/login 							com.depth1.grc.controllers.ApplicationLogin.login()
+POST	/authenticate 					com.depth1.grc.controllers.ApplicationLogin.authenticate()
+
 # Home page
 GET     /                          		com.depth1.grc.controllers.Application.index()
 

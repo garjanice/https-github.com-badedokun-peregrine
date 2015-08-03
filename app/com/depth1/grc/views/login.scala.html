@@ -1,0 +1,16 @@
+@import com.depth1.grc.model.Login
+@(loginForm: Form[Login])
+@import helper._
+
+@main("Please Login") {
+@helper.form(action = com.depth1.grc.controllers.routes.ApplicationLogin.authenticate()) {
+	<h1>Sign in</h1>
+	<p>
+	<p> @helper.inputText(loginForm("username"), 'id -> "username", 'size -> 30)
+    <p> @helper.inputPassword(loginForm("password"), 'id -> "password", 'size -> 30)
+	</p>	
+	<p>
+	<button type="submit">Sign in</button>
+	</p>
+	}
+}
