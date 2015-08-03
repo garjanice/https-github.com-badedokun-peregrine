@@ -12,6 +12,7 @@ import com.depth1.grc.model.UserProfileDao;
 import com.depth1.grc.views.html.index;
 import com.depth1.grc.views.html.login;
 
+
 import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
@@ -44,6 +45,7 @@ public class ApplicationLogin extends Controller {
 		try {
 			UserProfileDao login = cassandraFactory.getUserProfileDao();
 			if (login.authenticate(username, password) == null) {
+				flash("login_error", "invalid username or password");
 				return forbidden("invalid username or password");
 			}
 		} catch (DaoException e) {
@@ -53,8 +55,7 @@ public class ApplicationLogin extends Controller {
 		
 		session().clear();
 		session("username", username);
-		
-		//return redirect(routes.index.render());
+				
 		return ok(index.render());
 				
 	}

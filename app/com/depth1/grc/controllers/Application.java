@@ -8,6 +8,7 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Http.RequestBody;
 import play.mvc.Result;
+import play.mvc.Security;
 
 import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Row;
@@ -28,6 +29,7 @@ import com.depth1.grc.views.html.updateRA;
 import com.depth1.grc.views.html.viewRA;
 import com.fasterxml.jackson.databind.JsonNode;
 
+@Security.Authenticated(Secured.class)
 public class Application extends Controller {
 
 	// create the required DAO Factory

@@ -10,7 +10,7 @@ public  interface TenantDao
 {
 	
 	/**
-	 * Creates a Tenant.
+	 * Creates a tenant.
 	 * 
 	 * @param tenant tenant to create
 	 * @throws DaoException if error occurs while creating the Tenant in the data store
@@ -18,7 +18,7 @@ public  interface TenantDao
 	public void createTenant(Tenant tenant) throws DaoException;
 	
 	/**
-	 * Deletes a Tenant.
+	 * Deletes a tenant.
 	 * 
 	 * @param tenantId tenant ID to delete
 	 * @return boolean True if the Tenant is successfully deleted, false otherwise
@@ -28,7 +28,7 @@ public  interface TenantDao
 	
 	
 	/**
-	 * List Tenants in the data store.
+	 * List tenants in the data store.
 	 * 
 	 * @return List list of tenants
 	 * @throws DaoException if error occurs while reading tenants from the data store
@@ -46,10 +46,10 @@ public  interface TenantDao
 	public boolean updateTenant(Tenant tenant) throws DaoException;
 	
 	/**
-	 * Finds a Tenant.
+	 * Finds a tenant.
 	 * 
 	 * @param tenantId tenant ID to find
-	 * @return Tenant The tenant that was found
+	 * @return Tenant tenant that was found
 	 * @throws DaoException if error occurs while finding a tenant in the data store
 	 */
 	public Tenant findTenant(int tenantId) throws DaoException;
