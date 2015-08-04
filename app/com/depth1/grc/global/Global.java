@@ -6,6 +6,7 @@ package com.depth1.grc.global;
 import java.util.Date;
 
 import com.depth1.grc.model.common.AnnotationDateFormatter;
+import com.depth1.grc.security.GlobalSecurity;
 
 import play.Application;
 import play.GlobalSettings;
@@ -35,6 +36,7 @@ public class Global extends GlobalSettings {
     public void onStart(Application app) {
         super.onStart(app);
         Formatters.register(Date.class, new AnnotationDateFormatter());
+        GlobalSecurity.security();
     }	
 
 	 /**

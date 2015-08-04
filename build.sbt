@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
   "com.codahale.metrics" % "metrics-core" % "3.0.2",
   "com.google.guava" % "guava" % "14.0.1",
   "org.slf4j" % "slf4j-api" % "1.7.5",
+  "org.apache.shiro" % "shiro-core" % "1.2.3",
   filters
 )
 
