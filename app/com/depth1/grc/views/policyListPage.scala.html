@@ -39,31 +39,45 @@
 	<h1>Policy</h1>
 	<legend> Front Page</legend>
 	<section>
-		<!--the buttons, using just html forms-->
-		<span>
-			<FORM ACTION=/policy/create /> <INPUT TYPE="submit"
-			style="display: inline; float: left; right: 30px; height: 50px; width: 100px;"
-			VALUE="Create">
-			</FORM>
-		</span> <span>
-			<FORM ACTION=/policy/view /> <INPUT TYPE="submit"
-			style="display: inline; float: left; right: 30px; height: 50px; width: 100px;"
-			VALUE="View">
-			</FORM>
-		</span> <span>
-			<FORM ACTION=/policy/update /> <INPUT TYPE="submit"
-			style="display: inline; float: left; right: 30px; height: 50px; width: 100px;"
-			VALUE="Update">
-			</FORM>
-		</span> <span>
-			<FORM
-				onsubmit="var result = confirm('Do you really want to delete the selected criteria?');if (result) {del('com.depth1.grc.controllers.routes.Application.deletePolicy()')}" />
-			<INPUT TYPE="submit"
-			style="display: inline; float: left; height: 50px; width: 100px;"
-			VALUE="Delete">
-			</FORM>
-		</span> }
-	</section>
+	<!--the buttons, using just html forms-->
+	<span>
+	<FORM ACTION=/policy/create />
+	<INPUT TYPE="submit"
+		style="display: inline; float:left; right: 30px; height: 50px;  width: 100px;"
+		VALUE="Create">
+	</FORM>
+	</span>
+	<span>
+	<FORM ACTION=/policy/view />
+	<INPUT TYPE="submit"
+		style="display: inline; float:left; right: 30px; height: 50px; width: 100px;"
+		VALUE="View">
+	</FORM>
+	</span>
+	<span>
+	<FORM ACTION=/policy/update />
+	<INPUT TYPE="submit"
+		style="display: inline; float:left; right: 30px; height: 50px; width: 100px;"
+		VALUE="Update">
+	</FORM>
+	</span>
+	<span>
+	<FORM ACTION=/policy/delete />
+	<INPUT TYPE="submit"
+		style="position: relative; height:50px; width:100px; " VALUE="Delete">
+	</FORM>
+	</span>
+	
+	<span>
+	<FORM ACTION=/policy/restore />
+	<INPUT TYPE="submit"
+		style="position: relative; height:50px; width:100px; " VALUE="Restore">
+	</FORM>
+	</span>
+	
+	}
+</section>
+
 	<table class="table table-striped">
 		<thead>
 			<tr>

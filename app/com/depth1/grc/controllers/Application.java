@@ -2,16 +2,19 @@ package com.depth1.grc.controllers;
 
 import java.util.List;
 import java.util.UUID;
+import java.io.File;
 
 import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
+import play.mvc.Http.RequestBody;
 import play.mvc.Result;
 
 import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.querybuilder.Delete;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.model.CassandraDaoFactory;
@@ -25,6 +28,13 @@ import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.*;
+
+import com.depth1.grc.views.html.createRA;
+import com.depth1.grc.views.html.frontRA;
+import com.depth1.grc.views.html.index;
+import com.depth1.grc.views.html.updateRA;
+import com.depth1.grc.views.html.viewRA;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class Application extends Controller {
 
@@ -61,8 +71,8 @@ public class Application extends Controller {
 	 * 
 	 * @param session
 	 *            The established session to the cluster
-	 * @return Returns a result in the future in an non-blocking fashion
-	 */
+	 * @return a result in the future in an non-blocking fashion
+tart */
 	public ResultSetFuture getState(Session session) {
 		Statement query = QueryBuilder.select().all().from("member", "state");
 		return session.executeAsync(query);
@@ -91,7 +101,7 @@ public class Application extends Controller {
 	/**
 	 * @param tenant
 	 *            The tenant to create
-	 * @return Result the result of the tenant creation
+	 * @return Result of the tenant creation
 	 */
 	public static Result createTenant(Tenant tenant) {
 		try {
@@ -107,7 +117,7 @@ public class Application extends Controller {
 	/**
 	 * @param RiskAssessment
 	 *            The RA criteria to create
-	 * @return Result the result of the RAC creation
+	 * @return the result of the RAC creation
 	 */
 	public Result addRiskAssessment() {
 		Form<RiskAssessment> filledRA = rAForm.bindFromRequest();
@@ -123,11 +133,41 @@ public class Application extends Controller {
 		return redirect("/riskAssessment");
 	}
 
+    /**
+     * Action method for the 'Delete' button. Deletes selected Risk Assessment
+     * @return
+     */
 	public Result deleteRiskAssessment() {
+		try {
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory
+					.getRiskAssessmentDao();
+			riskAssessmentDao.deleteRiskAssessment(selectedRA);
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while deleting risk assessment criteria ",
+					e);
+		}
 
-		return TODO;
+		return redirect("/riskAssessment");
 	}
-
+	
+	public Result setSelectedRA() {
+		JsonNode node = request().body().asJson().get("val");
+		 if(node == null){
+		        return badRequest("empty json"); 
+		    }
+		String inputString = node.textValue();
+		//System.out.println(inputString);
+		int index = Integer.parseInt(inputString);
+		selectedRA = riskAssessments.get(index);
+		return ok();
+	}
+	
+	/**
+	 * Shows the front page of the Risk Assessment UI
+	 * 
+	 * @return to the main page
+	 */
 	public Result showFrontRAPage() {
 
 		try {
@@ -137,19 +177,35 @@ public class Application extends Controller {
 			Logger.error("Error occurred while creating risk assessment criteria ", e);
 		}
 
-		return ok(frontRA.render(riskAssessments)); // change to main page
+		return ok(frontRA.render(riskAssessments));
 	}
 
+	/**
+	 * This method shows the create Risk Assessment page if the 'Create' button
+	 * is clicked
+	 * 
+	 * @return create Risk Assessment page
+	 */
 	public Result showCreateRAPage() {
 
 		return ok(createRA.render(rAForm));
 	}
 
+	/**
+	 * This method allows users to view Risk Assessments
+	 * 
+	 * @return view Risk Assessment page
+	 */
 	public Result showViewRAPage() {
 
 		return ok(viewRA.render(selectedRA));
 	}
 
+	/**
+	 * This method allows users to update selected Risk Assessments
+	 * 
+	 * @return update Risk Assessment page
+	 */
 	public Result showUpdateRAPage() {
 
 		return ok(updateRA.render(selectedRA));
@@ -214,12 +270,42 @@ public class Application extends Controller {
 
 		return redirect("/policy");
 	}
-
-	public Result deletePolicy() {
-
-		return TODO;
+		
+	public Result deletePolicy(String policyId) {
+		//Logger.error("correct");
+		//call cassandra policy dao
+		boolean result = false;
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			result = policyDao.deletePolicy(policyId);
+			//System.out.println("COMPLETED result = " + result );
+		} catch (DaoException e) {
+			System.out.println("ERROR OCCURED");
+			Logger.error("Error occurred while creating Policy Front Page ", e);
 	}
-
+		
+		return ok(deletePolicy.render(policies));
+		
+		//return TODO;
+	}
+	public Result restorePolicy(String policyId) {
+		//Logger.error("correct");
+		//call cassandra policy dao
+		boolean result = false;
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			result = policyDao.restorePolicy(policyId);
+			//System.out.println("COMPLETED result = " + result );
+		} catch (DaoException e) {
+			System.out.println("ERROR OCCURED");
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+	}
+		
+		return ok(restorePolicy.render(policies));
+		
+		//return TODO;
+	}
+	
 	public Result showPolicyListPage() {
 
 		try {
@@ -243,10 +329,17 @@ public class Application extends Controller {
 		return ok();
 	}
 
-	public Result showViewPolicyPage() {
-
-		// return ok(viewPolicy.render(selectedPolicy));
-		return ok();
+	public Result showViewPolicyPage() {		
+		//String filepath = selectedPolicy.filePath;
+		
+       	//File file = new java.io.File(source);
+		//return ok(file);
+		String filepath = "documents/test.pdf";
+		
+		//response.removeHeader("Content-Disposition");
+		return ok(new java.io.File(filepath));
+		//return ok(viewPolicy.render(selectedPolicy));
+		//return ok();
 	}
 
 	public Result showUpdatePolicyPage(UUID id) {
@@ -265,8 +358,26 @@ public class Application extends Controller {
 
 	// remove this later, we may not have a specific delete policy page
 	public Result showDeletePolicyPage() {
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllPolicy();
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
 
-		return ok();
+		return ok(deletePolicy.render(policies));
+		
+	}
+	
+	public Result showRestorePolicyPage(){
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllDeletedPolicy();
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+
+		return ok(restorePolicy.render(policies));
 	}
 
 }
