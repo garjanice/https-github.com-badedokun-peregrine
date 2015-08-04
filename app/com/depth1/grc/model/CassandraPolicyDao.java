@@ -306,7 +306,7 @@ public class CassandraPolicyDao implements PolicyDao {
 			if(listPolicy.isEmpty())
 				return null;
 			Policy head = listPolicy.get(0);
-			head.tempid = head.getPolicyId().toString();
+			head.policyId = head.getPolicyId().toString();
 			return head;
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving list of Policies from database ", e);

@@ -10,7 +10,7 @@
 	-> "policyForm") {
 	<fieldset>
 		<legend> Update Policy</legend>
-		@helper.inputText(policyForm("tempid"), '_label -> "UUID")
+		@helper.inputText(policyForm("policyId"), '_label -> "UUID")
 		@helper.inputText(policyForm("name"), '_label -> "Policy name")
 		@helper.inputText(policyForm("version"), '_label -> "Version")
 		@helper.textarea(policyForm("description"), '_label -> "Policy Description") 

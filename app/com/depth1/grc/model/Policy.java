@@ -9,7 +9,7 @@ public class Policy {
 	
 	private UUID id;			//unique
 	private int tenantId;
-	public String tempid;
+	public String policyId;
 	@Required
 	private String name;
 	private String description;
