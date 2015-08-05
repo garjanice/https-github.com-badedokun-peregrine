@@ -2,10 +2,21 @@ package com.depth1.grc.controllers;
 
 import java.util.List;
 import java.util.UUID;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.jsoup.*;
 
 import play.Logger;
 import play.data.Form;
+import play.data.Form.Field;
 import play.mvc.Controller;
 import play.mvc.Http.RequestBody;
 import play.mvc.Result;
@@ -29,12 +40,6 @@ import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.*;
-
-import com.depth1.grc.views.html.createRA;
-import com.depth1.grc.views.html.frontRA;
-import com.depth1.grc.views.html.index;
-import com.depth1.grc.views.html.updateRA;
-import com.depth1.grc.views.html.viewRA;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Security.Authenticated(Secured.class)
@@ -243,8 +248,31 @@ tart */
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating Policy ", e);
 		}
-
+		if (filledPolicy.field("policy-body").value() != null) {
+			savePolicyBodyDocument(criteria.getName(), filledPolicy.field("policy-body"));
+		}
 		return redirect("/policy");
+	}
+	
+	private void savePolicyBodyDocument(String fileName, Field policyBody) {
+		try {
+			//TODO: Replace the path with path on server for file storage
+			String dirString = "public/policyDocuments/";
+			Path dirPath = Paths.get(dirString);
+			if(Files.notExists(dirPath)) {
+				Files.createDirectory(dirPath);				
+			}
+			Path filePath = Paths.get(dirString + fileName);
+			File policyDoc = filePath.toFile();
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(policyDoc)),true); 
+			//flushing the buffer after file-write 
+			writer.print(Jsoup.parse(policyBody.value()).text());
+			writer.close();
+			Logger.info("Policy Body Documented at " + dirString + fileName);
+		}
+		catch (IOException e) {
+			Logger.error("Error while storing the policy body document " + e);
+		}
 	}
 
 	public Result updatePolicy() {
@@ -262,7 +290,7 @@ tart */
 		try {
 			PolicyDao policyDao = cassandraFactory.getPolicyDao();
 			// create policy on DB
-			policyDao.updatePolicy(criteria.getPolicyId(), criteria);
+			policyDao.updatePolicy(criteria.getId(), criteria);
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating Policy ", e);
 		} catch (IllegalArgumentException e) {

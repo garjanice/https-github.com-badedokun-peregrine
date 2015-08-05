@@ -31,7 +31,7 @@ GET		/policy/createBody				com.depth1.grc.controllers.Application.showCreatePoli
 
 GET		/policy/view					com.depth1.grc.controllers.Application.showViewPolicyPage()
 
-GET		/policy/update/:id				com.depth1.grc.controllers.Application.showUpdatePolicyPage(id:java.util.UUID)
+GET		/policy/update/:id				com.depth1.grc.controllers.Application.showUpdatePolicyPage(id: java.util.UUID)
 
 GET		/policy/delete					com.depth1.grc.controllers.Application.showDeletePolicyPage()
 

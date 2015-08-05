@@ -16,11 +16,10 @@ libraryDependencies ++= Seq(
   "com.google.guava" % "guava" % "14.0.1",
   "org.slf4j" % "slf4j-api" % "1.7.5",
   "org.apache.shiro" % "shiro-core" % "1.2.3",
+  "org.jsoup" % "jsoup" % "1.8.3",
   filters
 )
 
+// Play provides two styles of routers, one expects its actions to be injected, the
+// other, legacy style, accesses its actions statically.
 routesGenerator := InjectedRoutesGenerator
-
-
-
-fork in run := true
