@@ -1,11 +1,9 @@
 package com.depth1.grc.model;
 
 import java.sql.Date;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.lang.*;
 
 import org.joda.time.LocalDateTime;
 
@@ -17,7 +15,6 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
-import com.datastax.driver.core.querybuilder.*;
 import com.datastax.driver.core.querybuilder.Assignment;
 import com.datastax.driver.core.utils.UUIDs;
 
@@ -32,8 +29,8 @@ public class CassandraPolicyDao implements PolicyDao {
 					.value("author", policy.getAuthor())
 					.value("version", policy.getVersion())
 					.value("classification", policy.getClassification())
-					
-					//.value("tenanid", policy.getTenantId())
+					.value("policyId", policy.getPolicyId())
+					.value("tenanid", policy.getTenantId())
 					.value("description", policy.getDescription())
 					.value("create_date", UUIDs.timeBased())
 					.value("effective_date", policy.getEffectiveDate())
@@ -58,6 +55,7 @@ public class CassandraPolicyDao implements PolicyDao {
 					.value("next_review_date", policy.getNextReviewDate())
 					.value("last_updated_date", UUIDs.timeBased())
 					.value("is_deleted",false);
+
 					dbSession.execute(insert);
 					Logger.info("Inserted successfully to database");
 		} catch (DriverException e) {
@@ -213,21 +211,11 @@ public class CassandraPolicyDao implements PolicyDao {
 		// TODO Auto-generated method stub
 		Session dbSession = CassandraDaoFactory.connect();
 		try {		
-	
-//QueryBuilder.update("simplex", "songs")
-//.with(set("artist", "Vasili Ostertag"))
-//.where(eq("id", UUID.fromString("f6071e72-48ec-4fcb-bf3e-379c8a696488")));
-//getSession().execute(statement);
 			Statement update = QueryBuilder
 						.update("grc", "policy")
 						.with(QueryBuilder.set("is_deleted", true))
 						.where(QueryBuilder.eq("id", UUID.fromString(policyId)));
-//WHERE id EQUAL policyId
-//.where("policy_id", policyId);
-//System.out.println("UPDATE QUERY = " + update.toString());
 					dbSession.execute(update);
-//System.out.println("AfterExecute statement of update");
-//Logger.error("Updated successfully to database");
 					return true;
 		} catch (DriverException e) {
 			Logger.error("Error occurred while inserting data into the database ", e);
@@ -261,7 +249,7 @@ public class CassandraPolicyDao implements PolicyDao {
 		List<Policy> listPolicy = new ArrayList<>();
 		for (Row row : result.all()) {
 			Policy policy = new Policy();
-			policy.setPolicyId(row.getUUID("id"));
+			policy.setId(row.getUUID("id"));
 			policy.setName(row.getString("name"));
 			policy.setDescription(row.getString("description"));
 			policy.setAuthor(row.getString("author"));
@@ -315,15 +303,15 @@ public class CassandraPolicyDao implements PolicyDao {
 		} finally {
 			CassandraDaoFactory.close(dbSession);
 		}
-		return null;
+		return null;	
 	}
 
 	@Override
-	public Policy viewPolicyById(UUID policyId) throws DaoException {
+	public Policy viewPolicyById(String policyId) throws DaoException {
 		List<Policy> listPolicy;
 		Session dbSession = CassandraDaoFactory.connect();
 		try {
-			Statement viewPolicyById = QueryBuilder.select().all().from("grc", "policy").where(QueryBuilder.eq("id", policyId));
+			Statement viewPolicyById = QueryBuilder.select().all().from("grc", "policy").where(QueryBuilder.eq("policyId", policyId));
 
 			ResultSet result = dbSession.execute(viewPolicyById);
 			if (result == null) {
@@ -333,7 +321,7 @@ public class CassandraPolicyDao implements PolicyDao {
 			if(listPolicy.isEmpty())
 				return null;
 			Policy head = listPolicy.get(0);
-			head.policyId = head.getPolicyId().toString();
+			policyId = head.getPolicyId().toString();
 			return head;
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving list of Policies from database ", e);
@@ -370,7 +358,6 @@ public class CassandraPolicyDao implements PolicyDao {
 	public void importPolicy(Policy policy) throws DaoException {
 		// TODO Auto-generated method stub
 		createPolicy(policy);
-
 	}
 
 	@Override
@@ -383,7 +370,6 @@ public class CassandraPolicyDao implements PolicyDao {
             		.all()
                     .from("grc", "policy")
                     .where(QueryBuilder.eq("is_deleted", false));
-
             ResultSet result = dbSession.execute(viewAllPolicy);
             if (result == null) {
                 return null;
@@ -391,8 +377,9 @@ public class CassandraPolicyDao implements PolicyDao {
 
             for (Row row : result.all()) {
                 Policy policy = new Policy();
-                policy.setPolicyId(row.getUUID("id"));
+                policy.setId(row.getUUID("id"));
                 policy.setName(row.getString("name"));
+                policy.setPolicyId(row.getString("policyId"));
                 policy.setDescription(row.getString("description"));
                 policy.setAuthor(row.getString("author"));
                 policy.setVersion(row.getString("version"));
@@ -450,8 +437,9 @@ public class CassandraPolicyDao implements PolicyDao {
 
             for (Row row : result.all()) {
                 Policy policy = new Policy();
-                policy.setPolicyId(row.getUUID("id"));
+                policy.setId(row.getUUID("id"));
                 policy.setName(row.getString("name"));
+                policy.setPolicyId(row.getString("policyId"));
                 policy.setDescription(row.getString("description"));
                 policy.setAuthor(row.getString("author"));
                 policy.setVersion(row.getString("version"));
