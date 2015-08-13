@@ -167,16 +167,6 @@ public class Application extends Controller {
 		return ok("Updated Successfully!");
 	}
 	
-	/*public Register getSelectedRR(UUID id){
-		try {
-		 	RiskRegisterDao riskregisterDao = cassandraFactory.getRiskRegisterDao();
-		 	selectedRegister=riskregisterDao.findRegister(id);
-		} catch(DaoException e) {
-			Logger.error("Error occures while creating Risk Register", e);
-		}
-		return selectedRegister;
-	}*/
-	
 	public Result updateRRPage(boolean update) {
 		
 		return ok(updateRR.render(rUForm,update));
