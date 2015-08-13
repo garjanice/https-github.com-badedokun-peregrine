@@ -1,0 +1,25 @@
+
+@import com.depth1.grc.model.Register
+@(view:Register,rvForm:Form[Register],id:UUID)
+
+@import helper._
+@import com.depth1.grc.controllers.routes 
+@import com.depth1.grc.views.html.main
+
+
+<section class="wrapper">
+	@helper.form(action = routes.Application.viewRRPage(id), 'id
+	-> "rvForm") {
+	<h1>Risk Name: @view.getname </h1>
+	<ul>
+		<li>Id:@view.getid</li>
+		<li>Risk id: @view.getid</li>
+		<li>Risk Owner: @view.getowner</li>
+		<li>Risk Description:@view.getdescription</li>
+		<li>Risk status:@view.getstatus</li>
+		<li>Risk category rating:@view.getcategory_rating</li>
+		<li>Risk Reporting Level:@view.getreporting_level</li> 
+	</ul>
+}
+</section>
+
