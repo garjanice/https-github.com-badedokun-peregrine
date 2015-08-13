@@ -8,6 +8,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Row;
@@ -19,12 +20,17 @@ import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.RiskRegisterDao;
+import com.depth1.grc.model.CassandraRiskRegisterDao;
 import com.depth1.grc.model.Register;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
-import com.depth1.grc.views.html.createRR;
+import com.depth1.grc.views.html.createregister;
 import com.depth1.grc.views.html.index;
 import com.depth1.grc.views.html.frontRR;
+import com.depth1.grc.views.html.updateRR;
+import com.depth1.grc.views.html.updatedRR;
+import com.depth1.grc.views.html.viewRR;
+import com.fasterxml.jackson.databind.JsonNode;
 
 
 public class Application extends Controller {
@@ -32,7 +38,11 @@ public class Application extends Controller {
 	// create the required DAO Factory
 	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
 	final static Form<Register> rRForm=Form.form(Register.class);
+	final static Form<Register> rvForm=Form.form(Register.class);
 	static List<Register> registers;
+	static Register view=new Register();
+	final static Form<Register> rUForm=Form.form(Register.class);
+	//static Register viewing;
 
  public Result index() {
     	// test connection to the cassandra cluster
@@ -90,13 +100,13 @@ public class Application extends Controller {
 
 		return ok();
 	}
-
+	
 	public Result addRisk() {
     	
 		Form<Register> risky=rRForm.bindFromRequest();
     	if(risky.hasErrors()){
     		flash("Error","Please Correct the Form");
-    		return badRequest(createRR.render(rRForm));
+    		return badRequest(createregister.render(rRForm));
     	}
     	Register register=risky.get();
 		try {
@@ -105,8 +115,7 @@ public class Application extends Controller {
 		} catch(DaoException e) {
 			Logger.error("Error occures while creating Risk Register", e);
 		}
-		
-	 System.out.println("The data is retrieved into the database successfully!");
+		System.out.println("The data is retrieved into the database successfully!");
    	 return redirect("/register");
 	}
     	
@@ -118,23 +127,58 @@ public class Application extends Controller {
 	} catch(DaoException e) {
 		Logger.error("Error occures while creating Risk Register", e);
 	}		
-		return ok(frontRR.render(registers));
+		return ok(frontRR.render(registers,view));
 	}
 	
 	public Result showCreateRRPage() {
 
-		return ok(createRR.render(rRForm));
+		return ok(createregister.render(rRForm));
 	}
 
 	
-	public Result showViewRRPage() {
-
-		return TODO;
+	public Result viewRRPage(UUID id) {
+		try {
+		 	RiskRegisterDao riskregisterDao = cassandraFactory.getRiskRegisterDao();
+		 	view=riskregisterDao.findRegister(id);
+	} catch(DaoException e) {
+		Logger.error("Error occures while Viewing Risk Register", e);
+	}	
+		return ok(viewRR.render(view,rvForm,id));
 	}
 
-	public Result showUpdateRRPage() {
+	public Result addUpdate(boolean update) {
 
-		return TODO;
+		Form<Register> updateform=rUForm.bindFromRequest();
+   	
+    	if(updateform.hasErrors()) {
+    		flash("Error","Please Correct the Form");
+    		return badRequest(updateRR.render(rUForm,update));
+    	}
+
+    	Register register=updateform.get();
+		try {
+		 	RiskRegisterDao riskregisterDao = cassandraFactory.getRiskRegisterDao();
+		 	Logger.debug("Sending request to update risk register");
+		 	update=riskregisterDao.updateRiskRegister(register);
+	} catch(DaoException e) {
+		Logger.error("Error occures while Updating Risk Register", e);
 	}
-
+	
+		return ok("Updated Successfully!");
+	}
+	
+	/*public Register getSelectedRR(UUID id){
+		try {
+		 	RiskRegisterDao riskregisterDao = cassandraFactory.getRiskRegisterDao();
+		 	selectedRegister=riskregisterDao.findRegister(id);
+		} catch(DaoException e) {
+			Logger.error("Error occures while creating Risk Register", e);
+		}
+		return selectedRegister;
+	}*/
+	
+	public Result updateRRPage(boolean update) {
+		
+		return ok(updateRR.render(rUForm,update));
+	}
 }
