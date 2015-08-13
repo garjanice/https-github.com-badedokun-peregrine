@@ -1,53 +1,44 @@
 @import com.depth1.grc.model.Register
-@(registers:List[Register])
+@(registers:List[Register],view:Register)
 
 @main("Front page of the risk") {
+<head>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type = "text/javascript" src="@routes.Assets.versioned("javascripts/frontRRScript.js")"></script>
+
+</head>
 
 <section class="wrapper">
 	<h1>Risk Register Page</h1>
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th> Select </th>
+				<th>Risk Id</th>
 				<th>Risk Name</th>
-				<th>Risk ID</th>
+				<th>Risk Owner</th>
 				<th>Description</th>
-				<th>Target Resolution Date</th>
-				<th>Impact Date</th>
-				<th>Risk Status</th>
-				
 			</tr>
 		</thead>
 		<tbody>
 			@for(Register <- registers) {
 			<tr>
-			<td><form action="">
-<input type="radio" name="select" value="Select">
-</form>
+				
+				<td>@Register.getriskid</td> 
+				<td>@Register.getname</td>
+				<td>@Register.getowner</td>
+				<td>@Register.getdescription</td>
+				<td><FORM method="GET" ACTION=@com.depth1.grc.controllers.routes.Application.viewRRPage(Register.getid) />
+	<INPUT TYPE="submit"
+		style="position: relative;  height: 30px; width: 100px;"
+		VALUE="View">
+	</FORM></td>
 
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRegister()">
-						@Register.getname</a></td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRegister()">
-						@Register.getriskId</a></td>
-						
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRegister()">
-						@Register.getdescription</a></td>
-						
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRegister()">
-						@Register.gettarget_resolution_date</a></td>
-						
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRegister()">
-						@Register.getimpact_date</a></td>
-						
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.listRegister()">
-						@Register.getstatus</a></td>
+	<td><FORM ACTION=/register/updater />
+	<INPUT TYPE="submit"
+		style="position: relative;  height: 30px; width: 100px;"
+		VALUE="Update">
+	</FORM></td>
 			</tr>
 			}
 		</tbody>
@@ -61,23 +52,14 @@
 		style="position: relative; bottom: -150px; left: 200px; height: 50px; width: 100px;"
 		VALUE="Home">
 	</FORM>
+	
 	<FORM ACTION=/register/create />
 	<INPUT TYPE="submit"
 		style="position: relative; bottom: -100px; left: 370px; height: 50px; width: 100px;"
 		VALUE="Create">
 	</FORM>
-	<FORM ACTION=/register/view />
-	<INPUT TYPE="submit"
-		style="position: relative; bottom: -50px; left: -100px; height: 50px; width: 100px;"
-		VALUE="View">
-	</FORM></td>
-
-	<td><FORM ACTION=/register/update />
-	<INPUT TYPE="submit"
-		style="position: relative;  bottom: 0px; left: 0; height: 50px; width: 100px;"
-		VALUE="Update">
-	</FORM>
-
+	
+	
 	
 }
 </section>
