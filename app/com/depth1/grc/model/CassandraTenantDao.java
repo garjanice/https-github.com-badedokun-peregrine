@@ -15,14 +15,17 @@ import com.datastax.driver.core.querybuilder.Delete.Where;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Update;
 import com.depth1.grc.model.common.Keyspace;
+import com.depth1.grc.util.IdProducer;
 
 import play.Logger;
 import play.Play;
 
 /**
- * This class is a data store specific Data Access Object for Tenant. In this case, it is for Cassandra
- * No SQL data store.
+ * This class implements the Data Access Object pattern (GoF). It provides capability to create, read, update, delete 
+ * a Tenant - the typical CRUD functions in any business application.
  * 
+ * @author Bisi Adedokun
+ * Create Date: 07/10/2015
  */
 
 public class CassandraTenantDao implements TenantDao
@@ -39,7 +42,7 @@ public class CassandraTenantDao implements TenantDao
 	/**
 	 * Deletes a tenant from the tenant table
 	 * 
-	 * @param tenantId The ID of the tenant to delete
+	 * @param tenantId ID of the tenant to delete
 	 * @return boolean True if the delete is successful, false otherwise
 	 * @throws DaoException if error occurs while deleting a tenant from the tenant table
 	 */
@@ -55,7 +58,7 @@ public class CassandraTenantDao implements TenantDao
 			dbSession.execute(delete);
 			del = true;
 		} catch (DriverException e) {
-			Logger.error("Error occurred while delete tenant from the tenant table ", e);
+			Logger.error("Error occurred while deleting tenant from the tenant table ", e);
 		} finally {
 			//dbSession.close();
 			CassandraDaoFactory.close(dbSession);
@@ -76,6 +79,8 @@ public class CassandraTenantDao implements TenantDao
 		try {					
 			Statement insert = QueryBuilder
 					.insertInto(Keyspace.valueOf(keyspace), "tenant")
+					.value("id", java.util.UUID.randomUUID())
+					.value("tenantid", IdProducer.nextId())
 					.value("name", tenant.getName())
 					.value("type", tenant.getType())
 					.value("address1", tenant.getAddress1())
@@ -124,6 +129,8 @@ public class CassandraTenantDao implements TenantDao
 
 			for (Row row : result.all()) {
 				Tenant tenant = new Tenant();
+				tenant.setId(row.getUUID("id"));
+				tenant.setTenantId(row.getLong("tenantid"));
 				tenant.setType(row.getString("type"));
 				tenant.setAddress1(row.getString("address1"));
 				tenant.setAddress2(row.getString("address2"));
@@ -221,7 +228,9 @@ public class CassandraTenantDao implements TenantDao
 			Row row = result.one();
 			
 			// get data elements from the Result set
-
+			
+			tenant.setId(row.getUUID("id"));
+			tenant.setTenantId(row.getLong("tenantid"));
 			tenant.setType(row.getString("type"));
 			tenant.setAddress1(row.getString("address1"));
 			tenant.setAddress2(row.getString("address2"));

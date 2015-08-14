@@ -2,6 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Login page
+GET		/login 							com.depth1.grc.controllers.ApplicationLogin.login()
+POST	/authenticate 					com.depth1.grc.controllers.ApplicationLogin.authenticate()
+
 # Home page
 GET     /                          		com.depth1.grc.controllers.Application.index()
 
@@ -27,7 +31,7 @@ GET		/policy/createBody				com.depth1.grc.controllers.Application.showCreatePoli
 
 GET		/policy/view					com.depth1.grc.controllers.Application.showViewPolicyPage()
 
-GET		/policy/update					com.depth1.grc.controllers.Application.showCreatePolicyPage()
+GET		/policy/update/:id				com.depth1.grc.controllers.Application.showUpdatePolicyPage(id: java.util.UUID)
 
 GET		/policy/delete					com.depth1.grc.controllers.Application.showDeletePolicyPage()
 
@@ -39,6 +43,7 @@ GET		/policy/delete/done				com.depth1.grc.controllers.Application.deletePolicy(
 
 POST  	/policy/create/done				com.depth1.grc.controllers.Application.createPolicy()
 
+POST  	/policy/update/done				com.depth1.grc.controllers.Application.updatePolicy()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

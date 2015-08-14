@@ -1,6 +1,7 @@
 package com.depth1.grc.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import com.depth1.grc.model.common.DateFormat;
 
@@ -14,8 +15,9 @@ import play.data.validation.Constraints.Required;
 public class Tenant
 {
 		
-	private int tenantId;
+	private UUID id;
 	
+	private long tenantId;
 		
 	@Required
 	private String name;
@@ -79,13 +81,26 @@ public class Tenant
 	public Tenant(){
 		super();
 	}
+	
+	/**
+	 * @return the id
+	 */
+	public UUID getId() {
+		return id;
+	}
 
-	public int getTenantId() {
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(UUID id) {
+		this.id = id;
+	}
+
+	public long getTenantId() {
 		return tenantId;
 	}
 
-	public void setTenantId(int tenantId) {
-
+	public void setTenantId(long tenantId) {
 		this.tenantId = tenantId;
 	}
 

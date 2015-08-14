@@ -53,6 +53,15 @@ public class RdbDaoFactory extends DaoFactory
 		    
 		    return new CassandraTenantDao();
 		  }
+	
+	/* (non-Javadoc)
+	 * @see com.depth1.grc.model.DaoFactory#getTenantDao()
+	 */
+	public UserProfileDao getUserProfileDao() {
 
+		return new CassandraUserProfileDao();
+	}	
+
+	
 }
 

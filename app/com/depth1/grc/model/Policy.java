@@ -64,11 +64,11 @@ public class Policy {
 		return tenantId;
 	}
 			
-	public void setPolicyId(UUID id){
+	public void setId(UUID id){
 		this.id = id;
 	}
 			
-	public UUID getPolicyId(){
+	public UUID getId(){
 		return id;
 	}
 			
@@ -79,7 +79,15 @@ public class Policy {
 	public String getName(){
 		return name;
 	}
+
+	public void setPolicyId(String policyId){
+		this.policyId = policyId;
+	}
 			
+	public String getPolicyId(){
+		return policyId;
+	}
+	
 	public void setDescription(String description){
 		this.description = description;
 	}
