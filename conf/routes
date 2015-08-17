@@ -29,7 +29,7 @@ GET		/policy/create				   	com.depth1.grc.controllers.Application.showCreatePoli
 
 GET		/policy/createBody				com.depth1.grc.controllers.Application.showCreatePolicyEditorPage()
 
-GET		/policy/view					com.depth1.grc.controllers.Application.showViewPolicyPage()
+GET		/policy/view/:id				com.depth1.grc.controllers.Application.showViewPolicyPage(id: java.util.UUID)
 
 GET		/policy/update/:id				com.depth1.grc.controllers.Application.showUpdatePolicyPage(id: java.util.UUID)
 
@@ -40,6 +40,8 @@ GET 	/policy/restore					com.depth1.grc.controllers.Application.showRestorePolic
 GET 	/policy/restore/done			com.depth1.grc.controllers.Application.restorePolicy(policyId: String)
 
 GET		/policy/delete/done				com.depth1.grc.controllers.Application.deletePolicy(policyId: String)
+
+GET		/policy/download/name			com.depth1.grc.controllers.Application.downloadPolicy(name: String)
 
 POST  	/policy/create/done				com.depth1.grc.controllers.Application.createPolicy()
 

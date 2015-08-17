@@ -90,10 +90,12 @@
 		<tbody id="rows">
 			@for(policy <- policies) {
 			<tr onclick="selectRow('@policy.getId()')" id="@policy.getId()">
-				<td><a href="@com.depth1.grc.controllers.routes.Application.showUpdatePolicyPage(policy.getId())">@policy.getName()</a></td>
+				<td><a href="@com.depth1.grc.controllers.routes.Application.showViewPolicyPage(policy.getId())">@policy.getName()</a></td>
 				<td><a href="@com.depth1.grc.controllers.routes.Application.showUpdatePolicyPage(policy.getId())">@policy.getPolicyId()</a></td>
 				<td>@policy.getVersion()</td>
-				<td>@policy.getLastUpdatedDate()</td>
+				<td><a href="@com.depth1.grc.controllers.routes.Application.showUpdatePolicyPage(policy.getId())">@policy.getLastUpdatedDate()</a></td>
+
+					
 			</tr>
 			}
 		</tbody>

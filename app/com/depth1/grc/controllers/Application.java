@@ -11,6 +11,9 @@ import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.jsoup.*;
 
@@ -359,17 +362,27 @@ tart */
 		return ok();
 	}
 
-	public Result showViewPolicyPage() {		
-		//String filepath = selectedPolicy.filePath;
-		
-       	//File file = new java.io.File(source);
-		//return ok(file);
-		String filepath = "documents/test.pdf";
-		
-		//response.removeHeader("Content-Disposition");
-		return ok(new java.io.File(filepath));
-		//return ok(viewPolicy.render(selectedPolicy));
-		//return ok();
+	public Result showViewPolicyPage(UUID id) {		
+		//String filepath = "documents/test.pdf";
+		//return ok(new java.io.File(filepath));
+
+		PolicyDao policyDao;
+		try {
+			policyDao = cassandraFactory.getPolicyDao();
+			final Policy policy = policyDao.viewPolicyById(id);
+			//File policyBodyFile = new java.io.File("public/policyDocuments/"+policy.getName());
+			String policyBody = "";
+			try{policyBody = new String(Files.readAllBytes(Paths.get("public/policyDocuments/" + policy.getName())));}
+			catch(IOException e){
+				Logger.error("Error reading policy body file into string: ", e);
+			}
+			return ok(viewPolicy.render(policy, policyBody));
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page: ", e);
+		}
+		return ok();
+
+
 	}
 
 	public Result showUpdatePolicyPage(UUID id) {
@@ -408,6 +421,12 @@ tart */
 		}
 
 		return ok(restorePolicy.render(policies));
+	}
+
+	public Result downloadPolicy(String name){
+		String filepath = "public/policyDocuments/" + name;
+		return ok(new java.io.File(filepath));
+
 	}
 
 }
