@@ -17,18 +17,16 @@ public interface RiskAssessmentDao {
     /**
      * Updates selected Risk Assessment
      * @param riskAssessment to be updated
-     * @return updated Risk Assessment and deletes the old Risk Assessment
      * @throws DaoException if update failed
      */
-	public boolean updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
+	public void updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
 
     /**
      * Deletes selected Risk Assessment
      * @param riskAssessment to be deleted
-     * @return true if deletion was successful
      * @throws DaoException error if deletion failed
      */
-	public boolean deleteRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
+	public void deleteRiskAssessment(RiskAssessment riskAssessment) throws DaoException;
 
     /**
      * Lists all of the Risk Assessments in the database

@@ -60,6 +60,8 @@ public class RiskAssessment {
      */
 	public RiskAssessment(){
 		
+		assessmentId = UUID.randomUUID();
+		
 	}
 
 	/*

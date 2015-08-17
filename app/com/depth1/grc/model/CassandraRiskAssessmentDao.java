@@ -31,7 +31,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 		try {					
 			Statement insert = QueryBuilder
 					.insertInto("grc", "riskassessment")
-					.value("id", UUID.randomUUID()) //need to change this to not be random
+					.value("id", riskAssessment.getAssessmentId())
 					// .value("tenantid", fillThis) needs to be some random text?
 					// .value("assessmentid", fillThis) needs to be some random int
 					.value("risk", riskAssessment.getRisk())
@@ -62,12 +62,12 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
      * Updates the selected Risk Assessment with newly inputted data fields by the user.
      * Replaces old Risk Assessment with the new.
      * @param riskAssessment form is passed in to be updated.
+     * @return 
      * @return true if updated successfully.
      * @throws DaoException error if update failed
      */
 	@Override
-	public boolean updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
-        boolean update = false;
+	public void updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
         Session dbSession = CassandraDaoFactory.connect();
         try {
             Update.Assignments updateRA = QueryBuilder
@@ -93,13 +93,11 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
                     .where(eq("assessmentid", riskAssessment.getAssessmentId()));
 
             dbSession.execute(updateDetails);
-            update = true;
         } catch (DriverException e) {
             Logger.error("Error occurred while attempting to update Risk Assessment ", e);
         } finally {
             CassandraDaoFactory.close(dbSession);
         }
-        return update;
 	}
 
     /**
@@ -109,20 +107,17 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
      * @throws DaoException error if deletion failed.
      */
 	@Override
-	public boolean deleteRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
-        boolean del = false;
+	public void deleteRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
         Session dbSession = CassandraDaoFactory.connect();
         try {
             Delete.Where delete = QueryBuilder.delete().from("grc", "riskassessment")
                     .where(eq("id", riskAssessment.getAssessmentId()));
             dbSession.execute(delete);
-            del = true;
         } catch (DriverException e) {
             Logger.error("Error occurred while attempting to delete Risk Assessment", e);
         } finally {
             CassandraDaoFactory.close(dbSession);
         }
-        return del;
 	}
 
     /**
