@@ -2,6 +2,8 @@ package com.depth1.grc.model;
 
 import java.util.UUID;
 
+import com.depth1.grc.model.common.DateFormat;
+
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
 
@@ -40,14 +42,19 @@ public class Policy {
 	private String functionalApplicability;
 	private String geographicApplicability;
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
+	@DateFormat("MM-dd-yyyy")
 	private UUID effectiveDate;
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
+	@DateFormat("MM-dd-yyyy")
 	private UUID issueDate;
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
+	@DateFormat("MM-dd-yyyy")
 	private UUID lastReviewDate;
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
+	@DateFormat("MM-dd-yyyy")
 	private UUID nextReviewDate;
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
+	@DateFormat("MM-dd-yyyy")
 	private UUID lastUpdatedDate;
 	
 	//Constructor

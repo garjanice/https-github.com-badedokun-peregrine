@@ -6,7 +6,7 @@
 	<script src="@routes.Assets.versioned("javascripts/tinymce.min.js")"></script>
 	<script>
 	    tinymce.init({
-	    selector: "#policy-body",
+	    selector: "#policybody",
 	    theme: "modern",
 	    plugins: [
 	        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
@@ -21,7 +21,31 @@
 	        {title: 'Test template 1', content: 'Test 1'},
 	        {title: 'Test template 2', content: 'Test 2'}
 	    ]
-		});
+		});	
+		
+		function HandleBrowseClick() {
+			document.getElementById("browse").click();
+		}
+		
+		function HandleChange() {
+			var fileinput = document.getElementById("browse");
+    		var textinput = document.getElementById("filename");
+    		textinput.value = fileinput.value;  
+     		fileinput.addEventListener("change", function(event){
+     			event.stopPropagation();    
+         		var reader = new FileReader();        
+         		reader.onload = function(event){
+         			event.stopPropagation();
+             		var contents = event.target.result;
+               		document.getElementById('policybody').value = contents;            
+         		};        
+         		reader.onerror = function(event){
+            		console.error("File could not be read! Code " + event.target.error.code);
+         		};        
+         		console.log("Filename: " + fileinput.files[0].name);
+         		reader.readAsText(fileinput.files[0]);        
+     		}, false);
+		}
 	</script>
 <section class=wrapper>
 	<h1>Policy</h1>
@@ -55,7 +79,10 @@
 		</fieldset>
 	</section>
 	<section style="display:inline-block; float:left; margin:30px; width:65%;">
-		@helper.textarea(policyForm("policy-body"))
+		<input type="file" id="browse" name="fileupload" style="display: none" onchange="HandleChange();"/>
+		<input type="text" id="filename" readonly="true"/>
+		<input type="button" value="Click to select file" id="fakeBrowse" onclick="HandleBrowseClick();"/>
+		@helper.textarea(policyForm("policybody"), 'rows -> 50)
 		<input type="submit" name="action" value="Submit">
 	</section>
 	}

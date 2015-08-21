@@ -1,5 +1,6 @@
 package com.depth1.grc.model;
 
+import java.io.File;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.UUID;
 import org.joda.time.LocalDateTime;
 
 import play.Logger;
+import play.mvc.Http.MultipartFormData;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -353,12 +355,6 @@ public class CassandraPolicyDao implements PolicyDao {
 			CassandraDaoFactory.close(dbSession);
 		}
 		return null;
-	}
-
-	@Override
-	public void importPolicy(Policy policy) throws DaoException {
-		// TODO Auto-generated method stub
-		createPolicy(policy);
 	}
 
 	@Override
