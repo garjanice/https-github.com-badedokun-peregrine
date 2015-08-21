@@ -18,6 +18,7 @@ import play.Logger;
 import play.data.Form;
 import play.data.Form.Field;
 import play.mvc.Controller;
+import play.mvc.Http.MultipartFormData;
 import play.mvc.Http.RequestBody;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -253,6 +254,21 @@ tart */
 		}
 		return redirect("/policy");
 	}
+/*	
+	public Result importPolicyBody() throws DaoException {
+		MultipartFormData body = request().body().asMultipartFormData();
+		MultipartFormData.FilePart picture = body.getFile("picture");
+		if (picture != null) {
+	        String fileName = picture.getFilename();
+	        String contentType = picture.getContentType();
+	        File file = picture.getFile();
+	        return ok("File uploaded");
+	    } else {
+	        flash("error", "Missing file");
+	        return badRequest();
+	    }
+	}
+*/
 	
 	private void savePolicyBodyDocument(String fileName, Field policyBody) {
 		try {
