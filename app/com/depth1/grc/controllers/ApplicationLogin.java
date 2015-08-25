@@ -31,7 +31,7 @@ public class ApplicationLogin extends Controller {
 	private static final Form<Login> loginForm = Form.form(Login.class);
 	
 	public Result login() {
-		return ok(login.render(loginForm));
+		return ok(login.render());
 	}
 	
 	/**

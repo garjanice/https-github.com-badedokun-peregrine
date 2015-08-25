@@ -1,0 +1,135 @@
+.footer-style {
+    
+    background-color: #856941;
+    border-style: solid;
+    height: 100px;
+    }
+.footer-website{
+    margin-top: 10px;
+    }
+.blue-link{
+    color: blue;
+    }
+.blue-link:hover{
+    color: blue;
+    background-color: white;
+    }
+.white-link{
+    color: white;
+    }
+    
+#mainpage-header{
+    min-width: 800px;
+    height: 100px;
+    background-color: #fff;
+    }
+    
+.float-left {
+    float: left;
+    }
+.float-right {
+    float: right;
+    }
+
+#navbar-custom{
+    border-radius: 5px;
+    min-width: 1000px;
+    border: 1px solid black;
+    }
+#carousel-generic {
+    z-index: -1;
+    position: relative;
+    border-style: solid;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 400px;
+    width: 640px;
+    }
+    
+.main-content {
+    border-radius: 15px;
+    height: 180px;
+    width: 180px;
+    border-style: solid;
+    margin-bottom: 10px;
+    }
+.neg-margin {
+    margin-top: -35px;
+    margin-bottom: 15px;
+    }
+#navbar-custom {
+    z-index: -1;
+    }
+.main-navbar {
+    z-index: 1000;
+    
+    }
+.ul-border {
+    border: 1px solid black;
+    border-color: black;
+    }
+a:hover {
+    color: blue;
+    text-decoration: underline;
+    }
+/*  RACreate Page CSS */
+
+
+.bordered-h5 {
+    margin-left: 15px;
+    padding-left: 5px;
+    margin-top: -10px;
+    margin-right: 800px;
+    background-color: #FFF;
+    color: #000;
+    }
+.bordered-h5-2 {
+    margin-left: 15px;
+    padding-left: 5px;
+    margin-top: -10px;
+    margin-right: 720px;
+    background-color: #FFF;
+    color: #000;
+    }
+    
+.fieldset-bordered {
+    border: 2px solid black;
+    width: 950px;
+    }
+.input-style {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    }
+.label-style {
+    margin-left: 20px;
+    }
+.input-wide {
+    width: 100px;
+    }
+.textarea-adjust {
+    margin-bottom: -20px;
+    margin-top: 30px;
+    }
+.label-push-1 {
+     margin-right: 65px;
+     }
+.label-push-2{
+    margin-right: 21px;
+    }
+.label-push-3{
+    margin-right: 11px;
+    }
+.label-push-4{
+    margin-right: 8px;
+    margin-bottom: 30px;
+    }
+.button-spacer {
+    margin-left: 400px;
+    }
+
+/*    RAList      */
+
+.pagination-link{
+    font-size: 24px;
+    margin: 25px;    
+    }

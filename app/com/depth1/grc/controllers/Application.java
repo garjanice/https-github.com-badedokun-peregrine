@@ -169,9 +169,27 @@ public class Application extends Controller {
 			Logger.error("Error occurred while creating risk assessment criteria ", e);
 		}
 
-		return ok(frontRA.render(riskAssessments));
+		return ok(frontRA.render(riskAssessments, riskAssessments.size()));
 	}
+	
+	
+	/**
+	 *  Pagination for RiskAssessment
+	 */
+	public Result showFrontRAPagePagination(int page, int view){
+		int size = 0;
+		try {
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory.getRiskAssessmentDao();
+			riskAssessments = riskAssessmentDao.listRiskAssessment();
+			size = riskAssessments.size();
+			riskAssessments = riskAssessmentDao.listRiskAssessmentPagination(view, page );
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating risk assessment criteria ", e);
+		}
 
+		return ok(frontRA.render(riskAssessments, size));
+	}
+	
 	/**
 	 * This method shows the create Risk Assessment page if the 'Create' button
 	 * is clicked

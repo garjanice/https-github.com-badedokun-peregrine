@@ -1,16 +1,61 @@
-@import com.depth1.grc.model.Login
-@(loginForm: Form[Login])
-@import helper._
-
-@main("Please Login") {
-@helper.form(action = com.depth1.grc.controllers.routes.ApplicationLogin.authenticate()) {
-	<h1>Sign in</h1>
-	<p>
-	<p> @helper.inputText(loginForm("username"), 'id -> "username", 'size -> 30)
-    <p> @helper.inputPassword(loginForm("password"), 'id -> "password", 'size -> 30)
-	</p>	
-	<p>
-	<button type="submit">Sign in</button>
-	</p>
-	}
-}
+<!DOCTYPE html>
+   <html>
+      <header>
+         <link rel="stylesheet" media="screen" href="/assets/stylesheets/bootstrap.min.css">
+         <link rel="stylesheet" media="screen" href="/assets/stylesheets/flatly.css">
+         <link rel="stylesheet" media="screen" href="/assets/stylesheets/login-custom.css">
+      </header>
+      <body>
+         <div class="height-spacer-200 container">
+            <div class="col-md-12 height-spacer-100">
+            </div>
+            <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+               <img src="images/MyLogo.png" alt="My Logo" class="img-border">
+               <h2 class="login-header"> Name of Company </h2>
+            </div>
+            
+         </div>
+         <div class="container">
+            <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2" id="loginbox">
+               <form id="logInForm" class="form-horizontal" action="/authenticate" method="POST">
+                  <div class="form-group">
+                     <label for="username" class="col-md-2 control-label col-sm-2"><span class="glyphicon glyphicon-user size-glyph"></span></label>
+                     <div class="col-md-7 col-sm-7">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="User Name">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label for="password" class="col-md-2 control-label col-sm-2"><span class="glyphicon glyphicon-lock size-glyph"></span></label>
+                     <div class="col-md-7 col-sm-7">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                     </div>
+                  </div>
+               </form>
+               <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
+                  <a class="blue-link" id="forgot-password" href="#">Forgot Password?</a>
+               </div>
+               <div class="col-md-2 col-md-offset-9 col-sm-2 col-sm-offset-8">
+                  <button id="log-in-button" type="submit" class="btn btn-link" form="logInForm">LOG IN ></button>
+               </div>
+            </div>
+         </div>
+         <div class="height-spacer-100 container">
+            <div class="col-md-12">
+            </div>
+         </div>
+         
+         <footer>
+            <div class="footer-style">
+               <center class="footer-website"> <strong>Company Name/Logo</strong></center>
+               <center class="footer-website">
+                  <a class="blue-link" href="#">User Agreement</a> | 
+                  <a class="blue-link" href="#">Privacy Policy</a> |
+                  <a class="blue-link" href="#">User Policy</a>
+               </center>
+            </div>
+         </footer>
+         
+         <script language="javascript" type="text/javascript" src="/assets/javascripts/jquery-2.1.4.min.js"></script>
+         <script language="javascript" type="text/javascript" src="/assets/javascripts/bootstrap.min.js"></script>
+      </body>
+  </html>

@@ -1,88 +1,63 @@
 @import com.depth1.grc.model.RiskAssessment
-@(riskAssessments:List[RiskAssessment])
-@main("Risk Assessment") {
+@(riskAssessments:List[RiskAssessment], rASize:Integer)
 
+@header()
 
-<head>
+       <ol class="breadcrumb">
+           <li><a class="blue-link" href="#">Home</a></li>
+           <li><a class="blue-link" href="#">Enterprise</a></li>
+           <li><a class="blue-link" href="#">Operation Risk</a></li>
+           <li><a class="blue-link" href="#">Risk Assessment</a></li>
+        </ol>
+        
+        <center>
+           <h1> Risk Assessment</h1>
+           <h6> Front Page</h6>
+           <br>
+           <br>
+           <br>
+        </center>
+        <div>
+           <div class="float-right">
+              <p> <a class="blue-link" href="/riskAssessment/1/4"> View 4</a> |
+              <a class="blue-link" href="/riskAssessment/1/25"> View 25</a> | 
+              <a class="blue-link" href="/riskAssessment/1/50"> View 50</a> </p>
+           </div>
+        </div>
+        <div>
+           
+           <table id="raTable" class="table table-striped table-bordered table-hoover">
+              <thead>
+                <tr>
+                   <th>Risk</th>
+        		   <th>Likelihood</th>
+				   <th>Severity</th>
+				   <th>Consequence</th>
+                </tr>
+              </thead>
+              <tbody>
+                 @for(RiskAssessment <- riskAssessments) {
+			     <tr>
+				    <td>@RiskAssessment.getRisk</td>
+				    <td>@RiskAssessment.getLikelihood</td>
+				    <td>@RiskAssessment.getSeverity</td>
+				    <td>@RiskAssessment.getConsequence</td>
+			    </tr>
+			    }
+              </tbody>
+           </table>
+        </div>
+        
+        <center>
+           <div id="paginationArray">
+           </div>
+        </center>
+        <br>
+        <br>
+        <br>
+        <script>
+           var rAFrontListSize = @rASize;
+           
+        </script> 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script type = "text/javascript" src="@routes.Assets.versioned("javascripts/frontRAScript.js")"></script>
-
-</head>
-
-
-<style>
-tr {
-	cursor: default;
-}
-
-.highlight {
-	background: #00CCFF;
-}
-</style>
-
-<!-- header -->
-@header() 
-
-<!-- main -->
-<main id="home-main" class="page-main">
-<section class="wrapper">
-	<h1>Risk Assessment</h1>
-	<legend> Front Page</legend>
-	<table style="text-align: center;" class="table">
-		<thead>
-			<tr>
-				<th>Risk</th>
-				<th>Likelihood</th>
-				<th>Severity</th>
-				<th>Consequence</th>
-			</tr>
-		</thead>
-		<tbody>
-			@for(RiskAssessment <- riskAssessments) {
-			<tr>
-				<td>@RiskAssessment.getRisk</td>
-				<td>@RiskAssessment.getLikelihood</td>
-				<td>@RiskAssessment.getSeverity</td>
-				<td>@RiskAssessment.getConsequence</td>
-			</tr>
-			}
-		</tbody>
-
-	</table>
-
-	<!--the buttons, using just html forms-->
-	<FORM ACTION=/riskAssessment/create />
-	<INPUT TYPE="submit"
-		style="position: relative; bottom: 0px; left: -225px; height: 30px; width: 100px;"
-		VALUE="Create">
-	</FORM>
-
-	<FORM ACTION=/riskAssessment/view />
-	<INPUT TYPE="submit"
-		style="position: relative; bottom: 30px; left: -75px; height: 30px; width: 100px;"
-		VALUE="View">
-	</FORM>
-
-	<FORM ACTION=/riskAssessment/update />
-	<INPUT TYPE="submit"
-		style="position: relative; bottom: 60px; left: 75px; height: 30px; width: 100px;"
-		VALUE="Update">
-	</FORM>
-
-	<INPUT TYPE="button" class = "delete-btn" value = "Delete"
-		style="position: relative; bottom: 90px; left: 225px; height: 30px; width: 100px;"
-	/>
-
-	<FORM ACTION="/" />
-	<INPUT TYPE="submit"
-		style="position: relative; bottom: 50px; height: 30px; width: 100px;"
-		VALUE="Back">
-	</FORM>
-</section>
-</main>
-<!-- end of main -->
-
-<!-- footer -->
 @footer()
-}

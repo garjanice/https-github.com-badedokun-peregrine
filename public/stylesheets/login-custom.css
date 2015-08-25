@@ -1,0 +1,55 @@
+
+.height-spacer-200 {
+    height: 150px;
+    }
+.height-spacer-100 {
+    height: 80px;
+    }
+    
+#loginbox {
+    border-style: solid;
+    padding-top: 75px;
+    }
+    
+#forgot-password {
+    margin-top: 15px;
+    margin-bottom: 25px;
+    }
+
+#log-in-button{
+    font-size: 25px;
+    color: #000;
+    }
+  
+.img-border {
+    float: left;
+    width: 240px;
+    height: 60px;
+    border: 2px solid black;
+    margin-bottom: 20px;
+    padding: 10px;
+    }
+.login-header {
+    float:  left;
+    margin-left: 10px;
+    }
+.size-glyph {
+    font-size: 25px;
+    }
+    
+.footer-style {
+    
+    background-color: #aaa;
+    border-style: solid;
+    height: 100px;
+    }
+.footer-website{
+    margin-top: 10px;
+    }
+.blue-link{
+    color: blue;
+    }
+a:hover {
+    color: blue;
+    text-decoration: underline;
+    }
