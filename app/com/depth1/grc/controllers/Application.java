@@ -1,5 +1,7 @@
 package com.depth1.grc.controllers;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +22,7 @@ import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
+import com.depth1.grc.model.RiskAssessmentUtil;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.createRA;
@@ -122,7 +125,7 @@ public class Application extends Controller {
 					e);
 		}
 
-		return redirect("/riskAssessment");
+		return redirect("/riskAssessment/1/10/descendingRisk");
 	}
 
     /**
@@ -144,13 +147,32 @@ public class Application extends Controller {
 	}
 	
 	public Result setSelectedRA() {
+		RiskAssessmentUtil riskAssessmentUtil = new RiskAssessmentUtil();
 		JsonNode node = request().body().asJson().get("val");
+		JsonNode node2 = request().body().asJson().get("sort");
+		JsonNode node3 = request().body().asJson().get("query");
 		 if(node == null){
 		        return badRequest("empty json"); 
 		    }
 		String inputString = node.textValue();
-		//System.out.println(inputString);
+		String sort = node2.textValue();
+		String query = node3.textValue();
 		int index = Integer.parseInt(inputString);
+		int size = 0;
+		/*try {
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory.getRiskAssessmentDao();
+			riskAssessments = riskAssessmentDao.listRiskAssessment();
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating risk assessment criteria ", e);
+		}
+		if(query.compareTo("UNDEFINED")!= 0){
+			riskAssessments = riskAssessmentUtil.FilterDataByQuery(riskAssessments, query);
+			size = riskAssessments.size();
+			
+		}
+		if(size > 0){
+			riskAssessments = riskAssessmentUtil.RiskAssessmentSort(riskAssessments, sort);
+		}*/
 		selectedRA = riskAssessments.get(index);
 		return ok();
 	}
@@ -176,13 +198,25 @@ public class Application extends Controller {
 	/**
 	 *  Pagination for RiskAssessment
 	 */
-	public Result showFrontRAPagePagination(int page, int view){
+	
+	
+	public Result showFrontRAPageQuery(int page, int view, String order, String query){
 		int size = 0;
+		RiskAssessmentUtil riskAssessmentUtil = new RiskAssessmentUtil();
 		try {
 			RiskAssessmentDao riskAssessmentDao = cassandraFactory.getRiskAssessmentDao();
 			riskAssessments = riskAssessmentDao.listRiskAssessment();
 			size = riskAssessments.size();
-			riskAssessments = riskAssessmentDao.listRiskAssessmentPagination(view, page );
+			//riskAssessments = riskAssessmentDao.listRiskAssessmentPagination(view, page );
+			if(query.compareTo("")!= 0){
+				riskAssessments = riskAssessmentUtil.FilterDataByQuery(riskAssessments, query);
+				size = riskAssessments.size();
+				
+			}
+			if(size > 0){
+				riskAssessments = riskAssessmentUtil.RiskAssessmentSort(riskAssessments, order);
+				riskAssessments = riskAssessmentUtil.RiskAssessmentPagination(riskAssessments, view, page);
+			}
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating risk assessment criteria ", e);
 		}
@@ -198,7 +232,7 @@ public class Application extends Controller {
 	 */
 	public Result showCreateRAPage() {
 
-		return ok(createRA.render(rAForm));
+		return ok(createRA.render());
 	}
 
 	/**

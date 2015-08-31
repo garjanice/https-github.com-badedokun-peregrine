@@ -21,7 +21,7 @@
            </br>
         </center>
         <center>
-        <form id="raCreation" action="/" method="post">
+        <form id="raCreation" action="/riskAssessment/create/done" method="post">
            <fieldset class="fieldset-bordered">
               <h4 class="bordered-h5"> Identification </h4> 
                   
@@ -51,39 +51,39 @@
                  <label for="severityDescription" class="label-style" >Severity Description</label>
                  <!--<input type="text" id="severityDescription" name="severityDescription" class="input-style input-wide" > -->
                             
-                 <textarea form="raCreation" cols="55" rows="2" id="severityDescription" name="severityDescription" class="textarea-adjust">@selectedRA.getSeverityDescription
+                 <textarea form="raCreation" cols="55" rows="2" id="severityDescription" name="severityDescription" class="textarea-adjust" value="@selectedRA.getSeverityDescription">
                  </textarea>
               </div>
               <div>
                  <label for="likelihood" class="label-style" >Likelihood:</label>
                  <input type="text" id="likelihood" name="likelihood" class="input-style" value="@selectedRA.getLikelihood">
                  <label for="likelihoodDescription" class="label-style" >Likelihood Description</label>
-                 <textarea form="raCreation" cols="51" rows="2" id="likelihoodDescription" name="likelihoodDescription" class="textarea-adjust" >@selectedRA.getLikelihoodDescription
+                 <textarea form="raCreation" cols="51" rows="2" id="likelihoodDescription" name="likelihoodDescription" class="textarea-adjust" value="@selectedRA.getLikelihoodDescription">
                  </textarea>
               </div>
               <div>
                  <label for="opportunity" class="label-style label-push-3" >Opportunity</label>
-                 <textarea form="raCreation" cols="93" rows="2" id="opportunity" name="opportunity" class="textarea-adjust">@selectedRA.getOpportunity
+                 <textarea form="raCreation" cols="93" rows="2" id="opportunity" name="opportunity" class="textarea-adjust" value="@selectedRA.getOpportunity">
                  </textarea>
               </div>
               <div>
-                 <label for="tiggerEvent" class="label-style label-push-3" >Trigger Event</label>
-                 <textarea form="raCreation" cols="93" rows="2" id="tiggerEvent" name="tiggerEvent" class="textarea-adjust" >@selectedRA.getTriggerEvent
+                 <label for="tiggerEvent" class="label-style label-push-3" >Tigger Event</label>
+                 <textarea form="raCreation" cols="93" rows="2" id="tiggerEvent" name="tiggerEvent" class="textarea-adjust" value="@selectedRA.getTriggerEvent">
                  </textarea>
               </div>
               <div>
                  <label for="risk" class="label-style label-push-1" >Risk</label>
-                 <textarea form="raCreation" cols="93" rows="2" id="risk" name="risk" class="textarea-adjust" >@selectedRA.getRisk
+                 <textarea form="raCreation" cols="93" rows="2" id="risk" name="risk" class="textarea-adjust" value="@selectedRA.getRisk">
                  </textarea>
               </div>
               <div>
                  <label for="riskFactor" class="label-style label-push-2" >Risk Factor</label>
-                 <textarea form="raCreation" cols="93" rows="2" id="riskFactor" name="riskFactor" class="textarea-adjust">@selectedRA.getRiskFactor
+                 <textarea form="raCreation" cols="93" rows="2" id="riskFactor" name="riskFactor" class="textarea-adjust" value="@selectedRA.getRiskFactor">
                  </textarea>
               </div>
               <div>
                  <label for="consequence" class="label-style label-push-4" >Consequence</label>
-                 <textarea form="raCreation" cols="93" rows="2" id="consequence" name="consequence" class="textarea-adjust" >@selectedRA.getConsequence
+                 <textarea form="raCreation" cols="93" rows="2" id="consequence" name="consequence" class="textarea-adjust" value="@selectedRA.getConsequence">
                  </textarea>
               </div>
            </fieldset>

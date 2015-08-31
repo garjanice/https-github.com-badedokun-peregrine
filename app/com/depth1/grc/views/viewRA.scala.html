@@ -1,39 +1,78 @@
 @import com.depth1.grc.model.RiskAssessment
 @(selectedRA:RiskAssessment) 
-@import helper._ 
-
-@main("View RA") {
-
-	 <!-- header -->
+@import helper._
+<!-- header -->
 @header()
 
-<!-- main -->
- <main id="home-main" class="page-main">
- <section class="wrapper">
-   <h1>Risk Assessment</h1>
-   <legend> Update Risk Assessment</legend>
-   
-   <section class ="wrapper">
-		Risk : <input class = type = "text" name = "risk" value="@selectedRA.getRisk" readonly><br>
-		Severity : <input type = "text" name = "risk" value="@selectedRA.getSeverity" readonly><br>
-		Severity Description : <input type = "text" name = "risk" value="@selectedRA.getSeverityDescription" readonly><br>
-		Likelihood : <input type = "text" name = "risk" value="@selectedRA.getLikelihood" readonly><br>
-		Likelihood Description : <input type = "text" name = "risk" value="@selectedRA.getLikelihoodDescription" readonly><br>
-		Vulnerability : <input type = "text" name = "risk" value="@selectedRA.getVulnerability" readonly><br>
-		Speed of Onset : <input type = "text" name = "risk" value="@selectedRA.getSpeedOfOnset" readonly><br>
-		Impact : <input type = "text" name = "risk" value="@selectedRA.getImpact" readonly><br>
-		Opportunity : <input type = "text" name = "risk" value="@selectedRA.getOpportunity" readonly><br>
-		Trigger Event : <input type = "text" name = "risk" value="@selectedRA.getTriggerEvent" readonly><br>
-		Risk Factor : <input type = "text" name = "risk" value="@selectedRA.getRiskFactor" readonly><br>
-		Consequence : <input type = "text" name = "risk" value="@selectedRA.getConsequence" readonly><br>
-	</section>
-
-	<button type="submit" name="action" value="edit" style = "position: relative; left: -50px;" >Return</button>
-	
-</section>
-
-<!-- end of main -->
-
+<!-- main html -->
+       <ol class="breadcrumb">
+           <li><a class="blue-link" href="/">Home</a></li>
+           <li><a class="blue-link" href="#">Enterprise</a></li>
+           <li><a class="blue-link" href="#">Operation Risk</a></li>
+           <li><a class="blue-link" href="/riskAssessment/1/4/descendingRisk">Risk Assessment</a></li>
+           <li>View </li>
+        </ol>
+        
+        <center>
+           <h1> Risk Assessment</h1>
+           <br>
+           <br>
+           <br>
+        </center>
+        <center>
+        <div class="raViewBox">
+            <h4 class="raViewBoxTitle"> Identification and Risk Posture</h4>
+	        <table id="raViewTable">
+	           <tr>
+	              <td class="raViewRow1"> <b>Tenant Id:</b></td>
+	              <td class="raViewRow1"> @selectedRA.getTenantId</td>
+	              <td class="raViewRow1"> <b>Vulnerability:</b></td>
+	              <td class="raViewRow1"> @selectedRA.getVulnerability</td>
+	              <td class="raViewRow1"> <b>Speed of Onset:</b></td>
+	              <td class="raViewRow1"> @selectedRA.getSpeedOfOnset</td>
+	              <td class="raViewRow1"> <b>Impact:</b></td>
+	              <td class="raViewRow1"> @selectedRA.getImpact</td>
+	           </tr>
+	        </table>
+	        <table id="raViewTable">
+	           <tr>
+	              <td class="raViewRow1"><b> Severity:</b> </td>
+	              <td class="raViewRow1"> @selectedRA.getSeverity </td>
+	              <td class="raViewRow2-1"><b>Severity Description:</b> </td>
+	              <td class="raViewRow2-2"> @selectedRA.getSeverityDescription </td>
+	           </tr>
+	        </table> 
+	        <table id="raViewTable">
+	           <tr>
+	              <td class="raViewRow1"><b> Likelihood:</b> </td>
+	              <td class="raViewRow1"> @selectedRA.getLikelihood </td>
+	              <td class="raViewRow2-1"><b>Likelihood Description:</b> </td>
+	              <td class="raViewRow2-2"> @selectedRA.getLikelihoodDescription </td>
+	           </tr>
+	        </table> 
+	        <table id="raViewTable">
+	           <tr>
+	              <td class="raViewRow1"><b> Opportunity:</b> </td>
+	              <td class="raViewRow3"> @selectedRA.getOpportunity </td>
+	           </tr>
+	           <tr>
+	              <td class="raViewRow1"><b> Trigger Event:</b> </td>
+	              <td class="raViewRow3"> @selectedRA.getTriggerEvent </td>
+	           </tr>
+	           <tr>
+	              <td class="raViewRow1"><b> Risk:</b> </td>
+	              <td class="raViewRow3"> @selectedRA.getRisk </td>
+	           </tr>
+	           <tr>
+	              <td class="raViewRow1"><b> Risk Factor:</b> </td>
+	              <td class="raViewRow3"> @selectedRA.getRiskFactor </td>
+	           </tr>
+	           <tr>
+	              <td class="raViewRow1"><b> Consequence:</b> </td>
+	              <td class="raViewRow3"> @selectedRA.getConsequence </td>
+	           </tr>
+	        </table> 
+	    </div>
+	    </center>
 <!-- footer -->
 @footer()
-}

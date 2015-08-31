@@ -1,0 +1,31 @@
+@import com.depth1.grc.model.RiskAssessment
+@(selectedRA:RiskAssessment) 
+@import helper._
+<!-- header -->
+@header()
+
+<!-- main html -->
+       <ol class="breadcrumb">
+           <li><a class="blue-link" href="/">Home</a></li>
+           <li><a class="blue-link" href="#">Enterprise</a></li>
+           <li><a class="blue-link" href="#">Operation Risk</a></li>
+           <li><a class="blue-link" href="/riskAssessment/1/4/descendingRisk">Risk Assessment</a></li>
+           <li>View </li>
+        </ol>
+        
+        <center>
+           <h1> Risk Assessment</h1>
+           <br>
+           <br>
+           <br>
+        </center>
+        
+        <table id="raViewTable">
+           <tr>
+           <td>
+           @selectedRA.getRisk
+           </td>
+           </tr>
+        </table> -->
+<!-- footer -->
+@footer()

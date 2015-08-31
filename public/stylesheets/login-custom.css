@@ -1,4 +1,9 @@
 
+body {
+    background: #ffffff;   /* #f9df8d, #796e24);   /* #f2eeb3, #260126); /* previous #ffffff , blue */
+
+    }
+
 .height-spacer-200 {
     height: 150px;
     }
@@ -7,25 +12,34 @@
     }
     
 #loginbox {
-    border-style: solid;
+    border: 1px solid #aaaaaa;
     padding-top: 75px;
+    border-radius: 5px;
+    background: lightblue;     /*#ee9c21, #ea7D24);    /* #8C6954, #BFAF80);  /* previous #d1af96, #eeddc3);  */  
     }
     
 #forgot-password {
+    color: blue;
     margin-top: 15px;
     margin-bottom: 25px;
     }
 
 #log-in-button{
-    font-size: 25px;
-    color: #000;
+    font-size: 20px;
+    color: #ffffff;
+    background: #333333;
+    margin-bottom: 30px;
+    border-radius: 50px 50px 50px 50px;
+    border: 1px solid black;
+    padding-right: 30px;
+    padding-left: 30px;
     }
   
 .img-border {
     float: left;
     width: 240px;
     height: 60px;
-    border: 2px solid black;
+    border: 1px solid black;
     margin-bottom: 20px;
     padding: 10px;
     }
@@ -38,18 +52,19 @@
     }
     
 .footer-style {
+    color: #ffffff;
+    background-color: #333333;      /*#A34E24;           /* #59323C;   /* #333333;*/
     
-    background-color: #aaa;
-    border-style: solid;
     height: 100px;
     }
 .footer-website{
     margin-top: 10px;
+    padding-top: 20px;
     }
 .blue-link{
-    color: blue;
+    color: lightblue;
     }
 a:hover {
-    color: blue;
+    color: lightblue;
     text-decoration: underline;
     }

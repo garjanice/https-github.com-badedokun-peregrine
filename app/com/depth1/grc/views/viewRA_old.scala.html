@@ -1,0 +1,39 @@
+@import com.depth1.grc.model.RiskAssessment
+@(selectedRA:RiskAssessment) 
+@import helper._ 
+
+@main("View RA") {
+
+	 <!-- header -->
+@header()
+
+<!-- main -->
+ <main id="home-main" class="page-main">
+ <section class="wrapper">
+   <h1>Risk Assessment</h1>
+   <legend> Update Risk Assessment</legend>
+   
+   <section class ="wrapper">
+		Risk : <input class = type = "text" name = "risk" value="@selectedRA.getRisk" readonly><br>
+		Severity : <input type = "text" name = "risk" value="@selectedRA.getSeverity" readonly><br>
+		Severity Description : <input type = "text" name = "risk" value="@selectedRA.getSeverityDescription" readonly><br>
+		Likelihood : <input type = "text" name = "risk" value="@selectedRA.getLikelihood" readonly><br>
+		Likelihood Description : <input type = "text" name = "risk" value="@selectedRA.getLikelihoodDescription" readonly><br>
+		Vulnerability : <input type = "text" name = "risk" value="@selectedRA.getVulnerability" readonly><br>
+		Speed of Onset : <input type = "text" name = "risk" value="@selectedRA.getSpeedOfOnset" readonly><br>
+		Impact : <input type = "text" name = "risk" value="@selectedRA.getImpact" readonly><br>
+		Opportunity : <input type = "text" name = "risk" value="@selectedRA.getOpportunity" readonly><br>
+		Trigger Event : <input type = "text" name = "risk" value="@selectedRA.getTriggerEvent" readonly><br>
+		Risk Factor : <input type = "text" name = "risk" value="@selectedRA.getRiskFactor" readonly><br>
+		Consequence : <input type = "text" name = "risk" value="@selectedRA.getConsequence" readonly><br>
+	</section>
+
+	<button type="submit" name="action" value="edit" style = "position: relative; left: -50px;" >Return</button>
+	
+</section>
+
+<!-- end of main -->
+
+<!-- footer -->
+@footer()
+}
