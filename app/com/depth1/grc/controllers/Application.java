@@ -20,6 +20,7 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
+import com.depth1.grc.model.PrintPDFRiskAssessment;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.RiskAssessmentUtil;
@@ -127,7 +128,29 @@ public class Application extends Controller {
 
 		return redirect("/riskAssessment/1/10/descendingRisk");
 	}
+	/**
+	 * @param RiskAssessment
+	 *            The RA criteria to update
+	 * @return the result of the RAC creation
+	 */
+	public Result updateRiskAssessment() {
+		Form<RiskAssessment> filledRA = rAForm.bindFromRequest();
+		RiskAssessment criteria = filledRA.get();
+		try {
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory
+					.getRiskAssessmentDao();
+			riskAssessmentDao.updateRiskAssessment(criteria);
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while updating risk assessment criteria ",
+					e);
+		}
 
+		return redirect("/riskAssessment/1/10/descendingRisk");
+	}
+	
+	
+	
     /**
      * Action method for the 'Delete' button. Deletes selected Risk Assessment
      * @return
@@ -143,36 +166,21 @@ public class Application extends Controller {
 					e);
 		}
 
-		return redirect("/riskAssessment");
+		return redirect("/riskAssessment/1/10/descendingRisk");
 	}
 	
 	public Result setSelectedRA() {
 		RiskAssessmentUtil riskAssessmentUtil = new RiskAssessmentUtil();
 		JsonNode node = request().body().asJson().get("val");
-		JsonNode node2 = request().body().asJson().get("sort");
-		JsonNode node3 = request().body().asJson().get("query");
+		
 		 if(node == null){
 		        return badRequest("empty json"); 
 		    }
 		String inputString = node.textValue();
-		String sort = node2.textValue();
-		String query = node3.textValue();
+		
 		int index = Integer.parseInt(inputString);
 		int size = 0;
-		/*try {
-			RiskAssessmentDao riskAssessmentDao = cassandraFactory.getRiskAssessmentDao();
-			riskAssessments = riskAssessmentDao.listRiskAssessment();
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating risk assessment criteria ", e);
-		}
-		if(query.compareTo("UNDEFINED")!= 0){
-			riskAssessments = riskAssessmentUtil.FilterDataByQuery(riskAssessments, query);
-			size = riskAssessments.size();
-			
-		}
-		if(size > 0){
-			riskAssessments = riskAssessmentUtil.RiskAssessmentSort(riskAssessments, sort);
-		}*/
+		
 		selectedRA = riskAssessments.get(index);
 		return ok();
 	}
@@ -254,5 +262,14 @@ public class Application extends Controller {
 
 		return ok(updateRA.render(selectedRA));
 	}
-
+	/**
+	 * This method allows users to update selected Risk Assessments
+	 * 
+	 * @return update Risk Assessment page
+	 */
+	public Result printRA() {
+		PrintPDFRiskAssessment pdf = new PrintPDFRiskAssessment();
+		pdf.printRiskAssessment(selectedRA);
+		return redirect("/assets/pdf/RA.pdf");
+	}
 }

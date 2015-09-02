@@ -33,7 +33,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 			Statement insert = QueryBuilder
 					.insertInto("grc", "riskassessment")
 					.value("id", UUID.randomUUID()) //need to change this to not be random
-					// .value("tenantid", fillThis) needs to be some random text?
+					.value("tenantid", riskAssessment.getTenantId()) 
 					// .value("assessmentid", fillThis) needs to be some random int
 					.value("risk", riskAssessment.getRisk())
 					.value("severity", riskAssessment.getSeverity())
@@ -70,6 +70,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	public boolean updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
         boolean update = false;
         Session dbSession = CassandraDaoFactory.connect();
+        //System.out.println(riskAssessment.getAssessmentId());
         try {
             Update.Assignments updateRA = QueryBuilder
                     .update("grc", "riskassessment")
@@ -91,8 +92,9 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
                     .and(set("consequence", riskAssessment.getConsequence()));
 
             Statement updateDetails = updateRA
-                    .where(eq("assessmentid", riskAssessment.getAssessmentId()));
+                    .where(eq("id", riskAssessment.getAssessmentId()));
 
+            		
             dbSession.execute(updateDetails);
             update = true;
         } catch (DriverException e) {

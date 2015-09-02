@@ -15,9 +15,13 @@ GET 	/riskAssessment/create			com.depth1.grc.controllers.Application.showCreateR
 
 GET 	/riskAssessment/view			com.depth1.grc.controllers.Application.showViewRAPage()
 
+GET 	/riskAssessment/print			com.depth1.grc.controllers.Application.printRA()
+
 GET 	/riskAssessment/update			com.depth1.grc.controllers.Application.showUpdateRAPage()
 
 DELETE	/riskAssessment/delete			com.depth1.grc.controllers.Application.deleteRiskAssessment()
+
+POST  	/riskAssessment/update/done		com.depth1.grc.controllers.Application.updateRiskAssessment()
 
 POST  	/riskAssessment/create/done		com.depth1.grc.controllers.Application.addRiskAssessment()
 
