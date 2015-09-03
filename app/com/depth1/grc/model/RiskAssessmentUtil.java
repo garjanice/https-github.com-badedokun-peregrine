@@ -16,12 +16,12 @@ import java.util.List;
 public class RiskAssessmentUtil {
 	
 	/**
-	 * This method sorts the RiskAssessments List by particular properties.
+	 * Sorts the RiskAssessments List by particular properties.
 	 * @param riskAssessments - riskAssessment retrieved form the database
 	 * @param order - string describing the property to sort on and how to sort
 	 * @return - list of sorted RiskAssessments
 	 */
-	public List<RiskAssessment> RiskAssessmentSort(List<RiskAssessment> riskAssessments, String order){
+	public List<RiskAssessment> sortRiskAssessment(List<RiskAssessment> riskAssessments, String order){
 		
 		if(order.compareTo("ascendingRisk")== 0){
 			Collections.sort(riskAssessments, new Comparator<RiskAssessment>() {
@@ -84,14 +84,14 @@ public class RiskAssessmentUtil {
 	}
 	
 	/**
-	 * This method pulls out a specific number of RiskAssessment to display for pagination.
+	 * Pulls out a specific number of RiskAssessment to display for pagination.
 	 * @param riskAssessments - list of RiskAssessments
 	 * @param numberOfItems - the number of items to show per page
 	 * @param page - the current page number for pagination
 	 * @return - a List of RiskAssessments 
 	 */
 	
-	public List<RiskAssessment> RiskAssessmentPagination(List<RiskAssessment> riskAssessments, int numberOfItems, int page){
+	public List<RiskAssessment> paginateRiskAssessment(List<RiskAssessment> riskAssessments, int numberOfItems, int page){
 		List<RiskAssessment> shortRiskAssessments = new ArrayList<>();
 		int start = numberOfItems * (page - 1);
         int end = numberOfItems * (page) - 1;
@@ -102,13 +102,13 @@ public class RiskAssessmentUtil {
 	}
 	
 	/**
-	 * This method filters the list of RiskAssessments by a specific String Query searching
+	 * Filters the list of RiskAssessments by a specific String Query searching
 	 * the Risk and Consequences fields.
 	 * @param riskAssessments - List of RiskAssessments to Filter
 	 * @param query - the String to search for
 	 * @return - filtered List of RiskAssessments
 	 */
-	public List<RiskAssessment> FilterDataByQuery(List<RiskAssessment> riskAssessments, String query){
+	public List<RiskAssessment> filterDataByQuery(List<RiskAssessment> riskAssessments, String query){
 		List<RiskAssessment> filteredRiskAssessments = new ArrayList<>();
 		for(int x=0;x < riskAssessments.size();x++){
 			if(riskAssessments.get(x).getRisk().contains(query)){

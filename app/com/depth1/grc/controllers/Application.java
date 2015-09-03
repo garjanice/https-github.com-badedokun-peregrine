@@ -20,7 +20,7 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
-import com.depth1.grc.model.PrintPDFRiskAssessment;
+import com.depth1.grc.model.PrintPdfRiskAssessment;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.RiskAssessmentUtil;
@@ -217,13 +217,13 @@ public class Application extends Controller {
 			size = riskAssessments.size();
 			//riskAssessments = riskAssessmentDao.listRiskAssessmentPagination(view, page );
 			if(query.compareTo("")!= 0){
-				riskAssessments = riskAssessmentUtil.FilterDataByQuery(riskAssessments, query);
+				riskAssessments = riskAssessmentUtil.filterDataByQuery(riskAssessments, query);
 				size = riskAssessments.size();
 				
 			}
 			if(size > 0){
-				riskAssessments = riskAssessmentUtil.RiskAssessmentSort(riskAssessments, order);
-				riskAssessments = riskAssessmentUtil.RiskAssessmentPagination(riskAssessments, view, page);
+				riskAssessments = riskAssessmentUtil.sortRiskAssessment(riskAssessments, order);
+				riskAssessments = riskAssessmentUtil.paginateRiskAssessment(riskAssessments, view, page);
 			}
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating risk assessment criteria ", e);
@@ -263,12 +263,12 @@ public class Application extends Controller {
 		return ok(updateRA.render(selectedRA));
 	}
 	/**
-	 * This method allows users to update selected Risk Assessments
+	 * This method allows users to print selected Risk Assessments
 	 * 
 	 * @return update Risk Assessment page
 	 */
 	public Result printRA() {
-		PrintPDFRiskAssessment pdf = new PrintPDFRiskAssessment();
+		PrintPdfRiskAssessment pdf = new PrintPdfRiskAssessment();
 		pdf.printRiskAssessment(selectedRA);
 		return redirect("/assets/pdf/RA.pdf");
 	}
