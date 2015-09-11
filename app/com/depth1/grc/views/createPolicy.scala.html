@@ -36,7 +36,8 @@
          		var reader = new FileReader();        
          		reader.onload = function(event){
          			event.stopPropagation();
-             		var contents = event.target.result;
+             		//var contents = event.target.result;
+             		var contents = tinyMCE.activeEditor.getContent();
                		document.getElementById('policybody').value = contents;            
          		};        
          		reader.onerror = function(event){
