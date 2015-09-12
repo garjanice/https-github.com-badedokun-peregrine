@@ -8,6 +8,7 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import play.Logger;
+import play.Play;
 
 /**
  * This class is for printing a PDF of the Risk Assessment
@@ -18,13 +19,15 @@ public class PrintPdfRiskAssessment {
 		private PDDocument document;
 		private PDPage page;
 		private PDPageContentStream contentStream;
+		private final String outputFileName = Play.application().configuration().getString("risk.assessment.output.file.url");
 		
 	/**
 	 * Prints Risk Assessment	
 	 * @param ra Risk Assessment to print
 	 */
 	public void printRiskAssessment(RiskAssessment ra){
-		String outputFileName = "./public/pdf/RA.pdf";
+		//String outputFileName = "./public/pdf/RA.pdf";
+		
 		document = new PDDocument();
         page = new PDPage(PDPage.PAGE_SIZE_A4);
         
@@ -49,9 +52,9 @@ public class PrintPdfRiskAssessment {
 	}
 	/**
 	 * This function prints the Title.
-	 * @param line
+	 * @param line - current position in pdf
 	 * @return the current line number (only 841 px/lines per page)
-	 * @throws Exception
+	 * @throws Exception - error when printing to pdf
 	 */
 	private int printRATitle( int line)throws Exception{
 		line += 30;
@@ -66,7 +69,7 @@ public class PrintPdfRiskAssessment {
 	/**
 	 * This function sets up a new page if you come to the end 
 	 * of the current page.
-	 * @throws Exception
+	 * @throws Exception - error when printing to pdf
 	 */
 	private void getNewPDFPage() throws Exception{
 		contentStream.close();
@@ -75,19 +78,29 @@ public class PrintPdfRiskAssessment {
 		contentStream = new PDPageContentStream(document, page);
 	}
 	/**
+	 * Prints the Risk Assessments to pdf
+	 * @param text - the String to print
+	 * @param line - current position in pdf file
+	 * @throws Exception - error when printing to pdf
+	 */
+	private void printPdfRATitle(String text, int line)throws Exception{
+		contentStream.beginText();
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
+        contentStream.moveTextPositionByAmount(10, 841 - line); // 
+        contentStream.drawString(text);
+        contentStream.endText();
+	}
+	
+	/**
 	 * This function prints the main body of the RA.
 	 * @param line - the current line to print on
 	 * @param ra - the Risk Assessment to print
 	 * @return the current line number.  
-	 * @throws Exception
+	 * @throws Exception - error when printing to pdf
 	 */
 	private int printRABody(int line, RiskAssessment ra)throws Exception{
 		
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Risk:");
-        contentStream.endText();
+		printPdfRATitle("Risk:", line);
 		
         line = printTextInBox(135, line, ra.getRisk(), 90);
         line += 25;
@@ -95,11 +108,7 @@ public class PrintPdfRiskAssessment {
 			getNewPDFPage();
 			line = 25;
 		}
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Consequence:");
-        contentStream.endText();
+		printPdfRATitle("Consequence:", line);
 		
         line = printTextInBox(135, line, ra.getConsequence(), 90);
         line += 25;
@@ -107,11 +116,7 @@ public class PrintPdfRiskAssessment {
 			getNewPDFPage();
 			line = 25;
 		}
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Tenant Id:");
-        contentStream.endText();
+		printPdfRATitle("Tenant Id:", line);
 		
         line = printTextInBox(135, line, Integer.toString(ra.getTenantId()), 90);
         line += 25;
@@ -119,11 +124,7 @@ public class PrintPdfRiskAssessment {
 			getNewPDFPage();
 			line = 25;
 		}
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Assessment Id:");
-        contentStream.endText();
+		printPdfRATitle("Assessment Id:", line);
 		
         line = printTextInBox(135, line, ra.getAssessmentId().toString(), 90);
         line += 25;
@@ -131,49 +132,28 @@ public class PrintPdfRiskAssessment {
 			getNewPDFPage();
 			line = 25;
 		}
-		
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Vulnerability:");
-        contentStream.endText();
-		
-        line = printTextInBox(135, line, Float.toString(ra.getVulnerability()), 90);
+		printPdfRATitle("Vulnerability:", line);
+		line = printTextInBox(135, line, Float.toString(ra.getVulnerability()), 90);
         line += 25;
 		if(line > 800){
 			getNewPDFPage();
 			line = 25;
 		}
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Speed of Onset:");
-        contentStream.endText();
-		
-        line = printTextInBox(135, line, Float.toString(ra.getSpeedOfOnset()), 90);
+		printPdfRATitle("Speed of Onset:", line);
+		line = printTextInBox(135, line, Float.toString(ra.getSpeedOfOnset()), 90);
         line += 25;
 		if(line > 800){
 			getNewPDFPage();
 			line = 25;
 		}
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Impact:");
-        contentStream.endText();
-		
-        line = printTextInBox(135, line, Float.toString(ra.getImpact()), 90);
+		printPdfRATitle("Impact:", line);
+	    line = printTextInBox(135, line, Float.toString(ra.getImpact()), 90);
         line += 25;
 		if(line > 800){
 			getNewPDFPage();
 			line = 25;
 		}
-		
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Likelihood:");
-        contentStream.endText();
+		printPdfRATitle("Likelihood:", line);
 		
         line = printTextInBox(135, line, Float.toString(ra.getLikelihood()), 90);
         line += 25;
@@ -181,76 +161,43 @@ public class PrintPdfRiskAssessment {
 			getNewPDFPage();
 			line = 25;
 		}
-		
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Likelihood Description:");
-        contentStream.endText();
-		
-        line = printTextInBox(135, line, ra.getLikelihoodDescription(), 90);
+		printPdfRATitle("Likelihood Description:", line);
+		line = printTextInBox(135, line, ra.getLikelihoodDescription(), 90);
         line += 25;
 		if(line > 800){
 			getNewPDFPage();
 			line = 25;
 		}
-		
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Severity:");
-        contentStream.endText();
-		
-        line = printTextInBox(135, line, Float.toString(ra.getSeverity()), 90);
+		printPdfRATitle("Severity:", line);
+		line = printTextInBox(135, line, Float.toString(ra.getSeverity()), 90);
         line += 25;
 		if(line > 800){
 			getNewPDFPage();
 			line = 25;
 		}
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Severity Description:");
-        contentStream.endText();
-		
-        line = printTextInBox(135, line, ra.getSeverityDescription(), 90);
+		printPdfRATitle("Severity Description:", line);
+		line = printTextInBox(135, line, ra.getSeverityDescription(), 90);
         line += 25;
 		if(line > 800){
 			getNewPDFPage();
 			line = 25;
 		}
-		
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Opportunity:");
-        contentStream.endText();
-		
-        line = printTextInBox(135, line, ra.getOpportunity(), 90);
+		printPdfRATitle("Opportunity:", line);
+		line = printTextInBox(135, line, ra.getOpportunity(), 90);
         line += 25;
 		if(line > 800){
 			getNewPDFPage();
 			line = 25;
 		}
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Trigger Event:");
-        contentStream.endText();
-		
-        line = printTextInBox(135, line, ra.getTriggerEvent(), 90);
+		printPdfRATitle("Trigger Event:", line);
+		line = printTextInBox(135, line, ra.getTriggerEvent(), 90);
         line += 25;
 		if(line > 800){
 			getNewPDFPage();
 			line = 25;
 		}
-		
-		contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-        contentStream.moveTextPositionByAmount(10, 841 - line); // 
-        contentStream.drawString("Risk Factor:");
-        contentStream.endText();
-		
+		printPdfRATitle("Risk Factor:", line);
+				
         line = printTextInBox(135, line, ra.getRiskFactor(), 90);
         line += 25;
 		if(line > 800){
@@ -268,7 +215,7 @@ public class PrintPdfRiskAssessment {
 	 * @param text information to print
 	 * @param letters maximum number of letters to print
 	 * @return the current line that is the height on the page
-	 * @throws Exception
+	 * @throws Exception - error when printing to pdf
 	 */
 	private int printTextInBox(int startWidth ,int line, String text, int letters)throws Exception{
 		if(text == null)

@@ -23,7 +23,7 @@ import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.PrintPdfRiskAssessment;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
-import com.depth1.grc.model.RiskAssessmentUtil;
+import com.depth1.grc.model.RiskAssessmentSort;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.createRA;
@@ -170,7 +170,7 @@ public class Application extends Controller {
 	}
 	
 	public Result setSelectedRA() {
-		RiskAssessmentUtil riskAssessmentUtil = new RiskAssessmentUtil();
+		RiskAssessmentSort riskAssessmentUtil = new RiskAssessmentSort();
 		JsonNode node = request().body().asJson().get("val");
 		
 		 if(node == null){
@@ -210,20 +210,20 @@ public class Application extends Controller {
 	
 	public Result showFrontRAPageQuery(int page, int view, String order, String query){
 		int size = 0;
-		RiskAssessmentUtil riskAssessmentUtil = new RiskAssessmentUtil();
+		RiskAssessmentSort riskAssessmentSort = new RiskAssessmentSort();
 		try {
 			RiskAssessmentDao riskAssessmentDao = cassandraFactory.getRiskAssessmentDao();
 			riskAssessments = riskAssessmentDao.listRiskAssessment();
 			size = riskAssessments.size();
 			//riskAssessments = riskAssessmentDao.listRiskAssessmentPagination(view, page );
 			if(query.compareTo("")!= 0){
-				riskAssessments = riskAssessmentUtil.filterDataByQuery(riskAssessments, query);
+				riskAssessments = riskAssessmentSort.filterDataByQuery(riskAssessments, query);
 				size = riskAssessments.size();
 				
 			}
 			if(size > 0){
-				riskAssessments = riskAssessmentUtil.sortRiskAssessment(riskAssessments, order);
-				riskAssessments = riskAssessmentUtil.paginateRiskAssessment(riskAssessments, view, page);
+				riskAssessments = riskAssessmentSort.sortRiskAssessment(riskAssessments, order);
+				riskAssessments = riskAssessmentSort.paginateRiskAssessment(riskAssessments, view, page);
 			}
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating risk assessment criteria ", e);
