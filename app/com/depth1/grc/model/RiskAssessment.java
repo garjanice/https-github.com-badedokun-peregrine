@@ -183,6 +183,7 @@ public class RiskAssessment {
 	public void setConsequence(String consequence) {
 		this.consequence = consequence;
 	}
+
 	/**
 	 * Add this version of the return Consequence so it is
 	 * shorter for the table display in frontRA.html
@@ -207,4 +208,5 @@ public class RiskAssessment {
 			return risk.substring(0, 150);
 		return risk;
 	}
+
 }

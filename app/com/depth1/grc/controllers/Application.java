@@ -1,7 +1,7 @@
 package com.depth1.grc.controllers;
-
 import java.util.Collections;
 import java.util.Comparator;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -20,10 +20,15 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
+
 import com.depth1.grc.model.PrintPdfRiskAssessment;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.RiskAssessmentSort;
+
+import com.depth1.grc.model.RiskAssessment;
+import com.depth1.grc.model.RiskAssessmentDao;
+
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.createRA;
@@ -150,7 +155,6 @@ public class Application extends Controller {
 	}
 	
 	
-	
     /**
      * Action method for the 'Delete' button. Deletes selected Risk Assessment
      * @return
@@ -165,6 +169,7 @@ public class Application extends Controller {
 					"Error occurred while deleting risk assessment criteria ",
 					e);
 		}
+
 
 		return redirect("/riskAssessment/1/10/descendingRisk");
 	}
@@ -198,6 +203,7 @@ public class Application extends Controller {
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating risk assessment criteria ", e);
 		}
+
 
 		return ok(frontRA.render(riskAssessments, riskAssessments.size()));
 	}
@@ -241,6 +247,7 @@ public class Application extends Controller {
 	public Result showCreateRAPage() {
 
 		return ok(createRA.render());
+
 	}
 
 	/**
@@ -262,6 +269,7 @@ public class Application extends Controller {
 
 		return ok(updateRA.render(selectedRA));
 	}
+
 	/**
 	 * This method allows users to print selected Risk Assessments
 	 * 
@@ -272,4 +280,5 @@ public class Application extends Controller {
 		pdf.printRiskAssessment(selectedRA);
 		return redirect("/assets/pdf/RA.pdf");
 	}
+
 }
