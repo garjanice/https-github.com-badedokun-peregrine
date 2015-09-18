@@ -1,12 +1,25 @@
 package com.depth1.grc.controllers;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import org.jsoup.*;
 
 import play.Logger;
 import play.data.Form;
+import play.data.Form.Field;
 import play.mvc.Controller;
 import play.mvc.Http.RequestBody;
 import play.mvc.Result;
@@ -16,21 +29,22 @@ import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.querybuilder.Delete;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
+import com.depth1.grc.model.Policy;
+import com.depth1.grc.model.PolicyDao;
+import com.depth1.grc.model.PolicyUtil;
 import com.depth1.grc.model.PrintPdfRiskAssessment;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.RiskAssessmentSort;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
-import com.depth1.grc.views.html.createRA;
-import com.depth1.grc.views.html.frontRA;
-import com.depth1.grc.views.html.index;
-import com.depth1.grc.views.html.updateRA;
-import com.depth1.grc.views.html.viewRA;
+import com.depth1.grc.model.TenantSort;
+import com.depth1.grc.views.html.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Security.Authenticated(Secured.class)
@@ -43,6 +57,15 @@ public class Application extends Controller {
 	static List<RiskAssessment> riskAssessments;
 	static RiskAssessment selectedRA;
 
+	final static Form<Policy> policyForm = Form.form(Policy.class);
+	static List<Policy> policies;
+	static Policy selectedPolicy;
+	
+	static List<Tenant> tenants;
+	static Tenant selectedTenant;
+	final static Form<Tenant> tenantForm = Form.form(Tenant.class);
+	
+	
 	public Result index() {
 		// test connection to the cassandra cluster
 
@@ -92,21 +115,7 @@ public class Application extends Controller {
 
 	}
 
-	/**
-	 * @param tenant
-	 *            The tenant to create
-	 * @return Result of the tenant creation
-	 */
-	public static Result createTenant(Tenant tenant) {
-		try {
-			TenantDao tenantDao = cassandraFactory.getTenantDao();
-			tenantDao.createTenant(tenant);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating tenant ", e);
-		}
-
-		return ok();
-	}
+	
 
 	/**
 	 * @param RiskAssessment
@@ -210,20 +219,20 @@ public class Application extends Controller {
 	
 	public Result showFrontRAPageQuery(int page, int view, String order, String query){
 		int size = 0;
-		RiskAssessmentSort riskAssessmentSort = new RiskAssessmentSort();
+		RiskAssessmentSort riskAssessmentUtil = new RiskAssessmentSort();
 		try {
 			RiskAssessmentDao riskAssessmentDao = cassandraFactory.getRiskAssessmentDao();
 			riskAssessments = riskAssessmentDao.listRiskAssessment();
 			size = riskAssessments.size();
 			//riskAssessments = riskAssessmentDao.listRiskAssessmentPagination(view, page );
 			if(query.compareTo("")!= 0){
-				riskAssessments = riskAssessmentSort.filterDataByQuery(riskAssessments, query);
+				riskAssessments = riskAssessmentUtil.filterDataByQuery(riskAssessments, query);
 				size = riskAssessments.size();
 				
 			}
 			if(size > 0){
-				riskAssessments = riskAssessmentSort.sortRiskAssessment(riskAssessments, order);
-				riskAssessments = riskAssessmentSort.paginateRiskAssessment(riskAssessments, view, page);
+				riskAssessments = riskAssessmentUtil.sortRiskAssessment(riskAssessments, order);
+				riskAssessments = riskAssessmentUtil.paginateRiskAssessment(riskAssessments, view, page);
 			}
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating risk assessment criteria ", e);
@@ -263,7 +272,7 @@ public class Application extends Controller {
 		return ok(updateRA.render(selectedRA));
 	}
 	/**
-	 * This method allows users to print selected Risk Assessments
+	 * This method allows users to update selected Risk Assessments
 	 * 
 	 * @return update Risk Assessment page
 	 */
@@ -271,5 +280,359 @@ public class Application extends Controller {
 		PrintPdfRiskAssessment pdf = new PrintPdfRiskAssessment();
 		pdf.printRiskAssessment(selectedRA);
 		return redirect("/assets/pdf/RA.pdf");
+	}
+	/**
+	 * @param Policy
+	 *
+	 * @return
+	 */
+	public Result createPolicy() {
+		// create form object from the request
+		Form<Policy> filledPolicy = policyForm.bindFromRequest();
+		// check for required and validate input fields
+		// TODO : Validate input fields for Date and Strings
+		if (filledPolicy.hasErrors()) {
+			Logger.error("The error in the form are " + filledPolicy.errorsAsJson());
+			return badRequest(filledPolicy.errorsAsJson());
+		}
+		// Bind policy object with the form object
+		Policy criteria = filledPolicy.get();
+		System.out.println("Here it is: " + criteria.getDescription());
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			// create policy on DB
+			policyDao.createPolicy(criteria);
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy ", e);
+		}
+		if (filledPolicy.field("policy-body").value() != null) {
+			savePolicyBodyDocument(criteria.getName(), filledPolicy.field("policy-body"));
+		}
+		return redirect("/policy");
+	}
+	
+	private void savePolicyBodyDocument(String fileName, Field policyBody) {
+		try {
+			//TODO: Replace the path with path on server for file storage
+			String dirString = "public/policyDocuments/";
+			Path dirPath = Paths.get(dirString);
+			if(Files.notExists(dirPath)) {
+				Files.createDirectory(dirPath);				
+			}
+			Path filePath = Paths.get(dirString + fileName);
+			File policyDoc = filePath.toFile();
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(policyDoc)),true); 
+			//flushing the buffer after file-write 
+			writer.print(Jsoup.parse(policyBody.value()).text());
+			writer.close();
+			Logger.info("Policy Body Documented at " + dirString + fileName);
+		}
+		catch (IOException e) {
+			Logger.error("Error while storing the policy body document " + e);
+		}
+	}
+
+	public Result updatePolicy() {
+		// create form object from the request
+		Form<Policy> filledPolicy = policyForm.bindFromRequest();
+		// check for required and validate input fields
+		// TODO : Validate input fields for Date and Strings
+		if (filledPolicy.hasErrors()) {
+			Logger.error("The error in the form are " + filledPolicy.errorsAsJson());
+			return badRequest(filledPolicy.errorsAsJson());
+		}
+		// Bind policy object with the form object
+		Policy criteria = filledPolicy.get();
+		System.out.println("Here it is: " + criteria.getDescription());
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			// create policy on DB
+			policyDao.updatePolicy(criteria.getId(), criteria);
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy ", e);
+		} catch (IllegalArgumentException e) {
+			Logger.error("Invalid UUID");
+			return badRequest("Invalid UUID");
+		}
+
+		return redirect("/policy");
+	}
+		
+	public Result deletePolicy(String policyId) {
+		//Logger.error("correct");
+		//call cassandra policy dao
+		boolean result = false;
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			result = policyDao.deletePolicy(policyId);
+			//System.out.println("COMPLETED result = " + result );
+		} catch (DaoException e) {
+			System.out.println("ERROR OCCURED");
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+	}
+		
+		return ok(deletePolicy.render(policies));
+		
+		//return TODO;
+	}
+	public Result restorePolicy(String policyId) {
+		//Logger.error("correct");
+		//call cassandra policy dao
+		boolean result = false;
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			result = policyDao.restorePolicy(policyId);
+			//System.out.println("COMPLETED result = " + result );
+		} catch (DaoException e) {
+			System.out.println("ERROR OCCURED");
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+	}
+		
+		return ok(restorePolicy.render(policies));
+		
+		//return TODO;
+	}
+	
+	public Result showPolicyListPage(int page, int view, String order, String query){
+		int policySize = 0;
+		PolicyUtil policyUtil = new PolicyUtil();
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllPolicy();
+			policySize = policies.size();
+			if(query.compareTo("")!= 0){
+				policies = policyUtil.filterDataByQuery(policies, query);
+				policySize = policies.size();
+				
+			}
+			if(policySize > 0){
+				policies = policyUtil.sortPolicy(policies, order);
+				policies = policyUtil.paginatePolicy(policies, view, page);
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		    
+		}
+
+		return ok(policyListPage.render(policies, policySize));
+	}
+
+	public Result showCreatePolicyPage() {
+
+		return ok(createPolicy.render(policyForm));
+	}
+
+	public Result showCreatePolicyEditorPage() {
+
+		// return ok(viewPolicy.render(selectedPolicy));
+		return ok();
+	}
+
+	public Result showViewPolicyPage(UUID id) {		
+		//String filepath = "documents/test.pdf";
+		//return ok(new java.io.File(filepath));
+
+		PolicyDao policyDao;
+		try {
+			policyDao = cassandraFactory.getPolicyDao();
+			final Policy policy = policyDao.viewPolicyById(id);
+			//File policyBodyFile = new java.io.File("public/policyDocuments/"+policy.getName());
+			String policyBody = "";
+			try{policyBody = new String(Files.readAllBytes(Paths.get("public/policyDocuments/" + policy.getName())));}
+			catch(IOException e){
+				Logger.error("Error reading policy body file into string: ", e);
+			}
+			return ok(viewPolicy.render(policy, policyBody));
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page: ", e);
+		}
+		return ok();
+
+
+	}
+
+	public Result showUpdatePolicyPage(UUID id) {
+		// return ok(updatePolicy.render(selectedPolicy));
+		PolicyDao policyDao;
+		try {
+			policyDao = cassandraFactory.getPolicyDao();
+			final Policy policy = policyDao.viewPolicyById(id);
+			Form<Policy> filledForm = policyForm.fill(policy);
+			return ok(updatePolicy.render(policy));
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+		return ok();
+	}
+
+	// remove this later, we may not have a specific delete policy page
+	public Result showDeletePolicyPage() {
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllPolicy();
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+
+		return ok(deletePolicy.render(policies));
+		
+	}
+	
+	public Result showRestorePolicyPage(){
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllDeletedPolicy();
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+
+		return ok(restorePolicy.render(policies));
+	}
+
+	public Result downloadPolicy(String name){
+		String filepath = "public/policyDocuments/" + name;
+		return ok(new java.io.File(filepath));
+
+	}
+	
+	
+	
+	public Result addTenant() {
+		Form<Tenant> filledTenant = tenantForm.bindFromRequest();
+		Tenant criteria = filledTenant.get();
+		try {
+			TenantDao tenantDao = cassandraFactory
+					.getTenantDao();
+			tenantDao.createTenant(criteria);
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while creating risk assessment criteria ",
+					e);
+		}
+
+		return redirect("/tenant/1/10/descendingName");
+	}
+	
+	
+	/**
+	 * Shows the Tenant Creation Page
+	 * @return Result of the tenant creation
+	 */
+	public Result showCreateTenant() {
+		
+		return ok(createTenant.render());
+	}
+	
+	/**
+	 *  Shows the list of Tenants in the Database on the FrontTenant Page
+	 * @param page current page number form pagination
+	 * @param view the number of items to show per page
+	 * @param order the sorting order of the page
+	 * @param query the string to search for in the tenant list
+	 * @return Result of the List Page
+	 */
+	public Result showFrontTenantPage(int page, int view, String order, String query){
+		int size = 0;
+		
+		//RiskAssessmentUtil riskAssessmentUtil = new RiskAssessmentUtil();
+		try {
+			TenantDao tenantDao = cassandraFactory.getTenantDao();
+			TenantSort tenantSort = new TenantSort();
+			tenants = tenantDao.listTenant();
+			
+			size = tenants.size();
+			if(query.compareTo("")!= 0){
+				tenants = tenantSort.filterDataByQuery(tenants, query);
+				size = tenants.size();
+				
+			}
+			if(size > 0){
+				tenants = tenantSort.sortTenant(tenants, order);
+				tenants = tenantSort.paginateTenants(tenants, view, page);
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating risk assessment criteria ", e);
+		}
+			
+		return ok(frontTenant.render(tenants, size));
+	}
+	/**
+	 * Sets the Tenant that the user picks from the list of Tenants
+	 * on the FrontTenant Page.   Uses Ajax and JSON.
+	 * @return Result of setting the selected Tenant
+	 */
+	public Result setSelectedTenant() {
+		
+		JsonNode node = request().body().asJson().get("val");
+		
+		if(node == null){
+		        return badRequest("empty json"); 
+		}
+		String inputString = node.textValue();
+		
+		int index = Integer.parseInt(inputString);
+		
+		
+		selectedTenant = tenants.get(index);
+		return ok();
+	}
+	/**
+	 * Shows the UpdateTenant Page with the Tenant Information Populating
+	 * the fields.
+	 * @return Result of updating the Tenant information
+	 */
+	public Result showUpdateTenant() {
+
+		return ok(updateTenant.render(selectedTenant));
+	}
+	/**
+	 * Shows the ViewTenant Page with the currently selected Tenants
+	 * information.
+	 * @return Result of the viewing the Tenant Information
+	 */
+	public Result showViewTenant() {
+
+		return ok(viewTenant.render(selectedTenant));
+	}
+	/**
+	 * Updates the selected Tenants information and then displays
+	 * the list of Tenants on the FrontTenant Page
+	 * @return Result of updating the Tenant
+	 */
+	public Result updateTenant() {
+		Form<Tenant> filledTenant = tenantForm.bindFromRequest();
+		Tenant criteria = filledTenant.get();
+		criteria.setTenantId(selectedTenant.getTenantId());
+		criteria.setId(selectedTenant.getId());
+		try {
+			TenantDao tenantDao = cassandraFactory
+					.getTenantDao();
+			tenantDao.updateTenant(criteria);
+			
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while updating risk assessment criteria ",
+					e);
+		}
+
+		return redirect("/tenant/1/10/descendingName");
+	}
+	/**
+	 * Deletes the selected Tenant from the database.  Uses Ajax and JSON.
+	 * Shows the FrontTenant Page.
+	 * @return Result of the deleting the Tenant.
+	 */
+	public Result deleteTenant() {
+		try {
+			TenantDao tenantDao = cassandraFactory
+					.getTenantDao();
+			tenantDao.deleteTenant(selectedTenant.getId());
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while deleting tenant ",
+					e);
+		}
+
+		return redirect("/tenant/1/10/descendingName");
 	}
 }

@@ -29,6 +29,46 @@ POST 	/riskAssessment/selected		com.depth1.grc.controllers.Application.setSelect
 
 GET		/riskAssessment/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontRAPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
 
+GET     /policy/:page/:view/:order    	com.depth1.grc.controllers.Application.showPolicyListPage(page: Integer, view: Integer, order: String, query: String ?= "")
+
+GET		/policy/create				   	com.depth1.grc.controllers.Application.showCreatePolicyPage()
+
+GET		/policy/createBody				com.depth1.grc.controllers.Application.showCreatePolicyEditorPage()
+
+GET		/policy/view/:id				com.depth1.grc.controllers.Application.showViewPolicyPage(id: java.util.UUID)
+
+GET		/policy/update/:id				com.depth1.grc.controllers.Application.showUpdatePolicyPage(id: java.util.UUID)
+
+GET		/policy/delete					com.depth1.grc.controllers.Application.showDeletePolicyPage()
+
+GET 	/policy/restore					com.depth1.grc.controllers.Application.showRestorePolicyPage()
+
+GET 	/policy/restore/done			com.depth1.grc.controllers.Application.restorePolicy(policyId: String)
+
+GET		/policy/delete/done				com.depth1.grc.controllers.Application.deletePolicy(policyId: String)
+
+GET		/policy/download/name			com.depth1.grc.controllers.Application.downloadPolicy(name: String)
+
+POST  	/policy/create/done				com.depth1.grc.controllers.Application.createPolicy()
+
+POST  	/policy/update/done				com.depth1.grc.controllers.Application.updatePolicy()
+
+GET		/tenant/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontTenantPage(page: Integer, view: Integer, order: String, query: String ?= "")
+
+GET  	/tenant/create					com.depth1.grc.controllers.Application.showCreateTenant()
+
+GET  	/tenant/update					com.depth1.grc.controllers.Application.showUpdateTenant()
+
+GET  	/tenant/view					com.depth1.grc.controllers.Application.showViewTenant()
+
+POST  	/tenant/create/done				com.depth1.grc.controllers.Application.addTenant()
+
+POST 	/tenant/selected				com.depth1.grc.controllers.Application.setSelectedTenant()
+
+POST  	/tenant/update/done				com.depth1.grc.controllers.Application.updateTenant()
+
+DELETE	/tenant/delete					com.depth1.grc.controllers.Application.deleteTenant()
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

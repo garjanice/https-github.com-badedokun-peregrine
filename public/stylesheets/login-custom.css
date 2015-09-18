@@ -12,10 +12,10 @@ body {
     }
     
 #loginbox {
-    border: 1px solid #aaaaaa;
+    border: 1px solid #000000;
     padding-top: 75px;
     border-radius: 5px;
-    background: lightblue;     /*#ee9c21, #ea7D24);    /* #8C6954, #BFAF80);  /* previous #d1af96, #eeddc3);  */  
+    background: #ffffff;     /*#ee9c21, #ea7D24);    /* #8C6954, #BFAF80);  /* previous #d1af96, #eeddc3);  */  
     }
     
 #forgot-password {
@@ -27,7 +27,7 @@ body {
 #log-in-button{
     font-size: 20px;
     color: #ffffff;
-    background: #333333;
+    background: #999999;
     margin-bottom: 30px;
     border-radius: 50px 50px 50px 50px;
     border: 1px solid black;
@@ -53,7 +53,7 @@ body {
     
 .footer-style {
     color: #ffffff;
-    background-color: #333333;      /*#A34E24;           /* #59323C;   /* #333333;*/
+    background-color: #999999;      /*#A34E24;           /* #59323C;   /* #333333;*/
     
     height: 100px;
     }
@@ -62,9 +62,9 @@ body {
     padding-top: 20px;
     }
 .blue-link{
-    color: lightblue;
+    color: blue;
     }
 a:hover {
-    color: lightblue;
+    color: blue;
     text-decoration: underline;
     }

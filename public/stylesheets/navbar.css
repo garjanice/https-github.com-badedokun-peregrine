@@ -2,15 +2,16 @@ ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    background: #735D41;
-    border: 1px solid #000;
+    background: #fff;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
     }
 
 ul li {
     display: block;
     position: relative;
     float: left;
-    background: #735D41;
+    background: #fff;
     }
 
 /* This hides the dropdowns */
@@ -22,16 +23,20 @@ li ul {
 
 ul li a {
     display: block;
-    padding: 1em;
+    /*padding: 1em;*/
+    padding-right: 1em;
+    padding-left: 1em;
+    padding-top: .5em;
+    padding-bottom: .5em;
     text-decoration: none;
     white-space: nowrap;
-    color: #fff;
+    color: #000;
     }
 
 ul li a:hover {
-    background: #735D41; 
+    background: #fff; 
     text-decoration: none;
-    color: #fff;
+    color: #000;
     }
 
 /* Display the dropdown */
@@ -47,11 +52,11 @@ li:hover li {
     }
 
 li:hover a {
-    background: #735D41;
+    background: #fff;
     }
 
 li:hover li a:hover { 
-    background: #856941;
+    background: #bbb;
     }
 
 .main-navigation li ul li { 

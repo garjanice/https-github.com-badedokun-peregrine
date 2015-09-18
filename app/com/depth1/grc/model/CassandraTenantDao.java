@@ -5,6 +5,7 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
@@ -47,13 +48,13 @@ public class CassandraTenantDao implements TenantDao
 	 * @throws DaoException if error occurs while deleting a tenant from the tenant table
 	 */
 	
-	public boolean deleteTenant(int tenantId) throws DaoException {
+	public boolean deleteTenant(UUID id) throws DaoException {
 		boolean del = false;
 		Session dbSession = CassandraDaoFactory.connect();
 		try {					
 			Where delete = QueryBuilder.delete()
 					.from(Keyspace.valueOf(keyspace), "tenant")
-					.where(eq("tenantid", tenantId));							
+					.where(eq("id", id));							
 
 			dbSession.execute(delete);
 			del = true;
@@ -92,10 +93,12 @@ public class CassandraTenantDao implements TenantDao
 					.value("country", tenant.getCountry())
 					.value("contact_person_name", tenant.getContactPersonName())
 					.value("contact_person_email", tenant.getContactPersonEmail())
+					.value("contact_person_phone", tenant.getContactPersonPhone())
 					.value("service_start_date", tenant.getServiceStartDate())
 					.value("company_url", tenant.getCompanyUrl())
 					.value("phone_number", tenant.getPhoneNumber())
 					.value("ipaddress", tenant.getIpaddress())
+					.value("email", tenant.getEmail())
 					.value("status", tenant.getStatus());					
 					dbSession.execute(insert);
 		} catch (DriverException e) {
@@ -116,18 +119,21 @@ public class CassandraTenantDao implements TenantDao
 	public List<Tenant> listTenant() throws DaoException {
 		List<Tenant> list = new ArrayList<>();
 		Session dbSession = CassandraDaoFactory.connect();
+		
 		try {					
 			Statement listAll = QueryBuilder.select().all()
 					.from(Keyspace.valueOf(keyspace), "tenant");
-
+			
 			ResultSet result = dbSession.execute(listAll);
+			
 			if (result == null) {
 				return null;
 			}
-
+			
 			// get data elements from the Result set
 
 			for (Row row : result.all()) {
+				
 				Tenant tenant = new Tenant();
 				tenant.setId(row.getUUID("id"));
 				tenant.setTenantId(row.getLong("tenantid"));
@@ -141,15 +147,19 @@ public class CassandraTenantDao implements TenantDao
 				tenant.setCountry(row.getString("country"));
 				tenant.setContactPersonName(row.getString("contact_person_name"));
 				tenant.setContactPersonEmail(row.getString("contact_person_email"));
-				tenant.setServiceStartDate(row.getDate("service_start_date"));
+				tenant.setContactPersonPhone(row.getString("contact_person_phone"));
+				tenant.setName(row.getString("name"));
+				tenant.setServiceStartDate(row.getString("service_start_date"));
+				
 				tenant.setCompanyUrl(row.getString("company_url"));
-				tenant.setPhoneNumber(row.getString("phone_nummber"));
+				tenant.setPhoneNumber(row.getString("phone_number"));
 				tenant.setIpaddress(row.getString("ipaddress"));
 				tenant.setStatus(row.getString("status"));
+				tenant.setEmail(row.getString("email"));
 				list.add(tenant);
 				result.iterator();
 			}
-
+			
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving data from the tenant table ", e);
 		} finally {
@@ -185,13 +195,15 @@ public class CassandraTenantDao implements TenantDao
 					.and(set("country", tenant.getCountry()))
 					.and(set("contact_person_name", tenant.getContactPersonName()))
 					.and(set("contact_person_email", tenant.getContactPersonEmail()))
+					.and(set("contact_person_phone", tenant.getContactPersonPhone()))
 					.and(set("company_url", tenant.getCompanyUrl()))
 					.and(set("phone_number", tenant.getPhoneNumber()))
+					.and(set("email", tenant.getEmail()))
 					.and(set("ipaddress", tenant.getIpaddress()))
-					.and(set("status", tenant.getState()));
+					.and(set("status", tenant.getStatus()));
 
 			Statement updateDetails = updateAssignments
-					.where(eq("tenantid", tenant.getTenantId()));							
+					.where(eq("id", tenant.getId()));							
 
 			dbSession.execute(updateDetails);
 			update = true;
@@ -241,11 +253,12 @@ public class CassandraTenantDao implements TenantDao
 			tenant.setCountry(row.getString("country"));
 			tenant.setContactPersonName(row.getString("contact_person_name"));
 			tenant.setContactPersonEmail(row.getString("contact_person_email"));
-			tenant.setServiceStartDate(row.getDate("service_start_date"));
+			tenant.setServiceStartDate(row.getString("service_start_date"));
 			tenant.setCompanyUrl(row.getString("company_url"));
-			tenant.setPhoneNumber(row.getString("phone_nummber"));
+			tenant.setPhoneNumber(row.getString("phone_number"));
 			tenant.setIpaddress(row.getString("ipaddress"));
 			tenant.setStatus(row.getString("status"));
+			tenant.setEmail(row.getString("email"));
 
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving data from the tenant table ", e);

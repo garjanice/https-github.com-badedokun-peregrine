@@ -1,6 +1,9 @@
 package com.depth1.grc.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 import com.depth1.grc.model.common.DateFormat;
@@ -19,7 +22,6 @@ public class Tenant
 	
 	private long tenantId;
 		
-	@Required
 	private String name;
 	
 	@Required
@@ -49,6 +51,9 @@ public class Tenant
 	private String contactPersonName;
 	
 	@Required
+	private String contactPersonPhone;
+
+	@Required
 	@Email
 	private String contactPersonEmail;
 	
@@ -56,7 +61,7 @@ public class Tenant
 	@DateFormat("MM-dd-yyyy")
 	private Date serviceStartDate;
 	
-	@Required
+	
 	@DateFormat("MM-dd-yyyy")
 	private Date createDate;
 	
@@ -71,6 +76,8 @@ public class Tenant
 	
 	
 	private String ipaddress;
+	
+	private String email;
 	
 		
 	public CassandraTenantDao cassandraTenantDao;
@@ -105,6 +112,7 @@ public class Tenant
 	}
 
 	public String getName() {
+		
 		return name;
 	}
 
@@ -192,12 +200,22 @@ public class Tenant
 		this.contactPersonEmail = contactPersonEmail;
 	}
 
-	public Date getServiceStartDate() {
-		return serviceStartDate;
+	public String getServiceStartDate() {
+		SimpleDateFormat df = new SimpleDateFormat("MM-dd-yyyy");
+		String dateToStr = df.format(serviceStartDate);
+		return dateToStr;
 	}
 
-	public void setServiceStartDate(Date serviceStartDate) {
-		this.serviceStartDate = serviceStartDate;
+	public void setServiceStartDate(String ssd) {
+		SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
+		Date date = null;
+		try {
+			date = format.parse(ssd);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.serviceStartDate = date;
 	}
 
 	/**
@@ -245,13 +263,29 @@ public class Tenant
 	public void setIpaddress(String ipaddress) {
 		this.ipaddress = ipaddress;
 	}
+	
+	public String getEmail() {
+		return email;
+	}
 
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	public CassandraTenantDao getCassandraTenantDao() {
 		return cassandraTenantDao;
 	}
 
 	public void setCassandraTenantDao(CassandraTenantDao cassandraTenantDao) {
 		this.cassandraTenantDao = cassandraTenantDao;
+	}
+
+	public String getContactPersonPhone() {
+		return contactPersonPhone;
+	}
+
+	public void setContactPersonPhone(String contactPersonPhone) {
+		this.contactPersonPhone = contactPersonPhone;
 	}
 	
 }

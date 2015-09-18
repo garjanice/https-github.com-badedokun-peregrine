@@ -1,6 +1,7 @@
 package com.depth1.grc.model;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The Tenant interface that defines the contract that all implementing classes must abide by
@@ -24,7 +25,7 @@ public  interface TenantDao
 	 * @return boolean True if the Tenant is successfully deleted, false otherwise
 	 * @throws DaoException if error occurs while deleting a tenant from the data store
 	 */
-	public boolean deleteTenant(int tenantId) throws DaoException;
+	public boolean deleteTenant(UUID id) throws DaoException;
 	
 	
 	/**

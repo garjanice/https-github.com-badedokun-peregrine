@@ -243,4 +243,4 @@ function changeViewRA(numberOfItems){
     } else{
     	window.open('/riskAssessment/1/' + numberOfItems + '/' + pathArray[4], "_self");
     }
- }
+}
