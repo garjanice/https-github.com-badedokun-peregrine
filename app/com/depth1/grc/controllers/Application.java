@@ -92,7 +92,7 @@ public class Application extends Controller {
 		user.setCountry("USA");
 		user.setLongitude("-74.416855");
 		user.setLatitude("40.455281");
-		String workPhone = "201-593-3518";
+		String workPhone = "732-593-3518";
 		String mobilePhone = "732-874-7610";
 		String work = "Work";
 		String mobile = "Mobile";
