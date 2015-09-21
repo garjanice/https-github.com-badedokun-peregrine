@@ -397,11 +397,6 @@ public class Application extends Controller {
 		      return badRequest("empty json"); 
 		    }
 		String inputString = node.textValue();
-<<<<<<< HEAD
-
-=======
-		
->>>>>>> dc9c55e43ca6a0650f75e2e55a98e9409d055ef4
 		int index = Integer.parseInt(inputString);
 		int size = 0;
 		
