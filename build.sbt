@@ -8,6 +8,7 @@ scalaVersion := "2.11.6"
 
 libraryDependencies ++= Seq(
   javaJdbc,
+  javaJpa,
   cache,
   javaWs,
   "com.datastax.cassandra" % "cassandra-driver-core" % "2.1.6",
@@ -16,6 +17,8 @@ libraryDependencies ++= Seq(
   "com.google.guava" % "guava" % "14.0.1",
   "org.slf4j" % "slf4j-api" % "1.7.5",
   "org.apache.shiro" % "shiro-core" % "1.2.3",
+  "mysql" % "mysql-connector-java" % "5.1.36",
+  "org.hibernate" % "hibernate-entitymanager" % "4.3.11.Final",
   filters
 )
 
