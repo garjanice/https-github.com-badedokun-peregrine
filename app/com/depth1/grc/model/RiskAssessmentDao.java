@@ -45,4 +45,13 @@ public interface RiskAssessmentDao {
      * @throws DaoException if failed to retrieve list of Risk Assessments
      */
 	public List<RiskAssessment> listRiskAssessment() throws DaoException;
+
+	
+	/**
+     * Lists some of the Risk Assessments in the database
+     * @return a list containing all Risk Assessments
+     * @throws DaoException if failed to retrieve list of Risk Assessments
+     */
+	public List<RiskAssessment> listRiskAssessmentPagination(int numberOfItems, int page) throws DaoException;
+
 }

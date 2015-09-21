@@ -1,4 +1,6 @@
 package com.depth1.grc.controllers;
+import java.util.Collections;
+import java.util.Comparator;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,8 +17,15 @@ import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
+
+import com.depth1.grc.model.PrintPdfRiskAssessment;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
+import com.depth1.grc.model.RiskAssessmentSort;
+
+import com.depth1.grc.model.RiskAssessment;
+import com.depth1.grc.model.RiskAssessmentDao;
+
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.model.UserProfile;
@@ -337,9 +346,30 @@ public class Application extends Controller {
 					e);
 		}
 
-		return redirect("/riskAssessment");
+		return redirect("/riskAssessment/1/10/descendingRisk");
 	}
+	/**
+	 * @param RiskAssessment
+	 *            The RA criteria to update
+	 * @return the result of the RAC creation
+	 */
+	public Result updateRiskAssessment() {
+		Form<RiskAssessment> filledRA = rAForm.bindFromRequest();
+		RiskAssessment criteria = filledRA.get();
+		try {
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory
+					.getRiskAssessmentDao();
+			riskAssessmentDao.updateRiskAssessment(criteria);
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while updating risk assessment criteria ",
+					e);
+		}
 
+		return redirect("/riskAssessment/1/10/descendingRisk");
+	}
+	
+	
     /**
      * Action method for the 'Delete' button. Deletes selected Risk Assessment
      * @return
@@ -355,17 +385,26 @@ public class Application extends Controller {
 					e);
 		}
 
-		return redirect("/riskAssessment");
+
+		return redirect("/riskAssessment/1/10/descendingRisk");
 	}
 	
 	public Result setSelectedRA() {
+		RiskAssessmentSort riskAssessmentUtil = new RiskAssessmentSort();
 		JsonNode node = request().body().asJson().get("val");
+		
 		 if(node == null){
 		      return badRequest("empty json"); 
 		    }
 		String inputString = node.textValue();
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> dc9c55e43ca6a0650f75e2e55a98e9409d055ef4
 		int index = Integer.parseInt(inputString);
+		int size = 0;
+		
 		selectedRA = riskAssessments.get(index);
 		return ok();
 	}
@@ -384,9 +423,40 @@ public class Application extends Controller {
 			Logger.error("Error occurred while creating risk assessment criteria ", e);
 		}
 
-		return ok(frontRA.render(riskAssessments));
-	}
 
+		return ok(frontRA.render(riskAssessments, riskAssessments.size()));
+	}
+	
+	
+	/**
+	 *  Pagination for RiskAssessment
+	 */
+	
+	
+	public Result showFrontRAPageQuery(int page, int view, String order, String query){
+		int size = 0;
+		RiskAssessmentSort riskAssessmentSort = new RiskAssessmentSort();
+		try {
+			RiskAssessmentDao riskAssessmentDao = cassandraFactory.getRiskAssessmentDao();
+			riskAssessments = riskAssessmentDao.listRiskAssessment();
+			size = riskAssessments.size();
+			//riskAssessments = riskAssessmentDao.listRiskAssessmentPagination(view, page );
+			if(query.compareTo("")!= 0){
+				riskAssessments = riskAssessmentSort.filterDataByQuery(riskAssessments, query);
+				size = riskAssessments.size();
+				
+			}
+			if(size > 0){
+				riskAssessments = riskAssessmentSort.sortRiskAssessment(riskAssessments, order);
+				riskAssessments = riskAssessmentSort.paginateRiskAssessment(riskAssessments, view, page);
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating risk assessment criteria ", e);
+		}
+
+		return ok(frontRA.render(riskAssessments, size));
+	}
+	
 	/**
 	 * This method shows the create Risk Assessment page if the 'Create' button
 	 * is clicked
@@ -395,7 +465,8 @@ public class Application extends Controller {
 	 */
 	public Result showCreateRAPage() {
 
-		return ok(createRA.render(rAForm));
+		return ok(createRA.render());
+
 	}
 
 	/**
@@ -416,6 +487,17 @@ public class Application extends Controller {
 	public Result showUpdateRAPage() {
 
 		return ok(updateRA.render(selectedRA));
+	}
+
+	/**
+	 * This method allows users to print selected Risk Assessments
+	 * 
+	 * @return update Risk Assessment page
+	 */
+	public Result printRA() {
+		PrintPdfRiskAssessment pdf = new PrintPdfRiskAssessment();
+		pdf.printRiskAssessment(selectedRA);
+		return redirect("/assets/pdf/RA.pdf");
 	}
 
 }

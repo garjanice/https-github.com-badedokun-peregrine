@@ -183,5 +183,30 @@ public class RiskAssessment {
 	public void setConsequence(String consequence) {
 		this.consequence = consequence;
 	}
-	
+
+	/**
+	 * Add this version of the return Consequence so it is
+	 * shorter for the table display in frontRA.html
+	 * @return Consequence that is a max of 150 characters
+	 * @author Benjamin J Cargile
+	 * @version 1.0 -- 9/2/2015
+	 */
+	public String getShortConsequence(){
+		if(consequence.length() > 150)
+			return consequence.substring(0, 150);
+		return consequence;
+	}
+	/**
+	 * Add this version of the return Risk so it is
+	 * shorter for the table display in frontRA.html
+	 * @return Risk that is a max of 150 characters
+	 * @author Benjamin J Cargile
+	 * @version 1.0 -- 9/2/2015
+	 */
+	public String getShortRisk(){
+		if(risk.length() > 150)
+			return risk.substring(0, 150);
+		return risk;
+	}
+
 }
