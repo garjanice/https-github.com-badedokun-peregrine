@@ -6,8 +6,6 @@ package com.depth1.grc.model;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -77,13 +75,12 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.value("country", user.getCountry())
 					.value("phones", user.getPhones())
 					.value("lineofdefense", user.getLineofdefense())
-					.value("createdate", Timestamp.valueOf(LocalDateTime.now())) //UUIDs.timeBased();
+					.value("createdate", UUIDs.timeBased()) //Timestamp.valueOf(LocalDateTime.now())
 					.value("latitude", user.getLatitude())
 					.value("longitude", user.getLongitude())
 					.value("timezone", user.getTimeZone())
 					.value("language", user.getLanguage())
 					.value("locale", user.getLocale())
-					.value("testdate", UUIDs.timeBased())
 					.value("status", user.getStatus());	
 					CassandraDaoFactory.getSession().execute(insert);					
 			
@@ -171,16 +168,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 		}
 		return update;
 	}
-	
-/*	private void updatePhones(UserProfile user) {
-		Assignment assignment = QueryBuilder.putAll("phones", user.getPhones());
-		Statement updateDetails =  assignment
-				.where(eq("username", user.getUsername()))
-				.and(eq("lname", user.getLname()))
-				.and(eq("fname", user.getFname()));
 		
-	}*/
-	
 	
 	/**
 	 * List user profiles in the data store.
@@ -287,6 +275,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 				user.setLanguage(row.getString("language"));
 				user.setLocale(row.getString("locale"));
 				user.setStatus(row.getString("status"));
+				user.setUuidTime(UUIDs.unixTimestamp(row.getUUID("createdate")));
 								
 			}
 
@@ -348,7 +337,6 @@ public class CassandraUserProfileDao implements UserProfileDao {
 				user.setLanguage(row.getString("language"));
 				user.setLocale(row.getString("locale"));
 				user.setStatus(row.getString("status"));
-				user.setUuidTime(UUIDs.unixTimestamp(row.getUUID("testdate")));
 				user.setDateUtil(new Date(user.getUuidTime()));
 								
 			}
