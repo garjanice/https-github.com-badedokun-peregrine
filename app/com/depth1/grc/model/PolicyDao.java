@@ -12,8 +12,8 @@ import com.datastax.driver.core.ResultSet;
 public interface PolicyDao {
 	public void createPolicy(Policy policy) throws DaoException;
 	public boolean updatePolicy(UUID id, Policy policy) throws DaoException;
-	public boolean deletePolicy(String policyId) throws DaoException;
-	public boolean restorePolicy(String policyId) throws DaoException;
+	public boolean deletePolicy(UUID id) throws DaoException;
+	public boolean restorePolicy(UUID id) throws DaoException;
 	public Policy viewPolicyByName(String policyName) throws DaoException;
 	public Policy viewPolicyById(UUID id) throws DaoException;
 	public Policy viewPolicyByClassification(String policyClassification) throws DaoException;

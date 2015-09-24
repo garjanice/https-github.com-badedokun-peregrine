@@ -37,9 +37,9 @@ GET		/policy/delete					com.depth1.grc.controllers.Application.showDeletePolicyP
 
 GET 	/policy/restore					com.depth1.grc.controllers.Application.showRestorePolicyPage()
 
-GET 	/policy/restore/done			com.depth1.grc.controllers.Application.restorePolicy(policyId: String)
+GET 	/policy/restore/done			com.depth1.grc.controllers.Application.restorePolicy(id: java.util.UUID)
 
-GET		/policy/delete/done				com.depth1.grc.controllers.Application.deletePolicy(policyId: String)
+GET		/policy/delete/done				com.depth1.grc.controllers.Application.deletePolicy(id: java.util.UUID)
 
 GET		/policy/download/name			com.depth1.grc.controllers.Application.downloadPolicy(name: String)
 

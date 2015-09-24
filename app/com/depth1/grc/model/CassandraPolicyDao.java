@@ -209,14 +209,14 @@ public class CassandraPolicyDao implements PolicyDao {
 	}
 
 	@Override
-	public boolean deletePolicy(String policyId) throws DaoException {
+	public boolean deletePolicy(UUID id) throws DaoException {
 		// TODO Auto-generated method stub
 		Session dbSession = CassandraDaoFactory.connect();
 		try {		
 			Statement update = QueryBuilder
 						.update("grc", "policy")
 						.with(QueryBuilder.set("is_deleted", true))
-						.where(QueryBuilder.eq("id", UUID.fromString(policyId)));
+						.where(QueryBuilder.eq("id", id));
 					dbSession.execute(update);
 					return true;
 		} catch (DriverException e) {
@@ -229,13 +229,13 @@ public class CassandraPolicyDao implements PolicyDao {
 	}
 
 	@Override
-	public boolean restorePolicy(String policyId) throws DaoException {
+	public boolean restorePolicy(UUID id) throws DaoException {
 		Session dbSession = CassandraDaoFactory.connect();
 		try{
 			Statement restore = QueryBuilder
 							.update("grc","policy")
 							.with(QueryBuilder.set("is_deleted", false))
-							.where(QueryBuilder.eq("id", UUID.fromString(policyId)));
+							.where(QueryBuilder.eq("id", id));
 			dbSession.execute(restore);
 			return true;
 		} catch (DriverException e){

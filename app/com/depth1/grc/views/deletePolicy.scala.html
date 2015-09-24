@@ -9,8 +9,8 @@
 			url : urlToDelete,
 			type : 'DELETE',
 			success : function(results) {
-				// Refresh the page
-				location.reload();
+						// Refresh the page
+						location.reload();
 			}
 		});
 	}
@@ -46,7 +46,7 @@
 			@for(Policy <- policies) {
 			<tr>
 				<td>
-					<input type="radio" name="policyId" value="@Policy.getPolicyId()" 
+					<input type="radio" name="id" value="@Policy.getId()" 
 					style="position: relative; ">
 				</td>
 				<td><a
@@ -70,14 +70,10 @@
 		</tbody>
 
 	</table>
-	<INPUT TYPE="submit"
-		style="position: relative; height:25px; width:50px; " VALUE="Delete">
+	<INPUT TYPE="button"
+		style="position: relative; height:25px; width:50px; " VALUE="Delete" onSubmit="setTimeout(function() {window.open("window.location.pathname", "_self");}, 0);">
 	</FORM>
 </section>
-
-
-
-
 
 
 <section>

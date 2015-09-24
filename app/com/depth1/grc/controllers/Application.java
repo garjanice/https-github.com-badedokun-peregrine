@@ -305,34 +305,34 @@ tart */
 		return redirect("/policy");
 	}
 		
-	public Result deletePolicy(String policyId) {
+	public Result deletePolicy(UUID id) {
 		//Logger.error("correct");
 		//call cassandra policy dao
 		boolean result = false;
 		try {
 			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			result = policyDao.deletePolicy(policyId);
+			result = policyDao.deletePolicy(id);
 			//System.out.println("COMPLETED result = " + result );
 		} catch (DaoException e) {
 			System.out.println("ERROR OCCURED");
-			Logger.error("Error occurred while creating Policy Front Page ", e);
+			Logger.error("Error occurred while creating Policy Delete Page ", e);
 	}
 		
 		return ok(deletePolicy.render(policies));
 		
 		//return TODO;
 	}
-	public Result restorePolicy(String policyId) {
+	public Result restorePolicy(UUID id) {
 		//Logger.error("correct");
 		//call cassandra policy dao
 		boolean result = false;
 		try {
 			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			result = policyDao.restorePolicy(policyId);
+			result = policyDao.restorePolicy(id);
 			//System.out.println("COMPLETED result = " + result );
 		} catch (DaoException e) {
 			System.out.println("ERROR OCCURED");
-			Logger.error("Error occurred while creating Policy Front Page ", e);
+			Logger.error("Error occurred while creating Policy Restore Page ", e);
 	}
 		
 		return ok(restorePolicy.render(policies));

@@ -22,7 +22,7 @@
 	<!--the buttons, using just html forms-->	
 	<span>
 	
-	<h1>Delete Page</h1>
+	<h1>Restore Page</h1>
 	</span>
 	}
 </section>
@@ -44,7 +44,7 @@
 			@for(Policy <- policies) {
 			<tr>
 				<td>
-					<input type="radio" name="policyId" value="@Policy.getPolicyId()" 
+					<input type="radio" name="id" value="@Policy.getId()" 
 					style="position: relative; ">
 				</td>
 				<td><a
@@ -69,7 +69,7 @@
 
 	</table>
 	<INPUT TYPE="submit"
-		style="position: relative; height:25px; width:50px; " VALUE="Restore">
+		style="position: relative;" VALUE="Restore" onSubmit=" window.open("localhost:9000/policy/restore/", "_self");">
 	</FORM>
 </section>
 
