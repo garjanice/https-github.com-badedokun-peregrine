@@ -1,0 +1,73 @@
+@import com.depth1.grc.model.Policy
+@(selectedPolicy : Policy, policyBody:String)
+@import helper._
+@main("View Policy"){
+
+<html>
+
+    <head>
+    </head>
+
+    <body>
+		<div class="view/edit specifier">
+			<h2>You are viewing @selectedPolicy.getName</h2>
+		</div>
+
+
+		<div class="button bar">
+			<button class="menu button" onclick="location.href='@com.depth1.grc.controllers.routes.Application.showUpdatePolicyPage(selectedPolicy.getId())'"> Edit </button>
+			<button class="menu button" onclick=""> Delete </button>
+			<button class="menu button" onclick="location.href='@com.depth1.grc.controllers.routes.Application.downloadPolicy(selectedPolicy.getName())'"> Download </button>
+			<button class="menu button" onclick="location.href='@com.depth1.grc.controllers.routes.Application.showPolicyListPage'"> Close </button>
+		</div>
+
+		<span class="policy display">
+
+			<div class="policy identification">
+				<h3>Identification</h3>
+				<p id="tenant id"><b>Creation Date: </b>@selectedPolicy.getTenantId</p></br>
+				<p id="policy id"><b>Policy ID: </b>@selectedPolicy.getPolicyId</p></br>
+				<p id="author"><b>Author: </b>@selectedPolicy.getAuthor</p></br>
+				<p id="owner"><b>Owner: </b>@selectedPolicy.getOwner</p></br>
+				<p id="approver"><b>Approver: </b>@selectedPolicy.getApprover</p></br>
+				<p id="version"><b>Version: </b>@selectedPolicy.getVersion</p></br>
+				<p id="description"><b>Description: </b>@selectedPolicy.getDescription</p></br>
+			</div>
+
+			</br>
+				
+			<div class="policy information">
+				<h3> Policy Information </h3>
+				<p id="creation date"><b>Creation Date: </b>@selectedPolicy.getCreationDate</p></br>
+				<p id="classification"><b>Classification: </b>@selectedPolicy.getClassification</p></br>
+				<p id="legal requirement"><b>Legal Requirement: </b>@selectedPolicy.getLegalRequirement</p></br>
+				<p id="functional applicability"><b>Functional Applicatibility: </b>@selectedPolicy.getFunctionalApplicability</p></br>
+				<p id="geographical applicability"><b>Geographic Applicability: </b>@selectedPolicy.getGeographicApplicability</p></br>
+				<p id="original issue date"><b>Original Issue Date: </b>@selectedPolicy.getOriginalIssueDate</p></br>
+				<p id="effective date"><b>Effective Date: </b>@selectedPolicy.getEffectiveDate</p></br>
+				<p id="last review date"><b>Last Review Date: </b>@selectedPolicy.getLastReviewDate</p></br>
+				<p id="next review date"><b>Next Review Date: </b>@selectedPolicy.getNextReviewDate</p></br>
+				<p id="last modified date"><b>Last Updated Date: </b>@selectedPolicy.getLastUpdatedDate</p></br>
+			</div>
+			
+			</br>
+
+			<div class="policy body">
+				<h3> Policy Body </h3>
+				<p>@policyBody</p>
+			</div>
+
+		</span>
+            
+
+		</div>
+       
+    </body>
+
+
+
+
+</html>
+
+}
+

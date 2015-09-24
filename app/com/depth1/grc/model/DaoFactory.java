@@ -15,7 +15,6 @@ public abstract class DaoFactory {
 	/**
 	 * No argument constructor
 	 * 
->>>>>>> 4719f061e98dd07f242674efbf041aae9c8c9c28
 	 */
 	public DaoFactory(){
 		super();
