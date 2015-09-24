@@ -15,7 +15,7 @@ import play.Logger;
  * @author Bisi Adedokun
  *
  */
-public class CassandraDaoFactory extends DaoFactory {
+public class CassandraDaoFactory extends DaoFactory {	
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -53,9 +53,9 @@ public class CassandraDaoFactory extends DaoFactory {
 			  pool = new CassandraPoolImpl();
 			  pool.expire(session);
 		} catch (DriverException e) {
-			Logger.error("Error occurred while closing the cassandra database ", e);
+			Logger.error("Error occurred while closing open connection to the cassandra database ", e);
 		} 
-		  //return session;
+		  
 	  }
 	
 	/* (non-Javadoc)
@@ -72,7 +72,7 @@ public class CassandraDaoFactory extends DaoFactory {
 
 	@Override
 	public RiskAssessmentDao getRiskAssessmentDao() throws DaoException {
-		// TODO Auto-generated method stub
+		
 		return new CassandraRiskAssessmentDao();
 	}
 
@@ -100,6 +100,15 @@ public class CassandraDaoFactory extends DaoFactory {
 	public UserProfileDao getUserProfileDao() {
 		    
 		    return new CassandraUserProfileDao();
-		  }	
+		  }
+
+
+	/**
+	 * Returns connection to the database for use by calling APIs
+	 * @return the session for the connection to the database
+	 */
+	public static Session getSession() {
+		return CassandraDaoFactory.connect();
+	}	
 
 }

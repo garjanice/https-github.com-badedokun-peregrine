@@ -33,7 +33,8 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 			Statement insert = QueryBuilder
 					.insertInto("grc", "riskassessment")
 					.value("id", UUID.randomUUID()) //need to change this to not be random
-					// .value("tenantid", fillThis) needs to be some random text?
+
+					.value("tenantid", riskAssessment.getTenantId()) 
 					// .value("assessmentid", fillThis) needs to be some random int
 					.value("risk", riskAssessment.getRisk())
 					.value("severity", riskAssessment.getSeverity())
@@ -70,6 +71,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	public boolean updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
         boolean update = false;
         Session dbSession = CassandraDaoFactory.connect();
+
         try {
             Update.Assignments updateRA = QueryBuilder
                     .update("grc", "riskassessment")
@@ -91,7 +93,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
                     .and(set("consequence", riskAssessment.getConsequence()));
 
             Statement updateDetails = updateRA
-                    .where(eq("assessmentid", riskAssessment.getAssessmentId()));
+                    .where(eq("id", riskAssessment.getAssessmentId()));
 
             dbSession.execute(updateDetails);
             update = true;
@@ -219,6 +221,64 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
         }
 
         return listRA;
+	}
+
+	
+	
+	/**
+     * Lists all of the Risk Assessments on the front-end UI
+     * @return List containing all Risk Assessments
+     * @throws DaoException error if unable to retrieve list of Risk Assessment
+     */
+	@Override
+	public List<RiskAssessment> listRiskAssessmentPagination(int numberOfItems, int page) throws DaoException {
+        List<RiskAssessment> listRA = new ArrayList<>();
+        List<RiskAssessment> listRAShort = new ArrayList<>();
+        Session dbSession = CassandraDaoFactory.connect();
+        try {
+            Statement listAllRA = QueryBuilder.select().all()
+                    .from("grc", "riskassessment");
+
+            ResultSet result = dbSession.execute(listAllRA);
+            if (result == null) {
+                return null;
+            }
+
+            for (Row row : result.all()) {
+                RiskAssessment riskAssessment = new RiskAssessment();
+                riskAssessment.setAssessmentId(row.getUUID("id"));
+                riskAssessment.setRisk(row.getString("risk"));
+                riskAssessment.setSeverity(row.getFloat("severity"));
+                riskAssessment.setSeverityDescription(row.getString("severity_description"));
+                riskAssessment.setLikelihood(row.getFloat("likelihood"));
+                riskAssessment.setLikelihoodDescription(row.getString("likelihood_description"));
+                riskAssessment.setMatrixRed(row.getString("red"));
+                riskAssessment.setMatrixYellow(row.getString("yellow"));
+                riskAssessment.setMatrixLightGreen(row.getString("light_green"));
+                riskAssessment.setMatrixGreen(row.getString("green"));
+                riskAssessment.setVulnerability(row.getFloat("vulnerability"));
+                riskAssessment.setRisk(row.getString("risk"));
+                riskAssessment.setSpeedOfOnset(row.getFloat("onset_speed"));
+                riskAssessment.setImpact(row.getFloat("impact"));
+                riskAssessment.setOpportunity(row.getString("opportunity"));
+                riskAssessment.setTriggerEvent(row.getString("trigger_event"));
+                riskAssessment.setRiskFactor(row.getString("risk_factor"));
+                riskAssessment.setConsequence(row.getString("consequence"));
+                listRA.add(riskAssessment);
+                result.iterator();
+            }
+        } catch (DriverException e) {
+            Logger.error("Error occurred while retrieving list of Risk Assessments from database ", e);
+        } finally {
+            CassandraDaoFactory.close(dbSession);
+        }
+        int start = numberOfItems * (page - 1);
+        int end = numberOfItems * (page) - 1;
+        for(int x= start; x <= end && x < listRA.size(); x++){
+        	listRAShort.add(listRA.get(x));
+        }
+        
+        return listRAShort;
 	}
 
 }

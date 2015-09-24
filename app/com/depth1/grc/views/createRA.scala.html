@@ -1,42 +1,117 @@
-@import com.depth1.grc.model.RiskAssessment 
-@(rAForm:Form[RiskAssessment]) 
-@import helper._ 
-@main("Create RA") {
 
 <!-- header -->
 @header()
-
-<!-- main -->
- <main id="home-main" class="page-main">
- <section class="wrapper">
-   <h1>Risk Assessment</h1>
-   <legend> Create Risk Assessment</legend>
-	@helper.form(action =
-	com.depth1.grc.controllers.routes.Application.addRiskAssessment(), 'id
-	-> "rAForm") {
-	<fieldset>
-		@helper.inputText(rAForm("risk"), '_label -> "Risk")
-		@helper.inputText(rAForm("severity"), '_label -> "Severity")
-		@helper.textarea(rAForm("severityDescription"), '_label -> "Severity Description") 
-		@helper.inputText(rAForm("likelihood"), '_label ->"Likelihood") 
-		@helper.textarea(rAForm("likelihoodDescription"),'_label -> "Likelihood Description")
-		@helper.inputText(rAForm("vulnerability"), '_label -> "Vulnerability")
-		@helper.inputText(rAForm("speedOfOnset"), '_label -> "Speed of Onset")
-		@helper.inputText(rAForm("impact"), '_label -> "Impact")
-		@helper.textarea(rAForm("opportunity"), '_label -> "Opportunity")
-		@helper.textarea(rAForm("triggerEvent"), '_label -> "Trigger Event")
-		@helper.textarea(rAForm("riskFactor"), '_label -> "Risk Factor")
-		@helper.textarea(rAForm("consequence"), '_label -> "Consequence")
-	</fieldset>
-	<button type="submit" name="action" value="edit" style = "position: relative; left: -50px;" >Submit</button>
-	}
-	<form action=/riskAssessment />
-	<input type="submit"
-		style="position: relative; left: 50px; bottom : 26px;" value="Cancel">
-	</form>
-</section>
-} 
-<!-- end of main -->
+		<!-- Main HTML -->
+        <ol class="breadcrumb">
+           <li><a class="blue-link" href="#">Home</a></li>
+           <li><a class="blue-link" href="#">Enterprise</a></li>
+           <li><a class="blue-link" href="#">Operation Risk</a></li>
+           <li><a class="blue-link" href="/riskAssessment/1/4/descendingRisk">Risk Assessment</a></li>
+           <li>Create New</li>
+        </ol>
+        <center>
+           <h1> Risk Assessment</h1>
+           <h5>Preliminary Assessment</h5>
+           </br>
+           </br>
+           </br>
+        </center>
+        <center>
+        <form id="raCreation" action="/riskAssessment/create/done" method="post">
+           <fieldset class="fieldset-bordered">
+              <h4 class="bordered-h5"> Identification </h4> 
+                  
+              <div>
+                 <label for="tenantId" class="label-style" >Tenant ID:</label>
+                 <input type="text" id="tenantId" name="tenantId" class="input-style" >
+                 <button><span class="glyphicon glyphicon-search" ></span></button>
+                 <label for="assessmentId" class="label-style" >Assessment ID:</label>
+                 <input type="text" id="assessmentId" name="assessmentId" class="input-style" >
+                 <label for="vulnerability" class="label-style" >Vulnerability:</label>
+                 <input type="text" id="vulnerability" name="vulnerability" class="input-style" >
+              </div>
+              <div>
+                 <label for="speedOfOnset" class="label-style" >Speed of Onset:</label>
+                 <input type="text" id="speedOfOnset" name="speedOfOnset" class="input-style" >
+                 <label for="impact" class="label-style" >Impact:</label>
+                 <input type="text" id="impact" name="impact" class="input-style" >
+              </div>
+           </fieldset>
+           </br>
+           </br>
+           <fieldset class="fieldset-bordered">
+              <h4 class="bordered-h5"> Risk Posture </h4> 
+              <div>
+                 <label for="severity" class="label-style" >Severity:</label>
+                 <input type="text" id="severity" name="severity" class="input-style" >
+                 <label for="severityDescription" class="label-style" >Severity Description</label>
+                 <!--<input type="text" id="severityDescription" name="severityDescription" class="input-style input-wide" > -->
+                            
+                 <textarea form="raCreation" cols="55" rows="2" id="severityDescription" name="severityDescription" class="textarea-adjust">
+                 </textarea>
+              </div>
+              <div>
+                 <label for="likelihood" class="label-style" >Likelihood:</label>
+                 <input type="text" id="likelihood" name="likelihood" class="input-style" >
+                 <label for="likelihoodDescription" class="label-style" >Likelihood Description</label>
+                 <textarea form="raCreation" cols="51" rows="2" id="likelihoodDescription" name="likelihoodDescription" class="textarea-adjust">
+                 </textarea>
+              </div>
+              <div>
+                 <label for="opportunity" class="label-style label-push-3" >Opportunity</label>
+                 <textarea form="raCreation" cols="93" rows="2" id="opportunity" name="opportunity" class="textarea-adjust">
+                 </textarea>
+              </div>
+              <div>
+                 <label for="triggerEvent" class="label-style label-push-3" >Tigger Event</label>
+                 <textarea form="raCreation" cols="93" rows="2" id="triggerEvent" name="triggerEvent" class="textarea-adjust">
+                 </textarea>
+              </div>
+              <div>
+                 <label for="risk" class="label-style label-push-1" >Risk</label>
+                 <textarea form="raCreation" cols="93" rows="2" id="risk" name="risk" class="textarea-adjust">
+                 </textarea>
+              </div>
+              <div>
+                 <label for="riskFactor" class="label-style label-push-2" >Risk Factor</label>
+                 <textarea form="raCreation" cols="93" rows="2" id="riskFactor" name="riskFactor" class="textarea-adjust">
+                 </textarea>
+              </div>
+              <div>
+                 <label for="consequence" class="label-style label-push-4" >Consequence</label>
+                 <textarea form="raCreation" cols="93" rows="2" id="consequence" name="consequence" class="textarea-adjust">
+                 </textarea>
+              </div>
+           </fieldset>
+           </br>
+           </br>
+           <fieldset class="fieldset-bordered">
+              <h4 class="bordered-h5-2"> Business Assessment </h4> 
+              <div>
+                 <label for="financialImpactOfRisk" class="label-style" >Financial Impact of Risk:</label>
+                 <input type="text" id="financialImpactOfRisk" name="financialImpactOfRisk" class="input-style" >
+              </div>
+           </fieldset>
+           </br>
+           </br>
+           <fieldset class="fieldset-bordered">
+              <h4 class="bordered-h5-2"> Technical Assessment </h4> 
+              <div>
+                 <label for="informationSystemSecurityRisk" class="label-style" >Information System Security Risk:</label>
+                 <input type="text" id="informationSystemSecurityRisk" name="informationSystemSecurityRisk" class="input-style" >
+              </div>
+           </fieldset>
+           </br>
+           </br>
+           <div>
+              <button type="button" onclick="goRAFrontPage()">Cancel</button>
+              <button type="submit" class="button-spacer">Submit</button>
+           </div>
+        </form>
+        </center>
+        </br>
+        </br>
+        </br>
 
 <!-- footer -->
 @footer()

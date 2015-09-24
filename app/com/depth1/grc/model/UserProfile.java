@@ -3,42 +3,51 @@
  */
 package com.depth1.grc.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
+import com.datastax.driver.core.utils.UUIDs;
+
 /**
- * @author badedokun
+ * This class is the business object for creating, updating, deleting, viewing, and finding a user.<br> 
+ * @author Bisi Adedokun
  *
  */
 public class UserProfile {
 	
     private UUID id;
-    private long tenantid;
+    private long tenantId;
     private String fname;
     private String lname;
-    private String address1;
-    private String address2;
+    private String gender;
+    private String username;
+    private String password;
+    private String email;
+    private String street1;
+    private String street2;
     private String city;
     private String zipcode;
     private String state;
     private String province;
     private String country;
-    private String username;
-    private String password;
-    private String email;
-    private String deskPhone;
-    private String mobilePhone;
-    private String challengeQuestion;
-    private String challengeAnswer;
-    private String passwordExpired;
-    private int passwordRetry;
-    private Date passwordCreateDate;
-    private Date passwordInvalidDate;
-    private String passwordSalt;
+    private String latitude;
+    private String longitude;
+    private String lineofdefense;
+    private Timestamp createdate;
+    private String status;
+    private Map<String, String> phones;
     private String timeZone;
     private String locale;
     private String language;
-	
+	private String minitial;
+    private String salutation;
+    private String pfname;
+    private String title;
+	private UUIDs testDate;
+	private long uuidTime;
+	private Date dateUtil;
     
     /**
 	 * @return the id
@@ -53,16 +62,16 @@ public class UserProfile {
 		this.id = id;
 	}
 	/**
-	 * @return the tenantid
+	 * @return the tenantId
 	 */
-	public long getTenantid() {
-		return tenantid;
+	public long getTenantId() {
+		return tenantId;
 	}
 	/**
-	 * @param tenantid the tenantid to set
+	 * @param tenantid the tenantId to set
 	 */
-	public void setTenantid(long tenantid) {
-		this.tenantid = tenantid;
+	public void setTenantId(long tenantid) {
+		this.tenantId = tenantid;
 	}
 	/**
 	 * @return the fname
@@ -89,28 +98,118 @@ public class UserProfile {
 		this.lname = lname;
 	}
 	/**
-	 * @return the address1
+	 * @return the username
 	 */
-	public String getAddress1() {
-		return address1;
+	public String getUsername() {
+		return username;
 	}
 	/**
-	 * @param address1 the address1 to set
+	 * @param username the username to set
 	 */
-	public void setAddress1(String address1) {
-		this.address1 = address1;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	/**
-	 * @return the address2
+	 * @return the password
 	 */
-	public String getAddress2() {
-		return address2;
+	public String getPassword() {
+		return password;
 	}
 	/**
-	 * @param address2 the address2 to set
+	 * @param password the password to set
 	 */
-	public void setAddress2(String address2) {
-		this.address2 = address2;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	/**
+	 * @return the emailAddress
+	 */
+	public String getEmail() {
+		return email;
+	}
+	/**
+	 * @param emailAddress the emailAddress to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the timeZone
+	 */
+	public String getTimeZone() {
+		return timeZone;
+	}
+	/**
+	 * @param timeZone the timeZone to set
+	 */
+	public void setTimeZone(String timeZone) {
+		this.timeZone = timeZone;
+	}
+	/**
+	 * @return the email_address
+	 */
+
+	/**
+	 * @return the locale
+	 */
+	public String getLocale() {
+		return locale;
+	}
+	/**
+	 * @param locale the locale to set
+	 */
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+	/**
+	 * @return the language
+	 */
+	public String getLanguage() {
+		return language;
+	}
+	/**
+	 * @param language the language to set
+	 */
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	/**
+	 * @return the gender
+	 */
+	public String getGender() {
+		return gender;
+	}
+	/**
+	 * @param gender the gender to set
+	 */
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	/**
+	 * @return the street1
+	 */
+	public String getStreet1() {
+		return street1;
+	}
+	/**
+	 * @param street1 the street1 to set
+	 */
+	public void setStreet1(String street1) {
+		this.street1 = street1;
+	}
+	/**
+	 * @return the street2
+	 */
+	public String getStreet2() {
+		return street2;
+	}
+	/**
+	 * @param street2 the street2 to set
+	 */
+	public void setStreet2(String street2) {
+		this.street2 = street2;
 	}
 	/**
 	 * @return the city
@@ -173,202 +272,162 @@ public class UserProfile {
 		this.country = country;
 	}
 	/**
-	 * @return the username
+	 * @return the latitude
 	 */
-	public String getUsername() {
-		return username;
+	public String getLatitude() {
+		return latitude;
 	}
 	/**
-	 * @param username the username to set
+	 * @param latitude the latitude to set
 	 */
-	public void setUsername(String username) {
-		this.username = username;
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
 	/**
-	 * @return the password
+	 * @return the longitude
 	 */
-	public String getPassword() {
-		return password;
+	public String getLongitude() {
+		return longitude;
 	}
 	/**
-	 * @param password the password to set
+	 * @param longitude the longitude to set
 	 */
-	public void setPassword(String password) {
-		this.password = password;
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 	/**
-	 * @return the emailAddress
+	 * @return the lineofdefense
 	 */
-	public String getEmail() {
-		return email;
+	public String getLineofdefense() {
+		return lineofdefense;
 	}
 	/**
-	 * @param emailAddress the emailAddress to set
+	 * @param lineofdefense the lineofdefense to set
 	 */
-	public void setEmail(String email) {
-		this.email = email;
+	public void setLineofdefense(String lineofdefense) {
+		this.lineofdefense = lineofdefense;
 	}
 	/**
-	 * @return the deskPhone
+	 * @return the createdate
 	 */
-	public String getDeskPhone() {
-		return deskPhone;
+	public Timestamp getCreatedate() {
+		return createdate;
 	}
 	/**
-	 * @param deskPhone the deskPhone to set
+	 * @param createdate the createdate to set
 	 */
-	public void setDeskPhone(String deskPhone) {
-		this.deskPhone = deskPhone;
+	public void setCreatedate(Timestamp createdate) {
+		this.createdate = createdate;
 	}
 	/**
-	 * @return the mobilePhone
+	 * @return the status
 	 */
-	public String getMobilePhone() {
-		return mobilePhone;
+	public String getStatus() {
+		return status;
 	}
 	/**
-	 * @param mobilePhone the mobilePhone to set
+	 * @param status the status to set
 	 */
-	public void setMobilePhone(String mobilePhone) {
-		this.mobilePhone = mobilePhone;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	/**
-	 * @return the timeZone
+	 * @return the phones
 	 */
-	public String getTimeZone() {
-		return timeZone;
+	public Map<String, String> getPhones() {
+		return phones;
 	}
 	/**
-	 * @param timeZone the timeZone to set
+	 * @param phones the phones to set
 	 */
-	public void setTimeZone(String timeZone) {
-		this.timeZone = timeZone;
+	public void setPhones(Map<String, String> phones) {
+		this.phones = phones;
 	}
-	/**
-	 * @return the email_address
-	 */
-
-	/**
-	 * @return the challengeQuestion
-	 */
-	public String getChallengeQuestion() {
-		return challengeQuestion;
-	}
-	/**
-	 * @param challengeQuestion the challengeQuestion to set
-	 */
-	public void setChallengeQuestion(String challengeQuestion) {
-		this.challengeQuestion = challengeQuestion;
-	}
-	/**
-	 * @return the challengeAnswer
-	 */
-	public String getChallengeAnswer() {
-		return challengeAnswer;
-	}
-	/**
-	 * @param challengeAnswer the challengeAnswer to set
-	 */
-	public void setChallengeAnswer(String challengeAnswer) {
-		this.challengeAnswer = challengeAnswer;
-	}
-	/**
-	 * @return the passwordExpired
-	 */
-	public String getPasswordExpired() {
-		return passwordExpired;
-	}
-	/**
-	 * @param passwordExpired the passwordExpired to set
-	 */
-	public void setPasswordExpired(String passwordExpired) {
-		this.passwordExpired = passwordExpired;
-	}
-	/**
-	 * @return the passwordRetry
-	 */
-	public int getPasswordRetry() {
-		return passwordRetry;
-	}
-	/**
-	 * @param passwordRetry the passwordRetry to set
-	 */
-	public void setPasswordRetry(int passwordRetry) {
-		this.passwordRetry = passwordRetry;
-	}
-	/**
-	 * @return the passwordCreateDate
-	 */
-	public Date getPasswordCreateDate() {
-		return passwordCreateDate;
-	}
-	/**
-	 * @param passwordCreateDate the passwordCreateDate to set
-	 */
-	public void setPasswordCreateDate(Date passwordCreateDate) {
-		this.passwordCreateDate = passwordCreateDate;
-	}
-	/**
-	 * @return the passwordInvalidDate
-	 */
-	public Date getPasswordInvalidDate() {
-		return passwordInvalidDate;
-	}
-	/**
-	 * @param passwordInvalidDate the passwordInvalidDate to set
-	 */
-	public void setPasswordInvalidDate(Date passwordInvalidDate) {
-		this.passwordInvalidDate = passwordInvalidDate;
-	}
-	/**
-	 * @return the passwordSalt
-	 */
-	public String getPasswordSalt() {
-		return passwordSalt;
-	}
-	/**
-	 * @param passwordSalt the passwordSalt to set
-	 */
-	public void setPasswordSalt(String passwordSalt) {
-		this.passwordSalt = passwordSalt;
-	}
-	/**
-	 * @return the time_zone
-	 */
-	public String getTime_zone() {
-		return timeZone;
-	}
-	/**
-	 * @param time_zone the time_zone to set
-	 */
-	public void setTime_zone(String timeZone) {
-		this.timeZone = timeZone;
-	}
-	/**
-	 * @return the locale
-	 */
-	public String getLocale() {
-		return locale;
-	}
-	/**
-	 * @param locale the locale to set
-	 */
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
-	/**
-	 * @return the language
-	 */
-	public String getLanguage() {
-		return language;
-	}
-	/**
-	 * @param language the language to set
-	 */
-	public void setLanguage(String language) {
-		this.language = language;
-	}	
 	
+    /**
+	 * @return the minitial
+	 */
+	public String getMinitial() {
+		return minitial;
+	}
+	/**
+	 * @param minitial the minitial to set
+	 */
+	public void setMinitial(String minitial) {
+		this.minitial = minitial;
+	}
+	/**
+	 * @return the salutation
+	 */
+	public String getSalutation() {
+		return salutation;
+	}
+	/**
+	 * @param salutation the salutation to set
+	 */
+	public void setSalutation(String salutation) {
+		this.salutation = salutation;
+	}
+	/**
+	 * @return the pfname
+	 */
+	public String getPfname() {
+		return pfname;
+	}
+	/**
+	 * @param pfname the pfname to set
+	 */
+	public void setPfname(String pfname) {
+		this.pfname = pfname;
+	}
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	/**
+	 * @return the testDate
+	 */
+	public UUIDs getTestDate() {
+		return testDate;
+	}
+	/**
+	 * @param testDate the testDate to set
+	 */
+	public void setTestDate(UUIDs testDate) {
+		this.testDate = testDate;
+	}
+	/**
+	 * @return the uuidTime
+	 */
+	public long getUuidTime() {
+		return uuidTime;
+	}
+	/**
+	 * @param uuidTime the uuidTime to set
+	 */
+	public void setUuidTime(long uuidTime) {
+		this.uuidTime = uuidTime;
+	}
+	/**
+	 * @return the dateUtil
+	 */
+	public Date getDateUtil() {
+		return dateUtil;
+	}
+	/**
+	 * @param dateUtil the dateUtil to set
+	 */
+	public void setDateUtil(Date dateUtil) {
+		this.dateUtil = dateUtil;
+	}	
 	
 
 }

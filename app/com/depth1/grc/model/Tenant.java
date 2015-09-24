@@ -3,6 +3,7 @@ package com.depth1.grc.model;
 import java.util.Date;
 import java.util.UUID;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.depth1.grc.model.common.DateFormat;
 
 import play.data.validation.Constraints.Email;
@@ -53,12 +54,12 @@ public class Tenant
 	private String contactPersonEmail;
 	
 	@Required
-	@DateFormat("MM-dd-yyyy")
-	private Date serviceStartDate;
+	//@DateFormat("MM-dd-yyyy")
+	private UUIDs serviceStartDate;
 	
 	@Required
-	@DateFormat("MM-dd-yyyy")
-	private Date createDate;
+	//@DateFormat("MM-dd-yyyy")
+	private UUIDs createDate;
 	
 	@Required
 	private String companyUrl;
@@ -72,6 +73,11 @@ public class Tenant
 	
 	private String ipaddress;
 	
+	private long uuidTime;
+	
+	private Date startDateUtil;
+	
+	private Date createDateUtil;
 		
 	public CassandraTenantDao cassandraTenantDao;
 	
@@ -192,25 +198,25 @@ public class Tenant
 		this.contactPersonEmail = contactPersonEmail;
 	}
 
-	public Date getServiceStartDate() {
+	public UUIDs getServiceStartDate() {
 		return serviceStartDate;
 	}
 
-	public void setServiceStartDate(Date serviceStartDate) {
+	public void setServiceStartDate(UUIDs serviceStartDate) {
 		this.serviceStartDate = serviceStartDate;
 	}
 
 	/**
 	 * @return the createDate
 	 */
-	public Date getCreateDate() {
+	public UUIDs getCreateDate() {
 		return createDate;
 	}
 
 	/**
 	 * @param createDate the createDate to set
 	 */
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(UUIDs createDate) {
 		this.createDate = createDate;
 	}
 
@@ -244,6 +250,48 @@ public class Tenant
 
 	public void setIpaddress(String ipaddress) {
 		this.ipaddress = ipaddress;
+	}
+
+	/**
+	 * @return the uuidTime
+	 */
+	public long getUuidTime() {
+		return uuidTime;
+	}
+
+	/**
+	 * @param uuidTime the uuidTime to set
+	 */
+	public void setUuidTime(long uuidTime) {
+		this.uuidTime = uuidTime;
+	}
+
+	/**
+	 * @return the dateUtil
+	 */
+	public Date getStartDateUtil() {
+		return startDateUtil;
+	}
+
+	/**
+	 * @param dateUtil the dateUtil to set
+	 */
+	public void setStartDateUtil(Date dateUtil) {
+		this.startDateUtil = dateUtil;
+	}
+
+	/**
+	 * @return the createDateUtil
+	 */
+	public Date getCreateDateUtil() {
+		return createDateUtil;
+	}
+
+	/**
+	 * @param createDateUtil the createDateUtil to set
+	 */
+	public void setCreateDateUtil(Date createDateUtil) {
+		this.createDateUtil = createDateUtil;
 	}
 
 	public CassandraTenantDao getCassandraTenantDao() {

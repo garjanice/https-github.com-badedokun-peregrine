@@ -1,88 +1,110 @@
 @import com.depth1.grc.model.RiskAssessment
-@(riskAssessments:List[RiskAssessment])
-@main("Risk Assessment") {
 
+@(riskAssessments:List[RiskAssessment], rASize:Integer)
 
-<head>
+@header()
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script type = "text/javascript" src="@routes.Assets.versioned("javascripts/frontRAScript.js")"></script>
+       <ol class="breadcrumb">
+           <li><a class="blue-link" href="#">Home</a></li>
+           <li><a class="blue-link" href="#">Enterprise</a></li>
+           <li><a class="blue-link" href="#">Operation Risk</a></li>
+           <li>Risk Assessment</li>
+        </ol>
+        
+        <center>
+           <h1> Risk Assessment</h1>
+           <h6> Front Page</h6>
+           <br>
+           <br>
+           <br>
+        </center>
+        <div class="margin-50">
+        	
+        		<div class="float-box">
+        			<input type="search" id="raListSearchText" onsearch="raListSearch()" value="Search Risk">
+        		</div>
+        	
+        	
+        	
+	        <div >
+	          
+	           <div class="raTableView">
+	              <p> <a class="blue-link" onclick="changeViewRA(10)"> View 10</a> |
+	              <a class="blue-link" onclick="changeViewRA(25)"> View 25</a> | 
+	              <a class="blue-link" onclick="changeViewRA(50)"> View 50</a> </p>
+	           </div>
+	            <p> <b>Instructions:</b> Please select a Risk Assessment and then View, Update, or Delete. </p>
+	        </div>
+	        <br>
+	        
+	        <div>
+	           
+	           <table id="raTable">
+	              <thead>
+	                <tr>
+	                   <th id="raTableCol1" onclick="raListSort('risk')">Risk</th>
+	        		   <th id="raTableCol2" onclick="raListSort('likelihood')">Likelihood</span></th>
+					   <th id="raTableCol3" onclick="raListSort('severity')">Severity</th>
+					   <th id="raTableCol4" onclick="raListSort('consequence')">Consequence</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	              	 
+	                 @for(RiskAssessment <- riskAssessments) {
+				     <tr >
+					    <td>@RiskAssessment.getShortRisk</td>
+					    <td class="raTableRowCenter">@RiskAssessment.getLikelihood</td>
+					    <td class="raTableRowCenter">@RiskAssessment.getSeverity</td>
+					    <td>@RiskAssessment.getShortConsequence</td>
+				    </tr>
+				    }
+	              </tbody>
+	           </table>
+	        </div>
+        </div>
+        <center>
+           <div id="paginationArray">
+           </div>
+        </center>
+        <br>
+        <br>
+        <br>
+        <center>
+           <table>
+              <tr>
+                 <td>
+	                <FORM ACTION=/riskAssessment/create>
+		               <INPUT TYPE="submit" class="raList-Button" VALUE="Create">
+		            </FORM>
+		         </td>
+	             <td>
+	                <FORM ACTION=/riskAssessment/view>
+			           <INPUT TYPE="submit" id="raViewButton" class="raList-Button" value="View" disabled>
+	                </FORM>
+	             </td>
+	             <td>
+	             <INPUT TYPE="button" id="raDeleteButton" class="raList-Button" value = "Delete" onclick="deleteRA()" disabled>
+	             </td>
+	             <td>
+	                <FORM ACTION=/riskAssessment/update>
+			           <INPUT TYPE="submit" id="raUpdateButton" class="raList-Button" value="Update" disabled>
+	                </FORM>
+	             </td>
+	             <td>
+	                <FORM ACTION=/riskAssessment/print>
+			           <INPUT TYPE="submit" id="raPrintButton" class="raList-Button" value="Print" disabled>
+	                </FORM>
+	             </td>
+	          </tr>
+           </table>
+        </center>
+        <br>
+        <br>
+        <br>
+        <!-- Needed script to get the total number of Risk Assessment -->
+        <script>
+           var rAFrontListSize = @rASize;
+        </script> 
 
-</head>
-
-
-<style>
-tr {
-	cursor: default;
-}
-
-.highlight {
-	background: #00CCFF;
-}
-</style>
-
-<!-- header -->
-@header() 
-
-<!-- main -->
-<main id="home-main" class="page-main">
-<section class="wrapper">
-	<h1>Risk Assessment</h1>
-	<legend> Front Page</legend>
-	<table style="text-align: center;" class="table">
-		<thead>
-			<tr>
-				<th>Risk</th>
-				<th>Likelihood</th>
-				<th>Severity</th>
-				<th>Consequence</th>
-			</tr>
-		</thead>
-		<tbody>
-			@for(RiskAssessment <- riskAssessments) {
-			<tr>
-				<td>@RiskAssessment.getRisk</td>
-				<td>@RiskAssessment.getLikelihood</td>
-				<td>@RiskAssessment.getSeverity</td>
-				<td>@RiskAssessment.getConsequence</td>
-			</tr>
-			}
-		</tbody>
-
-	</table>
-
-	<!--the buttons, using just html forms-->
-	<FORM ACTION=/riskAssessment/create />
-	<INPUT TYPE="submit"
-		style="position: relative; bottom: 0px; left: -225px; height: 30px; width: 100px;"
-		VALUE="Create">
-	</FORM>
-
-	<FORM ACTION=/riskAssessment/view />
-	<INPUT TYPE="submit"
-		style="position: relative; bottom: 30px; left: -75px; height: 30px; width: 100px;"
-		VALUE="View">
-	</FORM>
-
-	<FORM ACTION=/riskAssessment/update />
-	<INPUT TYPE="submit"
-		style="position: relative; bottom: 60px; left: 75px; height: 30px; width: 100px;"
-		VALUE="Update">
-	</FORM>
-
-	<INPUT TYPE="button" class = "delete-btn" value = "Delete"
-		style="position: relative; bottom: 90px; left: 225px; height: 30px; width: 100px;"
-	/>
-
-	<FORM ACTION="/" />
-	<INPUT TYPE="submit"
-		style="position: relative; bottom: 50px; height: 30px; width: 100px;"
-		VALUE="Back">
-	</FORM>
-</section>
-</main>
-<!-- end of main -->
-
-<!-- footer -->
 @footer()
-}
+

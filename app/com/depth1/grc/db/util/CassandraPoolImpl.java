@@ -24,20 +24,28 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 	 * @see com.depth1.grc.db.util.ConnectionPool#create()
 	 */
 
-	@Override
-	public Session create() throws DriverException {
-		cluster = Cluster.builder().addContactPoint(REMOTE_CLUSTER).build();
-		session = cluster.connect();
-		// test connection to the database;
-		Metadata metadata = cluster.getMetadata();
-		System.out.printf("Connected to cluster: %s\n",
-		metadata.getClusterName());
-		for ( Host host : metadata.getAllHosts() ) {
-		System.out.printf("Datacenter: %s; Host: %s; Rack: %s\n",
-		host.getDatacenter(), host.getAddress(), host.getRack());
-		}
-		//
-		return session;
+    @Override
+    public Session create() throws DriverException {
+    	cluster = Cluster.builder().addContactPoint(REMOTE_CLUSTER)
+    			.withCredentials("super", "cheetah27").build();
+    	session = cluster.connect();
+    	// test connection to the database;
+    	Metadata metadata = cluster.getMetadata();
+    	System.out.printf("Connected to cluster: %s\n",
+    			metadata.getClusterName());
+    	for ( Host host : metadata.getAllHosts() ) {
+    		System.out.printf("Datacenter: %s; Host: %s; Rack: %s\n",
+    				host.getDatacenter(), host.getAddress(), host.getRack());
+    	}
+    	//
+    	return session;
+    }
+
+	/**
+	 * @return the session
+	 */
+	public Session getSession() {
+		return this.session;
 	}
 
 	/* (non-Javadoc)
@@ -64,6 +72,7 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 	public void expire(Session pool) throws DriverException {
 		  try {
 		      ((Session) pool).close();
+		      ((Session) pool).getCluster().close();
 		    } catch (DriverException e) {
 		    	throw new DriverException("Unable to to connect to the cluster.");
 		    }
