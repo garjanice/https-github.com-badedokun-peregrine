@@ -102,15 +102,22 @@ public final class DateUtility {
 	*/
 	public static Date getDate(String date) {
 		java.util.Date actualDate = new java.util.Date();
-		try {
-			DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-			actualDate = dateFormat.parse(date);
 
-		}
-		catch (ParseException pe){
+		if (date == null) {
+			return null;
+		} else {
+
+			try {
+				DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+				actualDate = dateFormat.parse(date);
+
+			}
+			catch (ParseException pe){
+			}
 		}
 		return actualDate;
 	}
+	
 	/**
 	 * Validates date input and test for leap year when year is int yyyy.
 	 * Creation date: (1/25/2002 1:11:45 PM)
@@ -121,7 +128,6 @@ public final class DateUtility {
 	public static boolean isDateValid(int year, String month, String day) {
 
 		boolean validInput = true;
-
 		int monthValue = 1;
 		int dayValue = 1;
 
