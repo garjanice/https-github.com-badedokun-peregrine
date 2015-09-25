@@ -409,9 +409,13 @@ tart */
 	}
 
 	/**
-	 * @param Policy
-	 *
-	 * @return
+	 * Policy
+	 */
+	
+	/**
+	 * Creates a policy 
+	 * @param void
+	 * @return Result of the policy created
 	 */
 	public Result createPolicy() {
 		// create form object from the request
@@ -438,6 +442,11 @@ tart */
 		return redirect("/policy");
 	}
 	
+	/**
+	 * Saves the policy body document to a file on the server file system
+	 * @param file name of policy to be saved, text-area field of policy body
+	 * @return void
+	 */
 	private void savePolicyBodyDocument(String fileName, Field policyBody) {
 		try {
 			//TODO: Replace the path with path on server for file storage
@@ -459,6 +468,11 @@ tart */
 		}
 	}
 
+	/**
+	 * Updates a policy 
+	 * @param void
+	 * @return Result of the policy updated
+	 */
 	public Result updatePolicy() {
 		// create form object from the request
 		Form<Policy> filledPolicy = policyForm.bindFromRequest();
@@ -485,6 +499,11 @@ tart */
 		return redirect("/policy");
 	}
 		
+	/**
+	 * Deletes a policy 
+	 * @param UUID of policy
+	 * @return delete policy page
+	 */
 	public Result deletePolicy(UUID id) {
 		//Logger.error("correct");
 		//call cassandra policy dao
@@ -496,12 +515,15 @@ tart */
 		} catch (DaoException e) {
 			System.out.println("ERROR OCCURED");
 			Logger.error("Error occurred while creating Policy Delete Page ", e);
-	}
-		
+		}		
 		return ok(deletePolicy.render(policies));
-		
-		//return TODO;
 	}
+	
+	/**
+	 * Restores a policy 
+	 * @param UUID of policy
+	 * @return restore policy page
+	 */
 	public Result restorePolicy(UUID id) {
 		//Logger.error("correct");
 		//call cassandra policy dao
@@ -513,13 +535,15 @@ tart */
 		} catch (DaoException e) {
 			System.out.println("ERROR OCCURED");
 			Logger.error("Error occurred while creating Policy Restore Page ", e);
-	}
-		
+		}
 		return ok(restorePolicy.render(policies));
-		
-		//return TODO;
 	}
 	
+	/**
+	 * Shows a list of policy - Front page for Policy 
+	 * @param void
+	 * @return policy list page
+	 */
 	public Result showPolicyListPage() {
 
 		try {
@@ -532,17 +556,32 @@ tart */
 		return ok(policyListPage.render(policies));
 	}
 
+	/**
+	 * Shows a create policy page 
+	 * @param void
+	 * @return policy create page
+	 */
 	public Result showCreatePolicyPage() {
 
 		return ok(createPolicy.render(policyForm));
 	}
 
+	/**
+	 * Shows a create policy editor page 
+	 * @param void
+	 * @return policy editor page
+	 */
 	public Result showCreatePolicyEditorPage() {
 
 		// return ok(viewPolicy.render(selectedPolicy));
 		return ok();
 	}
 
+	/**
+	 * Shows a view policy page 
+	 * @param void
+	 * @return policy view page
+	 */
 	public Result showViewPolicyPage(UUID id) {		
 		//String filepath = "documents/test.pdf";
 		//return ok(new java.io.File(filepath));
@@ -562,10 +601,13 @@ tart */
 			Logger.error("Error occurred while creating Policy Front Page: ", e);
 		}
 		return ok();
-
-
 	}
 
+	/**
+	 * Shows a update policy page 
+	 * @param void
+	 * @return policy update page
+	 */
 	public Result showUpdatePolicyPage(UUID id) {
 		// return ok(updatePolicy.render(selectedPolicy));
 		PolicyDao policyDao;
@@ -580,7 +622,11 @@ tart */
 		return ok();
 	}
 
-	// remove this later, we may not have a specific delete policy page
+	/**
+	 * Shows a delete policy page 
+	 * @param void
+	 * @return policy delete page
+	 */
 	public Result showDeletePolicyPage() {
 		try {
 			PolicyDao policyDao = cassandraFactory.getPolicyDao();
@@ -593,6 +639,11 @@ tart */
 		
 	}
 	
+	/**
+	 * Shows a restore policy page 
+	 * @param void
+	 * @return policy restore page
+	 */
 	public Result showRestorePolicyPage(){
 		try {
 			PolicyDao policyDao = cassandraFactory.getPolicyDao();
@@ -604,6 +655,11 @@ tart */
 		return ok(restorePolicy.render(policies));
 	}
 
+	/**
+	 * Downloads a policy to a file
+	 * @param policy name
+	 * @return creates a policy file
+	 */
 	public Result downloadPolicy(String name){
 		String filepath = "public/policyDocuments/" + name;
 		return ok(new java.io.File(filepath));
