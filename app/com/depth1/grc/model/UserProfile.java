@@ -35,7 +35,7 @@ public class UserProfile {
     private String latitude;
     private String longitude;
     private String lineofdefense;
-    private Timestamp createdate;
+    private UUIDs createdate;
     private String status;
     private Map<String, String> phones;
     private String timeZone;
@@ -45,7 +45,6 @@ public class UserProfile {
     private String salutation;
     private String pfname;
     private String title;
-	private UUIDs testDate;
 	private long uuidTime;
 	private Date dateUtil;
     
@@ -310,13 +309,13 @@ public class UserProfile {
 	/**
 	 * @return the createdate
 	 */
-	public Timestamp getCreatedate() {
+	public UUIDs getCreatedate() {
 		return createdate;
 	}
 	/**
 	 * @param createdate the createdate to set
 	 */
-	public void setCreatedate(Timestamp createdate) {
+	public void setCreatedate(UUIDs createdate) {
 		this.createdate = createdate;
 	}
 	/**
@@ -391,18 +390,6 @@ public class UserProfile {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	/**
-	 * @return the testDate
-	 */
-	public UUIDs getTestDate() {
-		return testDate;
-	}
-	/**
-	 * @param testDate the testDate to set
-	 */
-	public void setTestDate(UUIDs testDate) {
-		this.testDate = testDate;
 	}
 	/**
 	 * @return the uuidTime

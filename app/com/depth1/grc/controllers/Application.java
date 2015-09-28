@@ -1,6 +1,8 @@
 package com.depth1.grc.controllers;
 import java.util.Collections;
 import java.util.Comparator;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,6 +18,7 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import com.datastax.driver.core.utils.UUIDs;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
 
@@ -41,6 +44,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import play.Logger;
 import play.data.Form;
+import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Security;
@@ -49,13 +53,103 @@ import play.mvc.Security;
 public class Application extends Controller {
 
 	// create the required DAO Factory
-	static DaoFactory cassandraFactory = DaoFactory
-			.getDaoFactory(DaoFactory.CASSANDRA);
+	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
 	final static Form<RiskAssessment> rAForm = Form.form(RiskAssessment.class);
 	static List<RiskAssessment> riskAssessments;
 	static RiskAssessment selectedRA;
 
 	public Result index() {
+		// user profile test data
+		UserProfile user = new UserProfile();
+		//user.setId(java.util.UUID.fromString("8b170dad-2ddf-4ab1-9509-ee7370a4f9f6"));
+		user.setId(java.util.UUID.randomUUID());
+		user.setFname("Adebisi");
+		user.setLname("Adedokun");
+		user.setMinitial("BA");
+		user.setPfname("Bisi");
+		user.setTitle("Chief Architect");
+		user.setSalutation("Mr.");
+		user.setUsername("badedokun@acenonyx.com");
+		user.setPassword("Core2512Java");
+		user.setEmail("badedokun@acenonyx.com");		
+		user.setGender("Male");
+		user.setLineofdefense("Active");
+		user.setLanguage("en_US");
+		user.setLocale("en_US");
+		user.setTimeZone("GMT-5");
+		user.setStreet1("56 Wellington Rd");
+		user.setStreet2("Suite 2");
+		user.setCity("East Brunswick");
+		user.setState("NJ");
+		user.setProvince("  ");
+		user.setZipcode("08816");
+		user.setCountry("USA");
+		user.setLongitude("-74.416855");
+		user.setLatitude("40.455281");
+		String workPhone = "201-593-3518";
+		String mobilePhone = "732-874-7610";
+		String work = "Work";
+		String mobile = "Mobile";
+		Map<String, String> phones = new HashMap<String, String>();
+		phones.put(work, workPhone);
+		phones.put(mobile, mobilePhone);		
+		user.setPhones(phones);
+		user.setStatus("Active");
+
+		Logger.info("user profile populated ");
+		Logger.info("username = " + user.getUsername() + " password = " + user.getPassword());
+		
+		createUserProfile(user);
+		
+		// Tenant test data
+		Tenant tenant = new Tenant();
+		String value = "09/27/2015";
+		String format = Messages.get("date.in.date.format");
+		Logger.info("The date format is: " + format);
+		try {
+			Timestamp date = DateUtility.toTimestamp(value, format);
+			tenant.setServiceStartDate(date);
+			Logger.info("service start date set to: " + date);
+			
+		} catch (ParseException p) {
+
+		}
+		tenant.setId(java.util.UUID.randomUUID());
+		tenant.setName("Acenonyx");
+		tenant.setType("Software");
+		tenant.setContactPersonName("Jerry Skidmore");
+		tenant.setContactPersonEmail("jskidmore@acenonyx.com");
+		tenant.setCompanyUrl("http://www.acenonyx.com");
+		tenant.setStreet1("56 Wellington Rd");
+		tenant.setStreet2("Suite 2");
+		tenant.setCity("East Brunswick");
+		tenant.setState("NJ");
+		tenant.setProvince("  ");
+		tenant.setZipcode("08816");
+		tenant.setCountry("USA");
+		tenant.setLongitude("-74.416855");
+		tenant.setLatitude("40.455281");
+		String mainPhone = "732-651-7610";
+		String directLine = "732-874-7610";
+		String main = "Main";
+		String direct = "Direct";
+		Map<String, String> bphones = new HashMap<String, String>();
+		Map<String, String> cphones = new HashMap<String, String>();
+		bphones.put(main, mainPhone);
+		bphones.put(direct, directLine);		
+		tenant.setPhones(bphones);
+		cphones.put(main, mainPhone);
+		cphones.put(direct, directLine);
+		tenant.setStatus("Active");
+		tenant.setContactPersonPhones(cphones);
+		tenant.setIpaddress("10.25.3.5");
+		
+		Logger.info("tenant profile populated ");
+		Logger.info("tenant name = " + tenant.getName() + " type = " + tenant.getType());
+		long tenantId = 1443395694601L;
+		createTenant(tenant);
+		//listTenant();
+		getTenant(tenantId);
 
 		return ok(index.render()); 
 	}
@@ -103,10 +197,107 @@ public class Application extends Controller {
 			tenantDao.createTenant(tenant);
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating tenant ", e);
+		} catch (ParseException p) {
+			Logger.error("Error occurred while parsing date format", p);
 		}
 
 		return ok();
 	}
+	
+	/**
+	 * Gets all the tenants in the tenant  table.
+	 * 
+	 * @return Result of all the tenants in the table
+	 */
+	public static Result listTenant() {
+		try {
+			TenantDao tenantDao = cassandraFactory.getTenantDao();
+			List<Tenant> tenantList = tenantDao.listTenant();
+			for (Tenant list : tenantList) {
+				Map<String, String> phones = list.getPhones();
+				//String direct = map.get("Direct");
+				//String main   = map.get("Main");
+				String dateFormat = "yyyy-dd-MM HH:mm:ss";
+				Date dateTime = list.getCreateDateUtil();
+				String outTimestamp = Messages.get("date.out.timestamp.format");
+				DateFormat df = new SimpleDateFormat(outTimestamp);
+				Logger.info("Tenant Created On: " +  DateUtility.formatDateFromUuid(dateFormat, dateTime));
+				Logger.info("Tenant UUID: " + list.getId());
+				Logger.info("Tenant Id: " + list.getTenantId());
+				Logger.info("Tenant Name: " + list.getName());
+				Logger.info("Tenant Type: " + list.getType());
+				Logger.info("Tenant Stret1: " + list.getStreet1());
+				Logger.info("Tenant Street2: " + list.getStreet2());
+				Logger.info("Tenant City: " + list.getCity());
+				Logger.info("Tenant Zipcode: " + list.getZipcode());
+				Logger.info("Tenant State: " + list.getState());
+				Logger.info("Tenant Province: " + list.getProvince());
+				Logger.info("Tenant Country: " + list.getCountry());
+				Logger.info("Tenant Latitude: " + list.getLatitude());
+				Logger.info("Tenant Longitude: " + list.getLongitude());
+				Logger.info("Tenant Contact Person: " + list.getContactPersonName());
+				Logger.info("Tenant Contact Person Email: " + list.getContactPersonEmail());
+				//Logger.info("Tenant Main Phone:  " + main);
+				//Logger.info("Tenant Direct Line:  " + direct);
+				Logger.info("Tenant Service Start Date: " + DateUtility.toString(list.getServiceStartDate(), df));
+				Logger.info("Tenant Web Address: " + list.getCompanyUrl());
+				Logger.info("Tenant IP Address: " + list.getIpaddress());
+				Logger.info("Tenant Status: " + list.getStatus());
+				
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while reading a tenant data ", e);
+		}
+
+		return ok();
+	}	
+	
+	/**
+	 * Gets all the tenants in the tenant  table.
+	 * 
+	 * @return Result of all the tenants in the table
+	 */
+	public static Result getTenant(long tenantId) {
+		try {
+			TenantDao tenantDao = cassandraFactory.getTenantDao();
+			Tenant list = tenantDao.getTenant(tenantId);
+			Map<String, String> phones = list.getPhones();
+			// String direct = map.get("Direct");
+			// String main = map.get("Main");
+			String dateFormat = "yyyy-dd-MM HH:mm:ss";
+			Date dateTime = list.getCreateDateUtil();
+			String outTimestamp = Messages.get("date.out.timestamp.format");
+			DateFormat df = new SimpleDateFormat(outTimestamp);
+			Logger.info("Tenant Created On: " + DateUtility.formatDateFromUuid(dateFormat, dateTime));
+			Logger.info("Tenant UUID: " + list.getId());
+			Logger.info("Tenant Id: " + list.getTenantId());
+			Logger.info("Tenant Name: " + list.getName());
+			Logger.info("Tenant Type: " + list.getType());
+			Logger.info("Tenant Stret1: " + list.getStreet1());
+			Logger.info("Tenant Street2: " + list.getStreet2());
+			Logger.info("Tenant City: " + list.getCity());
+			Logger.info("Tenant Zipcode: " + list.getZipcode());
+			Logger.info("Tenant State: " + list.getState());
+			Logger.info("Tenant Province: " + list.getProvince());
+			Logger.info("Tenant Country: " + list.getCountry());
+			Logger.info("Tenant Latitude: " + list.getLatitude());
+			Logger.info("Tenant Longitude: " + list.getLongitude());
+			Logger.info("Tenant Contact Person: " + list.getContactPersonName());
+			Logger.info("Tenant Contact Person Email: " + list.getContactPersonEmail());
+			// Logger.info("Tenant Main Phone: " + main);
+			// Logger.info("Tenant Direct Line: " + direct);
+			Logger.info("Tenant Service Start Date: " + DateUtility.toString(list.getServiceStartDate(), df));
+			Logger.info("Tenant Web Address: " + list.getCompanyUrl());
+			Logger.info("Tenant IP Address: " + list.getIpaddress());
+			Logger.info("Tenant Status: " + list.getStatus());
+				
+
+		} catch (DaoException e) {
+			Logger.error("Error occurred while reading a tenant data ", e);
+		}
+
+		return ok();
+	}		
 	
 	/**
 	 * Creates a user profile

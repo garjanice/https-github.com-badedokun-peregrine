@@ -31,6 +31,9 @@ public final class DateUtility {
 	public static final String DISPLAY_FORMAT = "yyyy/MM/dd hh:mm:ss";
 	public static final String DATABASE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
+	
+	//public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat("MM/dd/yyyy H:mm:ss.SSS");
+	public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
 
 	/**
@@ -397,6 +400,75 @@ public final class DateUtility {
 	*/
 	public static java.sql.Date getSqlDate(String date) {
 		return new java.sql.Date(getDate(date).getTime());
-	}	
+	}
+	
+    /**
+     * Converts an Object to an java.sql.Date.
+     * @param value the object to convert to date
+     * @param dateFormat desired date format to convert to
+     * @return date object as java.sql.Date
+     * @exception ParseException if error occurs while parsing a date format
+     */
+    public static java.sql.Date toDate( Object value, String dateFormat  ) throws ParseException
+    {
+    	DateFormat format = new SimpleDateFormat(dateFormat);
+        if( value == null ) return null;        
+        if( value instanceof java.sql.Date ) return (java.sql.Date)value;
+        if( value instanceof String )
+        {
+            if( "".equals( (String)value ) ) return null;
+            return new java.sql.Date( format.parse( (String)value ).getTime() );
+        }
+                
+        return new java.sql.Date( format.parse( value.toString() ).getTime() );
+    }	
+	
+    /**
+     * Converts an Object to a Timestamp.
+     * @param value the object to convert
+     * @param dateTimeFormat the desire date and time format
+     * @return timestamp object in the date time format provided
+     * @exception ParseException if error occurs while parsing a date format
+     */
+    public static java.sql.Timestamp toTimestamp( Object value, String dateTimeFormat ) throws ParseException
+    {
+    	DateFormat format = new SimpleDateFormat(dateTimeFormat);
+        if( value == null ) return null;        
+        if( value instanceof java.sql.Timestamp ) return (java.sql.Timestamp)value;
+        if( value instanceof String )
+        {
+            if( "".equals( (String)value ) ) return null;
+            return new java.sql.Timestamp( format.parse( (String)value ).getTime() );
+        }
+                
+        return new java.sql.Timestamp( format.parse( value.toString() ).getTime() );
+    }	
+    
+    /**
+     * Convert an Object to a String using Dates
+     */
+    public static String toString( Object date, DateFormat format )
+    {
+        if( date == null ) return null;
+        
+        if( java.sql.Timestamp.class.isAssignableFrom( date.getClass() ) )
+        {
+            return format.format( date );
+        }
+        if( java.sql.Time.class.isAssignableFrom( date.getClass() ) )
+        {
+            return format.format( date );
+        }
+        if( java.sql.Date.class.isAssignableFrom( date.getClass() ) )
+        {
+            return format.format( date );
+        }
+        if( java.util.Date.class.isAssignableFrom( date.getClass() ) )
+        {
+            return format.format( date );
+        }
+        
+        throw new IllegalArgumentException( "Unsupported type " + date.getClass() );
+    }    
 
 }

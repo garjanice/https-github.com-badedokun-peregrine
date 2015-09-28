@@ -1,10 +1,11 @@
 package com.depth1.grc.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 import com.datastax.driver.core.utils.UUIDs;
-import com.depth1.grc.model.common.DateFormat;
 
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
@@ -17,66 +18,41 @@ public class Tenant
 {
 		
 	private UUID id;
-	
 	private long tenantId;
-		
 	@Required
 	private String name;
-	
 	@Required
 	private String type;
-	
 	@Required
-	private String address1;
-	
-	private String address2;
-	
+	private String street1;
+	private String street2;
 	@Required
 	private String city;
-	
 	@Required
 	private String zipcode;
-	
-		
 	private String state;
-	
-		
 	private String province;
-	
+	private String latitude;
+	private String longitude;
 	@Required	
 	private String country;
-	
+	private Map<String, String> phones;
 	@Required
 	private String contactPersonName;
-	
 	@Required
 	@Email
 	private String contactPersonEmail;
-	
-	@Required
+	private Map<String, String> contactPersonPhones;
 	//@DateFormat("MM-dd-yyyy")
-	private UUIDs serviceStartDate;
-	
-	@Required
-	//@DateFormat("MM-dd-yyyy")
+	private Timestamp serviceStartDate;
 	private UUIDs createDate;
-	
 	@Required
 	private String companyUrl;
-	
-	@Required
-	private String phoneNumber;
-	
 	@Required
 	private String status;
-	
-	
 	private String ipaddress;
-	
 	private long uuidTime;
-	
 	private Date startDateUtil;
-	
 	private Date createDateUtil;
 		
 	public CassandraTenantDao cassandraTenantDao;
@@ -126,20 +102,20 @@ public class Tenant
 		this.type = type;
 	}
 
-	public String getAddress1() {
-		return address1;
+	public String getStreet1() {
+		return street1;
 	}
 
-	public void setAddress1(String address1) {
-		this.address1 = address1;
+	public void setStreet1(String address1) {
+		this.street1 = address1;
 	}
 
-	public String getAddress2() {
-		return address2;
+	public String getStreet2() {
+		return street2;
 	}
 
-	public void setAddress2(String address2) {
-		this.address2 = address2;
+	public void setStreet2(String address2) {
+		this.street2 = address2;
 	}
 
 	public String getCity() {
@@ -182,6 +158,48 @@ public class Tenant
 		this.country = country;
 	}
 
+	/**
+	 * @return the phones
+	 */
+	public Map<String, String> getPhones() {
+		return phones;
+	}
+
+	/**
+	 * @param phones the phones to set
+	 */
+	public void setPhones(Map<String, String> phones) {
+		this.phones = phones;
+	}
+
+	/**
+	 * @return the latitude
+	 */
+	public String getLatitude() {
+		return latitude;
+	}
+
+	/**
+	 * @param latitude the latitude to set
+	 */
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	/**
+	 * @return the longitude
+	 */
+	public String getLongitude() {
+		return longitude;
+	}
+
+	/**
+	 * @param longitude the longitude to set
+	 */
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
 	public String getContactPersonName() {
 		return contactPersonName;
 	}
@@ -198,12 +216,26 @@ public class Tenant
 		this.contactPersonEmail = contactPersonEmail;
 	}
 
-	public UUIDs getServiceStartDate() {
+	/**
+	 * @return the contactPersonPhones
+	 */
+	public Map<String, String> getContactPersonPhones() {
+		return contactPersonPhones;
+	}
+
+	/**
+	 * @param contactPersonPhones the contactPersonPhones to set
+	 */
+	public void setContactPersonPhones(Map<String, String> contactPersonPhones) {
+		this.contactPersonPhones = contactPersonPhones;
+	}
+
+	public Timestamp getServiceStartDate() {
 		return serviceStartDate;
 	}
 
-	public void setServiceStartDate(UUIDs serviceStartDate) {
-		this.serviceStartDate = serviceStartDate;
+	public void setServiceStartDate(Timestamp date) {
+		this.serviceStartDate = date;
 	}
 
 	/**
@@ -226,14 +258,6 @@ public class Tenant
 
 	public void setCompanyUrl(String companyUrl) {
 		this.companyUrl = companyUrl;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
 	}
 
 	public String getStatus() {

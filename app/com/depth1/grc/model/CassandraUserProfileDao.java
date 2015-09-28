@@ -199,6 +199,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 				user.setFname(row.getString("title"));
 				user.setFname(row.getString("salutation"));
 				user.setEmail(row.getString("email"));
+				user.setPhones(row.getMap("phones", String.class, String.class));
 				user.setPassword(row.getString("password"));
 				user.setGender(row.getString("gender"));
 				user.setStreet1(row.getString("street1"));
@@ -207,7 +208,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 				user.setZipcode(row.getString("zipcode"));
 				user.setState(row.getString("state"));
 				user.setProvince(row.getString("province"));
-				user.setCountry(row.getString("country"));
+				user.setCountry(row.getString("country"));				
 				user.setLineofdefense(row.getString("lineofdefense"));
 				user.setLatitude(row.getString("latitude"));
 				user.setLongitude(row.getString("longitude"));
@@ -268,6 +269,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 				user.setState(row.getString("state"));
 				user.setProvince(row.getString("province"));
 				user.setCountry(row.getString("country"));
+				user.setPhones(row.getMap("phones", String.class, String.class));	
 				user.setLineofdefense(row.getString("lineofdefense"));
 				user.setLatitude(row.getString("latitude"));
 				user.setLongitude(row.getString("longitude"));

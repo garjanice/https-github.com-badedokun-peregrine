@@ -1,5 +1,6 @@
 package com.depth1.grc.model;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public  interface TenantDao
 	 * @param tenant tenant to create
 	 * @throws DaoException if error occurs while creating the Tenant in the data store
 	 */
-	public void createTenant(Tenant tenant) throws DaoException;
+	public void createTenant(Tenant tenant) throws DaoException, ParseException;
 	
 	/**
 	 * Deletes a tenant.
@@ -52,7 +53,7 @@ public  interface TenantDao
 	 * @return Tenant tenant that was found
 	 * @throws DaoException if error occurs while finding a tenant in the data store
 	 */
-	public Tenant findTenant(int tenantId) throws DaoException;
+	public Tenant getTenant(long tenantId) throws DaoException;
 	
 	
 }
