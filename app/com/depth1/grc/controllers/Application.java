@@ -99,11 +99,12 @@ public class Application extends Controller {
 		Logger.info("user profile populated ");
 		Logger.info("username = " + user.getUsername() + " password = " + user.getPassword());
 		
-		createUserProfile(user);
+		//createUserProfile(user);
+		getUserProfile(user.getUsername(), user.getLname());
 		
 		// Tenant test data
 		Tenant tenant = new Tenant();
-		String value = "09/27/2015";
+		String value = "10/01/2015";
 		String format = Messages.get("date.in.date.format");
 		Logger.info("The date format is: " + format);
 		try {
@@ -117,20 +118,20 @@ public class Application extends Controller {
 		tenant.setId(java.util.UUID.randomUUID());
 		tenant.setName("Acenonyx");
 		tenant.setType("Software");
-		tenant.setContactPersonName("Jerry Skidmore");
-		tenant.setContactPersonEmail("jskidmore@acenonyx.com");
+		tenant.setContactPersonName("Ben Cargile");
+		tenant.setContactPersonEmail("bcargile@acenonyx.com");
 		tenant.setCompanyUrl("http://www.acenonyx.com");
-		tenant.setStreet1("56 Wellington Rd");
-		tenant.setStreet2("Suite 2");
-		tenant.setCity("East Brunswick");
-		tenant.setState("NJ");
+		tenant.setStreet1("120 Chinabrook Circle");
+		tenant.setStreet2("Suite 100");
+		tenant.setCity("Morrisville");
+		tenant.setState("NC");
 		tenant.setProvince("  ");
-		tenant.setZipcode("08816");
+		tenant.setZipcode("27560");
 		tenant.setCountry("USA");
 		tenant.setLongitude("-74.416855");
 		tenant.setLatitude("40.455281");
 		String mainPhone = "732-651-7610";
-		String directLine = "732-874-7610";
+		String directLine = "732-651-7601";
 		String main = "Main";
 		String direct = "Direct";
 		Map<String, String> bphones = new HashMap<String, String>();
@@ -146,7 +147,7 @@ public class Application extends Controller {
 		
 		Logger.info("tenant profile populated ");
 		Logger.info("tenant name = " + tenant.getName() + " type = " + tenant.getType());
-		long tenantId = 1443395694601L;
+		long tenantId = 1443492588939L;
 		createTenant(tenant);
 		//listTenant();
 		getTenant(tenantId);
@@ -262,8 +263,8 @@ public class Application extends Controller {
 			TenantDao tenantDao = cassandraFactory.getTenantDao();
 			Tenant list = tenantDao.getTenant(tenantId);
 			Map<String, String> phones = list.getPhones();
-			// String direct = map.get("Direct");
-			// String main = map.get("Main");
+			String direct = phones.get("Direct");
+			String main = phones.get("Main");
 			String dateFormat = "yyyy-dd-MM HH:mm:ss";
 			Date dateTime = list.getCreateDateUtil();
 			String outTimestamp = Messages.get("date.out.timestamp.format");
@@ -284,8 +285,8 @@ public class Application extends Controller {
 			Logger.info("Tenant Longitude: " + list.getLongitude());
 			Logger.info("Tenant Contact Person: " + list.getContactPersonName());
 			Logger.info("Tenant Contact Person Email: " + list.getContactPersonEmail());
-			// Logger.info("Tenant Main Phone: " + main);
-			// Logger.info("Tenant Direct Line: " + direct);
+			Logger.info("Tenant Main Phone: " + main);
+			Logger.info("Tenant Direct Line: " + direct);
 			Logger.info("Tenant Service Start Date: " + DateUtility.toString(list.getServiceStartDate(), df));
 			Logger.info("Tenant Web Address: " + list.getCompanyUrl());
 			Logger.info("Tenant IP Address: " + list.getIpaddress());
@@ -382,7 +383,28 @@ public class Application extends Controller {
 		try {
 			UserProfileDao profile = cassandraFactory.getUserProfileDao();
 			UserProfile user = profile.findUserProfile(username, lastname);
-			// TODO
+			String dateFormat = "yyyy-dd-MM HH:mm:ss";
+			Date dateTime = user.getDateUtil();
+			Map<String, String> map = user.getPhones();
+			String work   = map.get("Work");
+			String mobile = map.get("Mobile");
+			
+			//Logger.info("user profile create date: " +  format.format(time));
+			Logger.info("user profile create on: " +  DateUtility.formatDateFromUuid(dateFormat, dateTime));
+			Logger.info("user Salutation =  " + user.getSalutation());
+			Logger.info("user firsname =  " + user.getFname());
+			Logger.info("user p firstname =  " + user.getPfname());
+			Logger.info("user m initials =  " + user.getMinitial());
+			Logger.info("user lastname =  " + user.getLname());
+			Logger.info("user title =  " + user.getTitle());
+			Logger.info("user email =  " + user.getEmail());
+			Logger.info("user work phone =  " + work);
+			Logger.info("user mobile phone =  " + mobile);
+			Logger.info("Password =  " + user.getPassword());
+			Logger.info("latitude =  " + user.getLatitude());
+			Logger.info("Longitude =  " + user.getLongitude());
+			Logger.info(user.getStreet1() + " " + user.getStreet2() + " " + user.getCity() + ", " + user.getState() + " " + user.getZipcode());
+
 
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating a user ", e);
