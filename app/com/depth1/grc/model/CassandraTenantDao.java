@@ -184,6 +184,10 @@ public class CassandraTenantDao implements TenantDao
 				tenant.setCompanyUrl(row.getString("companyurl"));
 				tenant.setIpaddress(row.getString("ipaddress"));
 				tenant.setStatus(row.getString("status"));
+				tenant.setContactPersonPhones(row.getMap("contact_person_phones", String.class, String.class));
+				tenant.setPhones(row.getMap("phones", String.class, String.class));
+				
+				changePhonesToStrings(tenant);
 				list.add(tenant);
 			}
 
@@ -261,9 +265,9 @@ public class CassandraTenantDao implements TenantDao
 					.and(set("contact_person_email", tenant.getContactPersonEmail()))
 					.and(set("companyurl", tenant.getCompanyUrl()))
 					.and(set("ipaddress", tenant.getIpaddress()))
-					.and(set("status", tenant.getState()));
+					.and(set("status", tenant.getStatus()));
 			Statement updateDetails = updateAssignments
-					.where(eq("tenantid", tenant.getTenantId()));							
+					.where(eq("id", tenant.getId()));							
 
 			CassandraDaoFactory.getSession().execute(updateDetails);
 			update = true;
@@ -318,6 +322,7 @@ public class CassandraTenantDao implements TenantDao
 				tenant.setCompanyUrl(row.getString("companyurl"));
 				tenant.setIpaddress(row.getString("ipaddress"));
 				tenant.setStatus(row.getString("status"));
+				changePhonesToStrings(tenant);
 			}
 
 		} catch (DriverException e) {
@@ -375,7 +380,76 @@ public class CassandraTenantDao implements TenantDao
 		}
 		return CassandraDaoFactory.getSession().executeAsync(select);
 
-	}		
+	}
+	
+	private void changePhonesToStrings(Tenant tenant){
+		tenant.setPhoneName1("");
+		tenant.setPhoneName2("");
+		tenant.setPhoneName3("");
+		tenant.setPhoneName4("");
+		tenant.setPhoneName5("");
+		tenant.setPhoneName6("");
+		tenant.setPhoneName7("");
+		tenant.setPhoneName8("");
+		tenant.setPhoneNumber1("");
+		tenant.setPhoneNumber2("");
+		tenant.setPhoneNumber3("");
+		tenant.setPhoneNumber4("");
+		tenant.setPhoneNumber5("");
+		tenant.setPhoneNumber6("");
+		tenant.setPhoneNumber7("");
+		tenant.setPhoneNumber8("");
+		
+		int count = 0;
+		Map<String, String> map = tenant.getContactPersonPhones();
+		
+		if(map != null){
+			for (Map.Entry<String, String> entry : map.entrySet()) {
+				
+			    if(count == 0){
+			    	tenant.setPhoneName1(entry.getKey());
+			    	tenant.setPhoneNumber1(entry.getValue());
+			    }
+			    if(count == 1){
+			    	tenant.setPhoneName2(entry.getKey());
+			    	tenant.setPhoneNumber2(entry.getValue());
+			    }
+			    if(count == 2){
+			    	tenant.setPhoneName3(entry.getKey());
+			    	tenant.setPhoneNumber3(entry.getValue());
+			    }
+			    if(count == 3){
+			    	tenant.setPhoneName4(entry.getKey());
+			    	tenant.setPhoneNumber4(entry.getValue());
+			    }
+			    count++;
+			}
+		}
+		
+		count = 0;
+		map = tenant.getPhones();
+		if(map != null){
+			for (Map.Entry<String, String> entry : map.entrySet()) {
+			    if(count == 0){
+			    	tenant.setPhoneName5(entry.getKey());
+			    	tenant.setPhoneNumber5(entry.getValue());
+			    }
+			    if(count == 1){
+			    	tenant.setPhoneName6(entry.getKey());
+			    	tenant.setPhoneNumber6(entry.getValue());
+			    }
+			    if(count == 2){
+			    	tenant.setPhoneName7(entry.getKey());
+			    	tenant.setPhoneNumber7(entry.getValue());
+			    }
+			    if(count == 3){
+			    	tenant.setPhoneName8(entry.getKey());
+			    	tenant.setPhoneNumber8(entry.getValue());
+			    }
+			    count++;
+			}
+		}
+	}
 	
 }
 
