@@ -25,7 +25,8 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 	 */
 	@Override
 	public Session create() throws DriverException {
-		cluster = Cluster.builder().addContactPoint(REMOTE_CLUSTER).build();
+		cluster = Cluster.builder().addContactPoint(REMOTE_CLUSTER)
+    			.withCredentials("super", "cheetah27").build();
 		session = cluster.connect();
 		// test connection to the database;
 		Metadata metadata = cluster.getMetadata();

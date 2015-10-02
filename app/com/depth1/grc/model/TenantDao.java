@@ -1,7 +1,7 @@
 package com.depth1.grc.model;
 
+import java.text.ParseException;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * The Tenant interface that defines the contract that all implementing classes must abide by
@@ -16,7 +16,7 @@ public  interface TenantDao
 	 * @param tenant tenant to create
 	 * @throws DaoException if error occurs while creating the Tenant in the data store
 	 */
-	public void createTenant(Tenant tenant) throws DaoException;
+	public void createTenant(Tenant tenant) throws DaoException, ParseException;
 	
 	/**
 	 * Deletes a tenant.
@@ -25,7 +25,7 @@ public  interface TenantDao
 	 * @return boolean True if the Tenant is successfully deleted, false otherwise
 	 * @throws DaoException if error occurs while deleting a tenant from the data store
 	 */
-	public boolean deleteTenant(UUID id) throws DaoException;
+	public boolean deleteTenant(long tenantId) throws DaoException;
 	
 	
 	/**
@@ -53,7 +53,7 @@ public  interface TenantDao
 	 * @return Tenant tenant that was found
 	 * @throws DaoException if error occurs while finding a tenant in the data store
 	 */
-	public Tenant findTenant(int tenantId) throws DaoException;
+	public Tenant getTenant(long tenantId) throws DaoException;
 	
 	
 }

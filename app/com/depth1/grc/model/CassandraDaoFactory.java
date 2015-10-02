@@ -102,6 +102,12 @@ public class CassandraDaoFactory extends DaoFactory {
 		    return new CassandraUserProfileDao();
 		  }	
 
-
+	/**
+	 * Returns connection to the database for use by calling APIs
+	 * @return the session for the connection to the database
+	 */
+	public static Session getSession() {
+		return CassandraDaoFactory.connect();
+	}	
 
 }

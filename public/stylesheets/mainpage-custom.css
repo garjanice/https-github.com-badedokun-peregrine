@@ -31,15 +31,126 @@ genericViewTableRow1{
     }
 
 /** Tenant Update CSS */
+
+.tenantAdjust-PhoneNumber8-text{
+	position: absolute;
+	top: 555px;
+	left: 350px;
+	}
+
+.tenantAdjust-Phone8-text{
+	position: absolute;
+	top: 555px;
+	left: 150px;
+	}
+.tenantAdjust-PhoneNumber7-text{
+	position: absolute;
+	top: 525px;
+	left: 350px;
+	}
+
+.tenantAdjust-Phone7-text{
+	position: absolute;
+	top: 525px;
+	left: 150px;
+	}
+.tenantAdjust-PhoneNumber6-text{
+	position: absolute;
+	top: 495px;
+	left: 350px;
+	}
+
+.tenantAdjust-Phone6-text{
+	position: absolute;
+	top: 495px;
+	left: 150px;
+	}
+.tenantAdjust-PhoneNumber5-text{
+	position: absolute;
+	top: 465px;
+	left: 350px;
+	}
+
+.tenantAdjust-Phone5-text{
+	position: absolute;
+	top: 465px;
+	left: 150px;
+	}
+.tenantAdjust-PhoneNumberMain{
+	position: absolute;
+	top: 455px;
+	left: 150px;
+	}
+.tenantAdjust-PhoneMain{
+	position: absolute;
+	top: 455px;
+	left: 350px;
+	}
+
+.tenantAdjust-contactPersonPhone4-text{
+	position: absolute;
+	top: 290px;
+	left: 150px;
+	}
+.tenantAdjust-contactPersonPhoneNumber4-text{
+	position: absolute;
+	top: 290px;
+	left: 350px;
+	}
+.tenantAdjust-contactPersonPhone3-text{
+	position: absolute;
+	top: 260px;
+	left: 150px;
+	}
+.tenantAdjust-contactPersonPhoneNumber3-text{
+	position: absolute;
+	top: 260px;
+	left: 350px;
+	}
+.tenantAdjust-contactPersonPhone2-text{
+	position: absolute;
+	top: 230px;
+	left: 150px;
+	}
+.tenantAdjust-contactPersonPhoneNumber2-text{
+	position: absolute;
+	top: 230px;
+	left: 350px;
+	}
+
+.tenantAdjust-contactPersonPhone1-text{
+	position: absolute;
+	top: 200px;
+	left: 150px;
+	}
+.tenantAdjust-contactPersonPhoneNumber1-text{
+	position: absolute;
+	top: 200px;
+	left: 350px;
+	}
+
+.tenantAdjust-contactPersonPhoneMain{
+	position: absolute;
+	top: 190px;
+	left: 350px;
+	}
+
+
+.tenantAdjust-contactPersonPhoneNumberMain{
+	position: absolute;
+	top: 190px;
+	left: 150px;
+	}
+
 .tenantAdjust-contactPersonEmail{
 	position: absolute;
 	top: 120px;
-	left: 475px;
+	left: 25px;
 	}
 .tenantAdjust-contactPersonEmail-text{
 	position: absolute;
 	top: 105px;
-	left: 600px;
+	left: 150px;
 	}
 
 .tenantAdjust-contactPersonPhone{
@@ -65,7 +176,7 @@ genericViewTableRow1{
 .tenantFieldset-03{
 	position: relative;
 	width: 960px;
-	height: 190px;
+	height: 375px;
 	}
 
 .tenantAdjust-email{
@@ -81,12 +192,12 @@ genericViewTableRow1{
 
 .tenantAdjust-companyURL{
 	position: absolute;
-	top: 470px;
+	top: 400px;
 	left: 25px;
 	}
 .tenantAdjust-companyURL-text{
 	position: absolute;
-	top: 455px;
+	top: 385px;
 	left: 150px;
 	}
 .tenantAdjust-ipAddress{
@@ -190,7 +301,7 @@ genericViewTableRow1{
 .tenantFieldset-02{
 	position: relative;
 	width: 960px;
-	height: 550px;
+	height: 620px;
 	}
 
 .tenantAdjust-status-active-text {

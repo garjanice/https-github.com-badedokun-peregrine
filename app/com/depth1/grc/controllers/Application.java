@@ -1,6 +1,9 @@
 package com.depth1.grc.controllers;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -44,6 +47,9 @@ import com.depth1.grc.model.RiskAssessmentSort;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.model.TenantSort;
+import com.depth1.grc.model.UserProfile;
+import com.depth1.grc.model.UserProfileDao;
+import com.depth1.grc.model.UserProfileSort;
 import com.depth1.grc.views.html.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -65,6 +71,9 @@ public class Application extends Controller {
 	static Tenant selectedTenant;
 	final static Form<Tenant> tenantForm = Form.form(Tenant.class);
 	
+	static List<UserProfile> userProfiles;
+	static UserProfile selectedUserProfile;
+	final static Form<UserProfile> userProfileForm = Form.form(UserProfile.class);
 	
 	public Result index() {
 		// test connection to the cassandra cluster
@@ -504,7 +513,7 @@ public class Application extends Controller {
 			TenantDao tenantDao = cassandraFactory
 					.getTenantDao();
 			tenantDao.createTenant(criteria);
-		} catch (DaoException e) {
+		} catch (Exception e) {
 			Logger.error(
 					"Error occurred while creating risk assessment criteria ",
 					e);
@@ -626,7 +635,7 @@ public class Application extends Controller {
 		try {
 			TenantDao tenantDao = cassandraFactory
 					.getTenantDao();
-			tenantDao.deleteTenant(selectedTenant.getId());
+			tenantDao.deleteTenant(selectedTenant.getTenantId());
 		} catch (DaoException e) {
 			Logger.error(
 					"Error occurred while deleting tenant ",
@@ -635,4 +644,193 @@ public class Application extends Controller {
 
 		return redirect("/tenant/1/10/descendingName");
 	}
+	
+	
+	/**
+	 * Creates a user profile
+	 * @param user User to create
+	 * @return Result of the user created
+	 */
+	public static Result createUserProfile(UserProfile user) {
+		try {
+			UserProfileDao profile = cassandraFactory.getUserProfileDao();
+			profile.createUserProfile(user);
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating a user ", e);
+		}
+
+		return ok();
+	}	
+	
+	/**
+	 * Creates a user profile
+	 * @param user User to create
+	 * @return Result of the user created
+	 */
+	public static Result deleteUserProfile(String username) {
+		boolean deleted = false;
+		try {
+			UserProfileDao profile = cassandraFactory.getUserProfileDao();
+			deleted = profile.deleteUserProfile(username);
+			if (deleted) {
+				Logger.info("User profile deleted successfully.");
+			} else {
+				Logger.info("User profile not deleted.");
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while deleting a user ", e);
+		}
+
+		return ok();
+	}		
+	
+	/**
+	 * Creates a user profile
+	 * @param user User to create
+	 * @return Result of the user created
+	 */
+	public static Result updateUserProfile(UserProfile user) {
+		try {
+			UserProfileDao profile = cassandraFactory.getUserProfileDao();
+			profile.updateUserProfile(user);
+		} catch (DaoException e) {
+			Logger.error("Error occurred while updating a user ", e);
+		}
+
+		return ok();
+	}	
+	
+	/**
+	 * Gets all the users in the user profile table.
+	 * 
+	 * @return Result of all the users in the table
+	 */
+	public static Result listProfile() {
+		try {
+			UserProfileDao profile = cassandraFactory.getUserProfileDao();
+			List<UserProfile> userList = profile.listUserProfile();
+			
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating a user ", e);
+		}
+
+		return ok();
+	}	
+	
+	
+	/**
+	 * Date utility to format date retrieved from timeuuid
+	 * 
+	 * @param dateFormat desired date format
+	 * @param date date retrieved from the database
+	 * @return a string representative of the date
+	 */
+	public static String DateUtil (String dateFormat, Date date) {
+		SimpleDateFormat format = new SimpleDateFormat(dateFormat);
+		Date dateTime = date;
+		return format.format(dateTime);
+	}
+	
+	/**
+	 * Gets a user that matches search criteria of username and lastname.
+	 * 
+	 * @return Result of all the users in the table
+	 */
+	public static Result getUserProfile(String username, String lastname) {
+		try {
+			UserProfileDao profile = cassandraFactory.getUserProfileDao();
+			UserProfile user = profile.findUserProfile(username, lastname);
+			//SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+			String dateFormat = "yyyy-dd-MM HH:mm:ss";
+			Date dateTime = user.getDateUtil();
+			Map<String, String> map = user.getPhones();
+			String work   = map.get("Work");
+			String mobile = map.get("Mobile");
+			
+		
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating a user ", e);
+		}
+
+		return ok();
+	}	
+	
+	/**
+	 * Gets a user that matches search criteria of username and lastname.
+	 * 
+	 * @return Result of all the users in the table
+	 */
+	public static Result getUserProfile(UUID userId) {
+		try {
+			UserProfileDao profile = cassandraFactory.getUserProfileDao();
+			UserProfile user = profile.findUserProfile(userId);
+
+			
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating a user ", e);
+		}
+
+		return ok();
+	}		
+	
+	public Result showFrontUserProfile(int page, int view, String order, String query){
+		int size = 0;
+		try {
+			UserProfileDao userProfileDao = cassandraFactory.getUserProfileDao();
+			UserProfileSort userProfileSort = new UserProfileSort();
+			userProfiles = userProfileDao.listUserProfile();
+			
+			size = userProfiles.size();
+			if(query.compareTo("")!= 0){
+				userProfiles = userProfileSort.filterDataByQuery(userProfiles, query);
+				size = userProfiles.size();
+				
+			}
+			if(size > 0){
+				userProfiles = userProfileSort.sortUserProfile(userProfiles, order);
+				userProfiles = userProfileSort.paginateUserProfiles(userProfiles, view, page);
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating risk assessment criteria ", e);
+		}
+			
+		return ok(frontUserProfile.render(userProfiles, size));
+	}
+	
+	public Result setSelectedUserProfile() {
+		
+		JsonNode node = request().body().asJson().get("val");
+		
+		if(node == null){
+		        return badRequest("empty json"); 
+		}
+		String inputString = node.textValue();
+		
+		int index = Integer.parseInt(inputString);
+		
+		selectedUserProfile = userProfiles.get(index);
+		return ok();
+	}
+	
+	public Result showCreateUserProfile() {
+		
+		return ok(createUserProfile.render());
+	}
+	
+	public Result addUserProfile() {
+		Form<UserProfile> filledUserProfile = userProfileForm.bindFromRequest();
+		UserProfile criteria = filledUserProfile.get();
+		try {
+			UserProfileDao userProfileDao = cassandraFactory.getUserProfileDao();
+					
+			userProfileDao.createUserProfile(criteria);
+		} catch (DaoException e) {
+			Logger.error(
+					"Error occurred while creating risk assessment criteria ",
+					e);
+		}
+
+		return redirect("/userprofile/1/10/descendingName");
+	}
+	
 }
