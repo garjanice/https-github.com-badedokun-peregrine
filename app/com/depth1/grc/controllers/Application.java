@@ -104,7 +104,7 @@ public class Application extends Controller {
 		
 		// Tenant test data
 		Tenant tenant = new Tenant();
-		String value = "10/01/2015";
+		String value = "10/03/2015";
 		String format = Messages.get("date.in.date.format");
 		Logger.info("The date format is: " + format);
 		try {
@@ -115,23 +115,24 @@ public class Application extends Controller {
 		} catch (ParseException p) {
 
 		}
-		tenant.setId(java.util.UUID.randomUUID());
-		tenant.setName("Acenonyx");
+		//tenant.setId(java.util.UUID.randomUUID());
+		tenant.setId(UUID.fromString("6222a64e-4269-4c80-be23-8c8f3263d690"));
+		tenant.setName("Depth1, Inc.");
 		tenant.setType("Software");
-		tenant.setContactPersonName("Ben Cargile");
-		tenant.setContactPersonEmail("bcargile@acenonyx.com");
+		tenant.setContactPersonName("Bisi Adedokun");
+		tenant.setContactPersonEmail("badedokun@acenonyx.com");
 		tenant.setCompanyUrl("http://www.acenonyx.com");
-		tenant.setStreet1("120 Chinabrook Circle");
-		tenant.setStreet2("Suite 100");
-		tenant.setCity("Morrisville");
-		tenant.setState("NC");
+		tenant.setStreet1("120 Chinabrook Circle"); //120 Chinabrook Circle
+		tenant.setStreet2("Suite 100"); //Suite 100
+		tenant.setCity("Morrisville"); //Morrisville
+		tenant.setState("NC"); //NC
 		tenant.setProvince("  ");
-		tenant.setZipcode("27560");
+		tenant.setZipcode("27560"); //27560
 		tenant.setCountry("USA");
-		tenant.setLongitude("-74.416855");
-		tenant.setLatitude("40.455281");
-		String mainPhone = "732-651-7610";
-		String directLine = "732-651-7601";
+		tenant.setLongitude("-78.859630");
+		tenant.setLatitude("35.841293");
+		String mainPhone = "888-431-1119";
+		String directLine = "732-651-7610";
 		String main = "Main";
 		String direct = "Direct";
 		Map<String, String> bphones = new HashMap<String, String>();
@@ -144,13 +145,19 @@ public class Application extends Controller {
 		tenant.setStatus("Active");
 		tenant.setContactPersonPhones(cphones);
 		tenant.setIpaddress("10.25.3.5");
-		
+		long tenantId = 1443846887422L;
+		tenant.setTenantId(tenantId);
 		Logger.info("tenant profile populated ");
-		Logger.info("tenant name = " + tenant.getName() + " type = " + tenant.getType());
-		long tenantId = 1443492588939L;
-		createTenant(tenant);
+		Logger.info("tenant ID: " + tenant.getTenantId() + ", tenant name: " + tenant.getName() + ", type: " + tenant.getType());
+		
+		//createTenant(tenant);
+		updateTenant(tenant);
 		//listTenant();
-		getTenant(tenantId);
+		getTenant(tenant.getTenantId());
+		long tenant_Id = 1443847251573L;
+		//deleteTenant(tenant_Id);
+		String name = "Acenonyx, LLC";
+		getTenant(name);
 
 		return ok(index.render()); 
 	}
@@ -204,6 +211,44 @@ public class Application extends Controller {
 
 		return ok();
 	}
+	
+	/**
+	 * Creates a tenant profile
+	 * @param tenant Tenant to create
+	 * @return Result of the tenant created
+	 */
+	public static Result updateTenant(Tenant tenant) {
+		try {
+			TenantDao profile = cassandraFactory.getTenantDao();
+			profile.updateTenant(tenant);
+		} catch (DaoException e) {
+			Logger.error("Error occurred while updating a tenant ", e);
+		}
+
+		return ok();
+	}
+	
+	/**
+	 * Creates a user profile
+	 * @param user User to create
+	 * @return Result of the user created
+	 */
+	public static Result deleteTenant(long tenantId) {
+		boolean deleted = false;
+		try {
+			TenantDao tenant = cassandraFactory.getTenantDao();
+			deleted = tenant.deleteTenant(tenantId);
+			if (deleted) {
+				Logger.info("Tenant profile deleted successfully.");
+			} else {
+				Logger.info("Tenant profile not deleted.");
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while deleting a tenant ", e);
+		}
+
+		return ok();
+	}		
 	
 	/**
 	 * Gets all the tenants in the tenant  table.
@@ -298,7 +343,54 @@ public class Application extends Controller {
 		}
 
 		return ok();
-	}		
+	}
+	
+	/**
+	 * Gets all the tenants in the tenant  table.
+	 * 
+	 * @return Result of all the tenants in the table
+	 */
+	public static Result getTenant(String name) {
+		try {
+			TenantDao tenantDao = cassandraFactory.getTenantDao();
+			Tenant list = tenantDao.getTenant(name);
+			Map<String, String> phones = list.getPhones();
+			String direct = phones.get("Direct");
+			String main = phones.get("Main");
+			String dateFormat = "yyyy-dd-MM HH:mm:ss";
+			Date dateTime = list.getCreateDateUtil();
+			String outTimestamp = Messages.get("date.out.timestamp.format");
+			DateFormat df = new SimpleDateFormat(outTimestamp);
+			Logger.info("Tenant Created On: " + DateUtility.formatDateFromUuid(dateFormat, dateTime));
+			Logger.info("Tenant UUID: " + list.getId());
+			Logger.info("Tenant Id: " + list.getTenantId());
+			Logger.info("Tenant Name: " + list.getName());
+			Logger.info("Tenant Type: " + list.getType());
+			Logger.info("Tenant Stret1: " + list.getStreet1());
+			Logger.info("Tenant Street2: " + list.getStreet2());
+			Logger.info("Tenant City: " + list.getCity());
+			Logger.info("Tenant Zipcode: " + list.getZipcode());
+			Logger.info("Tenant State: " + list.getState());
+			Logger.info("Tenant Province: " + list.getProvince());
+			Logger.info("Tenant Country: " + list.getCountry());
+			Logger.info("Tenant Latitude: " + list.getLatitude());
+			Logger.info("Tenant Longitude: " + list.getLongitude());
+			Logger.info("Tenant Contact Person: " + list.getContactPersonName());
+			Logger.info("Tenant Contact Person Email: " + list.getContactPersonEmail());
+			Logger.info("Tenant Main Phone: " + main);
+			Logger.info("Tenant Direct Line: " + direct);
+			Logger.info("Tenant Service Start Date: " + DateUtility.toString(list.getServiceStartDate(), df));
+			Logger.info("Tenant Web Address: " + list.getCompanyUrl());
+			Logger.info("Tenant IP Address: " + list.getIpaddress());
+			Logger.info("Tenant Status: " + list.getStatus());
+				
+
+		} catch (DaoException e) {
+			Logger.error("Error occurred while reading a tenant data ", e);
+		}
+
+		return ok();
+	}	
 	
 	/**
 	 * Creates a user profile

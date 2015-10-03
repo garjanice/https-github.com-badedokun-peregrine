@@ -25,7 +25,7 @@ public  interface TenantDao
 	 * @return boolean True if the Tenant is successfully deleted, false otherwise
 	 * @throws DaoException if error occurs while deleting a tenant from the data store
 	 */
-	public boolean deleteTenant(int tenantId) throws DaoException;
+	public boolean deleteTenant(long tenantId) throws DaoException;
 	
 	
 	/**
@@ -54,6 +54,15 @@ public  interface TenantDao
 	 * @throws DaoException if error occurs while finding a tenant in the data store
 	 */
 	public Tenant getTenant(long tenantId) throws DaoException;
+	
+	/**
+	 * Finds a tenant.
+	 * 
+	 * @param name tenant name to find
+	 * @return Tenant tenant that was found
+	 * @throws DaoException if error occurs while finding a tenant in the data store
+	 */
+	public Tenant getTenant(String name) throws DaoException;	
 	
 	
 }

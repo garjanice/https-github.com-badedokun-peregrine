@@ -7,9 +7,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Statement;
@@ -53,7 +51,7 @@ public class CassandraTenantDao implements TenantDao
 	 * @throws DaoException if error occurs while deleting a tenant from the tenant table
 	 */
 	
-	public boolean deleteTenant(int tenantId) throws DaoException {
+	public boolean deleteTenant(long tenantId) throws DaoException {
 		boolean del = false;
 		try {					
 			Where delete = QueryBuilder.delete()
@@ -187,7 +185,6 @@ public class CassandraTenantDao implements TenantDao
 					.and(phones)
 					.and(contactPhones)
 					.and(set("name", tenant.getName()))
-					.and(set("type", tenant.getType()))
 					.and(set("street1", tenant.getStreet1()))
 					.and(set("street2", tenant.getStreet2()))
 					.and(set("city", tenant.getCity()))
@@ -201,9 +198,10 @@ public class CassandraTenantDao implements TenantDao
 					.and(set("contact_person_email", tenant.getContactPersonEmail()))
 					.and(set("companyurl", tenant.getCompanyUrl()))
 					.and(set("ipaddress", tenant.getIpaddress()))
-					.and(set("status", tenant.getState()));
+					.and(set("status", tenant.getStatus()));
 			Statement updateDetails = updateAssignments
-					.where(eq("tenantid", tenant.getTenantId()));							
+					.where(eq("tenantid", tenant.getTenantId()))
+					.and(eq("id", tenant.getId()));							
 
 			CassandraDaoFactory.getSession().execute(updateDetails);
 			update = true;
@@ -271,6 +269,60 @@ public class CassandraTenantDao implements TenantDao
 	}
 	
 	/**
+	 * Finds a tenant given a tenant name.
+	 * 
+	 * @param name the tenant name to find
+	 * @return tenant the tenant profile 
+	 * @throws DaoException When error occurs while retrieving a tenant from the tenant table
+	 */
+	
+	@Override
+	public Tenant getTenant(String name) throws DaoException {
+		Tenant tenant = new Tenant();
+		try {					
+			ResultSetFuture result = getOneTenant(name);
+			if (result == null) {
+				return null;
+			}
+						
+			// get data elements from the Result set
+			for (Row row : result.getUninterruptibly()) {
+				tenant.setId(row.getUUID("id"));
+				tenant.setTenantId(row.getLong("tenantid"));
+				tenant.setName(row.getString("name"));
+				tenant.setType(row.getString("type"));
+				tenant.setStreet1(row.getString("street1"));
+				tenant.setStreet2(row.getString("street2"));
+				tenant.setCity(row.getString("city"));
+				tenant.setZipcode(row.getString("zipcode"));
+				tenant.setState(row.getString("state"));
+				tenant.setProvince(row.getString("province"));
+				tenant.setCountry(row.getString("country"));
+				tenant.setLatitude(row.getString("latitude"));
+				tenant.setLongitude(row.getString("longitude"));
+				tenant.setPhones(row.getMap("phones", String.class, String.class));
+				tenant.setContactPersonName(row.getString("contact_person_name"));
+				tenant.setContactPersonEmail(row.getString("contact_person_email"));
+				tenant.setContactPersonPhones(row.getMap("contact_person_phones", String.class, String.class));
+				tenant.setServiceStartDate(new Timestamp(row.getDate("service_start_date").getTime()));
+				tenant.setUuidTime(UUIDs.unixTimestamp(row.getUUID("createdate")));
+				tenant.setCreateDateUtil(new Date(tenant.getUuidTime()));
+				tenant.setCompanyUrl(row.getString("companyurl"));
+				tenant.setIpaddress(row.getString("ipaddress"));
+				tenant.setStatus(row.getString("status"));
+			}
+
+		} catch (DriverException e) {
+			Logger.error("Error occurred while retrieving data from the tenant table ", e);
+		} finally {
+			//dbSession.close();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+		
+		return tenant;
+	}	
+	
+	/**
 	 * Gets all rows in the user profile table
 	 * 
 	 * @return all rows in the user profile table
@@ -296,16 +348,38 @@ public class CassandraTenantDao implements TenantDao
 	}
 	
 	/**
-	 * Get a user profile that matches the given criteria of userId
+	 * Get a tenant profile that matches the given criteria of tenantId
 	 * 
-	 * @return a row that matches the user profile
-	 * @throws DaoException if error occurs while getting user profiles from the user profile table
+	 * @return a row that matches the tenant profile
+	 * @throws DaoException if error occurs while getting tenant profiles from the tenant table
 	 */
 	private ResultSetFuture getOneTenant(long tenantId) {
 		Select.Where select = null;
 		try {
 			select = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "tenant")
 					.where(eq("tenantid", tenantId));
+
+		} catch (DriverException e) {
+			Logger.error("Error occurred while retrieving a tenant profile from the tenant table ", e);
+		} finally {
+			// close the connection to the database();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+		return CassandraDaoFactory.getSession().executeAsync(select);
+
+	}
+	
+	/**
+	 * Get a tenant profile that matches the given criteria of name
+	 * 
+	 * @return a row that matches the user profile
+	 * @throws DaoException if error occurs while getting user profiles from the user profile table
+	 */
+	private ResultSetFuture getOneTenant(String name) {
+		Select.Where select = null;
+		try {
+			select = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "tenant")
+					.where(eq("name", name));
 
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving a tenant profile from the tenant table ", e);
