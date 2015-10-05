@@ -21,9 +21,9 @@
 				</tr>
 				<tr>
 					<td class="genericViewTableRow2"> <b>Creation Date:</b> </td>
-					<td class="genericViewTableRow2"> @selectedTenant.getCreateDate </td>
+					<td class="genericViewTableRow2"> @selectedTenant.getCreateDateString </td>
 					<td class="genericViewTableRow2"> <b>Service Start Date:</b> </td>
-					<td class="genericViewTableRow2"> @selectedTenant.getServiceStartDate </td>
+					<td class="genericViewTableRow2"> @selectedTenant.getServiceStartDateString </td>
 				</tr>
 				<tr>
 					<td class="genericViewTableRow2"> <b>Status:</b></td>
@@ -58,16 +58,32 @@
 					<td class="genericViewTableRow2"> @selectedTenant.getZipcode</td>
 				</tr>
 				<tr>
-					<td class="genericViewTableRow2" ><b> Phone: </b></td>
-					<td class="genericViewTableRow2"> </td>
+					<td class="genericViewTableRow2" ><b>Company URL: </b></td>
+					<td class="genericViewTableRow2"> @selectedTenant.getCompanyUrl</td>
 					<td class="genericViewTableRow2"> <b>IP Address:</b> </td>
 					<td class="genericViewTableRow2"> @selectedTenant.getIpaddress</td>
 				</tr>
+			</table>
+			<table id="genericViewTable">
 				<tr>
-					<td class="genericViewTableRow2" ><b> Company URL: </b></td>
-					<td class="genericViewTableRow2"> @selectedTenant.getCompanyUrl</td>
-					<td class="genericViewTableRow2"> </td>
-					<td class="genericViewTableRow2"> </td>
+					<td class="genericViewTableRow3" ><b>Phone Numbers </b></td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName5</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber5</td>
+				</tr>
+				<tr>
+					<td class="genericViewTableRow3" ><b> </b></td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName6</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber6</td>
+				</tr>
+				<tr>
+					<td class="genericViewTableRow3" ><b> </b></td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName7</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber7</td>
+				</tr>
+				<tr>
+					<td class="genericViewTableRow3" ><b> </b></td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName8</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber8</td>
 				</tr>
 			</table>
 		</div>
@@ -83,10 +99,32 @@
 			</table>
 			<table id="genericViewTable">
 				<tr>
-					<td class="genericViewTableRow2" > </td>
+					<td class="genericViewTableRow2" ><b> Email:</b> </td>
+					<td class="genericViewTableRow2">@selectedTenant.getContactPersonEmail </td>
+					<td class="genericViewTableRow2">  </td>
 					<td class="genericViewTableRow2"> </td>
-					<td class="genericViewTableRow2"> <b> Email:</b> </td>
-					<td class="genericViewTableRow2"> @selectedTenant.getContactPersonEmail</td>
+				</tr>
+			</table>
+			<table id="genericViewTable">
+				<tr>
+					<td class="genericViewTableRow3" ><b>Phone Numbers </b></td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName1</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber1</td>
+				</tr>
+				<tr>
+					<td class="genericViewTableRow3" ><b> </b></td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName2</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber2</td>
+				</tr>
+				<tr>
+					<td class="genericViewTableRow3" ><b> </b></td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName3</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber3</td>
+				</tr>
+				<tr>
+					<td class="genericViewTableRow3" ><b> </b></td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName4</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber4</td>
 				</tr>
 			</table>
 		</div>
