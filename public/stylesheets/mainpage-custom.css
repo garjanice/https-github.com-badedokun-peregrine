@@ -9,7 +9,7 @@
     border-color: lightblue;
     }
 
-genericViewTableRow1{
+.genericViewTableRow1{
 	vertical-align: top;
 	width: 75%;
 	}
@@ -17,6 +17,10 @@ genericViewTableRow1{
 .genericViewTableRow2 {
 	vertical-align: top;
 	width: 25%;
+	}
+.genericViewTableRow3 {
+	vertical-align: top;
+	width: 33%;
 	}
 #genericViewTable tr td{
     padding-top: 25px;

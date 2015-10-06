@@ -251,7 +251,7 @@ public class CassandraTenantDao implements TenantDao
 					.and(phones)
 					.and(contactPhones)
 					.and(set("name", tenant.getName()))
-					.and(set("type", tenant.getType()))
+					//.and(set("type", tenant.getType()))
 					.and(set("street1", tenant.getStreet1()))
 					.and(set("street2", tenant.getStreet2()))
 					.and(set("city", tenant.getCity()))
