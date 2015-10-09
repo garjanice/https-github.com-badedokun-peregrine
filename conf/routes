@@ -23,9 +23,33 @@ DELETE	/riskAssessment/delete			com.depth1.grc.controllers.Application.deleteRis
 
 POST  	/riskAssessment/update/done		com.depth1.grc.controllers.Application.updateRiskAssessment()
 
+POST 	/riskAssessment/selected		com.depth1.grc.controllers.Application.setSelectedRA()
+
 POST  	/riskAssessment/create/done		com.depth1.grc.controllers.Application.addRiskAssessment()
 
-POST 	/riskAssessment/selected		com.depth1.grc.controllers.Application.setSelectedRA()
+GET     /policy                	    	com.depth1.grc.controllers.Application.showPolicyListPage()
+
+GET		/policy/create				   	com.depth1.grc.controllers.Application.showCreatePolicyPage()
+
+GET		/policy/createBody				com.depth1.grc.controllers.Application.showCreatePolicyEditorPage()
+
+GET		/policy/view/:id				com.depth1.grc.controllers.Application.showViewPolicyPage(id: java.util.UUID)
+
+GET		/policy/update/:id				com.depth1.grc.controllers.Application.showUpdatePolicyPage(id: java.util.UUID)
+
+GET		/policy/delete					com.depth1.grc.controllers.Application.showDeletePolicyPage()
+
+GET 	/policy/restore					com.depth1.grc.controllers.Application.showRestorePolicyPage()
+
+GET 	/policy/restore/done			com.depth1.grc.controllers.Application.restorePolicy(id: java.util.UUID)
+
+GET		/policy/delete/done				com.depth1.grc.controllers.Application.deletePolicy(id: java.util.UUID)
+
+GET		/policy/download/name			com.depth1.grc.controllers.Application.downloadPolicy(name: String)
+
+POST  	/policy/create/done				com.depth1.grc.controllers.Application.createPolicy()
+
+POST  	/policy/update/done				com.depth1.grc.controllers.Application.updatePolicy()
 
 GET		/riskAssessment/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontRAPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
 

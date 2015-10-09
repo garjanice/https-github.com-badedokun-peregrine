@@ -32,6 +32,7 @@ public abstract class DaoFactory {
 		 * @return PolicyDao policy data access object interface
 		 * @throws DaoException if errors occurs while retrieving data from the data store
 		 */
+
 	
 	public abstract PolicyDao getPolicyDao() throws DaoException; 
 	

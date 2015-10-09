@@ -62,4 +62,3 @@ public class RdbDaoFactory extends DaoFactory
 
 	
 }
-

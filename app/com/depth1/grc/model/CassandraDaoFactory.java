@@ -61,20 +61,21 @@ public class CassandraDaoFactory extends DaoFactory {
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getPolicyDao()
 	 */
+	@Override
 	public PolicyDao getPolicyDao() {
 		    
-		    return null;
-		  }
+		return new CassandraPolicyDao();
+	}
 	
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getRiskAssesmentDao()
 	 */
+
 	@Override
 	public RiskAssessmentDao getRiskAssessmentDao() throws DaoException {
 		
 		return new CassandraRiskAssessmentDao();
 	}
-
 
 	
 	/* (non-Javadoc)
@@ -110,7 +111,5 @@ public class CassandraDaoFactory extends DaoFactory {
 	public static Session getSession() {
 		return CassandraDaoFactory.connect();
 	}	
-
-
 
 }
