@@ -445,7 +445,10 @@ public final class DateUtility {
     }	
     
     /**
-     * Convert an Object to a String using Dates
+     * Converts an Object to a String using Dates
+     * @param date the object to convert
+     * @param format the desire date and time format
+     * @return date a string format of the date
      */
     public static String toString( Object date, DateFormat format )
     {

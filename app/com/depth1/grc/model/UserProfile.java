@@ -3,12 +3,14 @@
  */
 package com.depth1.grc.model;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
 import com.datastax.driver.core.utils.UUIDs;
+
+import play.data.validation.Constraints.Email;
+import play.data.validation.Constraints.Required;
 
 /**
  * This class is the business object for creating, updating, deleting, viewing, and finding a user.<br> 
@@ -18,24 +20,36 @@ import com.datastax.driver.core.utils.UUIDs;
 public class UserProfile {
 	
     private UUID id;
+    @Required
     private long tenantId;
+    @Required
     private String fname;
+    @Required
     private String lname;
+    @Required
     private String gender;
+    @Required
     private String username;
+    @Required
     private String password;
+    @Required
+    @Email
     private String email;
+    @Required
     private String street1;
     private String street2;
+    @Required
     private String city;
     private String zipcode;
     private String state;
     private String province;
+    @Required
     private String country;
     private String latitude;
     private String longitude;
     private String lineofdefense;
     private UUIDs createdate;
+    @Required
     private String status;
     private Map<String, String> phones;
     private String timeZone;

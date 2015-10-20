@@ -3,6 +3,8 @@
  */
 package com.depth1.grc.model;
 
+import com.depth1.grc.db.util.DropDownList;
+
 /**
  * 
  * An Abstract factory pattern for Data Access Object (DAO)
@@ -75,6 +77,16 @@ public abstract class DaoFactory {
 	 */
 	
 	public abstract UserProfileDao getUserProfileDao() throws DaoException;	
+	
+	/**
+	 * Returns the DropDownlist DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return DropDownList drop down data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
+	 */
+	
+	public abstract DropDownList getDropDownList() throws DaoException;		
 	
 	/**
 	 * Selects the appropriate DAO factory to use based on data store option the application 

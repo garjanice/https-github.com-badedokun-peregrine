@@ -19,6 +19,8 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.utils.UUIDs;
+import com.depth1.grc.db.util.DataException;
+import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
 
@@ -59,7 +61,12 @@ public class Application extends Controller {
 	static RiskAssessment selectedRA;
 
 	public Result index() {
-		// user profile test data
+		getCountry();
+		String countryCode = "US";
+		getState(countryCode);
+		
+		
+	/*	// user profile test data
 		UserProfile user = new UserProfile();
 		//user.setId(java.util.UUID.fromString("8b170dad-2ddf-4ab1-9509-ee7370a4f9f6"));
 		user.setId(java.util.UUID.randomUUID());
@@ -157,7 +164,7 @@ public class Application extends Controller {
 		long tenant_Id = 1443847251573L;
 		//deleteTenant(tenant_Id);
 		String name = "Acenonyx, LLC";
-		getTenant(name);
+		getTenant(name);*/
 
 		return ok(index.render()); 
 	}
@@ -170,11 +177,47 @@ public class Application extends Controller {
 	 *            The established session to the cluster
 	 * @return a result in the future in an non-blocking fashion
 	 */
-	public ResultSetFuture getState(Session session) {
-		Statement query = QueryBuilder.select().all().from("member", "state");
-		return session.executeAsync(query);
+	public static Result getCountry() {
+		
+		try {
+			DropDownList dropDown = cassandraFactory.getDropDownList();
+			List<String> countries = dropDown.getCountry();
+			Collections.sort(countries);
+			for (String row : countries) {
+				System.out.printf(" %s\n", row);						
+			}
+
+		} catch (DataException e) {
+
+		}
+		return ok();
 
 	}
+	
+	/**
+	 * This method is used as a client to test getting data from the Cassandra
+	 * database It displays data it reads from the database on the console
+	 * 
+	 * @param session
+	 *            The established session to the cluster
+	 * @return a result in the future in an non-blocking fashion
+	 */
+	public static Result getState(String countryCode) {
+		
+		try {
+			DropDownList dropDown = cassandraFactory.getDropDownList();
+			List<String> states = dropDown.getState(countryCode);
+			Collections.sort(states);
+			for (String row : states) {
+				System.out.printf(" %s\n", row);						
+			}
+
+		} catch (DataException e) {
+
+		}
+		return ok();
+
+	}	
 
 	/**
 	 * This method prints data retrieved from the Cassandra database It displays
@@ -186,12 +229,12 @@ public class Application extends Controller {
 	 */
 
 	public void printState(Session session) {
-		ResultSetFuture result = getState(session);
+		/*ResultSetFuture result = getState(session);
 		for (Row row : result.getUninterruptibly()) {
 			System.out.printf("%s: %s  %s\n", row.getString("country"),
 					row.getString("short_name"), row.getString("long_name"));
 		}
-		session.close();
+		session.close();*/
 
 	}
 

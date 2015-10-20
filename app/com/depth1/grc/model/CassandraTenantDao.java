@@ -18,6 +18,7 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
 import com.datastax.driver.core.querybuilder.Update;
 import com.datastax.driver.core.utils.UUIDs;
+import com.depth1.grc.db.util.DataReaderUtil;
 import com.depth1.grc.model.common.Keyspace;
 import com.depth1.grc.util.IdProducer;
 
@@ -121,8 +122,9 @@ public class CassandraTenantDao implements TenantDao
 	
 	public List<Tenant> listTenant() throws DaoException {
 		List<Tenant> list = new ArrayList<>();
+		String table = "tenant";
 		try {
-			ResultSetFuture results = getAll();
+			ResultSetFuture results = DataReaderUtil.getAll(table);
 			if (results == null) {
 				return null;
 			}
@@ -321,31 +323,6 @@ public class CassandraTenantDao implements TenantDao
 		
 		return tenant;
 	}	
-	
-	/**
-	 * Gets all rows in the user profile table
-	 * 
-	 * @return all rows in the user profile table
-	 * @throws DaoException
-	 *             if error occurs while getting user profiles from the user
-	 *             profile table
-	 */
-	private ResultSetFuture getAll() throws DaoException {
-
-		Select query = null;
-		try {
-			query = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "tenant");
-
-		} catch (DriverException e) {
-			Logger.error("Error occurred while getting tenant from the tenant table ", e);
-		} finally {
-			// close the connection to the database();
-			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-		}
-
-		return CassandraDaoFactory.getSession().executeAsync(query);
-
-	}
 	
 	/**
 	 * Get a tenant profile that matches the given criteria of tenantId

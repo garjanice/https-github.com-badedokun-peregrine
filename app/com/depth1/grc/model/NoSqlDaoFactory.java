@@ -1,5 +1,7 @@
 package com.depth1.grc.model;
 
+import com.depth1.grc.db.util.DropDownList;
+import com.depth1.grc.db.util.DropDownListReader;
 
 /**
  * <!-- begin-user-doc -->
@@ -60,6 +62,13 @@ public class NoSqlDaoFactory extends DaoFactory
 		return new CassandraUserProfileDao();
 	}	
 	
+	/* (non-Javadoc)
+	 * @see com.depth1.grc.model.DaoFactory#getTenantDao()
+	 */
+	public DropDownList getDropDownList() {
+		    
+		    return new DropDownListReader();
+		  }		
 
 }
 

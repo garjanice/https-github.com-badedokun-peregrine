@@ -23,6 +23,7 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
 import com.datastax.driver.core.querybuilder.Update;
 import com.datastax.driver.core.utils.UUIDs;
+import com.depth1.grc.db.util.DataReaderUtil;
 import com.depth1.grc.model.common.Keyspace;
 import com.depth1.grc.util.IdProducer;
 
@@ -40,7 +41,7 @@ import play.Play;
 public class CassandraUserProfileDao implements UserProfileDao {
 	
 	//select the type of deployment model from the configuration file
-		private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
+	private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
 	
 	/**
 	* Creates a user profile.
@@ -179,9 +180,10 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	@Override
 	public List<UserProfile> listUserProfile() throws DaoException {
 		List<UserProfile> list = new ArrayList<>();
+		String table = "userprofile";
 		try {					
 			
-			ResultSetFuture results = getAll();
+			ResultSetFuture results = DataReaderUtil.getAll(table);
 			if (results == null) {
 				return null;
 			}
@@ -388,29 +390,6 @@ public class CassandraUserProfileDao implements UserProfileDao {
 		}
 		return login;
 	}	
-	
-	/**
-	 * Gets all rows in the user profile table
-	 * 
-	 * @return all rows in the user profile table
-	 * @throws DaoException if error occurs while getting user profiles from the user profile table
-	 */
-	private ResultSetFuture getAll() throws DaoException {
-
-		Select query = null;
-		try {
-			query = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "userprofile");
-
-		} catch (DriverException e) {
-			Logger.error("Error occurred while getting user profiles from the user profile table ", e);
-		} finally {
-			// close the connection to the database();
-			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-		}
-
-		return CassandraDaoFactory.getSession().executeAsync(query);
-
-	}
 	
 	/**
 	 * Get a user profile that matches the given criteria of username and lastname

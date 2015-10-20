@@ -4,6 +4,7 @@
 
 # Login page
 GET		/login 							com.depth1.grc.controllers.ApplicationLogin.login()
+GET     /logout        				    com.depth1.grc.controllers.ApplicationLogin.logout()
 POST	/authenticate 					com.depth1.grc.controllers.ApplicationLogin.authenticate()
 
 # Home page
@@ -28,6 +29,8 @@ POST  	/riskAssessment/create/done		com.depth1.grc.controllers.Application.addRi
 POST 	/riskAssessment/selected		com.depth1.grc.controllers.Application.setSelectedRA()
 
 GET		/riskAssessment/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontRAPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
+
+GET     /picture        						com.depth1.grc.controllers.Universal.getPicture(pictureName: String)
 
 
 # Map static resources from the /public folder to the /assets URL path
