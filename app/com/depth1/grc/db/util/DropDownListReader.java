@@ -18,8 +18,10 @@ import com.datastax.driver.core.querybuilder.Select;
 import com.depth1.grc.model.CassandraDaoFactory;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.common.Keyspace;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import play.Logger;
+//import play.Logger;
 import play.Play;
 import play.cache.Cache;
 
@@ -28,6 +30,8 @@ import play.cache.Cache;
  *
  */
 public class DropDownListReader implements DropDownList {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DropDownListReader.class);
 	
 	//select the type of deployment model from the configuration file
 			private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
@@ -113,7 +117,7 @@ public class DropDownListReader implements DropDownList {
 				.where(eq("country_code", countryCode));				
 				
 		} catch (DriverException e) {
-			Logger.error("Error occurred while retrieving a data from the state table ", e);
+			LOGGER.error("Error occurred while retrieving a data from the state table ", e);
 		} finally {
 			// close the connection to the database();
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());

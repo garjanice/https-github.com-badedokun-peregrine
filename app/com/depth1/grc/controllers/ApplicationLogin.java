@@ -70,7 +70,8 @@ public class ApplicationLogin extends Controller {
         session().remove(LOGIN_EMAIL);
         Cache.remove(LOGIN_EMAIL);
         flash(SUCCESS, "You have successfully logged out!");
-        return ok(index.render());
+        return redirect(routes.ApplicationLogin.login() );
+        //return ok(index.render());
     }	
 
 }
