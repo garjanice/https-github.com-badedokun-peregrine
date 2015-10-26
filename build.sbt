@@ -19,6 +19,8 @@ libraryDependencies ++= Seq(
   "org.apache.shiro" % "shiro-core" % "1.2.3",
   "mysql" % "mysql-connector-java" % "5.1.36",
   "org.hibernate" % "hibernate-entitymanager" % "4.3.11.Final",
+  "org.jsoup" % "jsoup" % "1.8.3",
+
   filters
 )
 

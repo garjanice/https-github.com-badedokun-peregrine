@@ -1,0 +1,58 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Login page
+GET		/login 							com.depth1.grc.controllers.ApplicationLogin.login()
+POST	/authenticate 					com.depth1.grc.controllers.ApplicationLogin.authenticate()
+
+# Home page
+GET     /                          		com.depth1.grc.controllers.Application.index()
+
+GET     /riskAssessment                 com.depth1.grc.controllers.Application.showFrontRAPage()
+
+GET 	/riskAssessment/create			com.depth1.grc.controllers.Application.showCreateRAPage()
+
+GET 	/riskAssessment/view			com.depth1.grc.controllers.Application.showViewRAPage()
+
+GET 	/riskAssessment/print			com.depth1.grc.controllers.Application.printRA()
+
+GET 	/riskAssessment/update			com.depth1.grc.controllers.Application.showUpdateRAPage()
+
+DELETE	/riskAssessment/delete			com.depth1.grc.controllers.Application.deleteRiskAssessment()
+
+POST  	/riskAssessment/update/done		com.depth1.grc.controllers.Application.updateRiskAssessment()
+
+POST 	/riskAssessment/selected		com.depth1.grc.controllers.Application.setSelectedRA()
+
+POST  	/riskAssessment/create/done		com.depth1.grc.controllers.Application.addRiskAssessment()
+
+GET     /policy                	    	com.depth1.grc.controllers.Application.showPolicyListPage()
+
+GET		/policy/create				   	com.depth1.grc.controllers.Application.showCreatePolicyPage()
+
+GET		/policy/createBody				com.depth1.grc.controllers.Application.showCreatePolicyEditorPage()
+
+GET		/policy/view/:id				com.depth1.grc.controllers.Application.showViewPolicyPage(id: java.util.UUID)
+
+GET		/policy/update/:id				com.depth1.grc.controllers.Application.showUpdatePolicyPage(id: java.util.UUID)
+
+GET		/policy/delete					com.depth1.grc.controllers.Application.showDeletePolicyPage()
+
+GET 	/policy/restore					com.depth1.grc.controllers.Application.showRestorePolicyPage()
+
+GET 	/policy/restore/done			com.depth1.grc.controllers.Application.restorePolicy(id: java.util.UUID)
+
+GET		/policy/delete/done				com.depth1.grc.controllers.Application.deletePolicy(id: java.util.UUID)
+
+GET		/policy/download/name			com.depth1.grc.controllers.Application.downloadPolicy(name: String)
+
+POST  	/policy/create/done				com.depth1.grc.controllers.Application.createPolicy()
+
+POST  	/policy/update/done				com.depth1.grc.controllers.Application.updatePolicy()
+
+GET		/riskAssessment/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontRAPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

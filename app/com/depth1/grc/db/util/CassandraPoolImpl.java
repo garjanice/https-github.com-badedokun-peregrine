@@ -23,6 +23,7 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.db.util.ConnectionPool#create()
 	 */
+
     @Override
     public Session create() throws DriverException {
     	cluster = Cluster.builder().addContactPoint(REMOTE_CLUSTER)
@@ -50,6 +51,7 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.db.util.ConnectionPool#validate(java.lang.Object)
 	 */
+
 	@Override
 	public boolean validate(Session pool) throws DriverException {
 		try {
@@ -65,6 +67,7 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.db.util.ConnectionPool#expire(java.lang.Object)
 	 */
+
 	@Override
 	public void expire(Session pool) throws DriverException {
 		  try {

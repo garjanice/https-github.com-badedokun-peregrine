@@ -54,4 +54,6 @@ public interface RiskAssessmentDao {
      */
 	public List<RiskAssessment> listRiskAssessmentPagination(int numberOfItems, int page) throws DaoException;
 
+
 }
+

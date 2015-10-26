@@ -1,0 +1,88 @@
+@import com.depth1.grc.model.Policy
+@(policies:List[Policy]) 
+@import helper._ 
+@main("Policy Restore") {
+
+<script>
+	function del(urlToDelete) {
+		$.ajax({
+			url : urlToDelete,
+			type : 'DELETE',
+			success : function(results) {
+				// Refresh the page
+				location.reload();
+			}
+		});
+	}
+</script>
+
+<section class="wrapper">
+	
+	<section>
+	<!--the buttons, using just html forms-->	
+	<span>
+	
+	<h1>Restore Page</h1>
+	</span>
+	}
+</section>
+	
+	<FORM name= "Restore" ACTION=/policy/restore/done />
+	
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Select</th>
+				<th>Policy Name</th>
+				<th>Policy ID</th>
+				<th>Version</th>
+				<th>Last Updated</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(Policy <- policies) {
+			<tr>
+				<td>
+					<input type="radio" name="id" value="@Policy.getId()" 
+					style="position: relative; ">
+				</td>
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
+						@Policy.getName()</a></td>
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
+						@Policy.getPolicyId()</a></td>
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
+						@Policy.getVersion()</a></td>	
+				<td><a
+					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
+						@Policy.getLastUpdatedDate()</a></td>	
+			</tr>
+			
+			
+		}
+		
+		
+		</tbody>
+
+	</table>
+	<INPUT TYPE="submit"
+		style="position: relative;" VALUE="Restore" onSubmit=" window.open("localhost:9000/policy/restore/", "_self");">
+	</FORM>
+</section>
+
+
+<section>
+	<FORM ACTION="/policy "/>
+	<INPUT TYPE="submit"
+		style="position: relative; top: 100px; bottom:50px; left:50px; height: 50px; width: 100px;"
+		VALUE="Back to policy">
+	</FORM>
+</section>
+
+
+
+
+
