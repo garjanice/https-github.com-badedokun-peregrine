@@ -36,9 +36,9 @@ public class Universal extends Controller {
 	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);	
 
     /**
-     * This method retrieves states in a given country
-     * @param country The ISO name of the country, for example 'US' or 'CA' or 'CH'
-     * @return A list of all states in the specified country
+     * Retrieves states in a given country
+     * @param country ISO name of the country, for example 'US' or 'CA' or 'CH'
+     * @return list of all states in the specified country
      */
     public Result getStateOption(String countryCode){
     	List<String> states = null;
@@ -61,10 +61,9 @@ public class Universal extends Controller {
     }
     
     /**
-     * Retrieves countries of the world from the data store
-     * @param country The ISO name of the country, for example 'US' or 'CA' or 'CH'
-     * @param state The state where the county is
-     * @return A list of all county in the specified state
+     * Retrieves countries of the world from the data store.
+     * 
+     * @return A list of all countries in the world
      */
     public Result getCountryOption(){
     	List<String> countries = null;
@@ -89,10 +88,9 @@ public class Universal extends Controller {
     
     
     /**
-     * Retrieves countries of the world from the data store
-     * @param country The ISO name of the country, for example 'US' or 'CA' or 'CH'
-     * @param state The state where the county is
-     * @return A list of all county in the specified state
+     * Retrieves languages of the world from the data store.
+     * 
+     * @return A list of all languages commonly spoken in the world
      */
     public Result getLanguageOption(){
     	List<String> languages = null;
