@@ -26,7 +26,7 @@ import play.Play;
 import play.cache.Cache;
 
 /**
- * @author badedokun
+ * @author Bisi Adedokun
  *
  */
 public class DropDownListReader implements DropDownList {
@@ -47,7 +47,9 @@ public class DropDownListReader implements DropDownList {
      * Retrieves all countries of the world.
      * 
      * @return list of countries
+     * @exception DataException if errors occurs while retrieving data from the table
      */
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<String> getCountry() throws DataException {
@@ -71,12 +73,45 @@ public class DropDownListReader implements DropDownList {
 			throw new DataException(e);
 		}
 	}
+	
+	/**
+     * Retrieves common spoken languages of the world.
+     * 
+     * @return list of all common spoken world languages
+     * @exception DataException if errors occurs while retrieving data from the table
+     */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getLanguage() throws DataException {
+		final String cacheKey = "languages";
+		final String column = "language";
+		final String table = "language";
+		try {
+			final Object languages = Cache.get(cacheKey);
+			if (languages == null) {
+				ResultSetFuture results = DataReaderUtil.getAll(table);
+				final List<String> allLanguages = DataReaderUtil.getColumnValues(results, column, table);
 
-	 /**
+				Cache.set(cacheKey, allLanguages);
+				return allLanguages;
+			} else {
+
+				return (List<String>) languages;
+
+			}
+		} catch (QueryExecutionException e) {
+			throw new DataException(e);
+		}
+	}	
+	
+	
+
+    /**
      * Retrieves states in a given country.
      * 
-     * @param country The ISO name of the country, for example 'US' or 'CA' or 'CH'
+     * @param countryCode The ISO code of the country, for example 'US' or 'CA' or 'CH'
      * @return list of all states in the specified country
+     * @exception DataException if errors occurs while retrieving data from the table
      */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -103,10 +138,11 @@ public class DropDownListReader implements DropDownList {
 	}
 	
 	/**
-	 * Get a user profile that matches the given criteria of userId
+	 * Retrieves states in a given country.
 	 * 
-	 * @return a row that matches the user profile
-	 * @throws DaoException if error occurs while getting user profiles from the user profile table
+	 * @param countryCode An ISO country code such as 'US, CA, CH, FR, NG, etc.'
+	 * @return rows of states in a country
+	 * @throws DaoException if error occurs while getting states from the state table
 	 */
 	private ResultSetFuture getCountryState(String countryCode) {
 		Select.Where select = null;

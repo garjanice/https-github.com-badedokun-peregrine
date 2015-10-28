@@ -87,6 +87,34 @@ public class Universal extends Controller {
     	return ok(options.toString());
     }
     
+    
+    /**
+     * Retrieves countries of the world from the data store
+     * @param country The ISO name of the country, for example 'US' or 'CA' or 'CH'
+     * @param state The state where the county is
+     * @return A list of all county in the specified state
+     */
+    public Result getLanguageOption(){
+    	List<String> languages = null;
+    	try {
+			DropDownList dropDown = cassandraFactory.getDropDownList();
+			languages = dropDown.getLanguage();
+			Collections.sort(languages);			
+
+		} catch (DataException e) {
+
+		}
+    	
+    	if(languages == null){
+    		return null;
+    	}
+    	StringBuilder options = new StringBuilder();
+    	for(int i = 0; i < languages.size(); i++){
+    		options.append("<option value='"+languages.get(i)+"'>"+languages.get(i)+"</option>");
+    	}
+    	return ok(options.toString());
+    }   
+    
     /**
      * Retrieves picture from a URL path or directory
      * @param pictureName picture to retrieve

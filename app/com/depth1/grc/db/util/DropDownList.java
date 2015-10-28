@@ -18,15 +18,27 @@ public interface DropDownList {
      * Retrieves all countries of the world.
      * 
      * @return list of countries
+     * @exception DataException if errors occurs while retrieving data from the table
      */
     public List<String> getCountry() throws DataException;
     
     /**
+     * Retrieves common spoken languages of the world.
+     * 
+     * @return list of all common spoken world languages
+     * @exception DataException if errors occurs while retrieving data from the table
+     */
+    public List<String> getLanguage() throws DataException;     
+    
+    /**
      * Retrieves states in a given country.
      * 
-     * @param country The ISO name of the country, for example 'US' or 'CA' or 'CH'
+     * @param country The ISO code of the country, for example 'US' or 'CA' or 'CH'
      * @return list of all states in the specified country
+     * @exception DataException if errors occurs while retrieving data from the table
      */
-    public List<String> getState(String country) throws DataException;    
+    public List<String> getState(String country) throws DataException;
+    
+   
 
 }
