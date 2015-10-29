@@ -39,12 +39,21 @@
               <div>
                  <label for="tenantId" class="label-style" >Tenant ID:</label>
                  <input type="text" id="tenantId" name="" class="input-style"> <!-- TenantId needs to be fixed to accept a string-->
-                 <button><span class="glyphicon glyphicon-search" ></span></button>
+                 <button id="tenantSearch" ><span class="glyphicon glyphicon-search" ></span></button>
                  <label for="assessmentId" class="label-style" >Assessment ID:</label>
                  <input type="text" id="assessmentId" name="assessmentId" class="input-style" >
                  <label for="vulnerability" class="label-style" >Vulnerability:</label>
                  <input type="text" id="vulnerability" name="vulnerability" class="input-style" >
               </div>
+              
+              
+              <div id="popupTenantSelectionBox" class="pop-up-dialog" title="Select Tenant ID">
+              		<h2>Select the Tenant ID from the List</h2>
+  					<select id="popupTenantSelection" style="width:80%;height: auto; margin:0 auto;">
+      				</select>
+			   </div>
+			   <div id="popup_background" class="black_overlay"></div>
+              
               <div>
                  <label for="speedOfOnset" class="label-style" >Speed of Onset:</label>
                  <input type="text" id="speedOfOnset" name="speedOfOnset" class="input-style" >
@@ -128,7 +137,5 @@
         
 
         
-        </script>
-
 <!-- footer -->
 @footer()

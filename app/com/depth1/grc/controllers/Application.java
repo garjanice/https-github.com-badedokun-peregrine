@@ -17,12 +17,13 @@ import java.nio.file.Paths;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
+import java.lang.Long;
 import org.jsoup.*;
 
 import play.Logger;
 import play.data.Form;
 import play.data.Form.Field;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.RequestBody;
 import play.mvc.Result;
@@ -52,6 +53,8 @@ import com.depth1.grc.model.UserProfileDao;
 import com.depth1.grc.model.UserProfileSort;
 import com.depth1.grc.views.html.*;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Security.Authenticated(Secured.class)
 public class Application extends Controller {
@@ -146,6 +149,31 @@ public class Application extends Controller {
 
 		return redirect("/riskAssessment/1/10/descendingRisk");
 	}
+	
+	
+	public Result getTenantIDs(){
+		
+		TenantDao tenantDao = null;
+		List<Tenant> list = null;
+		try {
+			tenantDao = cassandraFactory.getTenantDao();
+			list =  tenantDao.listTenant();
+		} catch (DaoException e) {
+			Logger.error(
+					"Error reading Tenant IDs ",e);
+		}
+		
+		ArrayNode node = Json.newArray();
+		
+		for(Tenant tenant: list)
+		{
+			String tenantID = String.valueOf(tenant.getTenantId());
+			node.add(tenantID);
+		}
+	    return ok(node);
+	}
+	
+	
 	/**
 	 * @param RiskAssessment
 	 *            The RA criteria to update
