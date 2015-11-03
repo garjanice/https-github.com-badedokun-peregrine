@@ -103,8 +103,11 @@ public class CassandraTenantDao implements TenantDao
 					.value("companyurl", tenant.getCompanyUrl())
 					.value("contact_person_phones", tenant.getContactPersonPhones())
 					.value("ipaddress", tenant.getIpaddress())
-					.value("status", tenant.getStatus());					
-			CassandraDaoFactory.getSession().execute(insert);
+					.value("status", tenant.getStatus());
+			boolean found = findTenant(tenant.getName());
+			if (!found) {
+				CassandraDaoFactory.getSession().execute(insert);
+			}
 		} catch (DriverException e) {
 			Logger.error("Error occurred while inserting data into the tenant table ", e);
 		} finally {			
@@ -322,7 +325,34 @@ public class CassandraTenantDao implements TenantDao
 		}
 		
 		return tenant;
-	}	
+	}
+	
+	/**
+	 * Finds a tenant given a tenant name.
+	 * 
+	 * @param name the tenant name to find
+	 * @return true if the tenant is found, false otherwise 
+	 * @throws DaoException When error occurs while retrieving a tenant from the tenant table
+	 */
+	
+	@Override
+	public boolean findTenant(String name) throws DaoException {
+		
+		try {
+			ResultSetFuture result = getOneTenant(name);
+			if (result == null) {
+				return false;
+			}
+
+		} catch (DriverException e) {
+			Logger.error("Error occurred while retrieving data from the tenant table ", e);
+		} finally {
+			// dbSession.close();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+
+		return true;
+	}
 	
 	/**
 	 * Get a tenant profile that matches the given criteria of tenantId

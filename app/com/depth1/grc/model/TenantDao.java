@@ -62,7 +62,16 @@ public  interface TenantDao
 	 * @return Tenant tenant that was found
 	 * @throws DaoException if error occurs while finding a tenant in the data store
 	 */
-	public Tenant getTenant(String name) throws DaoException;	
+	public Tenant getTenant(String name) throws DaoException;
+	
+	/**
+	 * Finds a tenant.
+	 * 
+	 * @param name tenant name to find
+	 * @return true if a tenant if found, false otherwise
+	 * @throws DaoException if error occurs while finding a tenant in the data store
+	 */
+	public boolean findTenant(String name) throws DaoException;	
 	
 	
 }
