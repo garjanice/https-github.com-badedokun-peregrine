@@ -160,6 +160,35 @@ public class DropDownListReader implements DropDownList {
 		}
 		return CassandraDaoFactory.getSession().executeAsync(select);
 		
-	}		
+	}	
+	
+    /**
+     * Retrieves common titles.
+     * 
+     * @return list of all titles
+     * @exception DataException if errors occurs while retrieving data from the table
+     */
+	@SuppressWarnings("unchecked")
+	public List<String> getTitle() throws DataException {
+		final String cacheKey = "titles";
+		final String column = "title";
+		final String table = "title";
+		try {
+			final Object titles = Cache.get(cacheKey);
+			if (titles == null) {
+				ResultSetFuture results = DataReaderUtil.getAll(table);
+				final List<String> allTitles = DataReaderUtil.getColumnValues(results, column, table);
+
+				Cache.set(cacheKey, allTitles);
+				return allTitles;
+			} else {
+
+				return (List<String>) titles;
+
+			}
+		} catch (QueryExecutionException e) {
+			throw new DataException(e);
+		}
+	}
 
 }

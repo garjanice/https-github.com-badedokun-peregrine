@@ -26,7 +26,7 @@ import play.mvc.Result;
  * This class provides utility methods to load drop down list data for different front end use.
  * 
  * @author Bisi Adedokun
- * @version Rev 1.0
+ * @version Revision 1.0
  * Created 10/19/2015
  *
  */
@@ -48,7 +48,7 @@ public class Universal extends Controller {
 			Collections.sort(states);			
 
 		} catch (DataException e) {
-
+			Logger.error("Error occurred while retrieving data ", e);
 		}	    	
     	if(states == null){
     		return null;
@@ -65,26 +65,26 @@ public class Universal extends Controller {
      * 
      * @return A list of all countries in the world
      */
-    public Result getCountryOption(){
-    	List<String> countries = null;
-    	try {
+	public Result getCountryOption() {
+		List<String> countries = null;
+		try {
 			DropDownList dropDown = cassandraFactory.getDropDownList();
 			countries = dropDown.getCountry();
-			Collections.sort(countries);			
+			Collections.sort(countries);
 
 		} catch (DataException e) {
-
+			Logger.error("Error occurred while retrieving data ", e);
 		}
-    	
-    	if(countries == null){
-    		return null;
-    	}
-    	StringBuilder options = new StringBuilder();
-    	for(int i = 0; i < countries.size(); i++){
-    		options.append("<option value='"+countries.get(i)+"'>"+countries.get(i)+"</option>");
-    	}
-    	return ok(options.toString());
-    }
+
+		if (countries == null) {
+			return null;
+		}
+		StringBuilder options = new StringBuilder();
+		for (int i = 0; i < countries.size(); i++) {
+			options.append("<option value='" + countries.get(i) + "'>" + countries.get(i) + "</option>");
+		}
+		return ok(options.toString());
+	}
     
     
     /**
@@ -92,26 +92,52 @@ public class Universal extends Controller {
      * 
      * @return A list of all languages commonly spoken in the world
      */
-    public Result getLanguageOption(){
-    	List<String> languages = null;
-    	try {
+	public Result getLanguageOption() {
+		List<String> languages = null;
+		try {
 			DropDownList dropDown = cassandraFactory.getDropDownList();
 			languages = dropDown.getLanguage();
-			Collections.sort(languages);			
+			Collections.sort(languages);
 
 		} catch (DataException e) {
-
+			Logger.error("Error occurred while retrieving data ", e);
 		}
-    	
-    	if(languages == null){
-    		return null;
-    	}
-    	StringBuilder options = new StringBuilder();
-    	for(int i = 0; i < languages.size(); i++){
-    		options.append("<option value='"+languages.get(i)+"'>"+languages.get(i)+"</option>");
-    	}
-    	return ok(options.toString());
-    }   
+
+		if (languages == null) {
+			return null;
+		}
+		StringBuilder options = new StringBuilder();
+		for (int i = 0; i < languages.size(); i++) {
+			options.append("<option value='" + languages.get(i) + "'>" + languages.get(i) + "</option>");
+		}
+		return ok(options.toString());
+	}  
+    
+    /**
+     * Retrieves common titles from the data store.
+     * 
+     * @return list of titles
+     */
+	public Result getTitleOption() {
+		List<String> titles = null;
+		try {
+			DropDownList dropDown = cassandraFactory.getDropDownList();
+			titles = dropDown.getTitle();
+			Collections.sort(titles);
+
+		} catch (DataException e) {
+			Logger.error("Error occurred while retrieving data ", e);
+		}
+
+		if (titles == null) {
+			return null;
+		}
+		StringBuilder options = new StringBuilder();
+		for (int i = 0; i < titles.size(); i++) {
+			options.append("<option value='" + titles.get(i) + "'>" + titles.get(i) + "</option>");
+		}
+		return ok(options.toString());
+	}
     
     /**
      * Retrieves picture from a URL path or directory

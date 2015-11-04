@@ -39,6 +39,14 @@ public interface DropDownList {
      */
     public List<String> getState(String country) throws DataException;
     
+    /**
+     * Retrieves common titles.
+     * 
+     * @return list of all titles
+     * @exception DataException if errors occurs while retrieving data from the table
+     */
+    public List<String> getTitle() throws DataException;    
+    
    
 
 }
