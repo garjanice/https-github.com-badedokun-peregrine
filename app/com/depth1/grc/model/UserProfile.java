@@ -10,6 +10,8 @@ import java.util.UUID;
 import com.datastax.driver.core.utils.UUIDs;
 
 import play.data.validation.Constraints.Email;
+import play.data.validation.Constraints.MaxLength;
+import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 
 /**
@@ -29,10 +31,15 @@ public class UserProfile {
     @Required
     private String gender;
     @Required
+    @MaxLength(128)
+    @Email
     private String username;
     @Required
+    @MaxLength(128)
+    @MinLength(6)
     private String password;
     @Required
+    @MaxLength(128)
     @Email
     private String email;
     @Required
@@ -47,7 +54,7 @@ public class UserProfile {
     private String country;
     private String latitude;
     private String longitude;
-    private String lineofdefense;
+    private String lineofdefense; //values: 1LoD, 2LoD, 3LoD
     private UUIDs createdate;
     @Required
     private String status;
@@ -120,7 +127,7 @@ public class UserProfile {
 	 * @param username the username to set
 	 */
 	public void setUsername(String username) {
-		this.username = username;
+		this.username = username.toLowerCase();
 	}
 	/**
 	 * @return the password
@@ -144,7 +151,7 @@ public class UserProfile {
 	 * @param emailAddress the emailAddress to set
 	 */
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase();
 	}
 
 	/**

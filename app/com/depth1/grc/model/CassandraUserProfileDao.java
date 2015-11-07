@@ -25,6 +25,7 @@ import com.datastax.driver.core.querybuilder.Update;
 import com.datastax.driver.core.utils.UUIDs;
 import com.depth1.grc.db.util.DataReaderUtil;
 import com.depth1.grc.model.common.Keyspace;
+import com.depth1.grc.security.BCrypt;
 import com.depth1.grc.util.IdProducer;
 
 import play.Logger;
@@ -51,12 +52,13 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	*/
 	@Override
 	public void createUserProfile(UserProfile user) throws DaoException {
-					
+		UUID id = java.util.UUID.randomUUID();
+		user.setId(id);
 		try {
 			Statement insert = QueryBuilder
 					.insertInto(Keyspace.valueOf(keyspace), "userprofile")
-					.value("id", java.util.UUID.randomUUID())
-					.value("tenantid", IdProducer.nextId())
+					.value("id", user.getId())
+					.value("tenantid", user.getTenantId())
 					.value("fname", user.getFname())
 					.value("pfname", user.getPfname())
 					.value("minitial", user.getMinitial())
@@ -64,7 +66,6 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.value("title", user.getTitle())
 					.value("salutation", user.getSalutation())
 					.value("username", user.getUsername())
-					.value("password", user.getPassword())
 					.value("email", user.getEmail())
 					.value("gender", user.getGender())
 					.value("street1", user.getStreet1())
@@ -83,7 +84,8 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.value("language", user.getLanguage())
 					.value("locale", user.getLocale())
 					.value("status", user.getStatus());	
-					CassandraDaoFactory.getSession().execute(insert);					
+					CassandraDaoFactory.getSession().execute(insert);
+					createUserAuth(user); // create user login credentials
 			
 		} catch (DriverException e) {
 			Logger.error("Error occurred while inserting user profile in the user profile table ", e);
@@ -91,9 +93,38 @@ public class CassandraUserProfileDao implements UserProfileDao {
 			//close the connection to the database();
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
-		
-
 	}
+	
+	/**
+	* Creates a user authentication profile.
+	* 
+	* @param user user profile to create
+	* @throws DaoException if error occurs while creating the User in the data store
+	*/
+	//@Override
+	private void createUserAuth(UserProfile user) throws DaoException {
+					
+		try {
+			if (user.getUsername()!= null && user.getPassword() != null && user.getUsername().length() < 100) {
+			Statement insert = QueryBuilder
+					.insertInto(Keyspace.valueOf(keyspace), "userauth")
+					.value("id", user.getId())
+					.value("tenantid", user.getTenantId())
+					.value("fname", user.getFname())
+					.value("lname", user.getLname())
+					.value("username", user.getUsername())
+					.value("hash", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)))
+					.value("createdate", UUIDs.timeBased()); //Timestamp.valueOf(LocalDateTime.now())	
+					CassandraDaoFactory.getSession().execute(insert);
+			}		
+			
+		} catch (DriverException e) {
+			Logger.error("Error occurred while inserting user profile in the user profile table ", e);
+		} finally {
+			//close the connection to the database();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+	}	
 
 	/**
 	 * Deletes a user profile from the user profile table
@@ -357,36 +388,37 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	
 	/**
 	 * Authenticates a user with username and password. Username is email address.
-	 * @return user authenticated user object
+	 * @param username user name of the user to authenticate
+	 * @param password password of the user to authenticate
+	 * @return login credentials of the authenticated user
 	 * @throws DaoException if errors occurs while authenticating a user
 	 */
 	@Override
 	public Login authenticate(String username, String password) throws DaoException {
 		Login login = new Login();
-		Session dbSession = CassandraDaoFactory.connect();
-		try {					
+		try {
 			Statement find = QueryBuilder.select().all()
 					.from(Keyspace.valueOf(keyspace), "userauth")
-					.where(eq("username", username))
-					.and(eq("password", password));
+					.where(eq("username", username));
 
-			ResultSet result = dbSession.execute(find);
+			ResultSet result = CassandraDaoFactory.getSession().execute(find);
 			if (result == null) {
 				return null;
 			}
 			Row row = result.one();
-			
-			// get data elements from the Result set
-			
-			login.setUsername(row.getString("username"));
-			login.setPassword(row.getString("password"));
-			
 
+			// get data elements from the Result set
+			if (BCrypt.checkpw(password, row.getString("hash"))) {
+				login.setUsername(row.getString("username"));
+			} else {
+				Logger.error("Hash value does not match");
+				return null;
+			}
 		} catch (DriverException e) {
-			Logger.error("Error occurred while retrieving data from the tenant table ", e);
+			Logger.error("Error occurred while retrieving data from the userauth table ", e);
 		} finally {
 			// close the connection to the database();
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 		return login;
 	}	

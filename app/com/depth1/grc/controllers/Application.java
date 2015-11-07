@@ -36,7 +36,9 @@ import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.model.UserProfile;
 import com.depth1.grc.model.UserProfileDao;
+import com.depth1.grc.security.BCrypt;
 import com.depth1.grc.util.DateUtility;
+import com.depth1.grc.util.IdProducer;
 import com.depth1.grc.views.html.createRA;
 import com.depth1.grc.views.html.frontRA;
 import com.depth1.grc.views.html.index;
@@ -61,24 +63,41 @@ public class Application extends Controller {
 	static RiskAssessment selectedRA;
 
 	public Result index() {
-		getCountry();
+		/*getCountry();
 		String countryCode = "US";
 		getState(countryCode);
+		getTitle();*/
 		
+		String password = "here is my password";
+		String candidate = "here is my drowssap"; //here is my drowssap
+		// Hash a password for the first time
+		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+
+		// gensalt's log_rounds parameter determines the complexity
+		// the work factor is 2**log_rounds, and the default is 10
+		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
+
+		// Check that an unencrypted password matches one that has
+		// previously been hashed
+		/*if (BCrypt.checkpw(candidate, hashed))
+			System.out.println("It matches");
+		else
+			System.out.println("It does not match");*/
 		
-	/*	// user profile test data
-		UserProfile user = new UserProfile();
+		// user profile test data
+/*		UserProfile user = new UserProfile();
 		//user.setId(java.util.UUID.fromString("8b170dad-2ddf-4ab1-9509-ee7370a4f9f6"));
-		user.setId(java.util.UUID.randomUUID());
-		user.setFname("Adebisi");
+		//user.setId(java.util.UUID.randomUUID());
+		user.setTenantId(IdProducer.nextId());
+		user.setFname("Bisi");
 		user.setLname("Adedokun");
 		user.setMinitial("BA");
 		user.setPfname("Bisi");
 		user.setTitle("Chief Architect");
 		user.setSalutation("Mr.");
-		user.setUsername("badedokun@acenonyx.com");
-		user.setPassword("Core2512Java");
-		user.setEmail("badedokun@acenonyx.com");		
+		user.setUsername("tester@acenonyx.com");
+		user.setPassword("secreT72");
+		user.setEmail("tester@acenonyx.com");		
 		user.setGender("Male");
 		user.setLineofdefense("Active");
 		user.setLanguage("en_US");
@@ -105,10 +124,10 @@ public class Application extends Controller {
 
 		Logger.info("user profile populated ");
 		Logger.info("username = " + user.getUsername() + " password = " + user.getPassword());
-		
+		*/
 		//createUserProfile(user);
-		getUserProfile(user.getUsername(), user.getLname());
-		
+		//getUserProfile(user.getUsername(), user.getLname());
+	/*	
 		// Tenant test data
 		Tenant tenant = new Tenant();
 		String value = "10/03/2015";
@@ -193,6 +212,31 @@ public class Application extends Controller {
 		return ok();
 
 	}
+	
+	/**
+	 * This method is used as a client to test getting data from the Cassandra
+	 * database It displays data it reads from the database on the console
+	 * 
+	 * @param session
+	 *            The established session to the cluster
+	 * @return a result in the future in an non-blocking fashion
+	 */
+	public static Result getTitle() {
+		
+		try {
+			DropDownList dropDown = cassandraFactory.getDropDownList();
+			List<String> titles = dropDown.getTitle();
+			Collections.sort(titles);
+			for (String row : titles) {
+				System.out.printf(" %s\n", row);						
+			}
+
+		} catch (DataException e) {
+
+		}
+		return ok();
+
+	}	
 	
 	/**
 	 * This method is used as a client to test getting data from the Cassandra
