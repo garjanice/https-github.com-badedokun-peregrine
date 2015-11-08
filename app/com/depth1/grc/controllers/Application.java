@@ -151,7 +151,7 @@ public class Application extends Controller {
 	}
 	
 	
-	public Result getTenantIDs(){
+	public Result getTenantNames(){
 		
 		TenantDao tenantDao = null;
 		List<Tenant> list = null;
@@ -163,15 +163,17 @@ public class Application extends Controller {
 					"Error reading Tenant IDs ",e);
 		}
 		
-		ArrayNode node = Json.newArray();
+		ObjectNode result = Json.newObject();
 		
 		for(Tenant tenant: list)
 		{
-			String tenantID = String.valueOf(tenant.getTenantId());
-			node.add(tenantID);
+			result.put(tenant.getName(), String.valueOf(tenant.getTenantId()) );
+			//String tenantID = String.valueOf(tenant.getName());
 		}
-	    return ok(node);
+		
+	    return ok(result);
 	}
+	
 	
 	
 	/**

@@ -29,7 +29,7 @@ POST 	/riskAssessment/selected		com.depth1.grc.controllers.Application.setSelect
 
 GET		/riskAssessment/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontRAPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
 
-GET 	/riskAssessment/cacheTenants	com.depth1.grc.controllers.Application.getTenantIDs()
+GET 	/riskAssessment/cacheTenants	com.depth1.grc.controllers.Application.getTenantNames()
 
 GET     /policy/:page/:view/:order    	com.depth1.grc.controllers.Application.showPolicyListPage(page: Integer, view: Integer, order: String, query: String ?= "")
 

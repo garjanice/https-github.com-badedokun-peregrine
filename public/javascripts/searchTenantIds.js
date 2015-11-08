@@ -1,6 +1,8 @@
 $(document).ready(function(){
-	 searchTenant();
+	var jsonObjArray = {}
+    searchTenant();
 	
+    
 	function initializeTenantList()
 	{
 		var select = document.getElementById("popupTenantSelection");
@@ -18,13 +20,23 @@ $(document).ready(function(){
 		  
 		  xhttp.onreadystatechange = function() {
 		    if (xhttp.readyState == 4 && xhttp.status == 200) {
-		     var jsonObjArray = $.parseJSON(xhttp.responseText);
-		     	 jsonObjArray.forEach(function (value){
-			    	 $('#popupTenantSelection')
-			         .append($("<option></option>")
-			         .attr("value",value)
-			         .text(value)); 
-			     })
+		     jsonObjArray = $.parseJSON(xhttp.responseText);                
+                    for (var names in jsonObjArray) {
+                      if (jsonObjArray.hasOwnProperty(names)) {
+                        $('#popupTenantSelection')
+                         .append($("<option></option>")
+                         .attr("value",names)
+                         .text(names)); 
+                      }
+                        console.log(jsonObjArray["Acenonyx"]);
+                    }
+                
+//		     	 jsonObjArray.forEach(function (value){
+//			    	 $('#popupTenantSelection')
+//			         .append($("<option></option>")
+//			         .attr("value",value)
+//			         .text(value)); 
+//			     })
 		    }
 		  }						  
 	}
@@ -43,7 +55,8 @@ $(document).ready(function(){
 	$("#popupTenantSelection").change(function(e) {
 		initializeTenantList();
 		$("#popupTenantSelectionBox").hide();
-		$("#tenantId").val($("#popupTenantSelection").val());
+        var tenantName = $("#popupTenantSelection").val();
+		$("#tenantId").val(jsonObjArray[tenantName] );
 		document.getElementById('popupTenantSelectionBox').style.display='none';
 		document.getElementById('popup_background').style.display='none';
 	});
