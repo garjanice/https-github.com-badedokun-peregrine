@@ -1116,3 +1116,250 @@ a:hover {
     overflow: auto;
 }
 
+
+
+/** UserProfile Create CSS */
+
+
+.userProfileCreationFieldset-01{
+	position: relative;
+	width: 960px;
+	height: 330px;
+}
+.userProfileCreation-fname-text{
+	position: absolute;
+	top: 35px;
+	left: 150px;
+	}
+
+.userProfileCreation-fname-label {
+	position: absolute;
+	top: 50px;
+	left: 25px;
+	}
+
+.userProfileCreation-lname-text{
+	position: absolute;
+	top: 35px;
+	left: 535px;
+	}
+
+.userProfileCreation-lname-label {
+	position: absolute;
+	top: 50px;
+	left: 410px;
+	}
+
+.userProfileCreation-salutation-label {
+
+    position: absolute;
+    top: 120px;
+    left: 25px;
+
+    }
+
+
+.userProfileCreation-salutation-select {
+
+    position: absolute;
+    top: 120px;
+    left: 150px;
+    width: 50px;
+
+    }
+
+
+.userProfileCreation-title-label {
+
+    position: absolute;
+    top: 120px;
+    left: 225px;
+
+    }
+
+
+.userProfileCreation-title-select {
+
+    position: absolute;
+    top: 120px;
+    left: 300px;
+    width: 100px;
+
+    }
+
+.userProfileCreation-minitial-label {
+
+    position: absolute;
+    top: 120px;
+    left: 405px;
+
+    }
+
+
+.userProfileCreation-minitial-text {
+
+    position: absolute;
+    top: 105px;
+    left: 535px;
+    }
+
+.userProfileCreation-username-label {
+
+    position: absolute;
+    top: 190px;
+    left: 25px;
+
+    }
+
+
+.userProfileCreation-username-text {
+
+    position: absolute;
+    top: 175px;
+    left: 150px;
+    
+    }
+
+.userProfileCreation-available-button {
+
+    position: absolute;
+    top: 190px;
+    left: 420px;
+}
+
+
+.userProfileCreation-pword-text{
+	position: absolute;
+	top: 245px;
+	left: 150px;
+	}
+
+.userProfileCreation-pword-label {
+	position: absolute;
+	top: 260px;
+	left: 25px;
+	}
+
+.userProfileCreation-cpword-text{
+	position: absolute;
+	top: 245px;
+	left: 570px;
+	}
+
+.userProfileCreation-cpword-label {
+	position: absolute;
+	top: 260px;
+	left: 410px;
+	}
+
+
+
+
+
+/*.tenantAdjust-email{
+	position: absolute;
+	top: 470px;
+	left: 475px;
+	}
+.tenantAdjust-email-text{
+	position: absolute;
+	top: 455px;
+	left: 600px;
+	}
+*/
+.userProfileCreation-email{
+	position: absolute;
+	top: 400px;
+	left: 25px;
+	}
+.userProfileCreation-email-text{
+	position: absolute;
+	top: 385px;
+	left: 150px;
+	}
+
+
+.userProfileCreation-zipcode{
+	position: absolute;
+	top: 330px;
+	left: 475px;
+	}
+.userProfileCreation-zipcode-text{
+	position: absolute;
+	top: 315px;
+	left: 600px;
+	}
+
+.userProfileCreation-city{
+	position: absolute;
+	top: 330px;
+	left: 25px;
+	}
+.userProfileCreation-city-text{
+	position: absolute;
+	top: 330px;
+	left: 150px;
+    width: 175px;
+	}
+
+.userProfileCreation-state{
+	position: absolute;
+	top: 260px;
+	left: 475px;
+    
+	}
+.userProfileCreation-state-text{
+	position: absolute;
+	top: 260px;
+	left: 600px;
+    width: 175px;
+	}
+
+.userProfileCreation-country{
+	position: absolute;
+	top: 260px;
+	left: 25px;
+    
+	}
+.userProfileCreation-country-text{
+	position: absolute;
+	top: 260px;
+	left: 150px;
+    width: 175px;
+    
+	}
+.userProfileCreation-address2-text{
+	position: absolute;
+	top: 175px;
+	left: 150px;
+	}
+
+.userProfileCreation-address2{
+	position: absolute;
+	top: 190px;
+	left: 25px;
+	}
+.userProfileCreation-address1-text{
+	position: absolute;
+	top: 105px;
+	left: 150px;
+	}
+
+.userProfileCreation-address1{
+	position: absolute;
+	top: 120px;
+	left: 25px;
+	}
+
+
+.userProfileCreation-phone{
+	position: absolute;
+	top: 400px;
+	left: 475px;
+	}
+
+.userProfileCreation-phone-text{
+	position: absolute;
+	top: 385px;
+	left: 600px;
+	}
