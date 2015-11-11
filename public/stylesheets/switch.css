@@ -1,0 +1,34 @@
+
+.onoffswitch {
+    float: right;
+    margin-top: -5px;
+    position: relative; 
+    width: 62px;
+}
+
+.onoffswitch-inner {
+    background-color: #DDD; color: #444444;
+    padding: 3px 6px;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+    border-radius: 12px;
+}
+
+.onoffswitch-inner p {
+    font-size: 11px;
+    line-height: 13px;
+}
+
+.onoffswitch-switch {
+    display: block; width: 17px; margin: 1px;
+    background: #FFFFFF;
+    border: 1px solid transparent; border-radius: 12px;
+    position: absolute; top: 0; bottom: 0; right: 0;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+}
+
+.onoffswitch-switch.active {
+    right: 40px;
+}
+
