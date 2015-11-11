@@ -1,0 +1,98 @@
+
+
+@header()
+
+
+		<center>
+           <h1> Create New User Profile</h1>
+           
+           </br>
+           </br>
+           </br>
+        </center>
+        <center>
+			<form id="userProfileCreation" action="/userprofile/create/done" method="post">
+        		<fieldset class="fieldset-bordered userProfileCreationFieldset-01">
+	           		<h4 class="bordered-h5"> User Identification </h4> 
+                    </br>
+       	            
+                    <div>
+                        
+	                 	<label for="fname" class="label-style userProfileCreation-fname-label" >First Name:</label>
+	                 	<input type="text" id="fname" name="fname_string" size="30" class="input-style userProfileCreation-fname-text" >			
+                        
+                        <label for="lname" class="label-style userProfileCreation-lname-label" >Last Name:</label>
+	                 	<input type="text" id="lname" name="lname_string" size="30" class="input-style userProfileCreation-lname-text" >
+                        
+                        <label for="salutation" class="label-style userProfileCreation-salutation-label" >Salutation:</label>
+                        <select class="select-style userProfileCreation-salutation-select"  id="label" name="label_string"><option>placeholder</option></select>
+	                 	
+					    <label for="salutation" class="label-style userProfileCreation-title-label" >Title:</label>
+                        <select class="select-style userProfileCreation-title-select" id="title" name="title_string"><option>placeholder</option></select>
+                        
+                        <label for="minitial" class="label-style userProfileCreation-minitial-label" >Middle Initial:</label>
+	                 	<input type="text" id="minitial" name="minitial_string" size="30" class="input-style userProfileCreation-minitial-text" >
+                        
+                        <label for="minitial" class="label-style userProfileCreation-username-label" >Username:</label>
+	                 	<input type="text" id="username" name="username_string" size="30" class="input-style userProfileCreation-username-text" >
+                        
+                        <button type="button" class="userProfileCreation-available-button">Check Availability</button>
+                        
+                        <label for="pword" class="label-style userProfileCreation-pword-label" >Password:</label>
+	                 	<input type="text" id="pword" name="pword_string" size="25" class="input-style userProfileCreation-pword-text" >
+                        
+                        <label for="cpword" class="label-style userProfileCreation-cpword-label" >Confirm Password:</label>
+	                 	<input type="text" id="cpword" name="cpword_string" size="25" class="input-style userProfileCreation-cpword-text" >
+		                
+					</div>
+				
+				</fieldset>
+				<br>
+				<fieldset class="fieldset-bordered tenantFieldset-02">
+	           		<h4 class="bordered-h5"> Basic Information </h4>
+
+					<div>
+						<label for="address1" class="label-style userProfileCreation-address1" >Street 1:</label>
+	                 	<input type="text" id="address1" name="street1" class="input-style userProfileCreation-address1-text" size="77">
+					</div>
+					<div>
+						<label for="address2" class="label-style userProfileCreation-address2" >Street 2:</label>
+	                 	<input type="text" id="address2" name="street2" class="input-style userProfileCreation-address2-text" size="77" >
+					</div>
+					<div>
+						<label for="country" class="label-style userProfileCreation-country" >country:</label>
+                        <select  id="country" name="country" class="select-style userProfileCreation-country-text" ></select>
+	                 	<label for="state" class="label-style userProfileCreation-state" >state:</label>
+                        <select  id="state" name="state" class="select-style userProfileCreation-state-text" ></select>
+					</div>
+					<div>
+						<label for="city" class="label-style userProfileCreation-city" >City:</label>
+                        <select id="city" name="city" class="select-style userProfileCreation-city-text" ></select>
+	                 	<label for="zipcode" class="label-style userProfileCreation-zipcode" >Zipcode:</label>
+	                 	<input type="text" id="zipcode" name="zipcode" class="input-style userProfileCreation-zipcode-text" >
+					</div>
+					<div>
+						<label for="companyUrl" class="label-style userProfileCreation-email" >Email:</label>
+	                 	<input type="text" id="email" name="email_string" class="input-style userProfileCreation-email-text" >
+	                 	
+						<label for="ipaddress" class="label-style userProfileCreation-phone" >Phone:</label>
+	                 	<input type="text" id="phone" name="phone_string" class="input-style userProfileCreation-phone-text" >
+					</div>
+					
+                    <!--  locale, language, timezone and gender
+                    -->
+                    
+				</fieldset>
+			
+                <br>
+	           	<br>
+	           	   <button type="submit" class="button-style">Submit</button>
+	           		<br>
+
+	           	<br>
+	           	<br>
+			</form>
+		</center>
+		
+
+@footer()

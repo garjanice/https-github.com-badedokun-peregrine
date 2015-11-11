@@ -23,6 +23,7 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.db.util.ConnectionPool#create()
 	 */
+
     @Override
     public Session create() throws DriverException {
     	cluster = Cluster.builder().addContactPoint(REMOTE_CLUSTER)

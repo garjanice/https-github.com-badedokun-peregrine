@@ -65,7 +65,7 @@ public class CassandraDaoFactory extends DaoFactory {
 	 */
 	public PolicyDao getPolicyDao() {
 		    
-		    return null;
+		    return new CassandraPolicyDao();
 		  }
 	
 	/* (non-Javadoc)
@@ -112,7 +112,6 @@ public class CassandraDaoFactory extends DaoFactory {
 		    return new DropDownListReader();
 		  }	
 
-
 	/**
 	 * Returns connection to the database for use by calling APIs
 	 * @return the session for the connection to the database
@@ -120,7 +119,5 @@ public class CassandraDaoFactory extends DaoFactory {
 	public static Session getSession() {
 		return CassandraDaoFactory.connect();
 	}	
-
-
 
 }

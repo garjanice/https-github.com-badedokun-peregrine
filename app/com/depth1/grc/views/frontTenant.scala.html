@@ -1,0 +1,92 @@
+@import com.depth1.grc.model.Tenant
+@(tenants:List[Tenant], tenantSize:Integer)
+
+@header()
+        
+        <center>
+           <h1> Tenant</h1>
+           <h6> Front Page</h6>
+           <br>
+           <br>
+           <br>
+        </center>
+        <div class="margin-50">
+        	
+        		<div class="float-box">
+        			<input type="search" id="tenantListSearchText" class="searchText" onsearch="tenantListSearch()" value="Search Tenant">
+        		</div>
+        	
+        	
+        	
+	        <div >
+	          
+	           <div class="tableView">
+	              <p> <a class="blue-link" onclick="changeViewTenant(10)"> View 10</a> |
+	              <a class="blue-link" onclick="changeViewTenant(25)"> View 25</a> | 
+	              <a class="blue-link" onclick="changeViewTenant(50)"> View 50</a> </p>
+	           </div>
+	            <p> <b>Instructions:</b> Please select a Tenant and then View, Update, or Delete. </p>
+	        </div>
+	        <br>
+	        
+	        <div>
+	           
+	           <table id="tenantTable" class="frontTable">
+	              <thead>
+	                <tr>
+	                   <th id="tenantTableCol1" onclick="tenantListSort('tenantId')">Tenant Id</th>
+	        		   <th id="tenantTableCol2" onclick="tenantListSort('name')">Name</span></th>
+					   <th id="tenantTableCol3" onclick="tenantListSort('createdDate')">Created Date</th>
+					   <th id="tenantTableCol4" onclick="tenantListSort('serviceStartDate')">Service Start Date</th>
+					   <th id="tenantTableCol5" onclick="tenantListSort('status')">Status</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	              	 
+	                 @for(Tenant <- tenants) {
+				     <tr >
+					    <td>@Tenant.getTenantId</td>
+					    <td >@Tenant.getName</td>
+					    <td class="tableRowCenter">@Tenant.getCreateDateString</td>
+					    <td class="tableRowCenter">@Tenant.getServiceStartDateString</td>
+					    <td class="tableRowCenter">@Tenant.getStatus</td>
+				    </tr>
+				    }
+	              </tbody>
+	           </table>
+	        </div>
+        </div>
+        <center>
+           <div id="paginationArray">
+           </div>
+        </center>
+        <br>
+        <br>
+        <br>
+        <center>
+        	<table>
+            	<tr>
+                	<td>
+                		<input type="button" class="genericButton" onclick="goToTenantCreate()" value="Create">
+                	</td>
+                	<td>
+                		<input type="button" class="genericButton" onclick="goToTenantUpdate()" value="Update">
+                	</td>
+                	<td>
+                		<input type="button" class="genericButton" onclick="goToTenantView()" value="View">
+                	</td>
+                	<td>
+                		<input type="button" class="genericButton" onclick="deleteTenant()" value="Delete">
+                	</td>
+	          	</tr>
+           	</table>
+        </center>
+        <br>
+        <br>
+        <br>
+        <!-- Needed script to get the total number of Tenants -->
+        <script>
+           var tenantListSize = @tenantSize;
+        </script> 
+
+@footer()
