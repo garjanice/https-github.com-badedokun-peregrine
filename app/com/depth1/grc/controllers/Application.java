@@ -1370,6 +1370,7 @@ public class Application extends Controller {
 	public Result addUserProfile() {
 		Form<UserProfile> filledUserProfile = userProfileForm.bindFromRequest();
 		UserProfile criteria = filledUserProfile.get();
+		
 		try {
 			UserProfileDao userProfileDao = cassandraFactory.getUserProfileDao();
 					
@@ -1379,7 +1380,6 @@ public class Application extends Controller {
 					"Error occurred while creating risk assessment criteria ",
 					e);
 		}
-
 		return redirect("/userprofile/1/10/descendingName");
 	}
 	

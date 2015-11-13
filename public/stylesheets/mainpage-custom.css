@@ -1418,7 +1418,7 @@ a:hover {
     position: absolute;
     top: 120px;
     left: 150px;
-    width: 50px;
+    width: 90px;
 
     }
 
@@ -1437,7 +1437,26 @@ a:hover {
     position: absolute;
     top: 120px;
     left: 300px;
-    width: 100px;
+    width: 200px;
+
+    }
+
+
+.userProfileCreation-gender-label {
+
+    position: absolute;
+    top: 120px;
+    left: 505px;
+
+    }
+
+
+.userProfileCreation-gender-select {
+
+    position: absolute;
+    top: 120px;
+    left: 580px;
+    width: 50px;
 
     }
 
@@ -1445,7 +1464,7 @@ a:hover {
 
     position: absolute;
     top: 120px;
-    left: 405px;
+    left: 620px;
 
     }
 
@@ -1454,7 +1473,7 @@ a:hover {
 
     position: absolute;
     top: 105px;
-    left: 535px;
+    left: 750px;
     }
 
 .userProfileCreation-username-label {
@@ -1509,18 +1528,6 @@ a:hover {
 
 
 
-
-/*.tenantAdjust-email{
-	position: absolute;
-	top: 470px;
-	left: 475px;
-	}
-.tenantAdjust-email-text{
-	position: absolute;
-	top: 455px;
-	left: 600px;
-	}
-*/
 .userProfileCreation-email{
 	position: absolute;
 	top: 400px;
@@ -1618,3 +1625,44 @@ a:hover {
 	left: 600px;
 	}
 
+
+.userProfileCreation-locale{
+	position: absolute;
+	top: 465px;
+	left: 25px;
+    
+	}
+.userProfileCreation-locale-text{
+	position: absolute;
+	top: 465px;
+	left: 150px;
+    width: 175px;
+    
+	}
+
+.userProfileCreation-language{
+	position: absolute;
+	top: 465px;
+	left: 475px;
+    
+	}
+.userProfileCreation-language-text{
+	position: absolute;
+	top: 465px;
+	left: 600px;
+    width: 175px;
+	}
+
+
+.userProfileCreation-tzone{
+	position: absolute;
+	top: 545px;
+	left: 25px;
+    
+	}
+.userProfileCreation-tzone-text{
+	position: absolute;
+	top: 545px;
+	left: 150px;;
+    width: 630px;
+	}

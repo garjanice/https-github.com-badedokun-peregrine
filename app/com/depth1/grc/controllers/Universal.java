@@ -13,6 +13,8 @@ import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.util.Picture;
 import com.depth1.grc.views.html.index;
 import com.google.common.io.Files;
+import com.ibm.icu.util.TimeZone;
+import com.sun.org.apache.xerces.internal.xs.StringList;
 
 import play.Logger;
 import play.Play;
@@ -41,6 +43,7 @@ public class Universal extends Controller {
      * @return list of all states in the specified country
      */
     public Result getStateOption(String countryCode){
+    	
     	List<String> states = null;
     	try {
 			DropDownList dropDown = cassandraFactory.getDropDownList();
@@ -139,6 +142,20 @@ public class Universal extends Controller {
 		return ok(options.toString());
 	}
     
+	
+	public Result getTimezoneOption() {
+		
+		String[] zones = TimeZone.getAvailableIDs();
+		StringBuffer out = new StringBuffer();
+		
+		for (int i = 0; i < zones.length; i++) {
+			out.append("<option>" + zones[i] + "</option>"  );
+		}
+		
+		return ok(out.toString());
+	}
+	
+	
     /**
      * Retrieves picture from a URL path or directory
      * @param pictureName picture to retrieve

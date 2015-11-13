@@ -19,30 +19,42 @@
                     <div>
                         
 	                 	<label for="fname" class="label-style userProfileCreation-fname-label" >First Name:</label>
-	                 	<input type="text" id="fname" name="fname_string" size="30" class="input-style userProfileCreation-fname-text" >			
+	                 	<input type="text" id="fname" name="fname" size="30" class="input-style userProfileCreation-fname-text" >			
                         
                         <label for="lname" class="label-style userProfileCreation-lname-label" >Last Name:</label>
-	                 	<input type="text" id="lname" name="lname_string" size="30" class="input-style userProfileCreation-lname-text" >
+	                 	<input type="text" id="lname" name="lname" size="30" class="input-style userProfileCreation-lname-text" >
                         
                         <label for="salutation" class="label-style userProfileCreation-salutation-label" >Salutation:</label>
-                        <select class="select-style userProfileCreation-salutation-select"  id="label" name="label_string"><option>placeholder</option></select>
+                        <select class="select-style userProfileCreation-salutation-select"  id="label" name="label_string">                                     <option>Select</option>
+                            <option>Mr</option>
+                            <option>Mrs</option>
+                            <option>Dr</option>
+                            <option>Prof</option>
+                            <option>Sir</option>
+                        </select>
 	                 	
 					    <label for="salutation" class="label-style userProfileCreation-title-label" >Title:</label>
-                        <select class="select-style userProfileCreation-title-select" id="title" name="title_string"><option>placeholder</option></select>
+                        <select class="select-style userProfileCreation-title-select" id="title" name="title_string"></select>
+                        
+                        <label for="gender" class="label-style userProfileCreation-gender-label" >Gender:</label>
+                        <select class="select-style userProfileCreation-gender-select" id="gender" name="gender">
+                        <option>Male</option>
+                        <option>Female</option>
+                        </select>
                         
                         <label for="minitial" class="label-style userProfileCreation-minitial-label" >Middle Initial:</label>
-	                 	<input type="text" id="minitial" name="minitial_string" size="30" class="input-style userProfileCreation-minitial-text" >
+	                 	<input type="text" id="minitial" name="minitial_string" size="3" class="input-style userProfileCreation-minitial-text" >
                         
                         <label for="minitial" class="label-style userProfileCreation-username-label" >Username:</label>
-	                 	<input type="text" id="username" name="username_string" size="30" class="input-style userProfileCreation-username-text" >
+	                 	<input type="text" id="username" name="username" size="30" class="input-style userProfileCreation-username-text" >
                         
                         <button type="button" class="userProfileCreation-available-button">Check Availability</button>
                         
                         <label for="pword" class="label-style userProfileCreation-pword-label" >Password:</label>
-	                 	<input type="text" id="pword" name="pword_string" size="25" class="input-style userProfileCreation-pword-text" >
+	                 	<input type="password" id="pword" name="password" size="25" class="input-style userProfileCreation-pword-text" >
                         
                         <label for="cpword" class="label-style userProfileCreation-cpword-label" >Confirm Password:</label>
-	                 	<input type="text" id="cpword" name="cpword_string" size="25" class="input-style userProfileCreation-cpword-text" >
+	                 	<input type="password" id="cpword" name="confpassword" size="25" class="input-style userProfileCreation-cpword-text" >          
 		                
 					</div>
 				
@@ -72,15 +84,29 @@
 	                 	<input type="text" id="zipcode" name="zipcode" class="input-style userProfileCreation-zipcode-text" >
 					</div>
 					<div>
-						<label for="companyUrl" class="label-style userProfileCreation-email" >Email:</label>
-	                 	<input type="text" id="email" name="email_string" class="input-style userProfileCreation-email-text" >
+						<label for="email" class="label-style userProfileCreation-email" >Email:</label>
+	                 	<input type="text" id="email" name="email" class="input-style userProfileCreation-email-text" >
 	                 	
-						<label for="ipaddress" class="label-style userProfileCreation-phone" >Phone:</label>
+						<label for="phone" class="label-style userProfileCreation-phone" >Phone:</label>
 	                 	<input type="text" id="phone" name="phone_string" class="input-style userProfileCreation-phone-text" >
 					</div>
+                    
+                    <div>
+						<label for="locale" class="label-style userProfileCreation-locale" >Locale:</label>
+                        <select  id="locale" name="country" class="select-style userProfileCreation-locale-text" ></select>
+	                 	<label for="language" class="label-style userProfileCreation-language" >Language:</label>
+                        <select  id="language" name="language" class="select-style userProfileCreation-language-text" ></select>
+					</div>
 					
-                    <!--  locale, language, timezone and gender
-                    -->
+                    
+                    <div>
+						<label for="tzone" class="label-style userProfileCreation-tzone" >Timezone:</label>
+                        <select  id="tzone" name="tzone" class="select-style userProfileCreation-tzone-text" ></select>
+                   </div>
+			
+                  <div>					
+                        <input  type="hidden" name="status" value="active" ></input>
+                   </div>
                     
 				</fieldset>
 			

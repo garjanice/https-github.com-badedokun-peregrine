@@ -82,6 +82,16 @@ POST 	/userprofile/selected			com.depth1.grc.controllers.Application.setSelected
 
 GET  	/userprofile/create				com.depth1.grc.controllers.Application.showCreateUserProfile()
 
+GET		/userprofile/getTitles			com.depth1.grc.controllers.Universal.getTitleOption()
+
+GET		/userprofile/getCountries		com.depth1.grc.controllers.Universal.getCountryOption()
+
+GET		/userprofile/getLanguages		com.depth1.grc.controllers.Universal.getLanguageOption()
+
+GET		/userprofile/getTimezones		com.depth1.grc.controllers.Universal.getTimezoneOption()
+
+GET		/userprofile/getStates/:CCode	com.depth1.grc.controllers.Universal.getStateOption(CCode: String)
+
 POST  	/userprofile/create/done		com.depth1.grc.controllers.Application.addUserProfile()
 
 # Map static resources from the /public folder to the /assets URL path
