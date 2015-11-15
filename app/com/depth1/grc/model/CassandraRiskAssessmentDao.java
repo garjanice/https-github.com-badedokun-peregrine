@@ -1,21 +1,21 @@
 package com.depth1.grc.model;
 
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
-import com.datastax.driver.core.Statement;
-import com.datastax.driver.core.exceptions.DriverException;
-import com.datastax.driver.core.querybuilder.Delete;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
-import com.datastax.driver.core.querybuilder.Update;
-import play.Logger;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
-import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
+import com.datastax.driver.core.Statement;
+import com.datastax.driver.core.exceptions.DriverException;
+import com.datastax.driver.core.querybuilder.Delete;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
+import com.datastax.driver.core.querybuilder.Update;
+
+import play.Logger;
 
 public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 
@@ -28,7 +28,6 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	@Override
 	//not complete
 	public void createRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
-		Session dbSession = CassandraDaoFactory.connect();
 		try {					
 			Statement insert = QueryBuilder
 					.insertInto("grc", "riskassessment")
@@ -52,11 +51,11 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 					.value("trigger_event", riskAssessment.getTriggerEvent())
 					.value("risk_factor", riskAssessment.getRiskFactor())	
 					.value("consequence", riskAssessment.getConsequence());					
-					dbSession.execute(insert);
+			CassandraDaoFactory.getSession().execute(insert);
 		} catch (DriverException e) {
 			Logger.error("Error occurred while inserting data into the database ", e);
 		} finally {			
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}		
 	}
 
@@ -70,8 +69,6 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	@Override
 	public boolean updateRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
         boolean update = false;
-        Session dbSession = CassandraDaoFactory.connect();
-
         try {
             Update.Assignments updateRA = QueryBuilder
                     .update("grc", "riskassessment")
@@ -95,12 +92,12 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
             Statement updateDetails = updateRA
                     .where(eq("id", riskAssessment.getAssessmentId()));
 
-            dbSession.execute(updateDetails);
+            CassandraDaoFactory.getSession().execute(updateDetails);
             update = true;
         } catch (DriverException e) {
             Logger.error("Error occurred while attempting to update Risk Assessment ", e);
         } finally {
-            CassandraDaoFactory.close(dbSession);
+            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
         }
         return update;
 	}
@@ -115,16 +112,15 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	@Override
 	public boolean deleteRiskAssessment(RiskAssessment riskAssessment) throws DaoException {
         boolean del = false;
-        Session dbSession = CassandraDaoFactory.connect();
         try {
             Delete.Where delete = QueryBuilder.delete().from("grc", "riskassessment")
                     .where(eq("id", riskAssessment.getAssessmentId()));
-            dbSession.execute(delete);
+            CassandraDaoFactory.getSession().execute(delete);
             del = true;
         } catch (DriverException e) {
             Logger.error("Error occurred while attempting to delete Risk Assessment", e);
         } finally {
-            CassandraDaoFactory.close(dbSession);
+            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
         }
         return del;
 	}
@@ -181,12 +177,11 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	@Override
 	public List<RiskAssessment> listRiskAssessment() throws DaoException {
         List<RiskAssessment> listRA = new ArrayList<>();
-        Session dbSession = CassandraDaoFactory.connect();
         try {
             Statement listAllRA = QueryBuilder.select().all()
                     .from("grc", "riskassessment");
 
-            ResultSet result = dbSession.execute(listAllRA);
+            ResultSet result = CassandraDaoFactory.getSession().execute(listAllRA);
             if (result == null) {
                 return null;
             }
@@ -217,7 +212,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
         } catch (DriverException e) {
             Logger.error("Error occurred while retrieving list of Risk Assessments from database ", e);
         } finally {
-            CassandraDaoFactory.close(dbSession);
+            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
         }
 
         return listRA;
@@ -234,12 +229,11 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 	public List<RiskAssessment> listRiskAssessmentPagination(int numberOfItems, int page) throws DaoException {
         List<RiskAssessment> listRA = new ArrayList<>();
         List<RiskAssessment> listRAShort = new ArrayList<>();
-        Session dbSession = CassandraDaoFactory.connect();
         try {
             Statement listAllRA = QueryBuilder.select().all()
                     .from("grc", "riskassessment");
 
-            ResultSet result = dbSession.execute(listAllRA);
+            ResultSet result = CassandraDaoFactory.getSession().execute(listAllRA);
             if (result == null) {
                 return null;
             }
@@ -270,7 +264,7 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
         } catch (DriverException e) {
             Logger.error("Error occurred while retrieving list of Risk Assessments from database ", e);
         } finally {
-            CassandraDaoFactory.close(dbSession);
+            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
         }
         int start = numberOfItems * (page - 1);
         int end = numberOfItems * (page) - 1;

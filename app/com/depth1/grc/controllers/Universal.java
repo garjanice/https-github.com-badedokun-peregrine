@@ -33,7 +33,8 @@ import play.mvc.Result;
 public class Universal extends Controller {
 	
 	// create the required DAO Factory
-	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);	
+	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
+	static DaoFactory rdbFactory = DaoFactory.getDaoFactory(DaoFactory.MARIADB);
 
     /**
      * Retrieves states in a given country
@@ -138,6 +139,31 @@ public class Universal extends Controller {
 		}
 		return ok(options.toString());
 	}
+	
+    /**
+     * Retrieves world time zones from the data store.
+     * 
+     * @return list of world time zones
+     */
+	public Result getTimezoneOption() {
+		List<String> timezones = null;
+		try {
+			DropDownList dropDown = rdbFactory.getDropDownList();
+			timezones = dropDown.getTimezone();
+
+		} catch (DataException e) {
+			Logger.error("Error occurred while retrieving data ", e);
+		}
+
+		if (timezones == null) {
+			return null;
+		}
+		StringBuilder options = new StringBuilder();
+		for (int i = 0; i < timezones.size(); i++) {
+			options.append("<option value='" + timezones.get(i) + "'>" + timezones.get(i) + "</option>");
+		}
+		return ok(options.toString());
+	}	
     
     /**
      * Retrieves picture from a URL path or directory

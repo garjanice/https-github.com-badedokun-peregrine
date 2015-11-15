@@ -58,15 +58,18 @@ public class Application extends Controller {
 
 	// create the required DAO Factory
 	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
+	static DaoFactory rdbFactory = DaoFactory.getDaoFactory(DaoFactory.MARIADB);
 	final static Form<RiskAssessment> rAForm = Form.form(RiskAssessment.class);
 	static List<RiskAssessment> riskAssessments;
 	static RiskAssessment selectedRA;
 
 	public Result index() {
-		/*getCountry();
-		String countryCode = "US";
+		getCountry();
+		String countryCode = "us";
 		getState(countryCode);
-		getTitle();*/
+		getTitle();
+		getTimezone(); // time zone test data
+		
 		
 		String password = "here is my password";
 		String candidate = "here is my drowssap"; //here is my drowssap
@@ -236,8 +239,32 @@ public class Application extends Controller {
 		}
 		return ok();
 
-	}	
+	}
 	
+	/**
+	 * This method is used as a client to test getting data from the Cassandra
+	 * database It displays data it reads from the database on the console
+	 * 
+	 * @param session
+	 *            The established session to the cluster
+	 * @return a result in the future in an non-blocking fashion
+	 */
+	public static Result getTimezone() {
+		
+		try {
+			DropDownList dropDown = rdbFactory.getDropDownList();
+			List<String> timezones = dropDown.getTimezone();
+			//Collections.sort(titles);
+			for (String row : timezones) {
+				System.out.printf(" %s\n", row);						
+			}
+
+		} catch (DataException e) {
+
+		}
+		return ok();
+
+	}		
 	/**
 	 * This method is used as a client to test getting data from the Cassandra
 	 * database It displays data it reads from the database on the console
