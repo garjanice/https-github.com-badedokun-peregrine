@@ -66,13 +66,16 @@ public class Application extends Controller {
 	public Result index() {
 		getCountry();
 		String countryCode = "us";
+		String procedurePrefix = "p";
 		getState(countryCode);
-		getTitle();
-		getTimezone(); // time zone test data
+		//getTitle();
+		//getTimezone(); // time zone test data
+		Logger.info("Next Id: " + IdProducer.nextId());
+		Logger.info("The Procedure Id: " + IdProducer.nextStringId(procedurePrefix));
 		
 		
-		String password = "here is my password";
-		String candidate = "here is my drowssap"; //here is my drowssap
+		//String password = "here is my password";
+		//String candidate = "here is my drowssap"; //here is my drowssap
 		// Hash a password for the first time
 		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
 
