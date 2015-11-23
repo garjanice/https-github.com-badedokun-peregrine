@@ -10,8 +10,19 @@
            </br>
            </br>
         </center>
+
+
         <center>
 			<form id="userProfileCreation" action="/userprofile/create/done" method="post">
+                
+              <div id="popupTenantSelectionBox" class="pop-up-dialog" title="Select Tenant ID">
+              		<h2>Select the Tenant ID from the List</h2>
+  					<select id="popupTenantSelection" style="width:80%;height: auto; margin:0 auto;">
+      				</select>
+			   </div>
+			   <div id="popup_background" class="black_overlay"></div>
+  
+                
         		<fieldset class="fieldset-bordered userProfileCreationFieldset-01">
 	           		<h4 class="bordered-h5"> User Identification </h4> 
                     </br>
@@ -25,7 +36,7 @@
 	                 	<input type="text" id="lname" name="lname" size="30" class="input-style userProfileCreation-lname-text" >
                         
                         <label for="salutation" class="label-style userProfileCreation-salutation-label" >Salutation:</label>
-                        <select class="select-style userProfileCreation-salutation-select"  id="label" name="label_string">                                     <option>Select</option>
+                        <select class="select-style userProfileCreation-salutation-select"  id="salutation" name="salutation">                                                   <option>Select</option>
                             <option>Mr</option>
                             <option>Mrs</option>
                             <option>Dr</option>
@@ -34,21 +45,31 @@
                         </select>
 	                 	
 					    <label for="salutation" class="label-style userProfileCreation-title-label" >Title:</label>
-                        <select class="select-style userProfileCreation-title-select" id="title" name="title_string"></select>
+                        <select class="select-style userProfileCreation-title-select" id="title" name="title"></select>
                         
                         <label for="gender" class="label-style userProfileCreation-gender-label" >Gender:</label>
                         <select class="select-style userProfileCreation-gender-select" id="gender" name="gender">
+                        <option>Select</option>
                         <option>Male</option>
                         <option>Female</option>
                         </select>
                         
+                        <label for="tenantid" class="userProfileCreation-tenantId-label" >Tenant ID:</label>
+                        <input type="text" id="tenantId" name="tenantId" class="userProfileCreation-tenantId-input">
+                        <button id="tenantSearch" type="button"><span class="glyphicon glyphicon-search userProfileCreation-tenantId-button" ></span></button>
+                        
+                        
                         <label for="minitial" class="label-style userProfileCreation-minitial-label" >Middle Initial:</label>
-	                 	<input type="text" id="minitial" name="minitial_string" size="3" class="input-style userProfileCreation-minitial-text" >
+	                 	<input type="text" id="minitial" name="minitial" size="3" class="input-style userProfileCreation-minitial-text" >
                         
                         <label for="minitial" class="label-style userProfileCreation-username-label" >Username:</label>
 	                 	<input type="text" id="username" name="username" size="30" class="input-style userProfileCreation-username-text" >
                         
-                        <button type="button" class="userProfileCreation-available-button">Check Availability</button>
+                         <label for="pfname" class="label-style userProfileCreation-pname-label" >Preferred Name:</label>
+	                 	<input type="text" id="pfname" name="pfname" size="30" class="input-style userProfileCreation-pname-text" >
+                        
+                        
+<!--                        <button type="button" class="userProfileCreation-available-button">Check Availability</button>-->
                         
                         <label for="pword" class="label-style userProfileCreation-pword-label" >Password:</label>
 	                 	<input type="password" id="pword" name="password" size="25" class="input-style userProfileCreation-pword-text" >
@@ -60,7 +81,7 @@
 				
 				</fieldset>
 				<br>
-				<fieldset class="fieldset-bordered tenantFieldset-02">
+				<fieldset class="fieldset-bordered userProfileCreationFieldset-02">
 	           		<h4 class="bordered-h5"> Basic Information </h4>
 
 					<div>
@@ -101,12 +122,26 @@
                     
                     <div>
 						<label for="tzone" class="label-style userProfileCreation-tzone" >Timezone:</label>
-                        <select  id="tzone" name="tzone" class="select-style userProfileCreation-tzone-text" ></select>
+                        <select  id="tzone" name="timeZone" class="select-style userProfileCreation-tzone-text" ></select>
                    </div>
+                    
+                    
+                    <div>
+						<label for="status" class="label-style userProfileCreation-status" >Status:</label>
+                        <select  id="status" name="status" class="select-style userProfileCreation-status-dropdown" >
+                            <option></option>
+                            <option>Active</option>
+                            <option>Passive</option>
+                        </select>
+	                 	<label for="lod" class="label-style userProfileCreation-lod" >Line of defence:</label>
+                        <select  id="lod" name="lineofdefense" class="select-style userProfileCreation-lod-dropdown" >
+                            <option></option>
+                            <option>LOD 1</option>
+                            <option>LOD 2</option>
+                            <option>LOD 3</option>
+                        </select>
+					</div>
 			
-                  <div>					
-                        <input  type="hidden" name="status" value="active" ></input>
-                   </div>
                     
 				</fieldset>
 			

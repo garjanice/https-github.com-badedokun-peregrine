@@ -2,6 +2,9 @@ $(document).ready(function(){
     
     
     function getTitles(){
+        $('#title').find('option').remove();
+        $('#title').append('<option></option>');
+        
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET","getTitles");
         xhttp.send();
@@ -18,8 +21,8 @@ $(document).ready(function(){
     
     
     function getCountries(){
-        $('#state').find('option').remove();
-        $('#state').append('<option>select country</option>');
+        $('#country').find('option').remove();
+        $('#country').append('<option></option>');
         
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET","getCountries");
@@ -38,6 +41,10 @@ $(document).ready(function(){
     
 
     function getLanguages(){
+        
+        $('#language').find('option').remove();
+        $('#language').append('<option></option>');
+    
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET","getLanguages");
     xhttp.send();
@@ -55,6 +62,10 @@ $(document).ready(function(){
     
     
     function getTimeZones(){
+        
+                $('#tzone').find('option').remove();
+        $('#tzone').append('<option></option>');
+        
     var xhttp = new XMLHttpRequest();
     xhttp.open("GET","getTimezones");
     xhttp.send();
@@ -123,5 +134,70 @@ $(document).ready(function(){
     getCountries();
     getLanguages();
     getTimeZones();
+    
+    
+    $('#userProfileCreation').on("submit", function(event){
+       
+        //event.preventDefault();
+        
+        
+        function getCoordinates(){
+            
+            var state = $('#state option:selected').text();
+            if(state === '')
+            {
+                state = $('#state').val() ;
+            }
+            
+           var address =  $('#address1').val()+' '+$('#address2').val() + ' '+ $('#city').val() + ' '+ state + ' ' +
+               $('#country option:selected').text();
+            
+            address = address.split(' ').join('+');
+            
+            var geoCodeQuery = 'http://maps.google.com/maps/api/geocode/json?address='+address+'&sensor=false'
+                
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("GET",geoCodeQuery);
+            xhttp.send();
+            
+            xhttp.onreadystatechange = function(){
+            
+                if(xhttp.readyState == 4 && xhttp.status == 200){
+                        console.log(xhttp.responseText);
+                        var response = $.parseJSON(xhttp.responseText);
+                        var latitude = response.results[0].geometry.location.lat;
+                        var longitude  = response.results[0].geometry.location.lng;
+                    
+                    
+                        var latitudeInput = $("<input>")
+                                       .attr("type", "hidden")
+                                       .attr("name", "latitude").val(latitude);
+                    
+                        var longitudeInput = $("<input>")
+                                       .attr("type", "hidden")
+                                       .attr("name", "latitude").val(longitude);
+                    
+                        console.log(latitude);
+                        $('#userProfileCreation').append(latitudeInput);
+                        $('#userProfileCreation').append(longitudeInput);
+
+                   }
+            }
+            
+            
+        }
+
+        getCoordinates();
+        
+
+//        console.log("validate form");
+//        if(!isCreateRA_valid){
+//            $('html,body').animate({
+//                   scrollTop: $("#vmsg").offset().top
+//                });
+//            event.preventDefault();
+//        }
+
+    });
     
 });
