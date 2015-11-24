@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.datastax.driver.core.ResultSetFuture;
+import com.datastax.driver.core.Row;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.exceptions.QueryExecutionException;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
@@ -18,6 +19,7 @@ import com.datastax.driver.core.querybuilder.Select;
 import com.depth1.grc.model.CassandraDaoFactory;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.RdbDaoFactory;
+import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.common.Keyspace;
 
 import play.Logger;
@@ -253,7 +255,83 @@ public class DropDownListReader implements DropDownList {
 		}
 		return result;
 		
-	}		
+	}	
+	
+	/**
+     * Retrieves all countries of the world.
+     * 
+     * @return list of countries
+     * @exception DataException if errors occurs while retrieving data from the table
+     */
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> getLod() throws DataException {
+		final String cacheKey = "lods";
+		final String table = "lod";
+		final List<String> allLod = new ArrayList<>();
+		try {
+			final Object lods = Cache.get(cacheKey);
+			if (lods == null) {
+				ResultSetFuture results = DataReaderUtil.getAll(table);
+				if (results == null) {
+					return null;
+				}
+				for (Row row : results.getUninterruptibly()) {
+					String lod = row.getString("lod");
+					String description = row.getString("description");
+					String display = lod.concat(" ").concat(description);
+					allLod.add(display);
+				}
+				Cache.set(cacheKey, allLod);
+				return allLod;
+			} else {
+
+				return (List<String>) lods;
+
+			}
+		} catch (QueryExecutionException e) {
+			throw new DataException(e);
+		}
+	}
+	
+    /**
+     * Retrieves Line of Defense functions.
+     * 
+     * @return list of lines of defense functions
+     * @exception DataException if errors occurs while retrieving data from the table
+     */
+    @SuppressWarnings("unchecked")
+	public List<String> getLodFunction() throws DataException {
+		final String cacheKey = "lodFunction";
+		final String table = "lodfunction";
+		final List<String> allFunction = new ArrayList<>();
+		try {
+			final Object lodFunction = Cache.get(cacheKey);
+			if (lodFunction == null) {
+				ResultSetFuture results = DataReaderUtil.getAll(table);
+				if (results == null) {
+					return null;
+				}
+				for (Row row : results.getUninterruptibly()) {
+					String lod = row.getString("lod");
+					String function = row.getString("function");
+					String display = lod.concat(" ").concat(function);
+					allFunction.add(display);
+				}
+				Cache.set(cacheKey, allFunction);
+				return allFunction;
+			} else {
+
+				return (List<String>) lodFunction;
+
+			}
+		} catch (QueryExecutionException e) {
+			throw new DataException(e);
+		}
+
+	}     
+    	
 	
     /**
      * Creates a control principle.

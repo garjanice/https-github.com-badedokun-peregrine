@@ -72,6 +72,10 @@ public class Application extends Controller {
 		//getTimezone(); // time zone test data
 		Logger.info("Next Id: " + IdProducer.nextId());
 		Logger.info("The Procedure Id: " + IdProducer.nextStringId(procedurePrefix));
+		for (int i = 0; i < 15; i++) {
+			Logger.info("UUID: " + java.util.UUID.randomUUID());
+			
+		}
 		
 		
 		//String password = "here is my password";

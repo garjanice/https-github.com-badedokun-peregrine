@@ -4,6 +4,7 @@
 package com.depth1.grc.db.util;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This interface provides methods that return list of data to populate different drop down list
@@ -53,7 +54,23 @@ public interface DropDownList {
      * @return list of all time zones in the world
      * @exception DataException if errors occurs while retrieving data from the table
      */
-    public List<String> getTimezone() throws DataException;     
+    public List<String> getTimezone() throws DataException; 
+    
+    /**
+     * Retrieves Three Line of Defense and their descriptions.
+     * 
+     * @return list of lines of defense (LoD)
+     * @exception DataException if errors occurs while retrieving data from the table
+     */
+    public List<String> getLod() throws DataException;
+    
+    /**
+     * Retrieves Line of Defense functions.
+     * 
+     * @return list of lines of defense functions
+     * @exception DataException if errors occurs while retrieving data from the table
+     */
+    public List<String> getLodFunction() throws DataException;      
     
     /**
      * Creates a control principle.
