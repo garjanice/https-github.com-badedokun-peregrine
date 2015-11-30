@@ -23,7 +23,7 @@ public abstract class DaoFactory {
 	
 	 // List of DAO types supported by the factory
 	  public static final int CASSANDRA = 1;
-	  public static final int MYSQL = 2;
+	  public static final int MARIADB = 2;
 	  public static final int ORACLE = 3;
 	  public static final int XML = 4;
 
@@ -101,8 +101,8 @@ public abstract class DaoFactory {
 		    switch (whichFactory) {
 		      case CASSANDRA: 
 		          return new CassandraDaoFactory();
-		      case MYSQL: 
-		          return new NoSqlDaoFactory();       
+		      case MARIADB: 
+		          return new RdbDaoFactory();       
 		      case ORACLE: 
 		          return new NoSqlDaoFactory();      
 		      case XML: 

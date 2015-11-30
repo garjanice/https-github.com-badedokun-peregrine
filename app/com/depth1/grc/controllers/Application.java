@@ -93,6 +93,7 @@ public class Application extends Controller {
 
 	// create the required DAO Factory
 	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
+	static DaoFactory rdbFactory = DaoFactory.getDaoFactory(DaoFactory.MARIADB);
 	final static Form<RiskAssessment> rAForm = Form.form(RiskAssessment.class);
 	static List<RiskAssessment> riskAssessments;
 	static RiskAssessment selectedRA;
@@ -110,6 +111,132 @@ public class Application extends Controller {
 	final static Form<UserProfile> userProfileForm = Form.form(UserProfile.class);
 	
 	public Result index() {
+		getCountry();
+		String countryCode = "us";
+		String procedurePrefix = "p";
+		getState(countryCode);
+		//getTitle();
+		//getTimezone(); // time zone test data
+		Logger.info("Next Id: " + IdProducer.nextId());
+		Logger.info("The Procedure Id: " + IdProducer.nextStringId(procedurePrefix));
+		
+		
+		//String password = "here is my password";
+		//String candidate = "here is my drowssap"; //here is my drowssap
+		// Hash a password for the first time
+		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+
+		// gensalt's log_rounds parameter determines the complexity
+		// the work factor is 2**log_rounds, and the default is 10
+		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
+
+		// Check that an unencrypted password matches one that has
+		// previously been hashed
+		/*if (BCrypt.checkpw(candidate, hashed))
+			System.out.println("It matches");
+		else
+			System.out.println("It does not match");*/
+		
+		// user profile test data
+/*		UserProfile user = new UserProfile();
+		//user.setId(java.util.UUID.fromString("8b170dad-2ddf-4ab1-9509-ee7370a4f9f6"));
+		//user.setId(java.util.UUID.randomUUID());
+		user.setTenantId(IdProducer.nextId());
+		user.setFname("Bisi");
+		user.setLname("Adedokun");
+		user.setMinitial("BA");
+		user.setPfname("Bisi");
+		user.setTitle("Chief Architect");
+		user.setSalutation("Mr.");
+		user.setUsername("tester@acenonyx.com");
+		user.setPassword("secreT72");
+		user.setEmail("tester@acenonyx.com");		
+		user.setGender("Male");
+		user.setLineofdefense("Active");
+		user.setLanguage("en_US");
+		user.setLocale("en_US");
+		user.setTimeZone("GMT-5");
+		user.setStreet1("56 Wellington Rd");
+		user.setStreet2("Suite 2");
+		user.setCity("East Brunswick");
+		user.setState("NJ");
+		user.setProvince("  ");
+		user.setZipcode("08816");
+		user.setCountry("USA");
+		user.setLongitude("-74.416855");
+		user.setLatitude("40.455281");
+		String workPhone = "201-593-3518";
+		String mobilePhone = "732-874-7610";
+		String work = "Work";
+		String mobile = "Mobile";
+		Map<String, String> phones = new HashMap<String, String>();
+		phones.put(work, workPhone);
+		phones.put(mobile, mobilePhone);		
+		user.setPhones(phones);
+		user.setStatus("Active");
+
+		Logger.info("user profile populated ");
+		Logger.info("username = " + user.getUsername() + " password = " + user.getPassword());
+		*/
+		//createUserProfile(user);
+		//getUserProfile(user.getUsername(), user.getLname());
+	/*	
+		// Tenant test data
+		Tenant tenant = new Tenant();
+		String value = "10/03/2015";
+		String format = Messages.get("date.in.date.format");
+		Logger.info("The date format is: " + format);
+		try {
+			Timestamp date = DateUtility.toTimestamp(value, format);
+			tenant.setServiceStartDate(date);
+			Logger.info("service start date set to: " + date);
+			
+		} catch (ParseException p) {
+
+		}
+		//tenant.setId(java.util.UUID.randomUUID());
+		tenant.setId(UUID.fromString("6222a64e-4269-4c80-be23-8c8f3263d690"));
+		tenant.setName("Depth1, Inc.");
+		tenant.setType("Software");
+		tenant.setContactPersonName("Bisi Adedokun");
+		tenant.setContactPersonEmail("badedokun@acenonyx.com");
+		tenant.setCompanyUrl("http://www.acenonyx.com");
+		tenant.setStreet1("120 Chinabrook Circle"); //120 Chinabrook Circle
+		tenant.setStreet2("Suite 100"); //Suite 100
+		tenant.setCity("Morrisville"); //Morrisville
+		tenant.setState("NC"); //NC
+		tenant.setProvince("  ");
+		tenant.setZipcode("27560"); //27560
+		tenant.setCountry("USA");
+		tenant.setLongitude("-78.859630");
+		tenant.setLatitude("35.841293");
+		String mainPhone = "888-431-1119";
+		String directLine = "732-651-7610";
+		String main = "Main";
+		String direct = "Direct";
+		Map<String, String> bphones = new HashMap<String, String>();
+		Map<String, String> cphones = new HashMap<String, String>();
+		bphones.put(main, mainPhone);
+		bphones.put(direct, directLine);		
+		tenant.setPhones(bphones);
+		cphones.put(main, mainPhone);
+		cphones.put(direct, directLine);
+		tenant.setStatus("Active");
+		tenant.setContactPersonPhones(cphones);
+		tenant.setIpaddress("10.25.3.5");
+		long tenantId = 1443846887422L;
+		tenant.setTenantId(tenantId);
+		Logger.info("tenant profile populated ");
+		Logger.info("tenant ID: " + tenant.getTenantId() + ", tenant name: " + tenant.getName() + ", type: " + tenant.getType());
+		
+		//createTenant(tenant);
+		updateTenant(tenant);
+		//listTenant();
+		getTenant(tenant.getTenantId());
+		long tenant_Id = 1443847251573L;
+		//deleteTenant(tenant_Id);
+		String name = "Acenonyx, LLC";
+		getTenant(name);*/
 
 
 		return ok(index.render()); 
@@ -163,8 +290,32 @@ public class Application extends Controller {
 		}
 		return ok();
 
-	}	
+	}
 	
+	/**
+	 * This method is used as a client to test getting data from the Cassandra
+	 * database It displays data it reads from the database on the console
+	 * 
+	 * @param session
+	 *            The established session to the cluster
+	 * @return a result in the future in an non-blocking fashion
+	 */
+	public static Result getTimezone() {
+		
+		try {
+			DropDownList dropDown = rdbFactory.getDropDownList();
+			List<String> timezones = dropDown.getTimezone();
+			//Collections.sort(titles);
+			for (String row : timezones) {
+				System.out.printf(" %s\n", row);						
+			}
+
+		} catch (DataException e) {
+
+		}
+		return ok();
+
+	}		
 	/**
 	 * This method is used as a client to test getting data from the Cassandra
 	 * database It displays data it reads from the database on the console
