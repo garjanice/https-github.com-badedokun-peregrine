@@ -691,7 +691,10 @@ public class Application extends Controller {
 		return ok();
 	}		
 	*/
-	
+	/**
+	 *  Returns a list of tenants in the database
+	 * @return JSON object that is a list of Tenants in the database
+	 */
 	public Result getTenantNames(){
 		
 		TenantDao tenantDao = null;
@@ -866,7 +869,10 @@ public class Application extends Controller {
 		return redirect("/assets/pdf/RA.pdf");
 	}
 	
-	//Needs Comment
+	/**
+	 * Adds a Tenant to the database from form information
+	 * @return a redirect to the main tenant page
+	 */
 	public Result addTenant() {
 		Form<Tenant> filledTenant = tenantForm.bindFromRequest();
 		Tenant criteria = filledTenant.get();
@@ -1134,7 +1140,15 @@ public class Application extends Controller {
 		return ok();
 	}		
 	
-	//Needs Comment
+	/**
+	 * Shows the front page of the User Profile
+	 * 
+	 * @param page current page number for Pagination
+	 * @param view current number of items for Pagination
+	 * @param order current sorting order for Pagination
+	 * @param query any search query used to filter user profile list
+	 * @return page to display the front page of the User Profile
+	 */
 	public Result showFrontUserProfile(int page, int view, String order, String query){
 		int size = 0;
 		try {
@@ -1158,7 +1172,11 @@ public class Application extends Controller {
 			
 		return ok(frontUserProfile.render(userProfiles, size));
 	}
-	//Needs Comment
+	/**
+	 * Sets the the User Profile Selected on the Front Page as the selectedUserProfile
+	 * 
+	 * @return a message that the JSON was received ok
+	 */
 	public Result setSelectedUserProfile() {
 		
 		JsonNode node = request().body().asJson().get("val");
@@ -1173,12 +1191,20 @@ public class Application extends Controller {
 		selectedUserProfile = userProfiles.get(index);
 		return ok();
 	}
-	
+	/**
+	 * Shows the Create User Profile Page
+	 * 
+	 * @return User Prfofile Create Page
+	 */
 	public Result showCreateUserProfile() {
 		
 		return ok(createUserProfile.render());
 	}
-	//Needs Comment
+	/**
+	 * Adds a User Profile to the Database
+	 * 
+	 * @return redirect to the User Profile Front Page
+	 */
 	public Result addUserProfile() {
 		Form<UserProfile> filledUserProfile = userProfileForm.bindFromRequest();
 		UserProfile criteria = filledUserProfile.get();
