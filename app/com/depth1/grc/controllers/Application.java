@@ -110,127 +110,7 @@ public class Application extends Controller {
 	final static Form<UserProfile> userProfileForm = Form.form(UserProfile.class);
 	
 	public Result index() {
-		/*getCountry();
-		String countryCode = "US";
-		getState(countryCode);
-		getTitle();*/
-		
-		String password = "here is my password";
-		String candidate = "here is my drowssap"; //here is my drowssap
-		// Hash a password for the first time
-		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
 
-		// gensalt's log_rounds parameter determines the complexity
-		// the work factor is 2**log_rounds, and the default is 10
-		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
-
-		// Check that an unencrypted password matches one that has
-		// previously been hashed
-		/*if (BCrypt.checkpw(candidate, hashed))
-			System.out.println("It matches");
-		else
-			System.out.println("It does not match");*/
-		
-		// user profile test data
-/*		UserProfile user = new UserProfile();
-		//user.setId(java.util.UUID.fromString("8b170dad-2ddf-4ab1-9509-ee7370a4f9f6"));
-		//user.setId(java.util.UUID.randomUUID());
-		user.setTenantId(IdProducer.nextId());
-		user.setFname("Bisi");
-		user.setLname("Adedokun");
-		user.setMinitial("BA");
-		user.setPfname("Bisi");
-		user.setTitle("Chief Architect");
-		user.setSalutation("Mr.");
-		user.setUsername("tester@acenonyx.com");
-		user.setPassword("secreT72");
-		user.setEmail("tester@acenonyx.com");		
-		user.setGender("Male");
-		user.setLineofdefense("Active");
-		user.setLanguage("en_US");
-		user.setLocale("en_US");
-		user.setTimeZone("GMT-5");
-		user.setStreet1("56 Wellington Rd");
-		user.setStreet2("Suite 2");
-		user.setCity("East Brunswick");
-		user.setState("NJ");
-		user.setProvince("  ");
-		user.setZipcode("08816");
-		user.setCountry("USA");
-		user.setLongitude("-74.416855");
-		user.setLatitude("40.455281");
-		String workPhone = "201-593-3518";
-		String mobilePhone = "732-874-7610";
-		String work = "Work";
-		String mobile = "Mobile";
-		Map<String, String> phones = new HashMap<String, String>();
-		phones.put(work, workPhone);
-		phones.put(mobile, mobilePhone);		
-		user.setPhones(phones);
-		user.setStatus("Active");
-
-		Logger.info("user profile populated ");
-		Logger.info("username = " + user.getUsername() + " password = " + user.getPassword());
-		*/
-		//createUserProfile(user);
-		//getUserProfile(user.getUsername(), user.getLname());
-	/*	
-		// Tenant test data
-		Tenant tenant = new Tenant();
-		String value = "10/03/2015";
-		String format = Messages.get("date.in.date.format");
-		Logger.info("The date format is: " + format);
-		try {
-			Timestamp date = DateUtility.toTimestamp(value, format);
-			tenant.setServiceStartDate(date);
-			Logger.info("service start date set to: " + date);
-			
-		} catch (ParseException p) {
-
-		}
-		//tenant.setId(java.util.UUID.randomUUID());
-		tenant.setId(UUID.fromString("6222a64e-4269-4c80-be23-8c8f3263d690"));
-		tenant.setName("Depth1, Inc.");
-		tenant.setType("Software");
-		tenant.setContactPersonName("Bisi Adedokun");
-		tenant.setContactPersonEmail("badedokun@acenonyx.com");
-		tenant.setCompanyUrl("http://www.acenonyx.com");
-		tenant.setStreet1("120 Chinabrook Circle"); //120 Chinabrook Circle
-		tenant.setStreet2("Suite 100"); //Suite 100
-		tenant.setCity("Morrisville"); //Morrisville
-		tenant.setState("NC"); //NC
-		tenant.setProvince("  ");
-		tenant.setZipcode("27560"); //27560
-		tenant.setCountry("USA");
-		tenant.setLongitude("-78.859630");
-		tenant.setLatitude("35.841293");
-		String mainPhone = "888-431-1119";
-		String directLine = "732-651-7610";
-		String main = "Main";
-		String direct = "Direct";
-		Map<String, String> bphones = new HashMap<String, String>();
-		Map<String, String> cphones = new HashMap<String, String>();
-		bphones.put(main, mainPhone);
-		bphones.put(direct, directLine);		
-		tenant.setPhones(bphones);
-		cphones.put(main, mainPhone);
-		cphones.put(direct, directLine);
-		tenant.setStatus("Active");
-		tenant.setContactPersonPhones(cphones);
-		tenant.setIpaddress("10.25.3.5");
-		long tenantId = 1443846887422L;
-		tenant.setTenantId(tenantId);
-		Logger.info("tenant profile populated ");
-		Logger.info("tenant ID: " + tenant.getTenantId() + ", tenant name: " + tenant.getName() + ", type: " + tenant.getType());
-		
-		//createTenant(tenant);
-		updateTenant(tenant);
-		//listTenant();
-		getTenant(tenant.getTenantId());
-		long tenant_Id = 1443847251573L;
-		//deleteTenant(tenant_Id);
-		String name = "Acenonyx, LLC";
-		getTenant(name);*/
 
 		return ok(index.render()); 
 	}
@@ -332,14 +212,7 @@ public class Application extends Controller {
 	
 
 	/**
-
-	 * @param tenant The tenant to create
-	 * @return Result of the tenant creation
-
-	 * @param RiskAssessment
-	 *            The RA criteria to create
 	 * @return the result of the RAC creation
-
 	 */
 	public Result addRiskAssessment() {
 		Form<RiskAssessment> filledRA = rAForm.bindFromRequest();
@@ -356,7 +229,7 @@ public class Application extends Controller {
 	}
 	
 	/**
-	 * Creates a tenant profile
+	 * Updates a tenant profile
 	 * @param tenant Tenant to create
 	 * @return Result of the tenant created
 	 */
@@ -372,9 +245,9 @@ public class Application extends Controller {
 	}
 	
 	/**
-	 * Creates a user profile
-	 * @param user User to create
-	 * @return Result of the user created
+	 * Deletes a Tenant
+	 * @param tenantId is the id of the tenant to delete
+	 * @return Result of the delete tenant
 	 */
 	public static Result deleteTenant(long tenantId) {
 		boolean deleted = false;
@@ -841,221 +714,8 @@ public class Application extends Controller {
 		pdf.printRiskAssessment(selectedRA);
 		return redirect("/assets/pdf/RA.pdf");
 	}
-	/**
-	 * @param Policy
-	 *
-	 * @return
-	 */
-	public Result createPolicy() {
-		// create form object from the request
-		Form<Policy> filledPolicy = policyForm.bindFromRequest();
-		// check for required and validate input fields
-		// TODO : Validate input fields for Date and Strings
-		if (filledPolicy.hasErrors()) {
-			Logger.error("The error in the form are " + filledPolicy.errorsAsJson());
-			return badRequest(filledPolicy.errorsAsJson());
-		}
-		// Bind policy object with the form object
-		Policy criteria = filledPolicy.get();
-		System.out.println("Here it is: " + criteria.getDescription());
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			// create policy on DB
-			policyDao.createPolicy(criteria);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy ", e);
-		}
-		if (filledPolicy.field("policy-body").value() != null) {
-			savePolicyBodyDocument(criteria.getName(), filledPolicy.field("policy-body"));
-		}
-		return redirect("/policy");
-	}
 	
-	private void savePolicyBodyDocument(String fileName, Field policyBody) {
-		try {
-			//TODO: Replace the path with path on server for file storage
-			String dirString = "public/policyDocuments/";
-			Path dirPath = Paths.get(dirString);
-			if(Files.notExists(dirPath)) {
-				Files.createDirectory(dirPath);				
-			}
-			Path filePath = Paths.get(dirString + fileName);
-			File policyDoc = filePath.toFile();
-			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(policyDoc)),true); 
-			//flushing the buffer after file-write 
-			writer.print(Jsoup.parse(policyBody.value()).text());
-			writer.close();
-			Logger.info("Policy Body Documented at " + dirString + fileName);
-		}
-		catch (IOException e) {
-			Logger.error("Error while storing the policy body document " + e);
-		}
-	}
-
-	public Result updatePolicy() {
-		// create form object from the request
-		Form<Policy> filledPolicy = policyForm.bindFromRequest();
-		// check for required and validate input fields
-		// TODO : Validate input fields for Date and Strings
-		if (filledPolicy.hasErrors()) {
-			Logger.error("The error in the form are " + filledPolicy.errorsAsJson());
-			return badRequest(filledPolicy.errorsAsJson());
-		}
-		// Bind policy object with the form object
-		Policy criteria = filledPolicy.get();
-		System.out.println("Here it is: " + criteria.getDescription());
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			// create policy on DB
-			policyDao.updatePolicy(criteria.getId(), criteria);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy ", e);
-		} catch (IllegalArgumentException e) {
-			Logger.error("Invalid UUID");
-			return badRequest("Invalid UUID");
-		}
-
-		return redirect("/policy");
-	}
-		
-	public Result deletePolicy(String policyId) {
-		//Logger.error("correct");
-		//call cassandra policy dao
-		boolean result = false;
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			result = policyDao.deletePolicy(policyId);
-			//System.out.println("COMPLETED result = " + result );
-		} catch (DaoException e) {
-			System.out.println("ERROR OCCURED");
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-	}
-		
-		return ok(deletePolicy.render(policies));
-		
-		//return TODO;
-	}
-	public Result restorePolicy(String policyId) {
-		//Logger.error("correct");
-		//call cassandra policy dao
-		boolean result = false;
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			result = policyDao.restorePolicy(policyId);
-			//System.out.println("COMPLETED result = " + result );
-		} catch (DaoException e) {
-			System.out.println("ERROR OCCURED");
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-	}
-		
-		return ok(restorePolicy.render(policies));
-		
-		//return TODO;
-	}
-	
-	public Result showPolicyListPage(int page, int view, String order, String query){
-		int policySize = 0;
-		PolicyUtil policyUtil = new PolicyUtil();
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			policies = policyDao.viewAllPolicy();
-			policySize = policies.size();
-			if(query.compareTo("")!= 0){
-				policies = policyUtil.filterDataByQuery(policies, query);
-				policySize = policies.size();
-				
-			}
-			if(policySize > 0){
-				policies = policyUtil.sortPolicy(policies, order);
-				policies = policyUtil.paginatePolicy(policies, view, page);
-			}
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-		    
-		}
-
-		return ok(policyListPage.render(policies, policySize));
-	}
-
-	public Result showCreatePolicyPage() {
-
-		return ok(createPolicy.render(policyForm));
-	}
-
-	public Result showCreatePolicyEditorPage() {
-
-		// return ok(viewPolicy.render(selectedPolicy));
-		return ok();
-	}
-
-	public Result showViewPolicyPage(UUID id) {		
-		//String filepath = "documents/test.pdf";
-		//return ok(new java.io.File(filepath));
-		PolicyDao policyDao;
-		try {
-			policyDao = cassandraFactory.getPolicyDao();
-			final Policy policy = policyDao.viewPolicyById(id);
-			//File policyBodyFile = new java.io.File("public/policyDocuments/"+policy.getName());
-			String policyBody = "";
-			try{policyBody = new String(Files.readAllBytes(Paths.get("public/policyDocuments/" + policy.getName())));}
-			catch(IOException e){
-				Logger.error("Error reading policy body file into string: ", e);
-			}
-			return ok(viewPolicy.render(policy, policyBody));
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy Front Page: ", e);
-		}
-		return ok();
-
-
-	}
-
-	public Result showUpdatePolicyPage(UUID id) {
-		// return ok(updatePolicy.render(selectedPolicy));
-		PolicyDao policyDao;
-		try {
-			policyDao = cassandraFactory.getPolicyDao();
-			final Policy policy = policyDao.viewPolicyById(id);
-			Form<Policy> filledForm = policyForm.fill(policy);
-			return ok(updatePolicy.render(policy));
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-		}
-		return ok();
-	}
-
-	// remove this later, we may not have a specific delete policy page
-	public Result showDeletePolicyPage() {
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			policies = policyDao.viewAllPolicy();
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-		}
-
-		return ok(deletePolicy.render(policies));
-		
-	}
-	
-	public Result showRestorePolicyPage(){
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			policies = policyDao.viewAllDeletedPolicy();
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-		}
-
-		return ok(restorePolicy.render(policies));
-	}
-
-	public Result downloadPolicy(String name){
-		String filepath = "public/policyDocuments/" + name;
-		return ok(new java.io.File(filepath));
-
-	}
-	
-	
-	
+	//Needs Comment
 	public Result addTenant() {
 		Form<Tenant> filledTenant = tenantForm.bindFromRequest();
 		Tenant criteria = filledTenant.get();
@@ -1323,6 +983,7 @@ public class Application extends Controller {
 		return ok();
 	}		
 	
+	//Needs Comment
 	public Result showFrontUserProfile(int page, int view, String order, String query){
 		int size = 0;
 		try {
@@ -1346,7 +1007,7 @@ public class Application extends Controller {
 			
 		return ok(frontUserProfile.render(userProfiles, size));
 	}
-	
+	//Needs Comment
 	public Result setSelectedUserProfile() {
 		
 		JsonNode node = request().body().asJson().get("val");
@@ -1366,7 +1027,7 @@ public class Application extends Controller {
 		
 		return ok(createUserProfile.render());
 	}
-	
+	//Needs Comment
 	public Result addUserProfile() {
 		Form<UserProfile> filledUserProfile = userProfileForm.bindFromRequest();
 		UserProfile criteria = filledUserProfile.get();
@@ -1376,7 +1037,7 @@ public class Application extends Controller {
 			userProfileDao.createUserProfile(criteria);
 		} catch (DaoException e) {
 			Logger.error(
-					"Error occurred while creating risk assessment criteria ",
+					"Error occurred while creating user profile criteria ",
 					e);
 		}
 
