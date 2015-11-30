@@ -1378,8 +1378,15 @@ a:hover {
 .userProfileCreationFieldset-01{
 	position: relative;
 	width: 960px;
-	height: 330px;
+	height: 415px;
 }
+
+.userProfileCreationFieldset-02{
+	position: relative;
+	width: 960px;
+	height: 700px;
+}
+
 .userProfileCreation-fname-text{
 	position: absolute;
 	top: 35px;
@@ -1418,7 +1425,7 @@ a:hover {
     position: absolute;
     top: 120px;
     left: 150px;
-    width: 50px;
+    width: 90px;
 
     }
 
@@ -1437,15 +1444,17 @@ a:hover {
     position: absolute;
     top: 120px;
     left: 300px;
-    width: 100px;
+    width: 200px;
 
     }
+
+
 
 .userProfileCreation-minitial-label {
 
     position: absolute;
     top: 120px;
-    left: 405px;
+    left: 520px;
 
     }
 
@@ -1454,13 +1463,14 @@ a:hover {
 
     position: absolute;
     top: 105px;
-    left: 535px;
+    left: 650px;
+    width: 100px;
     }
 
 .userProfileCreation-username-label {
 
     position: absolute;
-    top: 190px;
+    top: 275px;
     left: 25px;
 
     }
@@ -1469,58 +1479,102 @@ a:hover {
 .userProfileCreation-username-text {
 
     position: absolute;
-    top: 175px;
+    top: 260px;
     left: 150px;
     
     }
 
+
+.userProfileCreation-pname-text{
+	position: absolute;
+	top: 260px;
+	left: 575px;
+    width: 200px;
+	}
+
+.userProfileCreation-pname-label {
+	position: absolute;
+	top: 275px;
+	left: 410px;
+	}
+
+.userProfileCreation-tenantId-input {
+
+    position: absolute;
+    top: 190px;
+    left: 150px;
+}
+
+.userProfileCreation-tenantId-label {
+
+    position: absolute;
+    top: 190px;
+    left: 45px;
+}
+
+.userProfileCreation-tenantId-button {
+
+    position: absolute;
+    top: 190px;
+    left: 330px;
+}
+
+
+
+.userProfileCreation-gender-label {
+
+    position: absolute;
+    top: 190px;
+    left: 500px;
+
+    }
+
+
+.userProfileCreation-gender-select {
+
+    position: absolute;
+    top: 190px;
+    left: 575px;
+    width: 100px;
+
+    }
+/*
 .userProfileCreation-available-button {
 
     position: absolute;
     top: 190px;
     left: 420px;
 }
+*/
 
 
 .userProfileCreation-pword-text{
 	position: absolute;
-	top: 245px;
+	top: 345px;
 	left: 150px;
 	}
 
 .userProfileCreation-pword-label {
 	position: absolute;
-	top: 260px;
+	top: 360px;
 	left: 25px;
 	}
 
 .userProfileCreation-cpword-text{
 	position: absolute;
-	top: 245px;
+	top: 345px;
 	left: 570px;
 	}
 
 .userProfileCreation-cpword-label {
 	position: absolute;
-	top: 260px;
+	top: 360px;
 	left: 410px;
 	}
 
 
 
 
-
-/*.tenantAdjust-email{
-	position: absolute;
-	top: 470px;
-	left: 475px;
-	}
-.tenantAdjust-email-text{
-	position: absolute;
-	top: 455px;
-	left: 600px;
-	}
-*/
 .userProfileCreation-email{
 	position: absolute;
 	top: 400px;
@@ -1618,3 +1672,71 @@ a:hover {
 	left: 600px;
 	}
 
+
+.userProfileCreation-locale{
+	position: absolute;
+	top: 465px;
+	left: 25px;
+    
+	}
+.userProfileCreation-locale-text{
+	position: absolute;
+	top: 465px;
+	left: 150px;
+    width: 175px;
+    
+	}
+
+.userProfileCreation-language{
+	position: absolute;
+	top: 465px;
+	left: 475px;
+    
+	}
+.userProfileCreation-language-text{
+	position: absolute;
+	top: 465px;
+	left: 600px;
+    width: 175px;
+	}
+
+
+.userProfileCreation-tzone{
+	position: absolute;
+	top: 545px;
+	left: 25px;
+    
+	}
+.userProfileCreation-tzone-text{
+	position: absolute;
+	top: 545px;
+	left: 150px;;
+    width: 630px;
+	}
+
+.userProfileCreation-status{
+	position: absolute;
+	top: 630px;
+	left: 25px;
+    
+	}
+.userProfileCreation-status-dropdown{
+	position: absolute;
+	top: 630px;
+	left: 150px;
+    width: 175px;
+    
+	}
+
+.userProfileCreation-lod{
+	position: absolute;
+	top: 630px;
+	left: 475px;
+    
+	}
+.userProfileCreation-lod-dropdown{
+	position: absolute;
+	top: 630px;
+	left: 600px;
+    width: 175px;
+	}
