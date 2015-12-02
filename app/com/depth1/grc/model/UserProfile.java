@@ -3,16 +3,19 @@
  */
 package com.depth1.grc.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
 import com.datastax.driver.core.utils.UUIDs;
 
+
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
+
 
 /**
  * This class is the business object for creating, updating, deleting, viewing, and finding a user.<br> 
@@ -22,6 +25,7 @@ import play.data.validation.Constraints.Required;
 public class UserProfile {
 	
     private UUID id;
+
     @Required
     private long tenantId;
     @Required
@@ -127,6 +131,7 @@ public class UserProfile {
 	 * @param username the username to set
 	 */
 	public void setUsername(String username) {
+
 		this.username = username.toLowerCase();
 	}
 	/**
@@ -151,6 +156,7 @@ public class UserProfile {
 	 * @param emailAddress the emailAddress to set
 	 */
 	public void setEmail(String email) {
+
 		this.email = email.toLowerCase();
 	}
 
@@ -228,6 +234,7 @@ public class UserProfile {
 	/**
 	 * @param street2 the street2 to set
 	 */
+
 	public void setStreet2(String street2) {
 		this.street2 = street2;
 	}
@@ -363,7 +370,6 @@ public class UserProfile {
 	public void setPhones(Map<String, String> phones) {
 		this.phones = phones;
 	}
-	
     /**
 	 * @return the minitial
 	 */

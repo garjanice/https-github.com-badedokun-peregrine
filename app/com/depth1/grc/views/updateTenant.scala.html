@@ -1,0 +1,133 @@
+@import com.depth1.grc.model.Tenant
+@(tenant:Tenant)
+
+
+@header()
+
+
+		<center>
+           <h1> Update Tenant</h1>
+           
+           </br>
+           </br>
+           </br>
+        </center>
+        <center>
+			<form id="tenantCreation" action="/tenant/update/done" method="post">
+        		<fieldset class="fieldset-bordered tenantFieldset-01">
+	           		<h4 class="bordered-h5"> Identification </h4> 
+	               	<div>
+	                 	<label for="type" class="label-style tenantAdjust-type" >Type:</label>
+	                 	<input type="text" id="type" name="type" size="80" class="input-style tenantAdjust-type-text" value="@tenant.getType">
+					</div>
+					<div>
+						<label for="createDate" class="label-style tenantAdjust-createDate" >Create Date:</label>
+	                 	<input type="text" id="createDate" name="" class="input-style tenantAdjust-createDate-text" value="@tenant.getCreateDateString">
+						<label for="serviceStartDate" class="label-style tenantAdjust-serviceStartDate" >Service Start Date:</label>
+	                 	<input type="text" id="serviceStartDate" name="serviceStartDateString" class="input-style tenantAdjust-serviceStartDate-text" value="@tenant.getServiceStartDateString">
+					</div>
+					<div>
+						<label for="status" class="label-style tenantAdjust-status" >Status:</label>
+	                 	<input type="radio" id="status" name="status" class="input-style tenantAdjust-status-active" value="Active" > 
+	                 	<p class="tenantAdjust-status-active-text">Active</p> 
+	                 	<input type="radio" id="status" name="status" class="input-style tenantAdjust-status-resolved" value="Resolved" >
+	                 	<p class="tenantAdjust-status-resolved-text"> Resolved </p>
+	                 	
+					</div>
+				</fieldset>
+				<br>
+				<fieldset class="fieldset-bordered tenantFieldset-02">
+	           		<h4 class="bordered-h5"> Basic Information </h4>
+					<div>
+						<label for="name" class="label-style tenantAdjust-name" >Name:</label>
+	                 	<input type="text" id="name" name="name" class="input-style tenantAdjust-name-text" size="80" value="@tenant.getName">
+
+					</div>
+					<div>
+						<label for="address1" class="label-style tenantAdjust-address1" >Street 1:</label>
+	                 	<input type="text" id="address1" name="street1" class="input-style tenantAdjust-address1-text" size="80" value="@tenant.getStreet1">
+					</div>
+					<div>
+						<label for="address2" class="label-style tenantAdjust-address2" >Street 2:</label>
+	                 	<input type="text" id="address2" name="street2" class="input-style tenantAdjust-address2-text" size="80" value="@tenant.getStreet2">
+					</div>
+					<div>
+						<label for="state" class="label-style tenantAdjust-state" >State/Province:</label>
+	                 	<input type="text" id="state" name="state" class="input-style tenantAdjust-state-text" value="@tenant.getState">
+	                 	<label for="country" class="label-style tenantAdjust-country" >Country:</label>
+	                 	<input type="text" id="country" name="country" class="input-style tenantAdjust-country-text" value="@tenant.getCountry">
+					</div>
+					<div>
+						<label for="city" class="label-style tenantAdjust-city" >City:</label>
+	                 	<input type="text" id="city" name="city" class="input-style tenantAdjust-city-text" value="@tenant.getCity">
+	                 	<label for="zipcode" class="label-style tenantAdjust-zipcode" >Zipcode:</label>
+	                 	<input type="text" id="zipcode" name="zipcode" class="input-style tenantAdjust-zipcode-text" value="@tenant.getZipcode">
+					</div>
+					<div>
+						<label for="companyUrl" class="label-style tenantAdjust-companyURL" >Company URL:</label>
+	                 	<input type="text" id="companyUrl" name="companyUrl" class="input-style tenantAdjust-companyURL-text" value="@tenant.getCompanyUrl">
+	                 	
+						<label for="ipaddress" class="label-style tenantAdjust-ipAddress" >IP Address:</label>
+	                 	<input type="text" id="ipaddress" name="ipaddress" class="input-style tenantAdjust-ipAddress-text" value="@tenant.getIpaddress" >
+					</div>
+					<div>
+						<label for="contactPersonPhone" class="label-style tenantAdjust-PhoneMain" >Phone Numbers</label>
+						<label for="contactPersonPhone" class="label-style tenantAdjust-PhoneNumberMain" >Names</label>
+	                 	
+	                 	<input type="text" id="contactPersonPhone1" name="phoneName5" class="input-style tenantAdjust-Phone5-text" value="@tenant.getPhoneName5">
+						<input type="text" id="contactPersonPhoneNumber1" name="phoneNumber5" class="input-style tenantAdjust-PhoneNumber5-text" value="@tenant.getPhoneNumber5">
+						<input type="text" id="contactPersonPhone2" name="phoneName6" class="input-style tenantAdjust-Phone6-text" value="@tenant.getPhoneName6">
+						<input type="text" id="contactPersonPhoneNumber2" name="phoneNumber6" class="input-style tenantAdjust-PhoneNumber6-text" value="@tenant.getPhoneNumber6">
+						<input type="text" id="contactPersonPhone3" name="phoneName7" class="input-style tenantAdjust-Phone7-text" value="@tenant.getPhoneName7">
+						<input type="text" id="contactPersonPhoneNumber3" name="phoneNumber7" class="input-style tenantAdjust-PhoneNumber7-text" value="@tenant.getPhoneNumber7">
+						<input type="text" id="contactPersonPhone4" name="phoneName8" class="input-style tenantAdjust-Phone8-text" value="@tenant.getPhoneName8">
+						<input type="text" id="contactPersonPhoneNumber4" name="phoneNumber8" class="input-style tenantAdjust-PhoneNumber8-text" value="@tenant.getPhoneNumber8">
+					</div>
+				</fieldset>
+				<br>
+				<fieldset class="fieldset-bordered tenantFieldset-03">
+	           		<h4 class="bordered-h5"> Contact Person </h4>
+	           		<div>
+						<label for="contactPersonName" class="label-style tenantAdjust-contactPersonName" >Name:</label>
+	                 	<input type="text" id="contactPersonName" name="contactPersonName" class="input-style tenantAdjust-contactPersonName-text" size="80" value="@tenant.getContactPersonName">
+	                 	
+					</div>
+					<div>
+						
+	                 	<label for="contactPersonEmail" class="label-style tenantAdjust-contactPersonEmail" >Email:</label>
+	                 	<input type="text" id="contactPersonEmail" name="contactPersonEmail" class="input-style tenantAdjust-contactPersonEmail-text" value="@tenant.getContactPersonEmail">
+					</div>
+					<div>
+						<label for="contactPersonPhone" class="label-style tenantAdjust-contactPersonPhoneMain" >Phone Numbers</label>
+						<label for="contactPersonPhone" class="label-style tenantAdjust-contactPersonPhoneNumberMain" >Names</label>
+	                 	
+	                 	<input type="text" id="contactPersonPhone1" name="phoneName1" class="input-style tenantAdjust-contactPersonPhone1-text" value="@tenant.getPhoneName1">
+						<input type="text" id="contactPersonPhoneNumber1" name="phoneNumber1" class="input-style tenantAdjust-contactPersonPhoneNumber1-text" value="@tenant.getPhoneNumber1">
+						<input type="text" id="contactPersonPhone2" name="phoneName2" class="input-style tenantAdjust-contactPersonPhone2-text" value="@tenant.getPhoneName2">
+						<input type="text" id="contactPersonPhoneNumber2" name="phoneNumber2" class="input-style tenantAdjust-contactPersonPhoneNumber2-text" value="@tenant.getPhoneNumber2">
+						<input type="text" id="contactPersonPhone3" name="phoneName3" class="input-style tenantAdjust-contactPersonPhone3-text" value="@tenant.getPhoneName3">
+						<input type="text" id="contactPersonPhoneNumber3" name="phoneNumber3" class="input-style tenantAdjust-contactPersonPhoneNumber3-text" value="@tenant.getPhoneNumber3">
+						<input type="text" id="contactPersonPhone4" name="phoneName4" class="input-style tenantAdjust-contactPersonPhone4-text" value="@tenant.getPhoneName4">
+						<input type="text" id="contactPersonPhoneNumber4" name="phoneNumber4" class="input-style tenantAdjust-contactPersonPhoneNumber4-text" value="@tenant.getPhoneNumber4">
+						
+					
+					</div>
+	           	</fieldset>
+	           	<br>
+	           	<br>
+	           	<table>
+	           		<tr>
+	           			<td>
+	           				<button type="button" class="genericButton" onclick="goToTenantList()">List</button>
+	           			</td>
+	           			<td>
+	           				<button type="submit" class="genericButton">Submit</button>
+	           			</td>
+	           		</tr>
+	           	</table>
+	           	
+			</form>
+		</center>
+		
+
+@footer()

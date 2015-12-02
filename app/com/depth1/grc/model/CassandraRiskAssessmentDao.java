@@ -32,7 +32,6 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 			Statement insert = QueryBuilder
 					.insertInto("grc", "riskassessment")
 					.value("id", UUID.randomUUID()) //need to change this to not be random
-
 					.value("tenantid", riskAssessment.getTenantId()) 
 					// .value("assessmentid", fillThis) needs to be some random int
 					.value("risk", riskAssessment.getRisk())
@@ -217,7 +216,6 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
 
         return listRA;
 	}
-
 	
 	
 	/**
@@ -232,8 +230,8 @@ public class CassandraRiskAssessmentDao implements RiskAssessmentDao {
         try {
             Statement listAllRA = QueryBuilder.select().all()
                     .from("grc", "riskassessment");
-
             ResultSet result = CassandraDaoFactory.getSession().execute(listAllRA);
+
             if (result == null) {
                 return null;
             }

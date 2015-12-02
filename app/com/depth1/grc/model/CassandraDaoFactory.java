@@ -65,7 +65,7 @@ public class CassandraDaoFactory extends DaoFactory {
 	 */
 	public PolicyDao getPolicyDao() {
 		    
-		    return null;
+		    return new CassandraPolicyDao();
 		  }
 	
 	/* (non-Javadoc)

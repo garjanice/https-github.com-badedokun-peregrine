@@ -6,3 +6,10 @@ target
 /.project
 /.settings
 /RUNNING_PID
+<<<<<<< HEAD
+=======
+/LICENSE
+/activator
+/activator-launch-1.3.6.jar
+/activator.bat
+>>>>>>> 56acbead5d85b5ad9448c9a21b81c4e78b1b47ef

@@ -25,6 +25,7 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 	 * @return T The object type that was created
 	 * @throws DataStoreException If error occurs while connecting to the data store
 	 */
+
     @Override
     public Session create() throws DataStoreException {
     	cluster = Cluster.builder().addContactPoint(REMOTE_CLUSTER)
