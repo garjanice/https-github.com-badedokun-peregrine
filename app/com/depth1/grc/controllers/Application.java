@@ -26,15 +26,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.lang.Long;
+
 import org.jsoup.*;
+
 import play.Logger;
 import play.data.Form;
 import play.data.Form.Field;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.RequestBody;
+import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.mvc.Security;
+
 import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
@@ -46,15 +50,12 @@ import com.depth1.grc.db.util.DataException;
 import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
-
 import com.depth1.grc.model.PrintPdfRiskAssessment;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.RiskAssessmentSort;
-
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
-
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.model.UserProfile;
@@ -64,6 +65,7 @@ import com.depth1.grc.util.DateUtility;
 import com.depth1.grc.util.IdProducer;
 import com.depth1.grc.model.Policy;
 import com.depth1.grc.model.PolicyDao;
+import com.depth1.grc.model.PolicySort;
 import com.depth1.grc.model.PolicyUtil;
 import com.depth1.grc.model.PrintPdfRiskAssessment;
 import com.depth1.grc.model.RiskAssessment;
@@ -76,7 +78,6 @@ import com.depth1.grc.model.UserProfile;
 import com.depth1.grc.model.UserProfileDao;
 import com.depth1.grc.model.UserProfileSort;
 import com.depth1.grc.views.html.*;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -93,6 +94,7 @@ public class Application extends Controller {
 
 	// create the required DAO Factory
 	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
+	static DaoFactory rdbFactory = DaoFactory.getDaoFactory(DaoFactory.MARIADB);
 	final static Form<RiskAssessment> rAForm = Form.form(RiskAssessment.class);
 	static List<RiskAssessment> riskAssessments;
 	static RiskAssessment selectedRA;
@@ -110,13 +112,18 @@ public class Application extends Controller {
 	final static Form<UserProfile> userProfileForm = Form.form(UserProfile.class);
 	
 	public Result index() {
-		/*getCountry();
-		String countryCode = "US";
+		getCountry();
+		String countryCode = "us";
+		String procedurePrefix = "p";
 		getState(countryCode);
-		getTitle();*/
+		//getTitle();
+		//getTimezone(); // time zone test data
+		Logger.info("Next Id: " + IdProducer.nextId());
+		Logger.info("The Procedure Id: " + IdProducer.nextStringId(procedurePrefix));
 		
-		String password = "here is my password";
-		String candidate = "here is my drowssap"; //here is my drowssap
+		
+		//String password = "here is my password";
+		//String candidate = "here is my drowssap"; //here is my drowssap
 		// Hash a password for the first time
 		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
 
@@ -232,6 +239,7 @@ public class Application extends Controller {
 		String name = "Acenonyx, LLC";
 		getTenant(name);*/
 
+
 		return ok(index.render()); 
 	}
 
@@ -283,8 +291,32 @@ public class Application extends Controller {
 		}
 		return ok();
 
-	}	
+	}
 	
+	/**
+	 * This method is used as a client to test getting data from the Cassandra
+	 * database It displays data it reads from the database on the console
+	 * 
+	 * @param session
+	 *            The established session to the cluster
+	 * @return a result in the future in an non-blocking fashion
+	 */
+	public static Result getTimezone() {
+		
+		try {
+			DropDownList dropDown = rdbFactory.getDropDownList();
+			List<String> timezones = dropDown.getTimezone();
+			//Collections.sort(titles);
+			for (String row : timezones) {
+				System.out.printf(" %s\n", row);						
+			}
+
+		} catch (DataException e) {
+
+		}
+		return ok();
+
+	}		
 	/**
 	 * This method is used as a client to test getting data from the Cassandra
 	 * database It displays data it reads from the database on the console
@@ -332,14 +364,7 @@ public class Application extends Controller {
 	
 
 	/**
-
-	 * @param tenant The tenant to create
-	 * @return Result of the tenant creation
-
-	 * @param RiskAssessment
-	 *            The RA criteria to create
 	 * @return the result of the RAC creation
-
 	 */
 	public Result addRiskAssessment() {
 		Form<RiskAssessment> filledRA = rAForm.bindFromRequest();
@@ -356,7 +381,7 @@ public class Application extends Controller {
 	}
 	
 	/**
-	 * Creates a tenant profile
+	 * Updates a tenant profile
 	 * @param tenant Tenant to create
 	 * @return Result of the tenant created
 	 */
@@ -372,9 +397,9 @@ public class Application extends Controller {
 	}
 	
 	/**
-	 * Creates a user profile
-	 * @param user User to create
-	 * @return Result of the user created
+	 * Deletes a Tenant
+	 * @param tenantId is the id of the tenant to delete
+	 * @return Result of the delete tenant
 	 */
 	public static Result deleteTenant(long tenantId) {
 		boolean deleted = false;
@@ -667,7 +692,10 @@ public class Application extends Controller {
 		return ok();
 	}		
 	*/
-	
+	/**
+	 *  Returns a list of tenants in the database
+	 * @return JSON object that is a list of Tenants in the database
+	 */
 	public Result getTenantNames(){
 		
 		TenantDao tenantDao = null;
@@ -841,221 +869,11 @@ public class Application extends Controller {
 		pdf.printRiskAssessment(selectedRA);
 		return redirect("/assets/pdf/RA.pdf");
 	}
+	
 	/**
-	 * @param Policy
-	 *
-	 * @return
+	 * Adds a Tenant to the database from form information
+	 * @return a redirect to the main tenant page
 	 */
-	public Result createPolicy() {
-		// create form object from the request
-		Form<Policy> filledPolicy = policyForm.bindFromRequest();
-		// check for required and validate input fields
-		// TODO : Validate input fields for Date and Strings
-		if (filledPolicy.hasErrors()) {
-			Logger.error("The error in the form are " + filledPolicy.errorsAsJson());
-			return badRequest(filledPolicy.errorsAsJson());
-		}
-		// Bind policy object with the form object
-		Policy criteria = filledPolicy.get();
-		System.out.println("Here it is: " + criteria.getDescription());
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			// create policy on DB
-			policyDao.createPolicy(criteria);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy ", e);
-		}
-		if (filledPolicy.field("policy-body").value() != null) {
-			savePolicyBodyDocument(criteria.getName(), filledPolicy.field("policy-body"));
-		}
-		return redirect("/policy");
-	}
-	
-	private void savePolicyBodyDocument(String fileName, Field policyBody) {
-		try {
-			//TODO: Replace the path with path on server for file storage
-			String dirString = "public/policyDocuments/";
-			Path dirPath = Paths.get(dirString);
-			if(Files.notExists(dirPath)) {
-				Files.createDirectory(dirPath);				
-			}
-			Path filePath = Paths.get(dirString + fileName);
-			File policyDoc = filePath.toFile();
-			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(policyDoc)),true); 
-			//flushing the buffer after file-write 
-			writer.print(Jsoup.parse(policyBody.value()).text());
-			writer.close();
-			Logger.info("Policy Body Documented at " + dirString + fileName);
-		}
-		catch (IOException e) {
-			Logger.error("Error while storing the policy body document " + e);
-		}
-	}
-
-	public Result updatePolicy() {
-		// create form object from the request
-		Form<Policy> filledPolicy = policyForm.bindFromRequest();
-		// check for required and validate input fields
-		// TODO : Validate input fields for Date and Strings
-		if (filledPolicy.hasErrors()) {
-			Logger.error("The error in the form are " + filledPolicy.errorsAsJson());
-			return badRequest(filledPolicy.errorsAsJson());
-		}
-		// Bind policy object with the form object
-		Policy criteria = filledPolicy.get();
-		System.out.println("Here it is: " + criteria.getDescription());
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			// create policy on DB
-			policyDao.updatePolicy(criteria.getId(), criteria);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy ", e);
-		} catch (IllegalArgumentException e) {
-			Logger.error("Invalid UUID");
-			return badRequest("Invalid UUID");
-		}
-
-		return redirect("/policy");
-	}
-		
-	public Result deletePolicy(String policyId) {
-		//Logger.error("correct");
-		//call cassandra policy dao
-		boolean result = false;
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			result = policyDao.deletePolicy(policyId);
-			//System.out.println("COMPLETED result = " + result );
-		} catch (DaoException e) {
-			System.out.println("ERROR OCCURED");
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-	}
-		
-		return ok(deletePolicy.render(policies));
-		
-		//return TODO;
-	}
-	public Result restorePolicy(String policyId) {
-		//Logger.error("correct");
-		//call cassandra policy dao
-		boolean result = false;
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			result = policyDao.restorePolicy(policyId);
-			//System.out.println("COMPLETED result = " + result );
-		} catch (DaoException e) {
-			System.out.println("ERROR OCCURED");
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-	}
-		
-		return ok(restorePolicy.render(policies));
-		
-		//return TODO;
-	}
-	
-	public Result showPolicyListPage(int page, int view, String order, String query){
-		int policySize = 0;
-		PolicyUtil policyUtil = new PolicyUtil();
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			policies = policyDao.viewAllPolicy();
-			policySize = policies.size();
-			if(query.compareTo("")!= 0){
-				policies = policyUtil.filterDataByQuery(policies, query);
-				policySize = policies.size();
-				
-			}
-			if(policySize > 0){
-				policies = policyUtil.sortPolicy(policies, order);
-				policies = policyUtil.paginatePolicy(policies, view, page);
-			}
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-		    
-		}
-
-		return ok(policyListPage.render(policies, policySize));
-	}
-
-	public Result showCreatePolicyPage() {
-
-		return ok(createPolicy.render(policyForm));
-	}
-
-	public Result showCreatePolicyEditorPage() {
-
-		// return ok(viewPolicy.render(selectedPolicy));
-		return ok();
-	}
-
-	public Result showViewPolicyPage(UUID id) {		
-		//String filepath = "documents/test.pdf";
-		//return ok(new java.io.File(filepath));
-		PolicyDao policyDao;
-		try {
-			policyDao = cassandraFactory.getPolicyDao();
-			final Policy policy = policyDao.viewPolicyById(id);
-			//File policyBodyFile = new java.io.File("public/policyDocuments/"+policy.getName());
-			String policyBody = "";
-			try{policyBody = new String(Files.readAllBytes(Paths.get("public/policyDocuments/" + policy.getName())));}
-			catch(IOException e){
-				Logger.error("Error reading policy body file into string: ", e);
-			}
-			return ok(viewPolicy.render(policy, policyBody));
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy Front Page: ", e);
-		}
-		return ok();
-
-
-	}
-
-	public Result showUpdatePolicyPage(UUID id) {
-		// return ok(updatePolicy.render(selectedPolicy));
-		PolicyDao policyDao;
-		try {
-			policyDao = cassandraFactory.getPolicyDao();
-			final Policy policy = policyDao.viewPolicyById(id);
-			Form<Policy> filledForm = policyForm.fill(policy);
-			return ok(updatePolicy.render(policy));
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-		}
-		return ok();
-	}
-
-	// remove this later, we may not have a specific delete policy page
-	public Result showDeletePolicyPage() {
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			policies = policyDao.viewAllPolicy();
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-		}
-
-		return ok(deletePolicy.render(policies));
-		
-	}
-	
-	public Result showRestorePolicyPage(){
-		try {
-			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			policies = policyDao.viewAllDeletedPolicy();
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Policy Front Page ", e);
-		}
-
-		return ok(restorePolicy.render(policies));
-	}
-
-	public Result downloadPolicy(String name){
-		String filepath = "public/policyDocuments/" + name;
-		return ok(new java.io.File(filepath));
-
-	}
-	
-	
-	
 	public Result addTenant() {
 		Form<Tenant> filledTenant = tenantForm.bindFromRequest();
 		Tenant criteria = filledTenant.get();
@@ -1323,6 +1141,15 @@ public class Application extends Controller {
 		return ok();
 	}		
 	
+	/**
+	 * Shows the front page of the User Profile
+	 * 
+	 * @param page current page number for Pagination
+	 * @param view current number of items for Pagination
+	 * @param order current sorting order for Pagination
+	 * @param query any search query used to filter user profile list
+	 * @return page to display the front page of the User Profile
+	 */
 	public Result showFrontUserProfile(int page, int view, String order, String query){
 		int size = 0;
 		try {
@@ -1346,7 +1173,11 @@ public class Application extends Controller {
 			
 		return ok(frontUserProfile.render(userProfiles, size));
 	}
-	
+	/**
+	 * Sets the the User Profile Selected on the Front Page as the selectedUserProfile
+	 * 
+	 * @return a message that the JSON was received ok
+	 */
 	public Result setSelectedUserProfile() {
 		
 		JsonNode node = request().body().asJson().get("val");
@@ -1361,12 +1192,20 @@ public class Application extends Controller {
 		selectedUserProfile = userProfiles.get(index);
 		return ok();
 	}
-	
+	/**
+	 * Shows the Create User Profile Page
+	 * 
+	 * @return User Prfofile Create Page
+	 */
 	public Result showCreateUserProfile() {
 		
 		return ok(createUserProfile.render());
 	}
-	
+	/**
+	 * Adds a User Profile to the Database
+	 * 
+	 * @return redirect to the User Profile Front Page
+	 */
 	public Result addUserProfile() {
 		Form<UserProfile> filledUserProfile = userProfileForm.bindFromRequest();
 		UserProfile criteria = filledUserProfile.get();
@@ -1377,11 +1216,370 @@ public class Application extends Controller {
 			userProfileDao.createUserProfile(criteria);
 		} catch (DaoException e) {
 			Logger.error(
-					"Error occurred while creating risk assessment criteria ",
+					"Error occurred while creating user profile criteria ",
 					e);
 		}
 		return redirect("/userprofile/1/10/descendingName");
 	}
+	/**
+	 * Policy
+	 */
 	
+	/**
+	 * Sets the selected Policy
+	 * @return that JSON sent correctly
+	 */
+	public Result setSelectedPolicy() {
+		
+		JsonNode node = request().body().asJson().get("val");
+		
+		 if(node == null){
+		      return badRequest("empty json"); 
+		    }
+		String inputString = node.textValue();
+		int index = Integer.parseInt(inputString);		
+		selectedPolicy = policies.get(index);
+		return ok();
+	}
+	/**
+	 * Shows the front page of the Policy list
+	 * @param page current page that the user is viewing
+	 * @param view number of items that the user is viewing
+	 * @param order the sorting order of items
+	 * @param query to search for
+	 * @return page showing the list of Policies
+	 */
+	public Result showPolicyListPageQuery(int page, int view, String order, String query){
+		int size = 0;
+		try {
+			PolicySort policySort = new PolicySort();
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllPolicy();
+			size = policies.size();
+			if(query.compareTo("")!= 0){
+				policies = policySort.filterDataByQuery(policies, query);
+				size = policies.size();
+				
+			}
+			if(size > 0){
+				policies = policySort.sortPolicy(policies, order);
+				policies = policySort.paginatePolicy(policies, view, page);
+			}
+			
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+
+		return ok(policyListPage.render(policies, size));
+	}
+	
+	
+	
+	/**
+	 * Creates a policy 
+	 * @param void
+	 * @return Result of the policy created
+	 */
+	public Result createPolicy() {
+		// create form object from the request
+		Form<Policy> filledPolicy = policyForm.bindFromRequest();
+		// check for required and validate input fields
+		// TODO : Validate input fields for Date and Strings
+		if (filledPolicy.hasErrors()) {
+			Logger.error("The error in the form are " + filledPolicy.errorsAsJson());
+			return badRequest(filledPolicy.errorsAsJson());
+		}
+		// Bind policy object with the form object
+		Policy criteria = filledPolicy.get();
+		System.out.println("Here it is: " + criteria.getDescription());
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			// create policy on DB
+			policyDao.createPolicy(criteria);
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy ", e);
+		}
+		if (filledPolicy.field("policybody").value() != null) {
+			System.out.println("Policy Body Here");
+			savePolicyBodyDocument(criteria.getName(), filledPolicy.field("policybody"));
+		}
+		return redirect("/policy/1/10/descendingName");
+	}
+	
+	/**
+	 * Saves the policy body document to a file on the server file system
+	 * @param file name of policy to be saved, text-area field of policy body
+	 * @return void
+	 */
+	private void savePolicyBodyDocument(String fileName, Field policyBody) {
+		try {
+			//TODO: Replace the path with path on server for file storage
+			String dirString = "public/policyDocuments/";
+			Path dirPath = Paths.get(dirString);
+			if(Files.notExists(dirPath)) {
+				Files.createDirectory(dirPath);				
+			}
+			Path filePath = Paths.get(dirString + fileName);
+			File policyDoc = filePath.toFile();
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(policyDoc)),true); 
+			//flushing the buffer after file-write 
+			//writer.print(Jsoup.parse(policyBody.value()).text());
+			writer.print(policyBody.value());
+			writer.close();
+			Logger.info("Policy Body Documented at " + dirString + fileName);
+		}
+		catch (IOException e) {
+			Logger.error("Error while storing the policy body document " + e);
+		}
+	}
+
+	/**
+	 * Updates a policy 
+	 * @param void
+	 * @return Result of the policy updated
+	 */
+	public Result updatePolicy() {
+		// create form object from the request
+		Form<Policy> filledPolicy = policyForm.bindFromRequest();
+		// check for required and validate input fields
+		// TODO : Validate input fields for Date and Strings
+		if (filledPolicy.hasErrors()) {
+			Logger.error("The error in the form are " + filledPolicy.errorsAsJson());
+			return badRequest(filledPolicy.errorsAsJson());
+		}
+		// Bind policy object with the form object
+		Policy criteria = filledPolicy.get();
+		System.out.println("Here it is: " + criteria.getDescription());
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			// create policy on DB
+			policyDao.updatePolicy(selectedPolicy.getId(), criteria);
+			if (filledPolicy.field("policybody").value() != null) {
+				System.out.println("Policy Body Here");
+				savePolicyBodyDocument(criteria.getName(), filledPolicy.field("policybody"));
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy ", e);
+		} catch (IllegalArgumentException e) {
+			Logger.error("Invalid UUID");
+			return badRequest("Invalid UUID");
+		}
+
+		return redirect("/policy/1/10/descendingName");
+	}
+		
+	/**
+	 * Deletes a policy 
+	 * @param UUID of policy
+	 * @return delete policy page
+	 */
+	public Result deletePolicy() {
+		//Logger.error("correct");
+		//call cassandra policy dao
+		boolean result = false;
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			result = policyDao.deletePolicy(selectedPolicy.getId());
+			//System.out.println("COMPLETED result = " + result );
+		} catch (DaoException e) {
+			System.out.println("ERROR OCCURED");
+			Logger.error("Error occurred while creating Policy Delete Page ", e);
+		}		
+		return redirect("/policy/1/10/descendingName");
+	}
+	
+	/**
+	 * Restores a policy 
+	 * 
+	 * @return restore policy page
+	 */
+	public Result restorePolicy() {
+		//Logger.error("correct");
+		//call cassandra policy dao
+		boolean result = false;
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			result = policyDao.restorePolicy(selectedPolicy.getId());
+			//System.out.println("COMPLETED result = " + result );
+		} catch (DaoException e) {
+			System.out.println("ERROR OCCURED");
+			Logger.error("Error occurred while creating Policy Restore Page ", e);
+		}
+		return redirect("/policy/restore/1/10/descendingName");
+	}
+	
+	/**
+	 * Shows a list of policy - Front page for Policy 
+	 * @param void
+	 * @return policy list page
+	 */
+	public Result showPolicyListPage() {
+
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			;
+			policies = policyDao.viewAllPolicy();
+			
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+
+		return ok(policyListPage.render(policies, 1));
+	}
+
+	/**
+	 * Shows a create policy page 
+	 * @param void
+	 * @return policy create page
+	 */
+	public Result showCreatePolicyPage() {
+
+		return ok(createPolicy.render(policyForm));
+	}
+
+	/**
+	 * Shows a create policy editor page 
+	 * @param void
+	 * @return policy editor page
+	 */
+	public Result showCreatePolicyEditorPage() {
+
+		// return ok(viewPolicy.render(selectedPolicy));
+		return ok();
+	}
+
+	/**
+	 * Shows a view policy page 
+	 * @param void
+	 * @return policy view page
+	 */
+	public Result showViewPolicyPage(UUID id) {		
+		//String filepath = "documents/test.pdf";
+		//return ok(new java.io.File(filepath));
+
+		PolicyDao policyDao;
+		try {
+			policyDao = cassandraFactory.getPolicyDao();
+			final Policy policy = policyDao.viewPolicyById(id);
+			//File policyBodyFile = new java.io.File("public/policyDocuments/"+policy.getName());
+			String policyBody = "";
+			try{policyBody = new String(Files.readAllBytes(Paths.get("public/policyDocuments/" + policy.getName())));}
+			catch(IOException e){
+				Logger.error("Error reading policy body file into string: ", e);
+			}
+			return ok(viewPolicy.render(policy, policyBody));
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page: ", e);
+		}
+		return ok();
+	}
+
+	/**
+	 * Shows a update policy page 
+	 * @param void
+	 * @return policy update page
+	 */
+	public Result showUpdatePolicyPage() {
+		
+		String policybody = getPolicyBodyAsString(selectedPolicy.getName());
+		return ok(updatePolicy.render(selectedPolicy, policybody));
+		
+	}
+	/**
+	 * Reads a policy body as a string
+	 * @param name of policy body
+	 * @return String thatis the policy body
+	 */
+	private String getPolicyBodyAsString(String name){
+		String policyBody = "";
+		try {
+			policyBody = new String(Files.readAllBytes(Paths.get("public/policyDocuments/" + name)));
+		} catch(IOException e){
+				Logger.error("Error reading policy body file into string: ", e);
+		}
+		return policyBody;
+	}
+	
+	
+	
+	
+	/**
+	 * Shows a delete policy page 
+	 * @param void
+	 * @return policy delete page
+	 */
+	/*
+	 * 
+	 No longer needed. - BJC
+	public Result showDeletePolicyPage() {
+		try {
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllPolicy();
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+
+		return ok(deletePolicy.render(policies));
+		
+	}
+	*/
+	/**
+	 * Shows a restore policy page 
+	 * @param void
+	 * @return policy restore page
+	 */
+	public Result showRestorePolicyPage(int page, int view, String order, String query){
+		int size = 0;
+		try {
+			PolicySort policySort = new PolicySort();
+			PolicyDao policyDao = cassandraFactory.getPolicyDao();
+			policies = policyDao.viewAllDeletedPolicy();
+			size = policies.size();
+			if(query.compareTo("")!= 0){
+				policies = policySort.filterDataByQuery(policies, query);
+				size = policies.size();
+				
+			}
+			if(size > 0){
+				policies = policySort.sortPolicy(policies, order);
+				policies = policySort.paginatePolicy(policies, view, page);
+			}
+			
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Policy Front Page ", e);
+		}
+
+		return ok(restorePolicy.render(policies, size));
+	}
+	
+
+	/**
+	 * Downloads a policy to a file
+	 * @param policy name
+	 * @return creates a policy file
+	 */
+	public Result downloadPolicy(String name){
+		String filepath = "public/policyDocuments/" + name;
+		return ok(new java.io.File(filepath));
+
+	}
+	/**
+	 * Trying to read a uploaded file
+	 * @return that the file has been received
+	 */
+	public Result uploadFilePolicyBody(){
+		//request().body().asXml();
+		FilePart uploadedFile = request().body().asMultipartFormData().getFile("file");
+		if(uploadedFile == null){
+			System.out.println("File Empty");
+		    return badRequest("empty file"); 
+		    }
+		File file = uploadedFile.getFile();
+		String fileName = uploadedFile.getFilename();
+		System.out.println(fileName);
+		
+		return ok();
+	}
+
 
 }

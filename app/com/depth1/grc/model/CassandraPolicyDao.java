@@ -1,8 +1,13 @@
 package com.depth1.grc.model;
 
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
+
 import java.io.File;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,15 +21,33 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.DriverException;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
+import com.datastax.driver.core.querybuilder.Update;
 import com.datastax.driver.core.querybuilder.Assignment;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.utils.UUIDs;
 
+/**
+ * This class implements the Data Access Object pattern (GoF). It provides capability to create, read, update, delete 
+ * a User Profile - the typical CRUD functions in any business application.
+ * 
+ * @author Pooja Purushotham
+ * Create Date: 07/27/2015
+ */
+
 public class CassandraPolicyDao implements PolicyDao {
+	
+	/**
+	* Creates a policy
+	* 
+	* @param policy to create
+	* @throws DaoException if error occurs while creating the Policy in the data store
+	*/
 	@Override
 	public void createPolicy(Policy policy) throws DaoException {
-		Session dbSession = CassandraDaoFactory.connect();
 		try {
+			Calendar calendar = Calendar.getInstance();
+			java.util.Date now = calendar.getTime();
+			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
 			Statement insert = QueryBuilder.insertInto("grc", "policy")
 					.value("id", UUID.randomUUID()) // TBD
 					.value("name", policy.getName())
@@ -55,197 +78,128 @@ public class CassandraPolicyDao implements PolicyDao {
 					.value("issue_date", policy.getOriginalIssueDate())
 					.value("last_review_date", policy.getLastReviewDate())
 					.value("next_review_date", policy.getNextReviewDate())
-					.value("last_updated_date", UUIDs.timeBased())
+					.value("last_updated_date", currentTimestamp)
 					.value("is_deleted",false);
 
-					dbSession.execute(insert);
+			CassandraDaoFactory.getSession().execute(insert);
 					Logger.info("Inserted successfully to database");
 		} catch (DriverException e) {
 			Logger.error("Error occurred while inserting data into the database ", e);
 		} finally {
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 	}
-
+	
+	
+	/**
+	* Updates a policy
+	* 
+	* @param UUID of policy and policy to update
+	* @throws DaoException if error occurs while updating the Policy in the data store
+	*/
 	@Override
 	public boolean updatePolicy(UUID policyId, Policy policy) throws DaoException {
 		boolean flag = false;
-		Session dbSession = CassandraDaoFactory.connect();
+		System.out.println("Policy ID = " + policyId);
 		try {
-			Statement update = QueryBuilder.update("grc", "policy")
+			Calendar calendar = Calendar.getInstance();
+			java.util.Date now = calendar.getTime();
+			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+			Update.Assignments update = QueryBuilder
+					.update("grc", "policy")
 					.with(QueryBuilder.set("name", policy.getName()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("author", policy.getAuthor()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("version", policy.getVersion()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-					
-					//.value("tenanid", policy.getTenantId())
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("description", policy.getDescription()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("effective_date", policy.getEffectiveDate()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("format", policy.getFormat()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("language", policy.getLanguage()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("subject", policy.getSubject()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("source", policy.getSource()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("sunset_date", policy.getSunsetDate()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("category", policy.getCategory()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("reference", policy.getReference()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("legal", policy.getLegalRequirement()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("regulatory", policy.getRegulatory()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("approver", policy.getApprover()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("producing_function", policy.getProducingFunction()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("compliance_category", policy.getComplianceCategory()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("owner", policy.getOwner()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("document_contact", policy.getDocumentContact()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("functional_applicability", policy.getFunctionalApplicability()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("geographic_applicability", policy.getGeographicApplicability()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("issue_date", policy.getOriginalIssueDate()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("last_review_date", policy.getLastReviewDate()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("next_review_date", policy.getNextReviewDate()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-			
-			update = QueryBuilder.update("grc", "policy")
-					.with(QueryBuilder.set("last_updated_date", UUIDs.timeBased()))
-					.where(QueryBuilder.eq("id", policyId));
-			dbSession.execute(update);
-					
+					.and(com.datastax.driver.core.querybuilder.QueryBuilder.set("author", policy.getAuthor()))
+					.and(com.datastax.driver.core.querybuilder.QueryBuilder.set("version", policy.getVersion()))
+					.and(set("description", policy.getDescription()))
+					.and(set("effective_date", policy.getEffectiveDate()))
+					.and(set("format", policy.getFormat()))
+					.and(set("language", policy.getLanguage()))
+					.and(set("subject", policy.getSubject()))
+					.and(set("source", policy.getSource()))
+					.and(set("sunset_date", policy.getSunsetDate()))
+					.and(set("category", policy.getCategory()))
+					.and(set("reference", policy.getReference()))
+					.and(set("legal", policy.getLegalRequirement()))
+					.and(set("regulatory", policy.getRegulatory()))
+					.and(set("producing_function", policy.getProducingFunction()))
+					.and(set("compliance_category", policy.getComplianceCategory()))
+					.and(set("owner", policy.getOwner()))
+					.and(set("document_contact", policy.getDocumentContact()))
+					.and(set("functional_applicability", policy.getFunctionalApplicability()))
+					.and(set("geographic_applicability", policy.getGeographicApplicability()))					
+					.and(set("issue_date", policy.getOriginalIssueDate()))
+					.and(set("last_review_date", policy.getLastReviewDate()))
+					.and(set("next_review_date", policy.getNextReviewDate()))
+					.and(set("last_updated_date", currentTimestamp));
+			Statement updateDetails = update
+					.where(eq("id", policyId));
+			CassandraDaoFactory.getSession().execute(updateDetails);
 			Logger.info("Inserted successfully to database");
 			flag = true;
 		} catch (DriverException e) {
 			Logger.error("Error occurred while inserting data into the database ", e);
 		} finally {
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 		return flag;
 	}
 
+	/**
+	* Deletes a policy
+	* 
+	* @param policy UUID to delete
+	* @return true if the policy could be deleted successfully, else false
+	* @throws DaoException if error occurs while deleting the Policy in the data store
+	*/
 	@Override
-	public boolean deletePolicy(String policyId) throws DaoException {
-		// TODO Auto-generated method stub
-		Session dbSession = CassandraDaoFactory.connect();
+	public boolean deletePolicy(UUID id) throws DaoException {
 		try {		
 			Statement update = QueryBuilder
 						.update("grc", "policy")
 						.with(QueryBuilder.set("is_deleted", true))
-						.where(QueryBuilder.eq("id", UUID.fromString(policyId)));
-					dbSession.execute(update);
-					return true;
+						.where(QueryBuilder.eq("id", id));
+			CassandraDaoFactory.getSession().execute(update);
+			return true;
 		} catch (DriverException e) {
 			Logger.error("Error occurred while inserting data into the database ", e);
 			return false;
 		} finally {			
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 
 	}
 
+	/**
+	* Restores a policy
+	* 
+	* @param policy UUID to restore
+	* @return true if the policy could be restored successfully, else false
+	* @throws DaoException if error occurs while restoring the Policy in the data store
+	*/
 	@Override
-	public boolean restorePolicy(String policyId) throws DaoException {
-		Session dbSession = CassandraDaoFactory.connect();
+	public boolean restorePolicy(UUID id) throws DaoException {
 		try{
 			Statement restore = QueryBuilder
 							.update("grc","policy")
 							.with(QueryBuilder.set("is_deleted", false))
-							.where(QueryBuilder.eq("id", UUID.fromString(policyId)));
-			dbSession.execute(restore);
+							.where(QueryBuilder.eq("id", id));
+			CassandraDaoFactory.getSession().execute(restore);
 			return true;
 		} catch (DriverException e){
 			Logger.error("Error while restoring",e);
 			return false;
 		} finally{
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 	}
 
+	/**
+	* Get List of all Policies
+	* 
+	* @param void
+	* @return List of Policies
+	* @throws DaoException if error occurs while listing the Policies in the data store
+	*/
 	private List<Policy> getResultList(ResultSet result) throws DaoException
 	{
 		List<Policy> listPolicy = new ArrayList<>();
@@ -262,7 +216,7 @@ public class CassandraPolicyDao implements PolicyDao {
 			policy.setLanguage(row.getString("language"));
 			policy.setSubject(row.getString("subject"));
 			policy.setSource(row.getString("source"));
-			policy.setSunsetDate(row.getUUID("sunset_date"));
+			policy.setSunsetDate(new Timestamp(row.getDate("sunset_date").getTime()));
 			policy.setCategory(row.getString("category"));
 			policy.setClassification(row.getString("classification"));
 			policy.setReference(row.getString("reference"));
@@ -275,25 +229,31 @@ public class CassandraPolicyDao implements PolicyDao {
 			policy.setDocumentContact(row.getString("document_contact"));
 			policy.setFunctionalApplicability(row.getString("functional_applicability"));
 			policy.setGeographicApplicability(row.getString("geographic_applicability"));
-			policy.setEffectiveDate(row.getUUID("effective_date"));
-			policy.setOriginalIssueDate(row.getUUID("issue_date"));
-			policy.setLastReviewDate(row.getUUID("last_review_date"));
-			policy.setNextReviewDate(row.getUUID("next_review_date"));
-			policy.setLastUpdatedDate(row.getUUID("last_updated_date"));
+			policy.setEffectiveDate(new Timestamp(row.getDate("effective_date").getTime()));
+			policy.setOriginalIssueDate(new Timestamp(row.getDate("issue_date").getTime()));
+			policy.setLastReviewDate(new Timestamp(row.getDate("last_review_date").getTime()));
+			policy.setNextReviewDate(new Timestamp(row.getDate("next_review_date").getTime()));
+			policy.setLastUpdatedDate(new Timestamp(row.getDate("last_updated_date").getTime()));
 			listPolicy.add(policy);
 			result.iterator();
 		}
 		return listPolicy;
 	}
 	
+	/**
+	* View a policy by Policy name
+	* 
+	* @param policyName to view
+	* @return Policy to view
+	* @throws DaoException if error occurs while viewing the Policy in the data store
+	*/
 	@Override
 	public Policy viewPolicyByName(String policyName) throws DaoException {
 		List<Policy> listPolicy;
-		Session dbSession = CassandraDaoFactory.connect();
 		try {
 			Statement viewPolicyById = QueryBuilder.select().all().from("grc", "policy").where(QueryBuilder.eq("name", policyName));
 
-			ResultSet result = dbSession.execute(viewPolicyById);
+			ResultSet result = CassandraDaoFactory.getSession().execute(viewPolicyById);
 			if (result == null) {
 				return null;
 			}
@@ -304,19 +264,25 @@ public class CassandraPolicyDao implements PolicyDao {
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving list of Policies from database ", e);
 		} finally {
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 		return null;	
 	}
 
+	/**
+	* View a policy by Policy id
+	* 
+	* @param policy UUID to view
+	* @return Policy to view
+	* @throws DaoException if error occurs while viewing the Policy in the data store
+	*/	
 	@Override
 	public Policy viewPolicyById(UUID id) throws DaoException {
 		List<Policy> listPolicy;
-		Session dbSession = CassandraDaoFactory.connect();
 		try {
 			Statement viewPolicyById = QueryBuilder.select().all().from("grc", "policy").where(QueryBuilder.eq("id", id));
 
-			ResultSet result = dbSession.execute(viewPolicyById);
+			ResultSet result = CassandraDaoFactory.getSession().execute(viewPolicyById);
 			if (result == null) {
 				return null;
 			}
@@ -329,19 +295,25 @@ public class CassandraPolicyDao implements PolicyDao {
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving list of Policies from database ", e);
 		} finally {
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 		return null;
 	}
 
+	/**
+	* View policies by Policy class
+	* 
+	* @param policyClassification to view
+	* @return Policy to view
+	* @throws DaoException if error occurs while viewing the Policies in the data store
+	*/
 	@Override
 	public Policy viewPolicyByClassification(String policyClassification) throws DaoException {
 		List<Policy> listPolicy;
-		Session dbSession = CassandraDaoFactory.connect();
 		try {
 			Statement viewPolicyById = QueryBuilder.select().all().from("grc", "policy").where(QueryBuilder.eq("classification", policyClassification));
 
-			ResultSet result = dbSession.execute(viewPolicyById);
+			ResultSet result = CassandraDaoFactory.getSession().execute(viewPolicyById);
 			if (result == null) {
 				return null;
 			}
@@ -352,26 +324,33 @@ public class CassandraPolicyDao implements PolicyDao {
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving list of Policies from database ", e);
 		} finally {
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 		return null;
 	}
 
+	/**
+	* View all Policies
+	* 
+	* @param void
+	* @return List of Policies to view
+	* @throws DaoException if error occurs while viewing the Policies in the data store
+	*/
 	@Override
 	public List<Policy> viewAllPolicy() throws DaoException {
         List<Policy> listPolicy = new ArrayList<>();
-        Session dbSession = CassandraDaoFactory.connect();
         try {
             Statement viewAllPolicy = QueryBuilder
             		.select()
             		.all()
                     .from("grc", "policy")
                     .where(QueryBuilder.eq("is_deleted", false));
-            ResultSet result = dbSession.execute(viewAllPolicy);
+            ResultSet result = CassandraDaoFactory.getSession().execute(viewAllPolicy);
+            
             if (result == null) {
                 return null;
             }
-
+            
             for (Row row : result.all()) {
                 Policy policy = new Policy();
                 policy.setId(row.getUUID("id"));
@@ -385,7 +364,7 @@ public class CassandraPolicyDao implements PolicyDao {
                 policy.setLanguage(row.getString("language"));
                 policy.setSubject(row.getString("subject"));
                 policy.setSource(row.getString("source"));
-                policy.setSunsetDate(row.getUUID("sunset_date"));
+                policy.setSunsetDate(new Timestamp(row.getDate("sunset_date").getTime()));
                 policy.setCategory(row.getString("category"));
                 policy.setClassification(row.getString("classification"));
                 policy.setReference(row.getString("reference"));
@@ -398,28 +377,33 @@ public class CassandraPolicyDao implements PolicyDao {
                 policy.setDocumentContact(row.getString("document_contact"));
                 policy.setFunctionalApplicability(row.getString("functional_applicability"));
                 policy.setGeographicApplicability(row.getString("geographic_applicability"));
-                policy.setEffectiveDate(row.getUUID("effective_date"));
-                policy.setOriginalIssueDate(row.getUUID("issue_date"));
-                policy.setLastReviewDate(row.getUUID("last_review_date"));
-                policy.setNextReviewDate(row.getUUID("next_review_date"));
-                policy.setLastUpdatedDate(row.getUUID("last_updated_date"));
-							
+                policy.setEffectiveDate(new Timestamp(row.getDate("effective_date").getTime()));
+    			policy.setOriginalIssueDate(new Timestamp(row.getDate("issue_date").getTime()));
+    			policy.setLastReviewDate(new Timestamp(row.getDate("last_review_date").getTime()));
+    			policy.setNextReviewDate(new Timestamp(row.getDate("next_review_date").getTime()));
+    			policy.setLastUpdatedDate(new Timestamp(row.getDate("last_updated_date").getTime()));
 		        listPolicy.add(policy);
                 result.iterator();
             }
         } catch (DriverException e) {
             Logger.error("Error occurred while retrieving list of Policies from database ", e);
         } finally {
-            CassandraDaoFactory.close(dbSession);
+            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
         }
 
         return listPolicy;
 	}
 	
+	/**
+	* View all Deleted Policies
+	* 
+	* @param void
+	* @return List of Policies that are deleted
+	* @throws DaoException if error occurs while deleting the Policies in the data store
+	*/
 	@Override
 	public List<Policy> viewAllDeletedPolicy() throws DaoException {
         List<Policy> listPolicy = new ArrayList<>();
-        Session dbSession = CassandraDaoFactory.connect();
         try {
             Statement viewAllDeletedPolicy = QueryBuilder
             		.select()
@@ -427,7 +411,7 @@ public class CassandraPolicyDao implements PolicyDao {
                     .from("grc", "policy")
                     .where(QueryBuilder.eq("is_deleted", true));
 
-            ResultSet result = dbSession.execute(viewAllDeletedPolicy);
+            ResultSet result = CassandraDaoFactory.getSession().execute(viewAllDeletedPolicy);
             if (result == null) {
                 return null;
             }
@@ -445,7 +429,7 @@ public class CassandraPolicyDao implements PolicyDao {
                 policy.setLanguage(row.getString("language"));
                 policy.setSubject(row.getString("subject"));
                 policy.setSource(row.getString("source"));
-                policy.setSunsetDate(row.getUUID("sunset_date"));
+                policy.setSunsetDate(new Timestamp(row.getDate("sunset_date").getTime()));
                 policy.setCategory(row.getString("category"));
                 policy.setClassification(row.getString("classification"));
                 policy.setReference(row.getString("reference"));
@@ -458,19 +442,18 @@ public class CassandraPolicyDao implements PolicyDao {
                 policy.setDocumentContact(row.getString("document_contact"));
                 policy.setFunctionalApplicability(row.getString("functional_applicability"));
                 policy.setGeographicApplicability(row.getString("geographic_applicability"));
-                policy.setEffectiveDate(row.getUUID("effective_date"));
-                policy.setOriginalIssueDate(row.getUUID("issue_date"));
-                policy.setLastReviewDate(row.getUUID("last_review_date"));
-                policy.setNextReviewDate(row.getUUID("next_review_date"));
-                policy.setLastUpdatedDate(row.getUUID("last_updated_date"));
-							
+                policy.setEffectiveDate(new Timestamp(row.getDate("effective_date").getTime()));
+    			policy.setOriginalIssueDate(new Timestamp(row.getDate("issue_date").getTime()));
+    			policy.setLastReviewDate(new Timestamp(row.getDate("last_review_date").getTime()));
+    			policy.setNextReviewDate(new Timestamp(row.getDate("next_review_date").getTime()));
+    			policy.setLastUpdatedDate(new Timestamp(row.getDate("last_updated_date").getTime()));
 		        listPolicy.add(policy);
                 result.iterator();
             }
         } catch (DriverException e) {
             Logger.error("Error occurred while retrieving list of Policies from database ", e);
         } finally {
-            CassandraDaoFactory.close(dbSession);
+            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
         }
 
         return listPolicy;

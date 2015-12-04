@@ -4,7 +4,6 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Host;
 import com.datastax.driver.core.Metadata;
 import com.datastax.driver.core.Session;
-import com.datastax.driver.core.exceptions.DriverException;
 
 import play.Play;
 
@@ -20,18 +19,21 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
     private Cluster cluster;
     private Session session;
 
-	/* (non-Javadoc)
-	 * @see com.depth1.grc.db.util.ConnectionPool#create()
+	/**
+	 * Creates a connection to the data store.
+	 * 
+	 * @return T The object type that was created
+	 * @throws DataStoreException If error occurs while connecting to the data store
 	 */
 
     @Override
-    public Session create() throws DriverException {
+    public Session create() throws DataStoreException {
     	cluster = Cluster.builder().addContactPoint(REMOTE_CLUSTER)
     			.withCredentials("super", "cheetah27").build();
     	session = cluster.connect();
     	// test connection to the database;
     	Metadata metadata = cluster.getMetadata();
-    	System.out.printf("Connected to cluster: %s\n",
+    	System.out.printf("Connected to cassandra cluster: %s\n",
     			metadata.getClusterName());
     	for ( Host host : metadata.getAllHosts() ) {
     		System.out.printf("Datacenter: %s; Host: %s; Rack: %s\n",
@@ -42,37 +44,35 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
     }
 
 	/**
-	 * @return the session
-	 */
-	public Session getSession() {
-		return this.session;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.depth1.grc.db.util.ConnectionPool#validate(java.lang.Object)
+	 * Validates the connection to determine if it expired or still valid.
+	 * @param reusable Object type to validate
+	 * @return boolean True if the connection is still valid, false otherwise
+	 * @throws DataStoreException If error occurs while validating the connection to the data store
 	 */
 	@Override
-	public boolean validate(Session pool) throws DriverException {
+	public boolean validate(Session pool) throws DataStoreException {
 		try {
 			return (!((Session) pool).isClosed());
-		} catch (DriverException e) {
-			throw new DriverException("Unable to to connect to the cluster.");
+		} catch (DataStoreException dse) {
+			throw new DataStoreException("Unable to connect to the cluster.");
 			
 		}
 		
 	}
 
 
-	/* (non-Javadoc)
-	 * @see com.depth1.grc.db.util.ConnectionPool#expire(java.lang.Object)
+	/**
+	 * Expires/Closes a connection to the data store
+	 * @param reusable Object type to expire
+	 * @throws DataStoreException If error occurs while closing a connection to the data store
 	 */
 	@Override
-	public void expire(Session pool) throws DriverException {
+	public void expire(Session pool) throws DataStoreException {
 		  try {
 		      ((Session) pool).close();
 		      ((Session) pool).getCluster().close();
-		    } catch (DriverException e) {
-		    	throw new DriverException("Unable to to connect to the cluster.");
+		    } catch (DataStoreException dse) {
+		    	throw new DataStoreException("Unable to connect to the cluster.");
 		    }
 
 	}
