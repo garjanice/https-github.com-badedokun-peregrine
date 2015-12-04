@@ -38,7 +38,7 @@ GET 	/riskAssessment/cacheTenants	com.depth1.grc.controllers.Application.getTena
 
 GET 	/userprofile/cacheTenants		com.depth1.grc.controllers.Application.getTenantNames()
 
-GET     /policy/:page/:view/:order    	com.depth1.grc.controllers.Application.showPolicyListPage(page: Integer, view: Integer, order: String, query: String ?= "")
+GET     /policy                	    	com.depth1.grc.controllers.Application.showPolicyListPage()
 
 GET		/policy/create				   	com.depth1.grc.controllers.Application.showCreatePolicyPage()
 
@@ -46,21 +46,27 @@ GET		/policy/createBody				com.depth1.grc.controllers.Application.showCreatePoli
 
 GET		/policy/view/:id				com.depth1.grc.controllers.Application.showViewPolicyPage(id: java.util.UUID)
 
-GET		/policy/update/:id				com.depth1.grc.controllers.Application.showUpdatePolicyPage(id: java.util.UUID)
+GET		/policy/update/					com.depth1.grc.controllers.Application.showUpdatePolicyPage()
 
-GET		/policy/delete					com.depth1.grc.controllers.Application.showDeletePolicyPage()
+GET 	/policy/restore/done			com.depth1.grc.controllers.Application.restorePolicy()
 
-GET 	/policy/restore					com.depth1.grc.controllers.Application.showRestorePolicyPage()
-
-GET 	/policy/restore/done			com.depth1.grc.controllers.Application.restorePolicy(policyId: String)
-
-GET		/policy/delete/done				com.depth1.grc.controllers.Application.deletePolicy(policyId: String)
+DELETE	/policy/delete					com.depth1.grc.controllers.Application.deletePolicy()
 
 GET		/policy/download/name			com.depth1.grc.controllers.Application.downloadPolicy(name: String)
 
 POST  	/policy/create/done				com.depth1.grc.controllers.Application.createPolicy()
 
 POST  	/policy/update/done				com.depth1.grc.controllers.Application.updatePolicy()
+
+GET		/riskAssessment/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontRAPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
+
+GET		/policy/:page/:view/:order		com.depth1.grc.controllers.Application.showPolicyListPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
+
+POST 	/policy/selected				com.depth1.grc.controllers.Application.setSelectedPolicy()
+
+GET 	/policy/restore/:page/:view/:order		com.depth1.grc.controllers.Application.showRestorePolicyPage(page: Integer, view: Integer, order: String, query: String ?= "")
+
+POST	/policy/uploadFile				com.depth1.grc.controllers.Application.uploadFilePolicyBody()
 
 GET		/tenant/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontTenantPage(page: Integer, view: Integer, order: String, query: String ?= "")
 
