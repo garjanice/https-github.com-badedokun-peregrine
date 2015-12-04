@@ -1348,7 +1348,7 @@ a:hover {
     top: 0%;
     left: 0%;
     width: 100%;
-    height: 100%;
+    height: 10000px;
     background-color: black;
     z-index:1001;
     -moz-opacity: 0.8;
@@ -1384,7 +1384,7 @@ a:hover {
 .userProfileCreationFieldset-02{
 	position: relative;
 	width: 960px;
-	height: 700px;
+	height: 900px;
 }
 
 .userProfileCreation-fname-text{
@@ -1512,11 +1512,11 @@ a:hover {
     left: 45px;
 }
 
-.userProfileCreation-tenantId-button {
+#userProfileCreation-tenantSearch {
 
     position: absolute;
     top: 190px;
-    left: 330px;
+    left: 290px;
 }
 
 
@@ -1740,3 +1740,61 @@ a:hover {
 	left: 600px;
     width: 175px;
 	}
+
+
+
+
+.userProfilePhoneType4-text{
+	position: absolute;
+	top: 790px;
+	left: 150px;
+	}
+.userProfilePhoneNumber4-text{
+	position: absolute;
+	top: 790px;
+	left: 350px;
+	}
+.userProfilePhoneType3-text{
+	position: absolute;
+	top: 760px;
+	left: 150px;
+	}
+.userProfilePhoneNumber3-text{
+	position: absolute;
+	top: 760px;
+	left: 350px;
+	}
+.userProfilePhoneType2-text{
+	position: absolute;
+	top: 730px;
+	left: 150px;
+	}
+.userProfilePhoneNumber2-text{
+	position: absolute;
+	top: 730px;
+	left: 350px;
+	}
+
+.userProfilePhoneType1-text{
+	position: absolute;
+	top: 700px;
+	left: 150px;
+	}
+.userProfilePhoneNumber1-text{
+	position: absolute;
+	top: 700px;
+	left: 350px;
+	}
+
+.userProfilePhoneType-label{
+    position: absolute;
+    top: 680px;
+    left: 150px;
+    
+}
+
+.userProfilePhoneNumber-label{
+    position: absolute;
+    top: 680px;
+    left: 350px;
+}

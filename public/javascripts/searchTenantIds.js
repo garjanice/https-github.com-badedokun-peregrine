@@ -1,8 +1,8 @@
 
 $(document).ready(function(){
 	var jsonObjArray = {}
-    searchTenant();
-	
+	searchTenant();
+
     
 	function initializeTenantList()
 	{
@@ -21,7 +21,12 @@ $(document).ready(function(){
 		  
 		  xhttp.onreadystatechange = function() {
 		    if (xhttp.readyState == 4 && xhttp.status == 200) {
-		     jsonObjArray = $.parseJSON(xhttp.responseText);                
+                   $('#popupTenantSelection')
+                     .append("<option></option>");
+                      
+                  
+		     jsonObjArray = $.parseJSON(xhttp.responseText);  
+                
                     for (var names in jsonObjArray) {
                       if (jsonObjArray.hasOwnProperty(names)) {
                         $('#popupTenantSelection')
@@ -44,7 +49,16 @@ $(document).ready(function(){
 	
 	
 	
-	$("#tenantSearch").click(function(e) {						
+	$("#userProfileCreation-tenantSearch").click(function(e) {						
+	    //$("#popupTenantSelectionBox").dialog();
+	    initializeTenantList();
+	    //searchTenant();
+	    document.getElementById('popup_background').style.display='block';
+		document.getElementById('popupTenantSelectionBox').style.display='block';
+		
+	});
+    
+    $("#tenantSearch").click(function(e) {						
 	    //$("#popupTenantSelectionBox").dialog();
 	    initializeTenantList();
 	    //searchTenant();

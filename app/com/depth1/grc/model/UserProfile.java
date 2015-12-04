@@ -63,7 +63,17 @@ public class UserProfile {
     @Required
     private String status;
     private Map<String, String> phones;
-    private String timeZone;
+    private String userProfilePhoneType1;
+    private String userProfilePhoneType2;
+    private String userProfilePhoneType3;
+    private String userProfilePhoneType4;
+
+	private String userProfilePhoneNumber1;
+    private String userProfilePhoneNumber2;
+    private String userProfilePhoneNumber3;
+    private String userProfilePhoneNumber4;
+   
+	private String timeZone;
     private String locale;
     private String language;
 	private String minitial;
@@ -443,5 +453,102 @@ public class UserProfile {
 		this.dateUtil = dateUtil;
 	}	
 	
+
+	/**
+	 * @return the userProfilePhoneType1
+	 */
+	public String getUserProfilePhoneType1() {
+		return userProfilePhoneType1;
+	}
+	/**
+	 * @param userProfilePhoneType1 the userProfilePhoneType1 to set
+	 */
+	public void setUserProfilePhoneType1(String userProfilePhoneType1) {
+		this.userProfilePhoneType1 = userProfilePhoneType1;
+	}
+	/**
+	 * @return the userProfilePhoneType2
+	 */
+	public String getUserProfilePhoneType2() {
+		return userProfilePhoneType2;
+	}
+	/**
+	 * @param userProfilePhoneType2 the userProfilePhoneType2 to set
+	 */
+	public void setUserProfilePhoneType2(String userProfilePhoneType2) {
+		this.userProfilePhoneType2 = userProfilePhoneType2;
+	}
+	/**
+	 * @return the userProfilePhoneType3
+	 */
+	public String getUserProfilePhoneType3() {
+		return userProfilePhoneType3;
+	}
+	/**
+	 * @param userProfilePhoneType3 the userProfilePhoneType3 to set
+	 */
+	public void setUserProfilePhoneType3(String userProfilePhoneType3) {
+		this.userProfilePhoneType3 = userProfilePhoneType3;
+	}
+	/**
+	 * @return the userProfilePhoneType4
+	 */
+	public String getUserProfilePhoneType4() {
+		return userProfilePhoneType4;
+	}
+	/**
+	 * @param userProfilePhoneType4 the userProfilePhoneType4 to set
+	 */
+	public void setUserProfilePhoneType4(String userProfilePhoneType4) {
+		this.userProfilePhoneType4 = userProfilePhoneType4;
+	}
+	/**
+	 * @return the userProfilePhoneNumber1
+	 */
+	public String getUserProfilePhoneNumber1() {
+		return userProfilePhoneNumber1;
+	}
+	/**
+	 * @param userProfilePhoneNumber1 the userProfilePhoneNumber1 to set
+	 */
+	public void setUserProfilePhoneNumber1(String userProfilePhoneNumber1) {
+		this.userProfilePhoneNumber1 = userProfilePhoneNumber1;
+	}
+	/**
+	 * @return the userProfilePhoneNumber2
+	 */
+	public String getUserProfilePhoneNumber2() {
+		return userProfilePhoneNumber2;
+	}
+	/**
+	 * @param userProfilePhoneNumber2 the userProfilePhoneNumber2 to set
+	 */
+	public void setUserProfilePhoneNumber2(String userProfilePhoneNumber2) {
+		this.userProfilePhoneNumber2 = userProfilePhoneNumber2;
+	}
+	/**
+	 * @return the userProfilePhoneNumber3
+	 */
+	public String getUserProfilePhoneNumber3() {
+		return userProfilePhoneNumber3;
+	}
+	/**
+	 * @param userProfilePhoneNumber3 the userProfilePhoneNumber3 to set
+	 */
+	public void setUserProfilePhoneNumber3(String userProfilePhoneNumber3) {
+		this.userProfilePhoneNumber3 = userProfilePhoneNumber3;
+	}
+	/**
+	 * @return the userProfilePhoneNumber4
+	 */
+	public String getUserProfilePhoneNumber4() {
+		return userProfilePhoneNumber4;
+	}
+	/**
+	 * @param userProfilePhoneNumber4 the userProfilePhoneNumber4 to set
+	 */
+	public void setUserProfilePhoneNumber4(String userProfilePhoneNumber4) {
+		this.userProfilePhoneNumber4 = userProfilePhoneNumber4;
+	}
 
 }
