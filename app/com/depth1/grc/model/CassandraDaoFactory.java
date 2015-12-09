@@ -30,10 +30,10 @@ public class CassandraDaoFactory extends DaoFactory {
 	
 	
 	 /**
-	 * This method creates a connection to the Cassandra database
+	 * Creates a connection to the Cassandra database
 	 * @return session The session object to connect to the database
 	 */
-	public static Session connect() {
+	public static Session getSession() {
 		  CassandraPoolImpl pool = null;
 		  Session session = null;
 		  try {
@@ -46,7 +46,7 @@ public class CassandraDaoFactory extends DaoFactory {
 	  }
 	  
 	 /**
-	 * This method closes connection to the Cassandra database
+	 * Closes connection to the Cassandra database
 	 * @return session The session object to connect to the database
 	 */
 	public static void close(Session session) {
@@ -65,7 +65,7 @@ public class CassandraDaoFactory extends DaoFactory {
 	 */
 	public PolicyDao getPolicyDao() {
 		    
-		    return null;
+		    return new CassandraPolicyDao();
 		  }
 	
 	/* (non-Javadoc)
@@ -111,16 +111,5 @@ public class CassandraDaoFactory extends DaoFactory {
 		    
 		    return new DropDownListReader();
 		  }	
-
-
-	/**
-	 * Returns connection to the database for use by calling APIs
-	 * @return the session for the connection to the database
-	 */
-	public static Session getSession() {
-		return CassandraDaoFactory.connect();
-	}	
-
-
 
 }

@@ -2,19 +2,24 @@
 <!DOCTYPE html>
    <html ng-app="ermApp">
       <head>
+    	 
          <link rel="stylesheet" media="screen" href="/assets/stylesheets/bootstrap.min.css"> 
-         <link rel="stylesheet" media="screen" href="/assets/stylesheets/flatly.css">
+         <link rel="stylesheet" media="screen" href="/assets/stylesheets/flatly.css"> 
+         <link rel="stylesheet" media="screen" href="/assets/jquery-ui/jquery-ui.theme.min.css"> 
+    	 
          <link rel="stylesheet" media="screen" href="/assets/stylesheets/mainpage-custom.css">
          <link rel="stylesheet" media="screen" href="/assets/stylesheets/navbar.css">
+      
+      	 
       </head>
       <body>
          
          <div class="container-fluid" id="mainpage-header">
             <h3 class="float-left" >Company Name\Logo</h3>
             <h5 class="float-right"><a class="blue-link" href="/"><span class="glyphicon glyphicon-home" ></span> Home </a> |
-               <a class="blue-link" href="#"><span class="glyphicon glyphicon-user" ></span> Account Profile </a> | 
+               <a class="blue-link" href="/userprofile/1/25/descendingName"><span class="glyphicon glyphicon-user" ></span> Account Profile </a> | 
                <a class="blue-link" href="#"><span class="glyphicon glyphicon-cog" ></span> Settings </a> | 
-               <a class="blue-link" href="#"><span class="glyphicon glyphicon-off" ></span> Log Out </a>
+               <a class="blue-link" href="/logout"><span class="glyphicon glyphicon-off" ></span> Log Out </a>
             </h5>
          </div>
          <div class= "main-navbar">
@@ -28,8 +33,10 @@
                </li>
                <li> <a  href="#">Policy</a>
                   <ul class="ul-border">
-                     <li> <a  href="#">View</a>
-                     <li> <a  href="#">Create New</a>
+
+                     <li> <a  href="/policy/1/10/ascendingName">Policy</a>
+                     <li> <a  href="#">Procedure</a>
+
                   </ul>
                </li>
                <li> <a  href="#">Enterprise Risk</a>
@@ -43,7 +50,9 @@
                                  <li> <a  href="#">Risk Register</a> </li>
                               </ul>
                            </li>
-                           <li> <a  href="/riskAssessment/1/4/descendingRisk">Risk Assessment</a></li>
+
+                           <li> <a  href="/riskAssessment/1/10/descendingRisk">Risk Assessment</a></li>
+
                            <li> <a  href="#">Risk Response</a></li>
                            <li> <a  href="#">Control Activities</a></li>
                            <li> <a  href="#">Monitoring</a></li>
@@ -54,6 +63,8 @@
                      <li> <a  href="#">Market Risk</a></li>
                
                   </ul>
+               </li>
+               <li> <a href="#"> 3LOD </a>
                </li>
                <li> <a href="#">Governance</a>
                   <ul class="ul-border">
@@ -76,8 +87,14 @@
                            <li> <a  href="#">Department</a></li>
                         </ul>
                      </li>
+
+                     <li> <a href="/tenant/1/10/descendingName">Tenant</a>
+                     </li>
+
                   </ul>
                </li>
                <li> <a href="#">Property Partner</a></li> 
             </ul>
+
          </div>
+

@@ -1,5 +1,4 @@
 @import com.depth1.grc.model.RiskAssessment
-
 @(riskAssessments:List[RiskAssessment], rASize:Integer)
 
 @header()
@@ -83,7 +82,8 @@
 	                </FORM>
 	             </td>
 	             <td>
-	             <INPUT TYPE="button" id="raDeleteButton" class="raList-Button" value = "Delete" onclick="deleteRA()" disabled>
+	             	<INPUT TYPE="button" id="raDeleteButton" class="raList-Button" value = "Delete" onclick="deleteRA()" disabled>
+
 	             </td>
 	             <td>
 	                <FORM ACTION=/riskAssessment/update>
@@ -105,6 +105,7 @@
         <script>
            var rAFrontListSize = @rASize;
         </script> 
+
 
 @footer()
 

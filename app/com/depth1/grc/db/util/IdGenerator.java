@@ -3,15 +3,14 @@ package com.depth1.grc.db.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import play.Logger;
-
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.QueryExecutionException;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.depth1.grc.model.CassandraDaoFactory;
+
+import play.Logger;
 
 /**
  * Helper class to compute unique ID for classes that requires unique integer or long Id
@@ -33,7 +32,6 @@ public class IdGenerator {
      * @throws DataException when a query exception occurs
      */
 	public final static synchronized int getNextIntegerId(String tableName) throws DataException {
-		Session dbSession = CassandraDaoFactory.connect();
 		try {
 			// if a max has already been retrieved from this table,
 			// compute the next id without hitting the database
@@ -45,7 +43,7 @@ public class IdGenerator {
 			}
 
 			Statement select = QueryBuilder.select().column("id").from("grc", tableName);
-			ResultSet result = dbSession.execute(select);
+			ResultSet result = CassandraDaoFactory.getSession().execute(select);
 			Row row = result.one();
 			int max = row.getInt(1);
 			max++;
@@ -56,7 +54,7 @@ public class IdGenerator {
 			throw new DataException(e);
 		} finally {
 			// done, close the session
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 	}
 	
@@ -71,7 +69,6 @@ public class IdGenerator {
      * @throws DataException when a query exception occurs
      */
 	public final static synchronized long getNextLongId(String tableName) throws DataException {
-		Session dbSession = CassandraDaoFactory.connect();
 		try {
 			// if a max has already been retrieved from this table,
 			// compute the next id without hitting the database
@@ -83,7 +80,7 @@ public class IdGenerator {
 			}
 
 			Statement select = QueryBuilder.select().column("id").from("grc", tableName);
-			ResultSet result = dbSession.execute(select);
+			ResultSet result = CassandraDaoFactory.getSession().execute(select);
 			Row row = result.one();
 			long max = row.getLong(1);
 			max++;
@@ -94,7 +91,7 @@ public class IdGenerator {
 			throw new DataException(e);
 		} finally {
 			// done, close the session
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 	}	
 } 

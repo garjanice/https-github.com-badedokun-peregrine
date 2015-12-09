@@ -54,7 +54,6 @@ public  interface TenantDao
 	 * @throws DaoException if error occurs while finding a tenant in the data store
 	 */
 	public Tenant getTenant(long tenantId) throws DaoException;
-	
 	/**
 	 * Finds a tenant.
 	 * 
@@ -72,7 +71,6 @@ public  interface TenantDao
 	 * @throws DaoException if error occurs while finding a tenant in the data store
 	 */
 	public boolean findTenant(String name) throws DaoException;	
-	
 	
 }
 

@@ -5,23 +5,22 @@ package com.depth1.grc.db.util;
 
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import com.datastax.driver.core.ResultSetFuture;
-import com.datastax.driver.core.Row;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.exceptions.QueryExecutionException;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
 import com.depth1.grc.model.CassandraDaoFactory;
 import com.depth1.grc.model.DaoException;
+import com.depth1.grc.model.RdbDaoFactory;
 import com.depth1.grc.model.common.Keyspace;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-//import play.Logger;
+import play.Logger;
 import play.Play;
 import play.cache.Cache;
 
@@ -31,16 +30,14 @@ import play.cache.Cache;
  */
 public class DropDownListReader implements DropDownList {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(DropDownListReader.class);
-	
 	//select the type of deployment model from the configuration file
-			private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
+	private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
 
 	/**
-	 * 
+	 * Default constructor
 	 */
 	public DropDownListReader() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -150,10 +147,10 @@ public class DropDownListReader implements DropDownList {
 		 select = QueryBuilder.select()
 				.all()
 				.from(Keyspace.valueOf(keyspace), "state")
-				.where(eq("country_code", countryCode));				
+				.where(eq("country_code", countryCode.toUpperCase()));				
 				
 		} catch (DriverException e) {
-			LOGGER.error("Error occurred while retrieving a data from the state table ", e);
+			Logger.error("Error occurred while retrieving a data from the state table ", e);
 		} finally {
 			// close the connection to the database();
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
@@ -190,5 +187,109 @@ public class DropDownListReader implements DropDownList {
 			throw new DataException(e);
 		}
 	}
+	
+	/**
+     * Retrieves world time zones.
+     * 
+     * @return list of world time zones
+     * @exception DataException if error occurs while retrieving data from the table
+     */
+	@SuppressWarnings("unchecked")
+	public List<String> getTimezone() throws DataException {
+		final String cacheKey = "timezones";
+		final List<String> allZones = new ArrayList<String>();
+		try {
+			final Object timezones = Cache.get(cacheKey);
+			if (timezones == null) {
+				ResultSet results = timezone();
+				while (results.next()) {
+					String countryCode = results.getString(1);
+					String zoneName = results.getString(2);
+					String abbreviation = results.getString(3);
+					String timezone = countryCode.concat(" ").concat(zoneName).concat(" ").concat(abbreviation);
+					allZones.add(timezone);
+				}
+
+				Cache.set(cacheKey, allZones);
+				return allZones;
+			} else {
+
+				return (List<String>) timezones;
+
+			}
+		} catch (QueryExecutionException e) {
+			throw new DataException(e);
+		} catch (SQLException e) {
+			throw new DataException(e);
+		}
+	}
+	
+	/**
+	 * Retrieves states in a given country.
+	 * 
+	 * @return rows of world time zones
+	 * @throws DaoException if error occurs while getting states from the state table
+	 */
+	private ResultSet timezone() throws DataException {
+		ResultSet result = null;
+		try {
+		 String select = "SELECT z.country_code, z.zone_name,  tz.abbreviation " +
+				 		 "FROM `timezone` tz JOIN `zone` z ON tz.zone_id=z.zone_id " +
+				 		 "WHERE tz.time_start < UNIX_TIMESTAMP(UTC_TIMESTAMP()) " +
+				 		 "ORDER BY tz.time_start DESC LIMIT 30000";
+
+		result = RdbDaoFactory.getSession().createStatement().executeQuery(select);
+		if (result == null) {
+			throw new DataStoreException("Execution of select statement failed.");
+		}
+		
+		} catch (DataStoreException e) {
+			Logger.error("Error occurred while retrieving data from the timezone table ", e);
+		} catch (SQLException e) {
+			Logger.error("Error occurred while retrieving data from the timezone table ", e);	
+		} finally {
+			// close the connection to the database();
+			RdbDaoFactory.close(RdbDaoFactory.getSession());
+		}
+		return result;
+		
+	}		
+	
+    /**
+     * Creates a control principle.
+     * 
+     * @exception DataException if errors occurs while creating a control principle
+     */
+    public void createControlPrinciple() throws DataException {
+    	
+    }
+    
+    /**
+     * Updates a control principle.
+     * 
+     * @exception DataException if errors occurs while updating a control principle
+     */
+    public void updateControlPrinciple() throws DataException {
+    	
+    }
+    
+    /**
+     * Updates a control principle.
+     * 
+     * @exception DataException if errors occurs while updating a control principle
+     */
+    public void deleteControlPrinciple() throws DataException {
+    	
+    } 
+    
+    /**
+     * Retrieves control principle.
+     * 
+     * @exception DataException if errors occurs while updating a control principle
+     */
+    public List<String> getControlPrinciple() throws DataException {
+    	return null;
+    }
+	
 
 }
