@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.QueryExecutionException;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
@@ -28,18 +27,21 @@ public class Location {
      * @throws DaoException if error occurs while executing the query statement
      */
     public static List<String> getCountry() throws DaoException {
-    	Session dbSession = CassandraDaoFactory.connect();
 		try {
 			Statement getAllCountries = QueryBuilder.select()
 					.column("country_name").from("grc", "country");
 
-			ResultSet result = dbSession.execute(getAllCountries);
+
+			ResultSet result = CassandraDaoFactory.getSession().execute(getAllCountries);
+
 			return getColumnValues(result, "country_name");
 		} catch (QueryExecutionException e) {
 			Logger.error("Error occured while executing the query");
 			throw new DaoException(e);
 		} finally {
-			CassandraDaoFactory.close(dbSession);
+
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+
 		}
 
 	}
@@ -52,19 +54,19 @@ public class Location {
      * @throws DaoException if error occurs while executing the query statement
      */
     public static List<String> getState(String country) throws DaoException {
-    	Session dbSession = CassandraDaoFactory.connect();
+
 		try {
 			Statement getState = QueryBuilder.select().column("short_name")
 					.from("grc", "state").allowFiltering()
 					.where(QueryBuilder.eq("country_code", country));
-
-			ResultSet result = dbSession.execute(getState);
+			ResultSet result = CassandraDaoFactory.getSession().execute(getState);
 			return getColumnValues(result, "short_name");
 		} catch (QueryExecutionException e) {
 			Logger.error("Error occured while executing the query");
 			throw new DaoException(e);
 		} finally {
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+
 		}
 	}
     

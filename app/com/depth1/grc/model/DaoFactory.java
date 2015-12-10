@@ -3,6 +3,8 @@
  */
 package com.depth1.grc.model;
 
+import com.depth1.grc.db.util.DropDownList;
+
 /**
  * 
  * An Abstract factory pattern for Data Access Object (DAO)
@@ -21,7 +23,7 @@ public abstract class DaoFactory {
 	
 	 // List of DAO types supported by the factory
 	  public static final int CASSANDRA = 1;
-	  public static final int MYSQL = 2;
+	  public static final int MARIADB = 2;
 	  public static final int ORACLE = 3;
 	  public static final int XML = 4;
 
@@ -77,6 +79,19 @@ public abstract class DaoFactory {
 	public abstract UserProfileDao getUserProfileDao() throws DaoException;	
 	
 	/**
+<<<<<<< HEAD
+=======
+	 * Returns the DropDownlist DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return DropDownList drop down data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
+	 */
+	
+	public abstract DropDownList getDropDownList() throws DaoException;		
+	
+	/**
+>>>>>>> e7f9fff99988c7a3a868fe38792778202192484b
 	 * Selects the appropriate DAO factory to use based on data store option the application 
 	 * plans to use
 	 * @param whichfactory factory to use
@@ -89,8 +104,8 @@ public abstract class DaoFactory {
 		    switch (whichFactory) {
 		      case CASSANDRA: 
 		          return new CassandraDaoFactory();
-		      case MYSQL: 
-		          return new NoSqlDaoFactory();       
+		      case MARIADB: 
+		          return new RdbDaoFactory();       
 		      case ORACLE: 
 		          return new NoSqlDaoFactory();      
 		      case XML: 

@@ -6,14 +6,11 @@ package com.depth1.grc.controllers;
 import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Login;
-import com.depth1.grc.model.TenantDao;
-import com.depth1.grc.model.UserProfile;
 import com.depth1.grc.model.UserProfileDao;
 import com.depth1.grc.views.html.index;
 import com.depth1.grc.views.html.login;
-
-
 import play.Logger;
+import play.cache.Cache;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -29,6 +26,8 @@ public class ApplicationLogin extends Controller {
 	
 	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
 	private static final Form<Login> loginForm = Form.form(Login.class);
+	public static final String LOGIN_EMAIL = "username";
+	public static final String SUCCESS = "success";
 	
 	public Result login() {
 
@@ -61,5 +60,17 @@ public class ApplicationLogin extends Controller {
 		return ok(index.render());
 				
 	}
+	
+    /**
+     * Logout a login user when the user clicks the logout button
+     * 
+     */
+    public Result logout() {
+        session().remove(LOGIN_EMAIL);
+        Cache.remove(LOGIN_EMAIL);
+        flash(SUCCESS, "You have successfully logged out!");
+        return redirect(routes.ApplicationLogin.login() );
+        //return ok(index.render());
+    }	
 
 }

@@ -1,0 +1,111 @@
+@import com.depth1.grc.model.Policy
+@(selectedPolicy : Policy, policyBody:String)
+@import helper._
+
+@header()
+
+		<center>
+           	<h1> Policy </h1>
+           	<br>
+           	<br>
+           	<br>
+        </center>
+        <center>
+			<div class="policyViewBox">
+            	<h4 class="policyViewBoxTitle"> Identification </h4>
+	        	<table id="policyViewTable">
+	           		<tr>	
+	           			<td class="policyViewRow1"><b>Name:</b></td>
+	           			<td class="policyViewRow1-2">@selectedPolicy.getName</td>
+	           			
+	           		</tr>
+	           	</table>
+	           	<table id="policyViewTable">
+					<tr>
+						<td class="policyViewRow2"><b>Version:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getVersion</td>
+						<td class="policyViewRow2"><b>Author:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getAuthor</td>
+						<td class="policyViewRow2"><b>Format:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getFormat</td>
+					</tr>
+				</table>
+	           	<table id="policyViewTable">
+					<tr>
+						<td class="policyViewRow1"><b>Subject:</b></td>
+	           			<td class="policyViewRow1-2">@selectedPolicy.getSubject</td>
+	           		</tr>
+	           		<tr>
+	           			<td class="policyViewRow1"><b>Description:</b></td>
+	           			<td class="policyViewRow1-2">@selectedPolicy.getDescription</td>
+	           		</tr>
+	           	</table>
+	           	<table id="policyViewTable">
+					<tr>
+						<td class="policyViewRow2"><b>Language:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getLanguage</td>
+						<td class="policyViewRow2"><b>Source:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getSource</td>
+						<td class="policyViewRow2"><b>Category:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getCategory</td>
+					</tr>
+					<tr>
+						<td class="policyViewRow2"><b>Classification:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getClassification</td>
+						<td class="policyViewRow2"><b>Sunset Date:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getSunsetDate</td>
+						<td class="policyViewRow2"><b>Reference:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getReference</td>
+					</tr>
+				</table>
+	           	<table id="policyViewTable">
+					<tr>
+	           			<td class="policyViewRow1"><b>Legal Requirement:</b></td>
+	           			<td class="policyViewRow1-2">@selectedPolicy.getLegalRequirement</td>
+	           		</tr>
+	           	</table>
+	           	<table id="policyViewTable">
+					<tr>
+						<td class="policyViewRow2"><b>Compliance Category:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getComplianceCategory</td>
+						<td class="policyViewRow2"><b>Regulatory:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getRegulatory</td>
+						<td class="policyViewRow2"><b>Producing Function:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getProducingFunction</td>
+					</tr>
+					<tr>
+						<td class="policyViewRow2"><b>Approver:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getApprover</td>
+						<td class="policyViewRow2"><b>Owner:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getOwner</td>
+						<td class="policyViewRow2"><b>Document Contact:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getDocumentContact</td>
+					</tr>
+				</table>
+	           	<table id="policyViewTable">
+					<tr>
+	           			<td class="policyViewRow1"><b>Functional Applicability:</b></td>
+	           			<td class="policyViewRow1-2">@selectedPolicy.getFunctionalApplicability</td>
+	           		</tr>
+					<tr>
+	           			<td class="policyViewRow1"><b>Geographic Applicability:</b></td>
+	           			<td class="policyViewRow1-2">@selectedPolicy.getGeographicApplicability</td>
+	           		</tr>
+	           	</table>
+	           	<table id="policyViewTable">
+					<tr>
+						<td class="policyViewRow2"><b>Effective Date:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getEffectiveDate</td>
+						<td class="policyViewRow2"><b>Issue Date:</b></td>
+						<td class="policyViewRow2">@selectedPolicy.getOriginalIssueDate</td>
+						
+					</tr>
+				</table>
+			</div>
+		</center>
+
+
+
+
+
+@footer()

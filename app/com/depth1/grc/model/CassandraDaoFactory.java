@@ -6,6 +6,9 @@ package com.depth1.grc.model;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.depth1.grc.db.util.CassandraPoolImpl;
+import com.depth1.grc.db.util.DropDownList;
+import com.depth1.grc.db.util.DropDownListReader;
+
 
 import play.Logger;
 
@@ -28,10 +31,10 @@ public class CassandraDaoFactory extends DaoFactory {
 	
 	
 	 /**
-	 * This method creates a connection to the Cassandra database
+	 * Creates a connection to the Cassandra database
 	 * @return session The session object to connect to the database
 	 */
-	public static Session connect() {
+	public static Session getSession() {
 		  CassandraPoolImpl pool = null;
 		  Session session = null;
 		  try {
@@ -44,7 +47,7 @@ public class CassandraDaoFactory extends DaoFactory {
 	  }
 	  
 	 /**
-	 * This method closes connection to the Cassandra database
+	 * Closes connection to the Cassandra database
 	 * @return session The session object to connect to the database
 	 */
 	public static void close(Session session) {
@@ -63,7 +66,7 @@ public class CassandraDaoFactory extends DaoFactory {
 	 */
 	public PolicyDao getPolicyDao() {
 		    
-		    return null;
+		    return new CassandraPolicyDao();
 		  }
 	
 	/* (non-Javadoc)
@@ -82,7 +85,7 @@ public class CassandraDaoFactory extends DaoFactory {
 	 */
 	public RiskRegisterDao getRiskRegisterDao() {
 		    
-		    return null;
+		    return new CassandraRiskRegisterDao();
 		  }
 	  	
 	
@@ -101,16 +104,13 @@ public class CassandraDaoFactory extends DaoFactory {
 		    
 		    return new CassandraUserProfileDao();
 		  }
-
-
-	/**
-	 * Returns connection to the database for use by calling APIs
-	 * @return the session for the connection to the database
+	
+	/* (non-Javadoc)
+	 * @see com.depth1.grc.model.DaoFactory#getTenantDao()
 	 */
-	public static Session getSession() {
-		return CassandraDaoFactory.connect();
-	}	
-
-
+	public DropDownList getDropDownList() {
+		    
+		    return new DropDownListReader();
+		  }	
 
 }

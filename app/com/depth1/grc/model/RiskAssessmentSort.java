@@ -16,7 +16,7 @@ import java.util.List;
 public class RiskAssessmentSort {
 	
 	/**
-	 * Sorts the RiskAssessments List by particular properties.
+	 * This method sorts the RiskAssessments List by particular properties.
 	 * @param riskAssessments - riskAssessment retrieved form the database
 	 * @param order - string describing the property to sort on and how to sort
 	 * @return - list of sorted RiskAssessments
@@ -84,7 +84,7 @@ public class RiskAssessmentSort {
 	}
 	
 	/**
-	 * Pulls out a specific number of RiskAssessment to display for pagination.
+	 * This method pulls out a specific number of RiskAssessment to display for pagination.
 	 * @param riskAssessments - list of RiskAssessments
 	 * @param numberOfItems - the number of items to show per page
 	 * @param page - the current page number for pagination
@@ -102,7 +102,7 @@ public class RiskAssessmentSort {
 	}
 	
 	/**
-	 * Filters the list of RiskAssessments by a specific String Query searching
+	 * This method filters the list of RiskAssessments by a specific String Query searching
 	 * the Risk and Consequences fields.
 	 * @param riskAssessments - List of RiskAssessments to Filter
 	 * @param query - the String to search for
@@ -123,3 +123,4 @@ public class RiskAssessmentSort {
 	}
 	
 }
+

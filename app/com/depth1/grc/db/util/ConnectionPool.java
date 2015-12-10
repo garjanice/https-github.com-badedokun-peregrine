@@ -1,13 +1,7 @@
-/**
- * 
- */
 package com.depth1.grc.db.util;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
-
-import com.datastax.driver.core.exceptions.DriverException;
-
 /**
  * 
  * This class implements the ObjectPool pattern to provide an efficient way of accessing data store 
@@ -22,7 +16,6 @@ public abstract class ConnectionPool<T> {
 
 	private Hashtable<T, Long> locked, unlocked;
 	
-	//public Client client;
 	
 	/**
 	 * No argument constructor
@@ -35,39 +28,43 @@ public abstract class ConnectionPool<T> {
 	}
 
 	/**
-	 * Creates a connection to the data store
-	 * @throws DriverException When error occurs while connecting to the data store
+
+	 * Creates a connection to the data store.
 	 * 
+	 * @return T The object type that was created
+	 * @throws DataStoreException If error occurs while connecting to the data store
 	 */
 	
-	public abstract T create() throws DriverException;
+	public abstract T create() throws DataStoreException;
 	
 	/**
-	 * Validates the connection to determine if it expired or still valid
+	 * Validates the connection to determine if it expired or still valid.
+	 * @param reusable Object type to validate
 	 * @return boolean True if the connection is still valid, false otherwise
-	 * @throws DriverException When error occurs while validating the connection to the data store
+	 * @throws DataStoreException If error occurs while validating the connection to the data store
 	 * 
 	 */
 	
-	public abstract boolean validate(T reusable) throws DriverException ;
+	public abstract boolean validate(T reusable) throws DataStoreException ;
 	
 	/**
 	 * Expires/Closes a connection to the data store
-	 * @throws DriverException When error occurs while closing a connection to the data store
-	 *
+	 * @param reusable Object type to expire
+	 * @throws DataStoreException If error occurs while closing a connection to the data store
 	 */
 	
-	public abstract void expire(T reusable) throws DriverException;
+	public abstract void expire(T reusable) throws DataStoreException;
+
 	
 	/**
 	 * Checks out a connection from the connection pool if an object is available in the pool.
 	 * If no object is available it creates a new object and put it in the pool
 	 * @return The type of connection to check out from the pool
-	 * @throws DataException When error occurs while creating an object to put in the pool
+	 * @throws DataStoreException When error occurs while creating an object to put in the pool
 	 *
 	 */
 	
-	public synchronized T checkOut() throws DriverException {
+	public synchronized T checkOut() throws DataStoreException {
 		long now = System.currentTimeMillis();
 		T pool;
 		if (unlocked.size() > 0) {
@@ -98,17 +95,17 @@ public abstract class ConnectionPool<T> {
 		try {
 			pool = create();
 			locked.put(pool, now);
-		} catch (DriverException de) {
-			throw new DriverException("Unable to to connect to the cluster.");
+		} catch (DataStoreException dse) {
+			throw new DataStoreException("Unable to to connect to the cluster.");
 
 		}
 		return (pool);
 	}
 	
 	/**
-	 * Puts object in the pool
-	 * @param pool The type of object to put in the pool
+	 * Puts object in the pool.
 	 * 
+	 * @param pool The type of object to put in the pool
 	 */
 	
 	public synchronized void checkIn(T pool) {

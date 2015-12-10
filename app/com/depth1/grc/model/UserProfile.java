@@ -10,6 +10,13 @@ import java.util.UUID;
 
 import com.datastax.driver.core.utils.UUIDs;
 
+import play.data.validation.Constraints.Email;
+import play.data.validation.Constraints.MaxLength;
+import play.data.validation.Constraints.MinLength;
+import play.data.validation.Constraints.Required;
+
+
+
 /**
  * This class is the business object for creating, updating, deleting, viewing, and finding a user.<br> 
  * @author Bisi Adedokun
@@ -18,24 +25,44 @@ import com.datastax.driver.core.utils.UUIDs;
 public class UserProfile {
 	
     private UUID id;
+
+    @Required
     private long tenantId;
+    @Required
     private String fname;
+    @Required
     private String lname;
+    @Required
     private String gender;
+    @Required
+    @MaxLength(128)
+    @Email
     private String username;
+    @Required
+    @MaxLength(128)
+    @MinLength(6)
     private String password;
+    @Required
+    @MaxLength(128)
+    @Email
     private String email;
+    @Required
     private String street1;
     private String street2;
+    @Required
+
     private String city;
     private String zipcode;
     private String state;
     private String province;
+
+    @Required
     private String country;
     private String latitude;
     private String longitude;
-    private String lineofdefense;
-    private Timestamp createdate;
+    private String lineofdefense; //values: 1LoD, 2LoD, 3LoD
+    private UUIDs createdate;
+    @Required
     private String status;
     private Map<String, String> phones;
     private String timeZone;
@@ -45,7 +72,6 @@ public class UserProfile {
     private String salutation;
     private String pfname;
     private String title;
-	private UUIDs testDate;
 	private long uuidTime;
 	private Date dateUtil;
     
@@ -107,7 +133,8 @@ public class UserProfile {
 	 * @param username the username to set
 	 */
 	public void setUsername(String username) {
-		this.username = username;
+
+		this.username = username.toLowerCase();
 	}
 	/**
 	 * @return the password
@@ -131,7 +158,10 @@ public class UserProfile {
 	 * @param emailAddress the emailAddress to set
 	 */
 	public void setEmail(String email) {
-		this.email = email;
+
+
+		this.email = email.toLowerCase();
+
 	}
 
 	/**
@@ -208,6 +238,7 @@ public class UserProfile {
 	/**
 	 * @param street2 the street2 to set
 	 */
+
 	public void setStreet2(String street2) {
 		this.street2 = street2;
 	}
@@ -310,13 +341,16 @@ public class UserProfile {
 	/**
 	 * @return the createdate
 	 */
-	public Timestamp getCreatedate() {
+
+	public UUIDs getCreatedate() {
+
 		return createdate;
 	}
 	/**
 	 * @param createdate the createdate to set
 	 */
-	public void setCreatedate(Timestamp createdate) {
+
+	public void setCreatedate(UUIDs createdate) {
 		this.createdate = createdate;
 	}
 	/**
@@ -343,7 +377,6 @@ public class UserProfile {
 	public void setPhones(Map<String, String> phones) {
 		this.phones = phones;
 	}
-	
     /**
 	 * @return the minitial
 	 */
@@ -391,18 +424,6 @@ public class UserProfile {
 	 */
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	/**
-	 * @return the testDate
-	 */
-	public UUIDs getTestDate() {
-		return testDate;
-	}
-	/**
-	 * @param testDate the testDate to set
-	 */
-	public void setTestDate(UUIDs testDate) {
-		this.testDate = testDate;
 	}
 	/**
 	 * @return the uuidTime

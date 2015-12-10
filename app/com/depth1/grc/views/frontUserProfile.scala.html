@@ -1,0 +1,81 @@
+@import com.depth1.grc.model.UserProfile
+@(userProfiles:List[UserProfile], userProfileSize:Integer)
+
+@header()
+        
+        <center>
+           <h1> User Profile</h1>
+           <h6> Front Page</h6>
+           <br>
+           <br>
+           <br>
+        </center>
+        <div class="margin-50">
+        	
+        		<div class="float-box">
+        			<input type="search" id="userProfileListSearchText" class="searchText" onsearch="userProfileListSearch()" value="Search User Profile">
+        		</div>
+        	
+        	
+        	
+	        <div >
+	          
+	           <div class="tableView">
+	              <p> <a class="blue-link" onclick="changeViewUserProfile(10)"> View 10</a> |
+	              <a class="blue-link" onclick="changeViewUserProfile(25)"> View 25</a> | 
+	              <a class="blue-link" onclick="changeViewUserProfile(50)"> View 50</a> </p>
+	           </div>
+	            <p> <b>Instructions:</b> Please select a User Profile and then View, Update, or Delete. </p>
+	        </div>
+	        <br>
+	        
+	        <div>
+	           
+	           <table id="userProfileTable" class="frontTable">
+	              <thead>
+	                <tr>
+	                   
+	        		   <th id="userProfileTableCol1" onclick="userProfileListSort('name')">Name</span></th>
+					   <th id="userProfileTableCol2" onclick="userProfileListSort('username')">Username</th>
+					   <th id="userProfileTableCol3" onclick="userProfileListSort('email')">Email</th>
+					   
+	                </tr>
+	              </thead>
+	              <tbody>
+	              	 
+	                 @for(userProfile <- userProfiles) {
+				     <tr >
+					    
+					    <td >@userProfile.getFname @userProfile.getLname</td>
+					    <td class="tableRowCenter">@userProfile.getUsername</td>
+					    <td class="tableRowCenter">@userProfile.getEmail</td>
+					    
+				    </tr>
+				    }
+	              </tbody>
+	           </table>
+	        </div>
+        </div>
+        <center>
+           <div id="paginationArray">
+           </div>
+        </center>
+        <br>
+        <br>
+        <br>
+        <center>
+        	<table>
+            	<tr>
+                	
+	          	</tr>
+           	</table>
+        </center>
+        <br>
+        <br>
+        <br>
+        <!-- Needed script to get the total number of Tenants -->
+        <script>
+           var userProfileListSize = @userProfileSize;
+        </script> 
+
+@footer()
