@@ -1,0 +1,132 @@
+@import com.depth1.grc.model.Procedure
+@import helper._ 
+@import play.api.data.Forms._
+@(selectedProcedure:Procedure)
+
+<!-- header -->
+@header()
+		<!-- Main HTML -->
+        <ol class="breadcrumb">
+           <li><a class="blue-link" href="#">Home</a></li>
+           <li><a class="blue-link" href="/procedure/1/2/descendingP">Procedure</a></li>
+           <li>Update</li>
+        </ol>
+
+@main("Update Procedure") {
+	<script src="@routes.Assets.versioned("javascripts/tinymce.min.js")"></script>
+	<script>
+	    tinymce.init({
+	    selector: "#procedurebody",
+	    theme: "modern",
+	    plugins: [
+	        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+	        "searchreplace wordcount visualblocks visualchars code fullscreen",
+	        "insertdatetime media nonbreaking save table contextmenu directionality",
+	        "emoticons template paste textcolor colorpicker textpattern imagetools"
+	    ],
+	    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+	    toolbar2: "print preview media | forecolor backcolor emoticons",
+	    image_advtab: true,
+	    templates: [
+	        {title: 'Test template 1', content: 'Test 1'},
+	        {title: 'Test template 2', content: 'Test 2'}
+	    ]
+		});	
+		
+		function HandleBrowseClick() {
+			document.getElementById("browse").click();
+		}
+		
+		function HandleChange() {
+			var fileinput = document.getElementById("browse");
+    		var textinput = document.getElementById("filename");
+    		textinput.value = fileinput.value;  
+     		fileinput.addEventListener("change", function(event){
+     			event.stopPropagation();    
+         		var reader = new FileReader();        
+         		reader.onload = function(event){
+         			event.stopPropagation();
+             		var contents = event.target.result;
+               		document.getElementById('procedurebody').value = contents;            
+         		};        
+         		reader.onerror = function(event){
+            		console.error("File could not be read! Code " + event.target.error.code);
+         		};        
+         		console.log("Filename: " + fileinput.files[0].name);
+         		reader.readAsText(fileinput.files[0]);        
+     		}, false);
+		}
+	</script>
+	<style>
+	table, th, td {
+    border: 1px solid black;
+}
+textarea {
+    width: 88%;
+    height: 80%;
+    -webkit-box-sizing: border-box; /* <=iOS4, <= Android  2.3 */
+       -moz-box-sizing: border-box; /* FF1+ */
+            box-sizing: border-box; /* Chrome, IE8, Opera, Safari 5.1*/
+}
+	</style>
+	<section class=wrapper>
+        <center>
+           <h1> Update Procedure</h1>
+                     </br>
+        </center>
+       
+        <form id="pCreation" action="/procedure/update/done" method="post">
+	 	<section style="width: 100%; float:center; display:block;">
+          
+		               
+				 <table border="1" align="center" "width:75%">
+				 
+				 <tr><td align = "justify"><label for="id" class="label-style" >Procedure Id:</label></td>
+				 <td align="left"><input type="text" id="id" name="id" class="input-style" value = "@selectedProcedure.getProcedureId" readonly ></td>
+				 <td align = "justify"><label for="name" class="label-style" >Procedure Name:</label></td>
+				 <td align="left"><input type="text" id="name" name="name" class="input-style" value = "@selectedProcedure.getName" ></td>
+				 <td align = "justify"><label for="version" class="label-style" >Version:</label></td>
+				 <td align="left"> <input type="text" id="version" name="version" class="input-style" value = "@selectedProcedure.getVersion" ></td>
+				 <td align = "justify"><label for="description" class="label-style" >Procedure Description: </label></td>
+				 <td align="left"><textarea form="pCreation" cols="40" rows="2" id="description" name="description" class="textarea-adjust">@selectedProcedure.getDescription</textarea></td></tr>
+				 
+				<tr> <td align = "justify"> <label for="author" class="label-style" >Author:</label></td>
+				 <td align="left"><input type="text" id="author" name="author" class="input-style" value = "@selectedProcedure.getAuthor"></td>
+				 <td align = "justify"> <label for="format" class="label-style" >Format:</label></td>
+				 <td align="left"><input type="text" id="format" name="format" class="input-style" value = "@selectedProcedure.getFormat" ></td>
+				 <td align = "justify"><label for="lang" class="label-style" >Language:</label></td>
+                 <td align="left"><input type="text" id="language" name="language" class="input-style" value = "@selectedProcedure.getLanguage" ></td>
+                 <td align = "justify"><label for="sub" class="label-style" >Subject:</label></td>
+                 <td align="left"><input type="text" id="subject" name="subject" class="input-style" value = "@selectedProcedure.getSubject"></td></tr>
+                 
+                 <tr><td align = "justify"><label for="ref" class="label-style" >Policy Reference:</label></td>
+                 <td align="left"><input type="text" id="reference" name="reference" class="input-style"  value = "@selectedProcedure.getReference"></td>
+                 <td align = "justify"><label for="appr" class="label-style" >Approver:</label></td>
+                 <td align="left"><input type="text" id="approver" name="approver" class="input-style" value = "@selectedProcedure.getApprover" ></td>
+                 <td align = "justify"><label for="owner" class="label-style label-push-3" >Owner:</label></td>
+                 <td align="left"><input type="text" id="owner" name="owner" class="input-style" value = "@selectedProcedure.getOwner"></td>
+                 <td align = "justify"></td>
+                <td align = "justify"></td></tr>
+                  
+				 </table>
+               	 </section>
+          	 </br></br>
+			
+         <section style="display:inline-block; float:center; width:89%;">
+		<input type="file" id="browse" name="fileupload" style="display: none" onchange="HandleChange();"/>
+		<input type="text" align="right" id="filename" readonly="true"/>
+		<input type="button" align="right" value="Click to select file"  id="fakeBrowse" onclick="HandleBrowseClick();"/>
+		<br>
+		<br>
+		<textarea form="pbdy" cols="20" rows="10" id="procedurebody" name="procedurebody" class="textarea-adjust"></textarea></td>
+		<input type="submit" name="action" value="Submit">
+		<input type="submit" value="Cancel">
+	</section>
+	</form>
+    }  
+    </br> </br> 
+    
+     
+
+<!-- footer -->
+@footer()

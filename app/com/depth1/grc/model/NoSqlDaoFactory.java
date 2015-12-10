@@ -9,7 +9,7 @@ import com.depth1.grc.db.util.DropDownListReader;
  * @generated
  */
 
-public class NoSqlDaoFactory extends DaoFactory
+public  class NoSqlDaoFactory extends DaoFactory
 {
 	/**
 	 * <!-- begin-user-doc -->
@@ -68,7 +68,13 @@ public class NoSqlDaoFactory extends DaoFactory
 	public DropDownList getDropDownList() {
 		    
 		    return new DropDownListReader();
-		  }		
+		  }
+
+	@Override
+	public ProcedureDao getProcedureDao() throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
+	}		
 
 }
 

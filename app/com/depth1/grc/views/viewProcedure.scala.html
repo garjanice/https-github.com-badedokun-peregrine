@@ -1,0 +1,66 @@
+@import com.depth1.grc.model.Procedure
+@(selectedProcedure:Procedure) 
+@import helper._
+<!-- header -->
+@header()
+
+<!-- main html -->
+       <ol class="breadcrumb">
+           <li><a class="blue-link" href="/">Home</a></li>
+          <li><a class="blue-link" href="/procedure/1/2/descendingP">Procedure</a></li>
+           <li>View Procedure </li>
+        </ol>
+        
+        <center>
+           <h1> Procedure</h1>
+           <br>
+           <br>
+           <br>
+        </center>
+        <center>
+        <div class="pViewBox">
+            <h4 class="pViewBoxTitle"> Identification</h4>
+	        <table id="pViewTable">
+	           <tr>
+	              <td class="pViewRow1"> <b>Tenant Id:</b></td>
+	              <td class="pViewRow1"> @selectedProcedure.getTenantId</td>
+	              <td class="pViewRow1"> <b>Procedure ID:</b></td>
+	              <td class="pViewRow1"> @selectedProcedure.getProcedureId&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	             
+	              <td class="pViewRow1"> <b>Author:</b></td>
+	              <td class="pViewRow1"> @selectedProcedure.getAuthor</td>
+	              <td class="pViewRow1"> <b>Owner:</b></td>
+	              <td class="pViewRow1"> @selectedProcedure.getOwner</td>
+				  <td class="pViewRow1"><b>Approver:</b> </td>
+	              <td class="pViewRow1"> @selectedProcedure.getApprover </td>
+				  <td class="pViewRow1"><b>Version:</b> </td>
+	              <td class="pViewRow1"> @selectedProcedure.getVersion </td>
+				  <td class="pViewRow1"><b>Description:</b> </td>
+	              <td class="pViewRow1"> @selectedProcedure.getDescription </td>
+	           </tr>
+	        </table>
+	       
+	      
+		   <h4 class="pViewBoxTitle">Procedure Information</h4>
+	        <table id="pViewTable">
+	           <tr>
+	              <td class="pViewRow1"> <b>Creation Date:</b></td>
+	              <td class="pViewRow1"> @selectedProcedure.getCreationDate</td>
+	              <td class="pViewRow1"> <b>Last Updated Date:</b></td>
+	              <td class="pViewRow1"> @selectedProcedure.getLastUpdatedDate</td>
+	             </tr>
+				 </table>
+		   </div>
+	    <br>
+	    <br>
+	    <button type="button" onclick="goPFrontPage()">Cancel</button>
+	    
+	       <FORM ACTION=/procedure/print>
+			  <INPUT TYPE="submit" id="pPrintButton" value="Print" >
+	       </FORM>
+	    
+	    <br>
+	    <br>
+	    </center>
+<!-- footer -->
+@footer()

@@ -68,7 +68,13 @@ public class XmlDaoFactory extends DaoFactory
 	public DropDownList getDropDownList() {
 		    
 		    return new DropDownListReader();
-		  }		
+		  }
+
+	@Override
+	public ProcedureDao getProcedureDao() throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
+	}		
 	
 
 }

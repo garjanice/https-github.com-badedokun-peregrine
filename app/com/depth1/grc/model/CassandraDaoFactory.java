@@ -28,6 +28,22 @@ public class CassandraDaoFactory extends DaoFactory {
 		super();
 	}
 	
+	/**
+	 * This method creates a connection to the Cassandra database
+	 * @return session The session object to connect to the database
+	 */
+	public static Session connect() {
+		  CassandraPoolImpl pool = null;
+		  Session session = null;
+		  try {
+			  pool = new CassandraPoolImpl();
+			  session = pool.create();
+		} catch (DriverException e) {
+			Logger.error("Error occurred while connecting to the cassandra cluster ", e);
+		} 
+		  return session;
+	  }
+	
 	
 	 /**
 	 * Creates a connection to the Cassandra database
@@ -112,4 +128,15 @@ public class CassandraDaoFactory extends DaoFactory {
 		    return new DropDownListReader();
 		  }	
 
+	/* (non-Javadoc)
+	 * @see com.depth1.grc.model.DaoFactory#getProcedureDao()
+	 */
+	public ProcedureDao getProcedureDao() {
+		    
+		return new CassandraProcedureDao();
+	}
+	/* (non-Javadoc)
+	 * @see com.depth1.grc.model.DaoFactory#getProcedureDao()
+	 */
+	
 }

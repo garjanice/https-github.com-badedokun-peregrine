@@ -60,6 +60,36 @@ POST  	/policy/create/done				com.depth1.grc.controllers.Application.createPolic
 
 POST  	/policy/update/done				com.depth1.grc.controllers.Application.updatePolicy()
 
+GET     /procedure                          com.depth1.grc.controllers.Application.showFrontPPage()
+
+GET		/procedure/create				   	com.depth1.grc.controllers.Application.showCreatePPage()
+
+GET		/procedure/createBody				com.depth1.grc.controllers.Application.showCreateProcedureEditorPage()
+
+GET		/procedure/update  				    com.depth1.grc.controllers.Application.showUpdateProcedurePage()
+
+DELETE	/procedure/delete			        com.depth1.grc.controllers.Application.deleteProcedure()
+
+GET 	/procedure/restore					com.depth1.grc.controllers.Application.showRestoreProcedurePage()
+
+GET 	/procedure/restore/done			    com.depth1.grc.controllers.Application.restoreProcedure(procedureId: String)
+
+GET		/procedure/download/name			com.depth1.grc.controllers.Application.downloadProcedure(name: String)
+
+GET 	/procedure/view			            com.depth1.grc.controllers.Application.showViewProcedurePage()
+
+POST  	/procedure/create/done				com.depth1.grc.controllers.Application.createProcedure()
+
+POST 	/procedure/selected		            com.depth1.grc.controllers.Application.setSelectedP()
+
+POST  	/procedure/update/done				com.depth1.grc.controllers.Application.updateProcedure()
+
+GET 	/procedure/print			         com.depth1.grc.controllers.Application.printPro()
+
+GET		/procedure/getLanguages		         com.depth1.grc.controllers.Universal.getLanguageOption()
+
+
+
 GET		/tenant/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontTenantPage(page: Integer, view: Integer, order: String, query: String ?= "")
 
 GET  	/tenant/create					com.depth1.grc.controllers.Application.showCreateTenant()

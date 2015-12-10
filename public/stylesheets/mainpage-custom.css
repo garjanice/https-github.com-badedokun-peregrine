@@ -1740,3 +1740,103 @@ a:hover {
 	left: 600px;
     width: 175px;
 	}
+	
+/*-------------------front procedure---------------*/
+  
+.pList-Button {
+    width: 100px;
+    height: 30px;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color:Blue;
+    color: #ffffff;
+    border-color: lightblue;
+    }
+    
+    #pListSearchText{
+    float: right;
+    clear: both;
+    border-radius: 10px;
+    }
+
+ .pTableView{
+    float: right;
+    
+    }
+ .highlight{
+    background-color: blue;
+    color: #ffffff;
+    }
+ 
+    #pTable {
+    width: 100%;
+    
+    }
+#pTableCol1 {
+    width: 20%;
+     border-radius: 10px 0px 0px 0px;
+    }
+#pTableCol2 {
+    width: 20%;
+    
+   
+    }
+ #pTableCol3 {
+    width: 25%;
+    }   
+#pTableCol4 {
+    width: 40%;
+    border-radius: 0px 10px 0px 0px;
+    }  
+ 
+#pTable thead th{
+    
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    border-bottom-width: 3px;
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    background: blue;
+    color: #ffffff;
+    }
+
+#pTable td {
+    padding: 5px 10px 5px 10px;
+   
+    } 
+   
+#pTable tr {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    }
+.pTableRowCenter {
+    text-align: center;
+    }
+        
+#pViewTable tr td{
+    padding-top: 25px;
+    }
+    
+.pViewBoxTitle{
+    
+    }
+.pViewBox{
+    border: 2px solid black;
+    padding: 10px;
+    width: 1000px
+    }
+
+
+.pViewRow1{
+    width: 120px;
+    vertical-align: top;
+    
+    }
+#pViewTable{
+    width: 960px;
+    }
+.select-style createprocedure-language-text{
+	
+	width: 175px;
+	}	
+	
