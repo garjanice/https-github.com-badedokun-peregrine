@@ -56,5 +56,9 @@ public class IdProducer {
 	public static Long nextId() {
 		return currentTime.accumulateAndGet(System.currentTimeMillis(), (prev, next) -> next > prev ? next : prev + 1);
 	}
+	
+	public static String nextStringId(String prefix) {
+		return prefix.toUpperCase().concat(nextId().toString().substring(4, 13));
+	}	
 
 }

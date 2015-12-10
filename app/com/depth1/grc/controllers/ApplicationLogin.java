@@ -9,7 +9,6 @@ import com.depth1.grc.model.Login;
 import com.depth1.grc.model.UserProfileDao;
 import com.depth1.grc.views.html.index;
 import com.depth1.grc.views.html.login;
-
 import play.Logger;
 import play.cache.Cache;
 import play.data.Form;

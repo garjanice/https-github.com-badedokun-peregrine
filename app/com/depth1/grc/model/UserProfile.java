@@ -3,6 +3,7 @@
  */
 package com.depth1.grc.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
@@ -14,6 +15,8 @@ import play.data.validation.Constraints.MaxLength;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 
+
+
 /**
  * This class is the business object for creating, updating, deleting, viewing, and finding a user.<br> 
  * @author Bisi Adedokun
@@ -22,6 +25,7 @@ import play.data.validation.Constraints.Required;
 public class UserProfile {
 	
     private UUID id;
+
     @Required
     private long tenantId;
     @Required
@@ -46,10 +50,12 @@ public class UserProfile {
     private String street1;
     private String street2;
     @Required
+
     private String city;
     private String zipcode;
     private String state;
     private String province;
+
     @Required
     private String country;
     private String latitude;
@@ -127,6 +133,7 @@ public class UserProfile {
 	 * @param username the username to set
 	 */
 	public void setUsername(String username) {
+
 		this.username = username.toLowerCase();
 	}
 	/**
@@ -151,7 +158,10 @@ public class UserProfile {
 	 * @param emailAddress the emailAddress to set
 	 */
 	public void setEmail(String email) {
+
+
 		this.email = email.toLowerCase();
+
 	}
 
 	/**
@@ -228,6 +238,7 @@ public class UserProfile {
 	/**
 	 * @param street2 the street2 to set
 	 */
+
 	public void setStreet2(String street2) {
 		this.street2 = street2;
 	}
@@ -330,12 +341,15 @@ public class UserProfile {
 	/**
 	 * @return the createdate
 	 */
+
 	public UUIDs getCreatedate() {
+
 		return createdate;
 	}
 	/**
 	 * @param createdate the createdate to set
 	 */
+
 	public void setCreatedate(UUIDs createdate) {
 		this.createdate = createdate;
 	}
@@ -363,7 +377,6 @@ public class UserProfile {
 	public void setPhones(Map<String, String> phones) {
 		this.phones = phones;
 	}
-	
     /**
 	 * @return the minitial
 	 */

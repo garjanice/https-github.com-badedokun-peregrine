@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -31,11 +32,9 @@ public final class DateUtility {
 	public static final String DISPLAY_FORMAT = "yyyy/MM/dd hh:mm:ss";
 	public static final String DATABASE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
-	
+
 	//public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat("MM/dd/yyyy H:mm:ss.SSS");
 	public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
-
-
 	/**
 	 * 
 	 */
@@ -400,6 +399,7 @@ public final class DateUtility {
 	*/
 	public static java.sql.Date getSqlDate(String date) {
 		return new java.sql.Date(getDate(date).getTime());
+
 	}
 	
     /**
@@ -475,3 +475,5 @@ public final class DateUtility {
     }    
 
 }
+
+

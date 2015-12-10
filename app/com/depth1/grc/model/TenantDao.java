@@ -16,6 +16,7 @@ public  interface TenantDao
 	 * @param tenant tenant to create
 	 * @throws DaoException if error occurs while creating the Tenant in the data store
 	 */
+
 	public void createTenant(Tenant tenant) throws DaoException, ParseException;
 	
 	/**
@@ -25,7 +26,9 @@ public  interface TenantDao
 	 * @return boolean True if the Tenant is successfully deleted, false otherwise
 	 * @throws DaoException if error occurs while deleting a tenant from the data store
 	 */
+
 	public boolean deleteTenant(long tenantId) throws DaoException;
+
 	
 	
 	/**
@@ -54,7 +57,6 @@ public  interface TenantDao
 	 * @throws DaoException if error occurs while finding a tenant in the data store
 	 */
 	public Tenant getTenant(long tenantId) throws DaoException;
-	
 	/**
 	 * Finds a tenant.
 	 * 
@@ -72,7 +74,7 @@ public  interface TenantDao
 	 * @throws DaoException if error occurs while finding a tenant in the data store
 	 */
 	public boolean findTenant(String name) throws DaoException;	
-	
+
 	
 }
 

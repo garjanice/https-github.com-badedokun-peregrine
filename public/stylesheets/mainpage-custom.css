@@ -1,3 +1,4 @@
+
 #raViewTable tr td{
     padding-top: 25px;
     }
@@ -252,3 +253,1490 @@ a:hover {
 .raTableRowCenter {
     text-align: center;
     }
+.genericButton {
+    width: 100px;
+    height: 30px;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color: blue;
+    color: #ffffff;
+    border-color: lightblue;
+    }
+
+.genericViewTableRow1{
+	vertical-align: top;
+	width: 75%;
+	}
+
+.genericViewTableRow2 {
+	vertical-align: top;
+	width: 25%;
+	}
+.genericViewTableRow3 {
+	vertical-align: top;
+	width: 33%;
+	}
+#genericViewTable tr td{
+    padding-top: 25px;
+    }
+#genericViewTable{
+    width: 960px;
+    }
+.genericViewBox{
+    border: 2px solid black;
+    padding: 10px;
+    width: 1000px
+    }
+
+/** Tenant Update CSS */
+
+.tenantAdjust-PhoneNumber8-text{
+	position: absolute;
+	top: 555px;
+	left: 350px;
+	}
+
+.tenantAdjust-Phone8-text{
+	position: absolute;
+	top: 555px;
+	left: 150px;
+	}
+.tenantAdjust-PhoneNumber7-text{
+	position: absolute;
+	top: 525px;
+	left: 350px;
+	}
+
+.tenantAdjust-Phone7-text{
+	position: absolute;
+	top: 525px;
+	left: 150px;
+	}
+.tenantAdjust-PhoneNumber6-text{
+	position: absolute;
+	top: 495px;
+	left: 350px;
+	}
+
+.tenantAdjust-Phone6-text{
+	position: absolute;
+	top: 495px;
+	left: 150px;
+	}
+.tenantAdjust-PhoneNumber5-text{
+	position: absolute;
+	top: 465px;
+	left: 350px;
+	}
+
+.tenantAdjust-Phone5-text{
+	position: absolute;
+	top: 465px;
+	left: 150px;
+	}
+.tenantAdjust-PhoneNumberMain{
+	position: absolute;
+	top: 455px;
+	left: 150px;
+	}
+.tenantAdjust-PhoneMain{
+	position: absolute;
+	top: 455px;
+	left: 350px;
+	}
+
+.tenantAdjust-contactPersonPhone4-text{
+	position: absolute;
+	top: 290px;
+	left: 150px;
+	}
+.tenantAdjust-contactPersonPhoneNumber4-text{
+	position: absolute;
+	top: 290px;
+	left: 350px;
+	}
+.tenantAdjust-contactPersonPhone3-text{
+	position: absolute;
+	top: 260px;
+	left: 150px;
+	}
+.tenantAdjust-contactPersonPhoneNumber3-text{
+	position: absolute;
+	top: 260px;
+	left: 350px;
+	}
+.tenantAdjust-contactPersonPhone2-text{
+	position: absolute;
+	top: 230px;
+	left: 150px;
+	}
+.tenantAdjust-contactPersonPhoneNumber2-text{
+	position: absolute;
+	top: 230px;
+	left: 350px;
+	}
+
+.tenantAdjust-contactPersonPhone1-text{
+	position: absolute;
+	top: 200px;
+	left: 150px;
+	}
+.tenantAdjust-contactPersonPhoneNumber1-text{
+	position: absolute;
+	top: 200px;
+	left: 350px;
+	}
+
+.tenantAdjust-contactPersonPhoneMain{
+	position: absolute;
+	top: 190px;
+	left: 350px;
+	}
+
+
+.tenantAdjust-contactPersonPhoneNumberMain{
+	position: absolute;
+	top: 190px;
+	left: 150px;
+	}
+
+.tenantAdjust-contactPersonEmail{
+	position: absolute;
+	top: 120px;
+	left: 25px;
+	}
+.tenantAdjust-contactPersonEmail-text{
+	position: absolute;
+	top: 105px;
+	left: 150px;
+	}
+
+.tenantAdjust-contactPersonPhone{
+	position: absolute;
+	top: 120px;
+	left: 25px;
+	}
+.tenantAdjust-contactPersonPhone-text{
+	position: absolute;
+	top: 105px;
+	left: 150px;
+	}
+.tenantAdjust-contactPersonName{
+	position: absolute;
+	top: 50px;
+	left: 25px;
+	}
+.tenantAdjust-contactPersonName-text{
+	position: absolute;
+	top: 35px;
+	left: 150px;
+	}
+.tenantFieldset-03{
+	position: relative;
+	width: 960px;
+	height: 375px;
+	}
+
+.tenantAdjust-email{
+	position: absolute;
+	top: 470px;
+	left: 475px;
+	}
+.tenantAdjust-email-text{
+	position: absolute;
+	top: 455px;
+	left: 600px;
+	}
+
+.tenantAdjust-companyURL{
+	position: absolute;
+	top: 400px;
+	left: 25px;
+	}
+.tenantAdjust-companyURL-text{
+	position: absolute;
+	top: 385px;
+	left: 150px;
+	}
+.tenantAdjust-ipAddress{
+	position: absolute;
+	top: 400px;
+	left: 475px;
+	}
+.tenantAdjust-ipAddress-text{
+	position: absolute;
+	top: 385px;
+	left: 600px;
+	}
+
+.tenantAdjust-phoneNumber{
+	position: absolute;
+	top: 400px;
+	left: 25px;
+	}
+.tenantAdjust-phoneNumber-text{
+	position: absolute;
+	top: 385px;
+	left: 150px;
+	}
+.tenantAdjust-zipcode{
+	position: absolute;
+	top: 330px;
+	left: 475px;
+	}
+.tenantAdjust-zipcode-text{
+	position: absolute;
+	top: 315px;
+	left: 600px;
+	}
+
+.tenantAdjust-city{
+	position: absolute;
+	top: 330px;
+	left: 25px;
+	}
+.tenantAdjust-city-text{
+	position: absolute;
+	top: 315px;
+	left: 150px;
+	}
+
+.tenantAdjust-country{
+	position: absolute;
+	top: 260px;
+	left: 475px;
+	}
+.tenantAdjust-country-text{
+	position: absolute;
+	top: 245px;
+	left: 600px;
+	}
+
+.tenantAdjust-state{
+	position: absolute;
+	top: 260px;
+	left: 25px;
+	}
+.tenantAdjust-state-text{
+	position: absolute;
+	top: 245px;
+	left: 150px;
+	}
+.tenantAdjust-address2-text{
+	position: absolute;
+	top: 175px;
+	left: 150px;
+	}
+
+.tenantAdjust-address2{
+	position: absolute;
+	top: 190px;
+	left: 25px;
+	}
+.tenantAdjust-address1-text{
+	position: absolute;
+	top: 105px;
+	left: 150px;
+	}
+
+.tenantAdjust-address1{
+	position: absolute;
+	top: 120px;
+	left: 25px;
+	}
+
+.tenantAdjust-name{
+	position: absolute;
+	top: 50px;
+	left: 25px;
+	}
+.tenantAdjust-name-text{
+	position: absolute;
+	top: 35px;
+	left: 150px;
+	}
+	
+.tenantFieldset-02{
+	position: relative;
+	width: 960px;
+	height: 620px;
+	}
+
+.tenantAdjust-status-active-text {
+	position: absolute;
+	top: 160px;
+	left: 180px;
+	}
+.tenantAdjust-status-resolved-text {
+	position: absolute;
+	top: 160px;
+	left: 330px;
+	}
+
+.tenantAdjust-status-resolved {
+	position: absolute;
+	top: 160px;
+	left: 300px;
+	}
+
+.tenantAdjust-status-active {
+	position: absolute;
+	top: 160px;
+	left: 150px;
+	}
+
+.tenantAdjust-status {
+	position: absolute;
+	top: 160px;
+	left: 25px;
+	}
+
+.tenantAdjust-serviceStartDate{
+	position: absolute;
+	top: 90px;
+	left: 450px;
+}
+
+.tenantAdjust-serviceStartDate-text{
+	position: absolute;
+	top: 75px;
+	left: 600px;
+}
+
+.tenantAdjust-createDate{
+	position: absolute;
+	top: 90px;
+	left: 25px;
+}
+
+.tenantAdjust-createDate-text{
+	position: absolute;
+	top: 75px;
+	left: 150px;
+}
+
+.tenantFieldset-01{
+	position: relative;
+	width: 960px;
+	height: 230px;
+}
+.tenantAdjust-type-text{
+	position: absolute;
+	top: 20px;
+	left: 150px;
+	}
+
+.tenantAdjust-type {
+	position: absolute;
+	top: 35px;
+	left: 25px;
+	}
+
+
+/** Front Tenant HTML Styles */
+.tableRowCenter {
+    text-align: center;
+    }
+
+#tenantTableCol1 {
+	border-radius: 10px 0px 0px 0px;
+	width: 20%;
+	}
+#tenantTableCol2 {
+	width: 30%;
+	}
+#tenantTableCol3 {
+	width: 15%;
+	}
+#tenantTableCol4 {
+	width: 20%;
+	text-align: center;
+	}
+#tenantTableCol5 {
+	border-radius: 0px 10px 0px 0px;
+	width: 15%;
+	text-align: center;
+	}
+.searchText{
+    float: right;
+    clear: both;
+    border-radius: 10px;
+    }
+
+.tableView{
+    float: right;
+    
+    }
+.frontTable thead th{
+    
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    border-bottom-width: 3px;
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    background: blue;
+    color: #ffffff;
+    }
+
+.frontTable td {
+    padding: 5px 10px 5px 10px;
+    
+    } 
+.frontTable tr {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    }
+
+.frontTable tr td {
+	padding-top: 25px;	
+	}
+.frontTable {
+	width: 100%;
+	}
+
+
+#raViewTable tr td{
+    padding-top: 25px;
+    }
+    
+
+.raViewBox{
+    border: 2px solid black;
+    padding: 10px;
+    width: 1000px
+    }
+.raViewRow3{
+    width: 840px;
+    vertical-align: top;
+    }
+.raViewRow2-2{
+    width: 540px;
+    vertical-align: top;
+    }
+.raViewRow2-1{
+    width: 180px;
+    vertical-align: top;
+    }
+.raViewRow1{
+    width: 120px;
+    vertical-align: top;
+    
+    }
+#raViewTable{
+    width: 960px;
+    }
+
+/*  General CSS Styling */
+
+.footer-style {
+    
+    background-color: #999999;
+    border-style: solid;
+    height: 100px;
+    }
+.footer-website{
+    margin-top: 10px;
+    }
+.blue-link{
+    color: blue;
+    }
+.blue-link:hover{
+    color: blue;
+    background-color: white;
+    }
+.white-link{
+    color: white;
+    }
+    
+#mainpage-header{
+    min-width: 800px;
+    height: 100px;
+    background-color: #fff;
+    }
+    
+.float-left {
+    float: left;
+    }
+.float-right {
+    float: right;
+    }
+
+#navbar-custom{
+    
+    min-width: 1000px;
+    border-top: 5px solid black;
+    border-bottom: 5px solid black;
+    }
+#carousel-generic {
+    z-index: -1;
+    position: relative;
+    border-style: solid;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 400px;
+    width: 640px;
+    }
+    
+.main-content {
+    border-radius: 15px;
+    height: 180px;
+    width: 180px;
+    border-style: solid;
+    margin-bottom: 10px;
+    }
+.neg-margin {
+    margin-top: -35px;
+    margin-bottom: 15px;
+    }
+#navbar-custom {
+    z-index: -1;
+    }
+.main-navbar {
+    z-index: 1000;
+    
+    }
+.ul-border {
+    border: 1px solid black;
+    border-color: black;
+    }
+a:hover {
+    color: blue;
+    text-decoration: underline;
+    }
+/*  RACreate Page CSS */
+
+
+.bordered-h5 {
+    margin-left: 15px;
+    padding-left: 5px;
+    margin-top: -10px;
+    margin-right: 800px;
+    background-color: #FFF;
+    color: #000;
+    }
+.bordered-h5-2 {
+    margin-left: 15px;
+    padding-left: 5px;
+    margin-top: -10px;
+    margin-right: 720px;
+    background-color: #FFF;
+    color: #000;
+    }
+    
+.fieldset-bordered {
+    border: 2px solid black;
+    width: 950px;
+    }
+.input-style {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    }
+.label-style {
+    margin-left: 20px;
+    }
+.input-wide {
+    width: 100px;
+    }
+.textarea-adjust {
+    margin-bottom: -20px;
+    margin-top: 30px;
+    }
+.label-push-1 {
+     margin-right: 65px;
+     }
+.label-push-2{
+    margin-right: 21px;
+    }
+.label-push-3{
+    margin-right: 11px;
+    }
+.label-push-4{
+    margin-right: 8px;
+    margin-bottom: 30px;
+    }
+.button-spacer {
+    margin-left: 400px;
+    }
+
+/*    RAList      */
+
+.pagination-link{
+    font-size: 18px;
+    margin: 20px;    
+    }
+
+.raList-Button {
+    width: 100px;
+    height: 30px;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color: blue;
+    color: #ffffff;
+    border-color: lightblue;
+    }
+.float-box{
+    width:100%;
+    height:30px;
+    
+    }
+
+#raListSearchText{
+    float: right;
+    clear: both;
+    border-radius: 10px;
+    }
+
+.margin-50{
+    margin-left: 50px;
+    margin-right: 50px;
+    }
+    
+.clear-both{
+    clear:both;
+    }
+.full-width{
+    width: 100%;
+    
+    }
+.raTableView{
+    float: right;
+    
+    }
+.highlight{
+    background-color: blue;
+    color: #ffffff;
+    }
+
+#raTable {
+    width: 100%;
+    
+    }
+#raTableCol1 {
+    width: 38%;
+    border-radius: 10px 0px 0px 0px;
+    }
+#raTableCol2 {
+    width: 12%;
+    }
+ #raTableCol3 {
+    width: 10%;
+    }   
+#raTableCol4 {
+    width: 40%;
+    border-radius: 0px 10px 0px 0px;
+    }  
+ 
+#raTable thead th{
+    
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    border-bottom-width: 3px;
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    background: blue;
+    color: #ffffff;
+    }
+
+#raTable td {
+    padding: 5px 10px 5px 10px;
+    
+    } 
+#raTable tr {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    }
+.raTableRowCenter {
+    text-align: center;
+    }
+    
+/**  Policy Create Page */
+
+.position-policy {
+	position: absolute;
+	top: 200px;
+	left: 500px;	
+	}
+.position-create {
+	position: absolute;
+	top: 275px;
+	left: 475px;	
+}
+.position-update {
+	position: absolute;
+	top: 275px;
+	left: 495px;	
+}
+.policy-position-fieldset-identification {
+	position: absolute;
+	top: 350px;
+	left: 50px;
+	border: 2px solid black;
+    width: 1050px;
+    height: 550px;
+	}
+
+.policy-identification{
+	position: absolute;
+	top: -22px;
+	left: 75px;
+	background-color: white;
+	}
+.policy-policy-name {
+	position: absolute;
+	top: 25px;
+	left: 25px;
+	}
+.policy-policy-name-text{
+	position: absolute;
+	top: 25px;
+	left: 175px;
+	}
+.policy-version {
+	position: absolute;
+	top: 25px;
+	left: 375px;
+	}
+.policy-version-text{
+	position: absolute;
+	top: 25px;
+	left: 475px;
+	}
+.policy-author {
+	position: absolute;
+	top: 25px;
+	left: 700px;
+	}
+.policy-author-text{
+	position: absolute;
+	top: 25px;
+	left: 850px;
+	}
+.policy-description {
+	position: absolute;
+	top: 75px;
+	left: 25px;
+	}
+.policy-description-text{
+	position: absolute;
+	top: 75px;
+	left: 175px;
+	}
+.policy-format {
+	position: absolute;
+	top: 150px;
+	left: 25px;
+	}
+.policy-format-text{
+	position: absolute;
+	top: 150px;
+	left: 175px;
+	}
+.policy-language {
+	position: absolute;
+	top: 150px;
+	left: 375px;
+	}
+.policy-language-text{
+	position: absolute;
+	top: 150px;
+	left: 475px;
+	}
+.policy-subject {
+	position: absolute;
+	top: 150px;
+	left: 700px;
+	}
+.policy-subject-text{
+	position: absolute;
+	top: 150px;
+	left: 850px;
+	}
+.policy-source {
+	position: absolute;
+	top: 200px;
+	left: 25px;
+	}
+.policy-source-text{
+	position: absolute;
+	top: 200px;
+	left: 175px;
+	}
+.policy-category {
+	position: absolute;
+	top: 200px;
+	left: 375px;
+	}
+.policy-category-text{
+	position: absolute;
+	top: 200px;
+	left: 475px;
+	}
+.policy-classification {
+	position: absolute;
+	top: 200px;
+	left: 700px;
+	}
+.policy-classification-text{
+	position: absolute;
+	top: 200px;
+	left: 850px;
+	}
+.policy-sunset-date {
+	position: absolute;
+	top: 250px;
+	left: 25px;
+	}
+.policy-sunset-date-text{
+	position: absolute;
+	top: 250px;
+	left: 175px;
+	}
+.policy-reference {
+	position: absolute;
+	top: 250px;
+	left: 375px;
+	}
+.policy-reference-text{
+	position: absolute;
+	top: 250px;
+	left: 475px;
+	}
+.policy-legal-requirement {
+	position: absolute;
+	top: 250px;
+	left: 700px;
+	}
+.policy-legal-requirement-text{
+	position: absolute;
+	top: 250px;
+	left: 850px;
+	}
+.policy-compliance-category {
+	position: absolute;
+	top: 300px;
+	left: 25px;
+	}
+.policy-compliance-category-text{
+	position: absolute;
+	top: 300px;
+	left: 175px;
+	}
+.policy-regulatory {
+	position: absolute;
+	top: 300px;
+	left: 375px;
+	}
+.policy-regulatory-text{
+	position: absolute;
+	top: 300px;
+	left: 475px;
+	}
+.policy-producing-function {
+	position: absolute;
+	top: 300px;
+	left: 700px;
+	}
+.policy-producing-function-text{
+	position: absolute;
+	top: 300px;
+	left: 850px;
+	}
+.policy-approver {
+	position: absolute;
+	top: 350px;
+	left: 25px;
+	}
+.policy-approver-text{
+	position: absolute;
+	top: 350px;
+	left: 175px;
+	}
+.policy-owner {
+	position: absolute;
+	top: 350px;
+	left: 375px;
+	}
+.policy-owner-text{
+	position: absolute;
+	top: 350px;
+	left: 475px;
+	}
+.policy-document-contact {
+	position: absolute;
+	top: 350px;
+	left: 700px;
+	}
+.policy-document-contact-text{
+	position: absolute;
+	top: 350px;
+	left: 850px;
+	}
+.policy-functional-applicability {
+	position: absolute;
+	top: 400px;
+	left: 25px;
+	}
+.policy-functional-applicability-text{
+	position: absolute;
+	top: 400px;
+	left: 225px;
+	}
+.policy-geographic-applicability {
+	position: absolute;
+	top: 400px;
+	left: 500px;
+	}
+.policy-geographic-applicability-text{
+	position: absolute;
+	top: 400px;
+	left: 700px;
+	}
+.policy-effective-date {
+	position: absolute;
+	top: 450px;
+	left: 25px;
+	}
+.policy-effective-date-text{
+	position: absolute;
+	top: 450px;
+	left: 175px;
+	}
+.policy-issue-date {
+	position: absolute;
+	top: 450px;
+	left: 375px;
+	}
+.policy-issue-date-text{
+	position: absolute;
+	top: 450px;
+	left: 475px;
+	}
+.policy-position-fieldset-policy-body {
+	position: absolute;
+	top: 950px;
+	left: 50px;
+	border: 2px solid black;
+    width: 1050px;
+	}
+.policy-policy-body {
+	position: absolute;
+	top: -22px;
+	left: 75px;
+	background-color: white;
+	}
+	
+/** Policy View **/
+
+#policyViewTable tr td{
+    padding-top: 25px;
+    }
+    
+.policyViewBoxTitle{
+    
+    }
+.policyViewBox{
+    border: 2px solid black;
+    padding: 10px;
+    width: 1000px
+    }
+#policyViewTable{
+    width: 960px;
+    }
+
+.policyViewRow1{
+	width: 160px;
+    vertical-align: top;
+	}
+.policyViewRow1-2{
+	width: 800px;
+    vertical-align: top;
+	}
+.policyViewRow2{
+	width: 160px;
+    vertical-align: top;
+	}
+/*  Policy Front Page */
+
+#policyListSearchText{
+    float: right;
+    clear: both;
+    border-radius: 10px;
+    }
+
+
+.policyList-Button {
+    width: 100px;
+    height: 30px;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color: blue;
+    color: #ffffff;
+    border-color: lightblue;
+    }
+
+
+.policyTableView{
+    float: right;
+    
+    }
+#policyTable {
+    width: 100%;
+     }
+#policyTableCol1 {
+    width: 12%;
+    border-radius: 10px 0px 0px 0px;
+    }
+#policyTableCol2 {
+    width: 33%;
+    }
+#policyTableCol3 {
+    width: 35%;
+    }   
+#policyTableCol4 {
+    width: 10%;
+    }  
+#policyTableCol5 {
+    width: 10%;
+    border-radius: 0px 10px 0px 0px;
+    } 
+#policyTable thead th{    
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    border-bottom-width: 3px;
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    background: blue;
+    color: #ffffff;
+    }
+
+#policyTable td {
+    padding: 5px 10px 5px 10px;
+    
+    } 
+#policyTable tr {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    }
+.policyTableRowCenter {
+    text-align: center;
+    }
+.policyListButton {
+    width: 100px;
+    height: 30px;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color: blue;
+    color: #ffffff;
+    border-color: lightblue;
+    }   
+    
+#piopupTenantSelectionBox {
+	z-index: 500;
+    position: absolute;
+    background-color: rgba(123, 123,123, 0.8);
+    display: none;
+    top: 300;
+    left: 500;
+    width: 200px;
+    height: 300px;
+}    
+
+/*Barath - To be used as background for Dialogs*/
+.black_overlay{
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index:1001;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+}
+
+.pop-up-dialog {
+    display: none;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    padding: 16px;
+    border: 2px black;
+    background-color: white;
+    z-index:1002;
+    overflow: auto;
+}
+
+
+
+/** UserProfile Create CSS */
+
+
+.userProfileCreationFieldset-01{
+	position: relative;
+	width: 960px;
+	height: 415px;
+}
+
+.userProfileCreationFieldset-02{
+	position: relative;
+	width: 960px;
+	height: 700px;
+}
+
+.userProfileCreation-fname-text{
+	position: absolute;
+	top: 35px;
+	left: 150px;
+	}
+
+.userProfileCreation-fname-label {
+	position: absolute;
+	top: 50px;
+	left: 25px;
+	}
+
+.userProfileCreation-lname-text{
+	position: absolute;
+	top: 35px;
+	left: 535px;
+	}
+
+.userProfileCreation-lname-label {
+	position: absolute;
+	top: 50px;
+	left: 410px;
+	}
+
+.userProfileCreation-salutation-label {
+
+    position: absolute;
+    top: 120px;
+    left: 25px;
+
+    }
+
+
+.userProfileCreation-salutation-select {
+
+    position: absolute;
+    top: 120px;
+    left: 150px;
+    width: 90px;
+
+    }
+
+
+.userProfileCreation-title-label {
+
+    position: absolute;
+    top: 120px;
+    left: 225px;
+
+    }
+
+
+.userProfileCreation-title-select {
+
+    position: absolute;
+    top: 120px;
+    left: 300px;
+    width: 200px;
+
+    }
+
+
+
+.userProfileCreation-minitial-label {
+
+    position: absolute;
+    top: 120px;
+    left: 520px;
+
+    }
+
+
+.userProfileCreation-minitial-text {
+
+    position: absolute;
+    top: 105px;
+    left: 650px;
+    width: 100px;
+    }
+
+.userProfileCreation-username-label {
+
+    position: absolute;
+    top: 275px;
+    left: 25px;
+
+    }
+
+
+.userProfileCreation-username-text {
+
+    position: absolute;
+    top: 260px;
+    left: 150px;
+    
+    }
+
+
+.userProfileCreation-pname-text{
+	position: absolute;
+	top: 260px;
+	left: 575px;
+    width: 200px;
+	}
+
+.userProfileCreation-pname-label {
+	position: absolute;
+	top: 275px;
+	left: 410px;
+	}
+
+.userProfileCreation-tenantId-input {
+
+    position: absolute;
+    top: 190px;
+    left: 150px;
+}
+
+.userProfileCreation-tenantId-label {
+
+    position: absolute;
+    top: 190px;
+    left: 45px;
+}
+
+.userProfileCreation-tenantId-button {
+
+    position: absolute;
+    top: 190px;
+    left: 330px;
+}
+
+
+
+.userProfileCreation-gender-label {
+
+    position: absolute;
+    top: 190px;
+    left: 500px;
+
+    }
+
+
+.userProfileCreation-gender-select {
+
+    position: absolute;
+    top: 190px;
+    left: 575px;
+    width: 100px;
+
+    }
+/*
+.userProfileCreation-available-button {
+
+    position: absolute;
+    top: 190px;
+    left: 420px;
+}
+*/
+
+
+.userProfileCreation-pword-text{
+	position: absolute;
+	top: 345px;
+	left: 150px;
+	}
+
+.userProfileCreation-pword-label {
+	position: absolute;
+	top: 360px;
+	left: 25px;
+	}
+
+.userProfileCreation-cpword-text{
+	position: absolute;
+	top: 345px;
+	left: 570px;
+	}
+
+.userProfileCreation-cpword-label {
+	position: absolute;
+	top: 360px;
+	left: 410px;
+	}
+
+
+
+
+.userProfileCreation-email{
+	position: absolute;
+	top: 400px;
+	left: 25px;
+	}
+.userProfileCreation-email-text{
+	position: absolute;
+	top: 385px;
+	left: 150px;
+	}
+
+
+.userProfileCreation-zipcode{
+	position: absolute;
+	top: 330px;
+	left: 475px;
+	}
+.userProfileCreation-zipcode-text{
+	position: absolute;
+	top: 315px;
+	left: 600px;
+	}
+
+.userProfileCreation-city{
+	position: absolute;
+	top: 330px;
+	left: 25px;
+	}
+.userProfileCreation-city-text{
+	position: absolute;
+	top: 330px;
+	left: 150px;
+    width: 175px;
+	}
+
+.userProfileCreation-state{
+	position: absolute;
+	top: 260px;
+	left: 475px;
+    
+	}
+.userProfileCreation-state-text{
+	position: absolute;
+	top: 260px;
+	left: 600px;
+    width: 175px;
+	}
+
+.userProfileCreation-country{
+	position: absolute;
+	top: 260px;
+	left: 25px;
+    
+	}
+.userProfileCreation-country-text{
+	position: absolute;
+	top: 260px;
+	left: 150px;
+    width: 175px;
+    
+	}
+.userProfileCreation-address2-text{
+	position: absolute;
+	top: 175px;
+	left: 150px;
+	}
+
+.userProfileCreation-address2{
+	position: absolute;
+	top: 190px;
+	left: 25px;
+	}
+.userProfileCreation-address1-text{
+	position: absolute;
+	top: 105px;
+	left: 150px;
+	}
+
+.userProfileCreation-address1{
+	position: absolute;
+	top: 120px;
+	left: 25px;
+	}
+
+
+.userProfileCreation-phone{
+	position: absolute;
+	top: 400px;
+	left: 475px;
+	}
+
+.userProfileCreation-phone-text{
+	position: absolute;
+	top: 385px;
+	left: 600px;
+	}
+
+
+.userProfileCreation-locale{
+	position: absolute;
+	top: 465px;
+	left: 25px;
+    
+	}
+.userProfileCreation-locale-text{
+	position: absolute;
+	top: 465px;
+	left: 150px;
+    width: 175px;
+    
+	}
+
+.userProfileCreation-language{
+	position: absolute;
+	top: 465px;
+	left: 475px;
+    
+	}
+.userProfileCreation-language-text{
+	position: absolute;
+	top: 465px;
+	left: 600px;
+    width: 175px;
+	}
+
+
+.userProfileCreation-tzone{
+	position: absolute;
+	top: 545px;
+	left: 25px;
+    
+	}
+.userProfileCreation-tzone-text{
+	position: absolute;
+	top: 545px;
+	left: 150px;;
+    width: 630px;
+	}
+
+.userProfileCreation-status{
+	position: absolute;
+	top: 630px;
+	left: 25px;
+    
+	}
+.userProfileCreation-status-dropdown{
+	position: absolute;
+	top: 630px;
+	left: 150px;
+    width: 175px;
+    
+	}
+
+.userProfileCreation-lod{
+	position: absolute;
+	top: 630px;
+	left: 475px;
+    
+	}
+.userProfileCreation-lod-dropdown{
+	position: absolute;
+	top: 630px;
+	left: 600px;
+    width: 175px;
+	}

@@ -1,7 +1,17 @@
 package com.depth1.grc.model;
 
+
+import java.sql.Connection;
+
+import com.datastax.driver.core.Session;
+import com.datastax.driver.core.exceptions.DriverException;
+import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.db.util.DropDownListReader;
+import com.depth1.grc.db.util.RdbPoolImpl;
+
+import play.Logger;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -20,6 +30,39 @@ public class RdbDaoFactory extends DaoFactory
 		super();
 	}
 	
+
+	 /**
+	 * Creates a connection to the MariaDB database
+	 * @return session The connection object to connect to the database
+	 */
+	public static Connection getSession() {
+		  RdbPoolImpl pool = null;
+		  Connection session = null;
+		  try {
+			  pool = new RdbPoolImpl();
+			  session = pool.create();
+		} catch (DriverException e) {
+			Logger.error("Error occurred while connecting to the MariaDB cluster ", e);
+		} 
+		  return session;
+	  }	
+	
+	 /**
+	 * Closes connection to the MariaDB database
+	 * @return session The connection object to connect to the database
+	 */
+	public static void close(Connection session) {
+		  RdbPoolImpl pool = null;		  
+		  try {
+			  pool = new RdbPoolImpl();
+			  pool.expire(session);
+		} catch (DriverException e) {
+			Logger.error("Error occurred while closing open connection to the MariaDB database ", e);
+		} 
+		  
+	  }	
+	
+
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getPolicyDao()
 	 */
@@ -55,15 +98,20 @@ public class RdbDaoFactory extends DaoFactory
 		  }
 	
 	/* (non-Javadoc)
+<<<<<<< HEAD
 	 * @see com.depth1.grc.model.DaoFactory#getTenantDao()
+=======
+	 * @see com.depth1.grc.model.DaoFactory#getUserProfileDao()
+>>>>>>> e7f9fff99988c7a3a868fe38792778202192484b
 	 */
 	public UserProfileDao getUserProfileDao() {
 
 		return new CassandraUserProfileDao();
 	}	
+
 	
 	/* (non-Javadoc)
-	 * @see com.depth1.grc.model.DaoFactory#getTenantDao()
+	 * @see com.depth1.grc.model.DaoFactory#getDropDownList()
 	 */
 	public DropDownList getDropDownList() {
 		    

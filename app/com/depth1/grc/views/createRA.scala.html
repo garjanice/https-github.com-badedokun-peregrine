@@ -16,20 +16,44 @@
            </br>
            </br>
         </center>
+
+        
+        <div id="vmsg" class="ui-widget">
+		    <div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;"> 
+		        <p>
+		            <span class="ui-icon ui-icon-alert" 
+		                style="float: left; margin-right: .3em;"></span>
+		             Please use alphabets and numbers only .
+		        </p>
+		    </div>
+		    	</br>
+				</br>
+		</div>
+		
+	
+
         <center>
         <form id="raCreation" action="/riskAssessment/create/done" method="post">
+          
+
            <fieldset class="fieldset-bordered">
               <h4 class="bordered-h5"> Identification </h4> 
                   
               <div>
                  <label for="tenantId" class="label-style" >Tenant ID:</label>
-                 <input type="text" id="tenantId" name="tenantId" class="input-style" >
-                 <button><span class="glyphicon glyphicon-search" ></span></button>
-                 <label for="assessmentId" class="label-style" >Assessment ID:</label>
-                 <input type="text" id="assessmentId" name="assessmentId" class="input-style" >
+
+                 <input type="text" id="tenantId" name="" class="input-style"> <!-- TenantId needs to be fixed to accept a string-->
+                 <button id="tenantSearch" ><span class="glyphicon glyphicon-search" ></span></button>
                  <label for="vulnerability" class="label-style" >Vulnerability:</label>
                  <input type="text" id="vulnerability" name="vulnerability" class="input-style" >
               </div>
+          
+              <div id="popupTenantSelectionBox" class="pop-up-dialog" title="Select Tenant ID">
+              		<h2>Select the Tenant ID from the List</h2>
+  					<select id="popupTenantSelection" style="width:80%;height: auto; margin:0 auto;">
+      				</select>
+			   </div>
+			   <div id="popup_background" class="black_overlay"></div>
               <div>
                  <label for="speedOfOnset" class="label-style" >Speed of Onset:</label>
                  <input type="text" id="speedOfOnset" name="speedOfOnset" class="input-style" >
@@ -45,10 +69,10 @@
                  <label for="severity" class="label-style" >Severity:</label>
                  <input type="text" id="severity" name="severity" class="input-style" >
                  <label for="severityDescription" class="label-style" >Severity Description</label>
-                 <!--<input type="text" id="severityDescription" name="severityDescription" class="input-style input-wide" > -->
-                            
                  <textarea form="raCreation" cols="55" rows="2" id="severityDescription" name="severityDescription" class="textarea-adjust">
-                 </textarea>
+        	     </textarea>
+
+
               </div>
               <div>
                  <label for="likelihood" class="label-style" >Likelihood:</label>
@@ -63,7 +87,8 @@
                  </textarea>
               </div>
               <div>
-                 <label for="triggerEvent" class="label-style label-push-3" >Tigger Event</label>
+                 <label for="triggerEvent" class="label-style label-push-3" >Trigger Event</label>
+
                  <textarea form="raCreation" cols="93" rows="2" id="triggerEvent" name="triggerEvent" class="textarea-adjust">
                  </textarea>
               </div>

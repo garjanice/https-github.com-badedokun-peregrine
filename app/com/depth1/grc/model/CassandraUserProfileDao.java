@@ -42,7 +42,8 @@ import play.Play;
 public class CassandraUserProfileDao implements UserProfileDao {
 	
 	//select the type of deployment model from the configuration file
-	private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
+		private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
+
 	
 	/**
 	* Creates a user profile.
@@ -52,6 +53,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	*/
 	@Override
 	public void createUserProfile(UserProfile user) throws DaoException {
+
 		UUID id = java.util.UUID.randomUUID();
 		user.setId(id);
 		try {
@@ -66,6 +68,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.value("title", user.getTitle())
 					.value("salutation", user.getSalutation())
 					.value("username", user.getUsername())
+					.value("password", user.getPassword())
 					.value("email", user.getEmail())
 					.value("gender", user.getGender())
 					.value("street1", user.getStreet1())
@@ -93,6 +96,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 			//close the connection to the database();
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
+
 	}
 	
 	/**
@@ -211,6 +215,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	@Override
 	public List<UserProfile> listUserProfile() throws DaoException {
 		List<UserProfile> list = new ArrayList<>();
+
 		String table = "userprofile";
 		try {					
 			
@@ -220,8 +225,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 			}
 
 			// get data elements from the Result set
-
-			for (Row row : results.getUninterruptibly()) {
+			for(Row row : results.getUninterruptibly()) {
 				UserProfile user = new UserProfile();
 				user.setId(row.getUUID("id"));
 				user.setTenantId(row.getLong("tenantid"));
@@ -388,25 +392,29 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	
 	/**
 	 * Authenticates a user with username and password. Username is email address.
+<<<<<<< HEAD
+	 * @return user authenticated user object
+=======
 	 * @param username user name of the user to authenticate
 	 * @param password password of the user to authenticate
 	 * @return login credentials of the authenticated user
+>>>>>>> e7f9fff99988c7a3a868fe38792778202192484b
 	 * @throws DaoException if errors occurs while authenticating a user
 	 */
 	@Override
 	public Login authenticate(String username, String password) throws DaoException {
 		Login login = new Login();
+
 		try {
 			Statement find = QueryBuilder.select().all()
 					.from(Keyspace.valueOf(keyspace), "userauth")
 					.where(eq("username", username));
-
 			ResultSet result = CassandraDaoFactory.getSession().execute(find);
+
 			if (result == null) {
 				return null;
 			}
 			Row row = result.one();
-
 			// get data elements from the Result set
 			if (BCrypt.checkpw(password, row.getString("hash"))) {
 				login.setUsername(row.getString("username"));
@@ -418,12 +426,45 @@ public class CassandraUserProfileDao implements UserProfileDao {
 			Logger.error("Error occurred while retrieving data from the userauth table ", e);
 		} finally {
 			// close the connection to the database();
+
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 		return login;
 	}	
 	
 	/**
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+>>>>>>> e7f9fff99988c7a3a868fe38792778202192484b
+	 * Gets all rows in the user profile table
+	 * 
+	 * @return all rows in the user profile table
+	 * @throws DaoException if error occurs while getting user profiles from the user profile table
+	 */
+	private ResultSetFuture getAll() throws DaoException {
+
+		Select query = null;
+		try {
+			query = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "userprofile");
+
+		} catch (DriverException e) {
+			Logger.error("Error occurred while getting user profiles from the user profile table ", e);
+		} finally {
+			// close the connection to the database();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+
+		return CassandraDaoFactory.getSession().executeAsync(query);
+
+	}
+	
+	/**
+<<<<<<< HEAD
+=======
+>>>>>>> 56acbead5d85b5ad9448c9a21b81c4e78b1b47ef
+>>>>>>> e7f9fff99988c7a3a868fe38792778202192484b
 	 * Get a user profile that matches the given criteria of username and lastname
 	 * 
 	 * @return a row that matches the user profile

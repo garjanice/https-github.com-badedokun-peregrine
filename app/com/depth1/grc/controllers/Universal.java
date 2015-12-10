@@ -13,6 +13,8 @@ import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.util.Picture;
 import com.depth1.grc.views.html.index;
 import com.google.common.io.Files;
+import com.ibm.icu.util.TimeZone;
+import com.sun.org.apache.xerces.internal.xs.StringList;
 
 import play.Logger;
 import play.Play;
@@ -33,7 +35,8 @@ import play.mvc.Result;
 public class Universal extends Controller {
 	
 	// create the required DAO Factory
-	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);	
+	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
+	static DaoFactory rdbFactory = DaoFactory.getDaoFactory(DaoFactory.MARIADB);
 
     /**
      * Retrieves states in a given country
@@ -41,6 +44,7 @@ public class Universal extends Controller {
      * @return list of all states in the specified country
      */
     public Result getStateOption(String countryCode){
+    	
     	List<String> states = null;
     	try {
 			DropDownList dropDown = cassandraFactory.getDropDownList();
@@ -138,7 +142,46 @@ public class Universal extends Controller {
 		}
 		return ok(options.toString());
 	}
+	
+    /**
+     * Retrieves world time zones from the data store.
+     * 
+     * @return list of world time zones
+     */
+	public Result getTimezoneOption() {
+		List<String> timezones = null;
+		try {
+			DropDownList dropDown = rdbFactory.getDropDownList();
+			timezones = dropDown.getTimezone();
+
+		} catch (DataException e) {
+			Logger.error("Error occurred while retrieving data ", e);
+		}
+
+		if (timezones == null) {
+			return null;
+		}
+		StringBuilder options = new StringBuilder();
+		for (int i = 0; i < timezones.size(); i++) {
+			options.append("<option value='" + timezones.get(i) + "'>" + timezones.get(i) + "</option>");
+		}
+		return ok(options.toString());
+	}	
     
+	
+/*	public Result getTimezoneOption() {
+		
+		String[] zones = TimeZone.getAvailableIDs();
+		StringBuffer out = new StringBuffer();
+		
+		for (int i = 0; i < zones.length; i++) {
+			out.append("<option>" + zones[i] + "</option>"  );
+		}
+		
+		return ok(out.toString());
+	}
+*/	
+	
     /**
      * Retrieves picture from a URL path or directory
      * @param pictureName picture to retrieve

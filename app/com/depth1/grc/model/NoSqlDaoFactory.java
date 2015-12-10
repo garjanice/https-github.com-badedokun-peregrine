@@ -61,7 +61,7 @@ public class NoSqlDaoFactory extends DaoFactory
 
 		return new CassandraUserProfileDao();
 	}	
-	
+
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getTenantDao()
 	 */
@@ -69,6 +69,7 @@ public class NoSqlDaoFactory extends DaoFactory
 		    
 		    return new DropDownListReader();
 		  }		
+
 
 }
 

@@ -6,8 +6,12 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
+import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Statement;
@@ -79,6 +83,35 @@ public class CassandraTenantDao implements TenantDao
 	 */
 	
 	public void createTenant(Tenant tenant) throws DaoException {
+
+		Map<String, String> cphones = new HashMap<String, String>();
+		Map<String, String> bphones = new HashMap<String, String>();
+		if(tenant.getPhoneName1().length() > 0){
+			cphones.put(tenant.getPhoneName1(), tenant.getPhoneNumber1());
+		} 
+		if(tenant.getPhoneName2().length() > 0){
+			cphones.put(tenant.getPhoneName2(), tenant.getPhoneNumber2());
+		}
+		if(tenant.getPhoneName3().length() > 0){
+			cphones.put(tenant.getPhoneName3(), tenant.getPhoneNumber3());
+		}
+		if(tenant.getPhoneName4().length() > 0){
+			cphones.put(tenant.getPhoneName4(), tenant.getPhoneNumber4());
+		}
+		if(tenant.getPhoneName5().length() > 0){
+			bphones.put(tenant.getPhoneName5(), tenant.getPhoneNumber5());
+		}
+		if(tenant.getPhoneName6().length() > 0){
+			bphones.put(tenant.getPhoneName6(), tenant.getPhoneNumber6());
+		}
+		if(tenant.getPhoneName7().length() > 0){
+			bphones.put(tenant.getPhoneName7(), tenant.getPhoneNumber7());
+		}
+		if(tenant.getPhoneName8().length() > 0){
+			bphones.put(tenant.getPhoneName8(), tenant.getPhoneNumber8());
+		}
+		tenant.setContactPersonPhones(cphones);
+		tenant.setPhones(bphones);
 		try {					
 			Statement insert = QueryBuilder
 					.insertInto(Keyspace.valueOf(keyspace), "tenant")
@@ -157,6 +190,10 @@ public class CassandraTenantDao implements TenantDao
 				tenant.setCompanyUrl(row.getString("companyurl"));
 				tenant.setIpaddress(row.getString("ipaddress"));
 				tenant.setStatus(row.getString("status"));
+				tenant.setContactPersonPhones(row.getMap("contact_person_phones", String.class, String.class));
+				tenant.setPhones(row.getMap("phones", String.class, String.class));
+				
+				changePhonesToStrings(tenant);
 				list.add(tenant);
 			}
 
@@ -181,6 +218,36 @@ public class CassandraTenantDao implements TenantDao
 	@Override
 	public boolean updateTenant(final Tenant tenant) throws DaoException {
 		boolean update = false;
+		
+		Map<String, String> cphones = new HashMap<String, String>();
+		Map<String, String> bphones = new HashMap<String, String>();
+		if(tenant.getPhoneName1().length() > 0){
+			cphones.put(tenant.getPhoneName1(), tenant.getPhoneNumber1());
+		} 
+		if(tenant.getPhoneName2().length() > 0){
+			cphones.put(tenant.getPhoneName2(), tenant.getPhoneNumber2());
+		}
+		if(tenant.getPhoneName3().length() > 0){
+			cphones.put(tenant.getPhoneName3(), tenant.getPhoneNumber3());
+		}
+		if(tenant.getPhoneName4().length() > 0){
+			cphones.put(tenant.getPhoneName4(), tenant.getPhoneNumber4());
+		}
+		if(tenant.getPhoneName5().length() > 0){
+			bphones.put(tenant.getPhoneName5(), tenant.getPhoneNumber5());
+		}
+		if(tenant.getPhoneName6().length() > 0){
+			bphones.put(tenant.getPhoneName6(), tenant.getPhoneNumber6());
+		}
+		if(tenant.getPhoneName7().length() > 0){
+			bphones.put(tenant.getPhoneName7(), tenant.getPhoneNumber7());
+		}
+		if(tenant.getPhoneName8().length() > 0){
+			bphones.put(tenant.getPhoneName8(), tenant.getPhoneNumber8());
+		}
+		tenant.setContactPersonPhones(cphones);
+		tenant.setPhones(bphones);
+		
 		Assignment phones = QueryBuilder.putAll("phones", tenant.getPhones());
 		Assignment contactPhones = QueryBuilder.putAll("contact_person_phones", tenant.getContactPersonPhones());
 		try {					
@@ -232,6 +299,7 @@ public class CassandraTenantDao implements TenantDao
 		Tenant tenant = new Tenant();
 		try {					
 			ResultSetFuture result = getOneTenant(tenantId);
+
 			if (result == null) {
 				return null;
 			}
@@ -315,6 +383,8 @@ public class CassandraTenantDao implements TenantDao
 				tenant.setCompanyUrl(row.getString("companyurl"));
 				tenant.setIpaddress(row.getString("ipaddress"));
 				tenant.setStatus(row.getString("status"));
+				changePhonesToStrings(tenant);
+
 			}
 
 		} catch (DriverException e) {
@@ -328,6 +398,7 @@ public class CassandraTenantDao implements TenantDao
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Finds a tenant given a tenant name.
 	 * 
 	 * @param name the tenant name to find
@@ -359,6 +430,37 @@ public class CassandraTenantDao implements TenantDao
 	 * 
 	 * @return a row that matches the tenant profile
 	 * @throws DaoException if error occurs while getting tenant profiles from the tenant table
+=======
+	 * Gets all rows in the user profile table
+	 * 
+	 * @return all rows in the user profile table
+	 * @throws DaoException
+	 *             if error occurs while getting user profiles from the user
+	 *             profile table
+	 */
+	private ResultSetFuture getAll() throws DaoException {
+
+		Select query = null;
+		try {
+			query = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "tenant");
+
+		} catch (DriverException e) {
+			Logger.error("Error occurred while getting tenant from the tenant table ", e);
+		} finally {
+			// close the connection to the database();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+
+		return CassandraDaoFactory.getSession().executeAsync(query);
+
+	}
+	
+	/**
+	 * Get a user profile that matches the given criteria of userId
+	 * 
+	 * @return a row that matches the user profile
+	 * @throws DaoException if error occurs while getting user profiles from the user profile table
+>>>>>>> 56acbead5d85b5ad9448c9a21b81c4e78b1b47ef
 	 */
 	private ResultSetFuture getOneTenant(long tenantId) {
 		Select.Where select = null;
@@ -397,6 +499,75 @@ public class CassandraTenantDao implements TenantDao
 		return CassandraDaoFactory.getSession().executeAsync(select);
 
 	}		
+
+	private void changePhonesToStrings(Tenant tenant){
+		tenant.setPhoneName1("");
+		tenant.setPhoneName2("");
+		tenant.setPhoneName3("");
+		tenant.setPhoneName4("");
+		tenant.setPhoneName5("");
+		tenant.setPhoneName6("");
+		tenant.setPhoneName7("");
+		tenant.setPhoneName8("");
+		tenant.setPhoneNumber1("");
+		tenant.setPhoneNumber2("");
+		tenant.setPhoneNumber3("");
+		tenant.setPhoneNumber4("");
+		tenant.setPhoneNumber5("");
+		tenant.setPhoneNumber6("");
+		tenant.setPhoneNumber7("");
+		tenant.setPhoneNumber8("");
+		
+		int count = 0;
+		Map<String, String> map = tenant.getContactPersonPhones();
+		
+		if(map != null){
+			for (Map.Entry<String, String> entry : map.entrySet()) {
+				
+			    if(count == 0){
+			    	tenant.setPhoneName1(entry.getKey());
+			    	tenant.setPhoneNumber1(entry.getValue());
+			    }
+			    if(count == 1){
+			    	tenant.setPhoneName2(entry.getKey());
+			    	tenant.setPhoneNumber2(entry.getValue());
+			    }
+			    if(count == 2){
+			    	tenant.setPhoneName3(entry.getKey());
+			    	tenant.setPhoneNumber3(entry.getValue());
+			    }
+			    if(count == 3){
+			    	tenant.setPhoneName4(entry.getKey());
+			    	tenant.setPhoneNumber4(entry.getValue());
+			    }
+			    count++;
+			}
+		}
+		
+		count = 0;
+		map = tenant.getPhones();
+		if(map != null){
+			for (Map.Entry<String, String> entry : map.entrySet()) {
+			    if(count == 0){
+			    	tenant.setPhoneName5(entry.getKey());
+			    	tenant.setPhoneNumber5(entry.getValue());
+			    }
+			    if(count == 1){
+			    	tenant.setPhoneName6(entry.getKey());
+			    	tenant.setPhoneNumber6(entry.getValue());
+			    }
+			    if(count == 2){
+			    	tenant.setPhoneName7(entry.getKey());
+			    	tenant.setPhoneNumber7(entry.getValue());
+			    }
+			    if(count == 3){
+			    	tenant.setPhoneName8(entry.getKey());
+			    	tenant.setPhoneNumber8(entry.getValue());
+			    }
+			    count++;
+			}
+		}
+	}
+
 	
 }
-

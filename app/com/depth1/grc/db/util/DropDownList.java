@@ -45,7 +45,43 @@ public interface DropDownList {
      * @return list of all titles
      * @exception DataException if errors occurs while retrieving data from the table
      */
-    public List<String> getTitle() throws DataException;    
+    public List<String> getTitle() throws DataException; 
+    
+    /**
+     * Retrieves world time zones.
+     * 
+     * @return list of all time zones in the world
+     * @exception DataException if errors occurs while retrieving data from the table
+     */
+    public List<String> getTimezone() throws DataException;     
+    
+    /**
+     * Creates a control principle.
+     * 
+     * @exception DataException if errors occurs while creating a control principle
+     */
+    public void createControlPrinciple() throws DataException;
+    
+    /**
+     * Updates a control principle.
+     * 
+     * @exception DataException if errors occurs while updating a control principle
+     */
+    public void updateControlPrinciple() throws DataException;
+    
+    /**
+     * Updates a control principle.
+     * 
+     * @exception DataException if errors occurs while updating a control principle
+     */
+    public void deleteControlPrinciple() throws DataException; 
+    
+    /**
+     * Retrieves control principle.
+     * 
+     * @exception DataException if errors occurs while updating a control principle
+     */
+    public List<String> getControlPrinciple() throws DataException;    
     
    
 

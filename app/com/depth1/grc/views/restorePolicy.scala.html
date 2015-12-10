@@ -1,0 +1,82 @@
+@import com.depth1.grc.model.Policy 
+@(policies:List[Policy], policySize:Integer)
+
+
+@header()
+
+		<center>
+           	<h1> Policy </h1>
+           	<br>
+           	<br>
+        </center>
+		<div class="margin-50">
+        	<div class="float-box">
+        		<input type="search" id="policyListSearchText" onsearch="policyListSearch()" value="Search Policy">
+        	</div>
+        	
+        	
+        	
+	        <div>
+	        	<div class="TableView">
+	              	<p> <a class="blue-link" onclick="changeViewPolicy(10)"> View 10</a> |
+	              	<a class="blue-link" onclick="changeViewPolicy(25)"> View 25</a> | 
+	              	<a class="blue-link" onclick="changeViewPolicy(50)"> View 50</a> </p>
+	          	</div>
+	            <p> <b>Instructions:</b> Please select a Policy and then View, Update, or Delete. </p>
+	        </div>
+	        
+	        
+	        <div>
+	           
+	           	<table id="policyTable">
+	           		<thead>
+	                	<tr>
+	                   		<th id="policyTableCol1" onclick="policyListSort('policyId')"> Policy Id</th>
+	        		   		<th id="policyTableCol2" onclick="policyListSort('name')">Name</span></th>
+					   		<th id="policyTableCol3" onclick="policyListSort('description')">Description</th>
+					   		<th id="policyTableCol4" onclick="policyListSort('version')">Version</th>
+					   		<th id="policyTableCol5" onclick="policyListSort('classification')">Classification</th>
+	                	</tr>
+	              	</thead>
+	              	<tbody>
+	              	 
+	                 	@for(policy <- policies) {
+				     	<tr >
+					    	<td class="policyTableRowCenter"></td>
+					    	<td>@policy.getName</td>
+					    	<td>@policy.getDescription</td>
+					    	<td class="policyTableRowCenter">@policy.getVersion</td>
+					    	<td class="policyTableRowCenter">@policy.getClassification</td>
+				    	</tr>
+				    	}
+	              	</tbody>
+	        	</table>
+	    	</div>
+        </div>
+        <center>
+           	<div id="policyPaginationArray">
+           	</div>
+        </center>
+ 		<br>
+ 		<br>
+ 		<br>
+ 		<center>
+        	<table>
+              	<tr>
+                	<td>
+                 		<INPUT TYPE="button" id="policyRestoreButton" class="policyListButton" VALUE="Restore" onclick="restorePolicy()">
+                 	</td>
+                 	<td>
+                 		<INPUT TYPE="button" id="policyUpdateButton" class="policyListButton" VALUE="Back to List" onclick="goToPolicyList()">
+                 	</td> 	
+                </tr>
+            </table>
+        </center>
+        <br>
+        <br>    
+		<script>
+			var policyRestoreListSize = @policySize;
+			
+		</script>
+
+@footer()
