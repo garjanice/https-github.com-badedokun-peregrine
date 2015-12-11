@@ -1592,6 +1592,7 @@ public class Application extends Controller {
 	}
 
 	/**
+	 * Procedure code begins : author: Nilima
 	 * Creates a procedure
 	 * 
 	 * @param void
@@ -1659,6 +1660,7 @@ public class Application extends Controller {
 	public Result updateProcedure() {
 		Form<Procedure> filledProcedure = procedureForm.bindFromRequest();
 		Procedure criteria = filledProcedure.get();
+		criteria.setId(selectedProcedure.getId());
 		try {
 			ProcedureDao procedureDao = cassandraFactory.getProcedureDao();
 			procedureDao.updateProcedure(criteria);
@@ -1846,9 +1848,9 @@ public class Application extends Controller {
 	/**
 	 * Downloads a procedure to a file
 	 * 
-	 * @param policy
-	 *            name
-	 * @return creates a policy file
+	 * @param procedure
+	 *            
+	 * @return creates a procedure file
 	 */
 
 	public Result downloadProcedure(String name) {
@@ -1861,7 +1863,7 @@ public class Application extends Controller {
 	 * This method allows users to print selected Procedure
 	 * 
 	 * @param void
-	 * @return update procedure page
+	 * @return PDF page of procedure
 	 */
 	public Result printPro() {
 
@@ -1871,3 +1873,6 @@ public class Application extends Controller {
 
 	}
 }
+
+
+ 

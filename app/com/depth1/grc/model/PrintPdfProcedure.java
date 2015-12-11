@@ -22,9 +22,9 @@ public class PrintPdfProcedure {
 	private final String outputFileName = Play.application().configuration().getString("procedure.output.file.url");
 	
 /**
-	 * Prints Procedure		
-	 * @param pa procedure to print
-	 */
+ * Prints Procedure		
+* @param pa procedure to print
+ */
 
 public void printProcedure(Procedure pro){
 	String outputFileName = "./public/pdf/Procedure.pdf";
@@ -101,24 +101,6 @@ private void printPdfProTitle(String text, int line)throws Exception{
  */
 private int printProBody(int line, Procedure pro)throws Exception{
 	
-/*	printPdfProTitle("Tenant Id:", line);
-	
-	line = printTextInBox(135, line, Integer.toString(pro.getTenantId()), 90);
-    line += 25;
-	if(line > 800){
-		getNewPDFPage();
-		line = 25;
-	}
-printPdfProTitle("Policy Id:", line);
-	
-line = printTextInBox(135, line, pro.getPolicyId().toString(), 90);
-    line += 25;
-	if(line > 800){
-		getNewPDFPage();
-		line = 25;
-	}
-	
-
 	printPdfProTitle("Procedure Id:", line);
 	
 	 line = printTextInBox(135, line, pro.getProcedureId().toString(), 90);
@@ -126,7 +108,8 @@ line = printTextInBox(135, line, pro.getPolicyId().toString(), 90);
 	if(line > 800){
 		getNewPDFPage();
 		line = 25;
-	} */
+	} 
+	
 	printPdfProTitle("Procedure Name:", line);
 	line = printTextInBox(135, line, pro.getName(), 90);
     line += 25;

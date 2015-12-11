@@ -6,13 +6,15 @@ import java.util.UUID;
 import com.datastax.driver.core.ResultSet;
 
 /**
- * @author Team-A
+ * The Procedure Dao interface defines the contract that all implementing classes must abide by.
+ * It provides API to expose to caller of classes that implement the interface
+ * 
+ * @author Nilima
  *
  */
 public interface ProcedureDao {
 	public void createProcedure(Procedure procedure) throws DaoException;
 	public boolean updateProcedure(Procedure procedure) throws DaoException;
-	//public boolean deleteProcedure(String procedureId) throws DaoException;
 	public boolean restoreProcedure(String procedureId) throws DaoException;
 	public Procedure viewProcedureByName(String procedureName) throws DaoException;
 	public Procedure viewProcedureById(UUID id) throws DaoException;
@@ -22,11 +24,4 @@ public interface ProcedureDao {
 	public boolean deleteProcedure(Procedure procedure) throws DaoException;
 
 	
-	/**
-     * Lists some of the Risk Assessments in the database
-     * @return a list containing all Risk Assessments
-     * @throws DaoException if failed to retrieve list of Risk Assessments
-     */
-	/*public List<Procedure> listProcedurePagination(int numberOfItems, int page) throws DaoException;
-	*/
 }

@@ -34,8 +34,8 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 public class CassandraProcedureDao implements ProcedureDao {
 	
 	/**
+	* Author : Nilima
 	* Creates a procedure
-	* 
 	* @param procedure to create
 	* @throws DaoException if error occurs while creating the procedure in the database.
 	*/
@@ -261,14 +261,23 @@ public class CassandraProcedureDao implements ProcedureDao {
 		return null;
 	}
 
+	
+	/**
+	* View a procedure by Procedure id
+	* 
+	* @param  Procedure UUID to view
+	* @return Procedure to view
+	* @throws DaoException if error occurs while viewing the Policy in the data store
+	*/	
+	
 	@Override
 	public Procedure viewProcedureById(UUID id) throws DaoException {
 		List<Procedure> listProcedure;
-		Session dbSession = CassandraDaoFactory.connect();
-		try {
+			try {
 			Statement viewProcedureById = QueryBuilder.select().all().from("grc", "procedure").where(QueryBuilder.eq("id", id));
 
-			ResultSet result = dbSession.execute(viewProcedureById);
+			ResultSet result = CassandraDaoFactory.getSession().execute(viewProcedureById);
+			
 			if (result == null) {
 				return null;
 			}
@@ -281,22 +290,31 @@ public class CassandraProcedureDao implements ProcedureDao {
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving list of Procedures from database ", e);
 		} finally {
-			CassandraDaoFactory.close(dbSession);
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 		return null;
 	}
 
+	/**
+	* View all Procedure
+	* 
+	* @param void
+	* @return List of Procedure to view
+	* @throws DaoException if error occurs while viewing the Procedure in the data store
+	*/
+	
 	@Override
 	public List<Procedure> viewAllProcedure() throws DaoException {
         List<Procedure> listProcedure = new ArrayList<>();
-        Session dbSession = CassandraDaoFactory.connect();
+        
         try {
             Statement viewAllProcedure = QueryBuilder
             		.select()
             		.all()
                     .from("grc", "procedure")
                     .where(QueryBuilder.eq("is_deleted", false));
-            ResultSet result = dbSession.execute(viewAllProcedure);
+            ResultSet result = CassandraDaoFactory.getSession().execute(viewAllProcedure);
+            
             if (result == null) {
                 return null;
             }
@@ -324,16 +342,26 @@ public class CassandraProcedureDao implements ProcedureDao {
         } catch (DriverException e) {
             Logger.error("Error occurred while retrieving list of Procedures from database ", e);
         } finally {
-            CassandraDaoFactory.close(dbSession);
+          
+            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+
         }
 
         return listProcedure;
 	}
 	
+	/**
+	* View all Deleted Procedure
+	* 
+	* @param void
+	* @return List of Procedure that are deleted
+	* @throws DaoException if error occurs while deleting the Procedure in the data store
+	*/
+	
 	@Override
 	public List<Procedure> viewAllDeletedProcedure() throws DaoException {
         List<Procedure> listProcedure = new ArrayList<>();
-        Session dbSession = CassandraDaoFactory.connect();
+     
         try {
             Statement viewAllDeletedProcedure = QueryBuilder
             		.select()
@@ -341,7 +369,8 @@ public class CassandraProcedureDao implements ProcedureDao {
                     .from("grc", "procedure")
                     .where(QueryBuilder.eq("is_deleted", true));
 
-            ResultSet result = dbSession.execute(viewAllDeletedProcedure);
+            ResultSet result = CassandraDaoFactory.getSession().execute(viewAllDeletedProcedure);;
+            
             if (result == null) {
                 return null;
             }
@@ -369,7 +398,7 @@ public class CassandraProcedureDao implements ProcedureDao {
         } catch (DriverException e) {
             Logger.error("Error occurred while retrieving list of Procedures from database ", e);
         } finally {
-            CassandraDaoFactory.close(dbSession);
+        	CassandraDaoFactory.close(CassandraDaoFactory.getSession());
         }
 
         return listProcedure;
