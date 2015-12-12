@@ -76,11 +76,7 @@ import com.depth1.grc.util.DateUtility;
 import com.depth1.grc.util.IdProducer;
 import com.depth1.grc.model.Policy;
 import com.depth1.grc.model.PolicyDao;
-<<<<<<< Updated upstream
 import com.depth1.grc.model.PolicySort;
-=======
-//import com.depth1.grc.model.PolicySort;
->>>>>>> Stashed changes
 import com.depth1.grc.model.PolicyUtil;
 import com.depth1.grc.model.PrintPdfRiskAssessment;
 import com.depth1.grc.model.RiskAssessment;
@@ -571,19 +567,21 @@ public class Application extends Controller {
 		JpaStrategicObjectiveDao obj;
 		try {
 			
-			objective = new StrategicObjective(17L, "Strategy 2018", "Best Enterprise Risk Management Software");
+			objective = new StrategicObjective(18L, "Strategy 2020", "Best Enterprise Risk Management Software");
 			 
-			Measure measure1 = new Measure(17L, "20% in customer base", objective);
-			Measure measure2 = new Measure(17L, "15% increase in revenue", objective);
-			Measure measure3 = new Measure(17L, "5% increase in profit", objective);
-			Measure measure4 = new Measure(17L, "Minimize software defect by 80% in 2016", objective);
-			Measure measure5 = new Measure(17L, "Expand sales to other regions in 2017", objective);
+			Measure measure1 = new Measure(18L, "40% in customer base", objective);
+			Measure measure2 = new Measure(18L, "35% increase in revenue", objective);
+			Measure measure3 = new Measure(18L, "40% increase in profit", objective);
+			Measure measure4 = new Measure(18L, "Minimize software defect by 95% in 2016", objective);
+			Measure measure5 = new Measure(18L, "Expand sales to Europe and EMEA regions in 2016", objective);
+			Measure measure6 = new Measure(18L, "Expand sales to APAC region in 2017", objective);
 			Set<Measure> measureSet = Collections.synchronizedSet(new LinkedHashSet<Measure>());
 			measureSet.add(measure1);
 			measureSet.add(measure2);
 			measureSet.add(measure3);
 			measureSet.add(measure4);
 			measureSet.add(measure5);
+			measureSet.add(measure6);
 			obj = new JpaStrategicObjectiveDao();
 			obj.createStrategicObjective(objective, measureSet);
 			Logger.info("Data Transaction persisted successfully.");
@@ -695,7 +693,8 @@ public class Application extends Controller {
 	    return ok(result);
 	}
 	public Result index() {
-
+		// test JPA
+		createSO();
 		return ok(index.render()); 
 	}
 	/**
