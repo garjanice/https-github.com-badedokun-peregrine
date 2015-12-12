@@ -166,7 +166,29 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	 * @return boolean True if the user profile is successfully updated, false otherwise
 	 * @throws DaoException if error occurs while updating a user profile in the data store
 	 */
-	@Override
+	
+	private void updateUserAuth(final UserProfile user) throws DaoException {
+		//boolean update = false;		
+		try {
+			Update.Assignments updateAssignments = QueryBuilder
+					.update(Keyspace.valueOf(keyspace), "userauth")					
+					.with(set("hash", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12))))
+					.and(set("lname", user.getLname()))
+					.and(set("fname", user.getFname()));
+
+					Statement updateDetails = updateAssignments
+					.where(eq("username", user.getUsername()));
+			CassandraDaoFactory.getSession().execute(updateDetails);			
+			//update = true;
+		} catch (DriverException e) {
+			Logger.error("Error occurred while updating data in the user profile table ", e);
+		} finally {
+			//close the connection to the database();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+		//return update;
+	}
+	
 	public boolean updateUserProfile(final UserProfile user) throws DaoException {
 		boolean update = false;		
 		try {
@@ -196,7 +218,8 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.where(eq("username", user.getUsername()))
 					.and(eq("lname", user.getLname()))
 					.and(eq("fname", user.getFname()));
-			CassandraDaoFactory.getSession().execute(updateDetails);			
+			CassandraDaoFactory.getSession().execute(updateDetails);
+			updateUserAuth(user);
 			update = true;
 		} catch (DriverException e) {
 			Logger.error("Error occurred while updating data in the user profile table ", e);
@@ -205,7 +228,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 		return update;
-	}
+	}	
 		
 	
 	/**

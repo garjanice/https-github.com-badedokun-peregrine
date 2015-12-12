@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.SortedSet;
 import java.util.TimeZone;
 import java.util.TreeSet;
+import java.util.UUID;
 
 /**
  * Date utility class for converting dates from different formats; including date validations
@@ -32,9 +33,11 @@ public final class DateUtility {
 	public static final String DISPLAY_FORMAT = "yyyy/MM/dd hh:mm:ss";
 	public static final String DATABASE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
+	public static final String OTHER_DATE_FORMAT = "dd/MM/yyyy";
+	public static final String NORTH_AMERICA_DATE_FORMAT = "MM/dd/yyyy";
 	
 	//public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat("MM/dd/yyyy H:mm:ss.SSS");
-	public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
+	public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat(NORTH_AMERICA_DATE_FORMAT);
 
 
 	/**
@@ -473,7 +476,52 @@ public final class DateUtility {
         }
         
         throw new IllegalArgumentException( "Unsupported type " + date.getClass() );
-    }    
+    } 
+    
+	/**
+	 * Gets data as a string object.
+	 * 
+	 * @param timeStamp the timestamp object to convert to a string object
+	 * @param format the date string format
+	 * @return String date corresponding to the date object
+	 */
+    public String getDateAsString(Timestamp timeStamp, DateFormat format) {
+    	format = new SimpleDateFormat(NORTH_AMERICA_DATE_FORMAT);
+    	return DateUtility.toString(timeStamp, format);
+    }
+	
+	/**
+	 * Sets date as string.
+	 * 
+	 * @param date the string object to set
+	 * @param timeStamp the timestamp object to set
+	 * @throws DateException if error occurs while parsing the date object
+	 */
+	public void setDateAsString(String date, Timestamp timeStamp) throws DateException {
+		try {
+			timeStamp = DateUtility.toTimestamp(date, NORTH_AMERICA_DATE_FORMAT);
+
+		} catch (ParseException e) {
+			throw new DateException("Error occurred while parsing a date object", e);
+
+		}
+
+	}
+	
+	/**
+	 * Gets date as String for displaying.
+	 * 
+	 * @param date the date object to convert as string
+	 * @param uuidTime the UUID time to converted as a long primitive type
+	 * @param uuid the UUID object to convert to date
+	 * @return Date object as a string 
+	 */
+	public String getDateAsString(Date date, long uuidTime, UUID uuid) {
+		uuidTime = UUID.randomUUID().timestamp();
+		date = new Date(uuidTime);
+		return DateUtility.formatDateFromUuid(NORTH_AMERICA_DATE_FORMAT, date);
+	}
+	    
 
 }
 

@@ -13,8 +13,8 @@ import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.util.Picture;
 import com.depth1.grc.views.html.index;
 import com.google.common.io.Files;
-import com.ibm.icu.util.TimeZone;
-import com.sun.org.apache.xerces.internal.xs.StringList;
+//import com.ibm.icu.util.TimeZone;
+//import com.sun.org.apache.xerces.internal.xs.StringList;
 
 import play.Logger;
 import play.Play;
@@ -39,29 +39,17 @@ public class Universal extends Controller {
 	static DaoFactory rdbFactory = DaoFactory.getDaoFactory(DaoFactory.MARIADB);
 
     /**
-     * Retrieves states in a given country
-     * @param country ISO name of the country, for example 'US' or 'CA' or 'CH'
-     * @return list of all states in the specified country
+     * @return
      */
-    public Result getStateOption(String countryCode){
-    	
-    	List<String> states = null;
+    public Result defaultPicture(){
+    	File file =  Play.application().getFile("/public/images/placeholder-profile-pic.jpg");
+    	byte[] picture = null;
     	try {
-			DropDownList dropDown = cassandraFactory.getDropDownList();
-			states = dropDown.getState(countryCode);
-			Collections.sort(states);			
-
-		} catch (DataException e) {
-			Logger.error("Error occurred while retrieving data ", e);
-		}	    	
-    	if(states == null){
-    		return null;
-    	}
-    	StringBuilder options = new StringBuilder();
-    	for(int i = 0; i < states.size(); i++){
-    		options.append("<option value='"+states.get(i)+"'>"+states.get(i)+"</option>");
-    	}
-    	return ok(options.toString());
+			picture = Files.toByteArray(file);
+		} catch (Exception e) {
+			Logger.error("Error occurred while reading file ", e);
+		}
+    	return ok(picture);
     }
     
     /**
@@ -118,30 +106,53 @@ public class Universal extends Controller {
 	}  
     
     /**
-     * Retrieves common titles from the data store.
-     * 
-     * @return list of titles
+     * Retrieves picture from a URL path or directory
+     * @param pictureName picture to retrieve
+     * @return picture from the URL path or directory
      */
-	public Result getTitleOption() {
-		List<String> titles = null;
-		try {
+    public Promise<Result> getPicture(final String pictureName){
+
+    	return Promise.promise(new F.Function0<Result>(){
+			@Override
+			public Result apply() throws Throwable {
+				String pictureUrl = new File("public/images",pictureName).getPath();
+				byte[] picture = new Picture().loadPicture(pictureUrl);
+				return ok(picture);
+			}
+    	}).recover(new Function<Throwable, Result>(){
+			@Override
+			public Result apply(Throwable arg0) throws Throwable {				
+				//return redirect(routes.Universal.defaultPicture());
+				return ok(index.render());
+			}
+    	});
+    }
+	
+    /**
+     * Retrieves states in a given country
+     * @param country ISO name of the country, for example 'US' or 'CA' or 'CH'
+     * @return list of all states in the specified country
+     */
+    public Result getStateOption(String countryCode){
+    	
+    	List<String> states = null;
+    	try {
 			DropDownList dropDown = cassandraFactory.getDropDownList();
-			titles = dropDown.getTitle();
-			Collections.sort(titles);
+			states = dropDown.getState(countryCode);
+			Collections.sort(states);			
 
 		} catch (DataException e) {
 			Logger.error("Error occurred while retrieving data ", e);
-		}
-
-		if (titles == null) {
-			return null;
-		}
-		StringBuilder options = new StringBuilder();
-		for (int i = 0; i < titles.size(); i++) {
-			options.append("<option value='" + titles.get(i) + "'>" + titles.get(i) + "</option>");
-		}
-		return ok(options.toString());
-	}
+		}	    	
+    	if(states == null){
+    		return null;
+    	}
+    	StringBuilder options = new StringBuilder();
+    	for(int i = 0; i < states.size(); i++){
+    		options.append("<option value='"+states.get(i)+"'>"+states.get(i)+"</option>");
+    	}
+    	return ok(options.toString());
+    }	
 	
     /**
      * Retrieves world time zones from the data store.
@@ -166,57 +177,31 @@ public class Universal extends Controller {
 			options.append("<option value='" + timezones.get(i) + "'>" + timezones.get(i) + "</option>");
 		}
 		return ok(options.toString());
-	}	
-    
-	
-/*	public Result getTimezoneOption() {
-		
-		String[] zones = TimeZone.getAvailableIDs();
-		StringBuffer out = new StringBuffer();
-		
-		for (int i = 0; i < zones.length; i++) {
-			out.append("<option>" + zones[i] + "</option>"  );
-		}
-		
-		return ok(out.toString());
-	}
-*/	
-	
-    /**
-     * Retrieves picture from a URL path or directory
-     * @param pictureName picture to retrieve
-     * @return picture from the URL path or directory
-     */
-    public Promise<Result> getPicture(final String pictureName){
-
-    	return Promise.promise(new F.Function0<Result>(){
-			@Override
-			public Result apply() throws Throwable {
-				String pictureUrl = new File("public/images",pictureName).getPath();
-				byte[] picture = new Picture().loadPicture(pictureUrl);
-				return ok(picture);
-			}
-    	}).recover(new Function<Throwable, Result>(){
-			@Override
-			public Result apply(Throwable arg0) throws Throwable {				
-				//return redirect(routes.Universal.defaultPicture());
-				return ok(index.render());
-			}
-
-    	});
-    }   
+	}   
     
     /**
-     * @return
+     * Retrieves common titles from the data store.
+     * 
+     * @return list of titles
      */
-    public Result defaultPicture(){
-    	File file =  Play.application().getFile("/public/images/placeholder-profile-pic.jpg");
-    	byte[] picture = null;
-    	try {
-			picture = Files.toByteArray(file);
-		} catch (Exception e) {
-			Logger.error("Error occurred while reading file ", e);
+	public Result getTitleOption() {
+		List<String> titles = null;
+		try {
+			DropDownList dropDown = cassandraFactory.getDropDownList();
+			titles = dropDown.getTitle();
+			Collections.sort(titles);
+
+		} catch (DataException e) {
+			Logger.error("Error occurred while retrieving data ", e);
 		}
-    	return ok(picture);
-    }    
+
+		if (titles == null) {
+			return null;
+		}
+		StringBuilder options = new StringBuilder();
+		for (int i = 0; i < titles.size(); i++) {
+			options.append("<option value='" + titles.get(i) + "'>" + titles.get(i) + "</option>");
+		}
+		return ok(options.toString());
+	}    
 }

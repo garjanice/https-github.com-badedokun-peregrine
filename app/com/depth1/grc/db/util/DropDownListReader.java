@@ -219,8 +219,8 @@ public class DropDownListReader implements DropDownList {
 				return (List<String>) timezones;
 
 			}
-		} catch (QueryExecutionException e) {
-			throw new DataException(e);
+		/*} catch (QueryExecutionException e) {
+			throw new DataException(e);*/
 		} catch (SQLException e) {
 			throw new DataException(e);
 		}

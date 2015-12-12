@@ -9,11 +9,6 @@ package com.depth1.grc.db.util;
  * 
  */
 public class DataException extends Exception {
-
-	/**
-	 * An exception that indicates some operation with the back-end
-	 * data source failed.
-	 */
 	    
 		private static final long serialVersionUID = 1L;
 		private Throwable rootCause;

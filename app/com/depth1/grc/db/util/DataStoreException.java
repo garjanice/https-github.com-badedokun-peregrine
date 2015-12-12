@@ -4,7 +4,7 @@
 package com.depth1.grc.db.util;
 
 /**
- * An exception that indicates some operation with the back-end data source failed.
+ * An exception that indicates some operations with the back-end data source failed.
  * @author Bisi Adedokun
  *
  */
