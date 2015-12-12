@@ -1,8 +1,13 @@
 package com.depth1.grc.model;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
+import com.datastax.driver.core.utils.UUIDs;
 import com.depth1.grc.model.common.DateFormat;
+import com.depth1.grc.util.DateUtility;
 
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
@@ -19,17 +24,16 @@ public class Policy {
 	private String version;
 	@Required
 	private String author;
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
+	
 	private UUID creationDate;
+	private long uuidTime;
+	private Date createDateUtil;
+	
 	private String format;
 	private String language;
 	private String subject;
 	private String source;
-	//@Required
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	private UUID sunsetDate;
 	private String category;
-	@Required
 	private String classification;
 	private String reference;
 	private String legalRequirement;
@@ -41,21 +45,17 @@ public class Policy {
 	private String documentContact;
 	private String functionalApplicability;
 	private String geographicApplicability;
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	@DateFormat("MM-dd-yyyy")
-	private UUID effectiveDate;
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	@DateFormat("MM-dd-yyyy")
-	private UUID issueDate;
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	@DateFormat("MM-dd-yyyy")
-	private UUID lastReviewDate;
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	@DateFormat("MM-dd-yyyy")
-	private UUID nextReviewDate;
-	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	@DateFormat("MM-dd-yyyy")
-	private UUID lastUpdatedDate;
+	private Timestamp sunsetDate;
+	
+	private Timestamp effectiveDate;
+	
+	private Timestamp issueDate;
+	
+	private Timestamp lastReviewDate;
+	
+	private Timestamp nextReviewDate;
+	
+	private Timestamp lastUpdatedDate;
 	
 	//Constructor
 	public Policy(){
@@ -127,11 +127,11 @@ public class Policy {
 		return creationDate;
 	}
 			
-	public void setEffectiveDate(UUID effectiveDate){
+	public void setEffectiveDate(Timestamp effectiveDate){
 		this.effectiveDate = effectiveDate;
 	}
 			
-	public UUID getEffectiveDate(){
+	public Timestamp getEffectiveDate(){
 		return effectiveDate;
 	}
 			
@@ -167,11 +167,11 @@ public class Policy {
 		return source;
 	}
 			
-	public void setSunsetDate(UUID sunsetDate){
+	public void setSunsetDate(Timestamp sunsetDate){
 		this.sunsetDate = sunsetDate;
 	}
 			
-	public UUID getSunsetDate(){
+	public Timestamp getSunsetDate(){
 		return sunsetDate;
 	}
 			
@@ -263,27 +263,27 @@ public class Policy {
 		return geographicApplicability;
 	}
 	
-	public void setOriginalIssueDate(UUID originalIssueDate){
+	public void setOriginalIssueDate(Timestamp originalIssueDate){
 		this.issueDate = originalIssueDate;
 	}
 	
-	public UUID getOriginalIssueDate(){
+	public Timestamp getOriginalIssueDate(){
 		return issueDate;
 	}
 	
-	public void setLastReviewDate(UUID lastReviewDate){
+	public void setLastReviewDate(Timestamp lastReviewDate){
 		this.lastReviewDate = lastReviewDate;
 	}
 	
-	public UUID getLastReviewDate(){
+	public Timestamp getLastReviewDate(){
 		return lastReviewDate;
 	}
 	
-	public void setNextReviewDate(UUID nextReviewDate){
+	public void setNextReviewDate(Timestamp nextReviewDate){
 		this.nextReviewDate = nextReviewDate;
 	}
 	
-	public UUID getNextReviewDate(){
+	public Timestamp getNextReviewDate(){
 		return nextReviewDate;
 	}
 	
@@ -295,13 +295,105 @@ public class Policy {
 		return regulatory;
 	}
 	
-	public void setLastUpdatedDate(UUID lastUpdatedDate){
+	public void setLastUpdatedDate(Timestamp lastUpdatedDate){
 		this.lastUpdatedDate = lastUpdatedDate;
 	}
 	
-	public UUID getLastUpdatedDate(){
+	public Timestamp getLastUpdatedDate(){
 		return lastUpdatedDate;
 	}
 	//TODO: update the getLastUpdatedDate to current date for a new policy
 
+	/**
+	 * @return the uuidTime
+	 */
+	public long getUuidTime() {
+		return uuidTime;
+	}
+
+	/**
+	 * @param uuidTime the uuidTime to set
+	 */
+	public void setUuidTime(long uuidTime) {
+		this.uuidTime = uuidTime;
+	}
+
+	/**
+	 * @return the createDateUtil
+	 */
+	public Date getCreateDateUtil() {
+		return createDateUtil;
+	}
+
+	/**
+	 * @param createDateUtil the createDateUtil to set
+	 */
+	public void setCreateDateUtil(Date createDateUtil) {
+		this.createDateUtil = createDateUtil;
+	}
+	
+	public String getCreationDateString() {	
+		uuidTime = UUIDs.unixTimestamp(creationDate);
+		createDateUtil = new Date(uuidTime);
+		return DateUtility.formatDateFromUuid("MM/dd/yyyy",createDateUtil );
+	}
+	public String getSunsetDateString(){
+		java.text.DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		return DateUtility.toString(sunsetDate, df);
+	}
+	public void setSunsetDateString(String date){
+		try{
+			sunsetDate = DateUtility.toTimestamp(date, "MM/dd/yyyy");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public String getLastUpdatedDateString(){
+		java.text.DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		return DateUtility.toString(lastUpdatedDate, df);
+	}
+	public String getEffectiveDateString(){
+		java.text.DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		return DateUtility.toString(effectiveDate, df);
+	}
+	public void setEffectiveDateString(String date){
+		try{
+			effectiveDate = DateUtility.toTimestamp(date, "MM/dd/yyyy");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public String getIssueDateString(){
+		java.text.DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		return DateUtility.toString(issueDate, df);
+	}
+	public void setIssueDateString(String date){
+		try{
+			issueDate = DateUtility.toTimestamp(date, "MM/dd/yyyy");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public String getLastReviewDateString(){
+		java.text.DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		return DateUtility.toString(lastReviewDate, df);
+	}
+	public void setLastReviewDateString(String date){
+		try{
+			lastReviewDate = DateUtility.toTimestamp(date, "MM/dd/yyyy");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public String getNextReviewDateString(){
+		java.text.DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		return DateUtility.toString(nextReviewDate, df);
+	}
+	public void setNextReviewDateString(String date){
+		try{
+			nextReviewDate = DateUtility.toTimestamp(date, "MM/dd/yyyy");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }

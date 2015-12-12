@@ -169,7 +169,7 @@ public class Universal extends Controller {
 	}	
     
 	
-	public Result getTimezoneOption() {
+/*	public Result getTimezoneOption() {
 		
 		String[] zones = TimeZone.getAvailableIDs();
 		StringBuffer out = new StringBuffer();
@@ -180,7 +180,7 @@ public class Universal extends Controller {
 		
 		return ok(out.toString());
 	}
-	
+*/	
 	
     /**
      * Retrieves picture from a URL path or directory

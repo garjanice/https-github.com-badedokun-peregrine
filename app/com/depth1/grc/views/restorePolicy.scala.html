@@ -1,88 +1,82 @@
-@import com.depth1.grc.model.Policy
-@(policies:List[Policy]) 
-@import helper._ 
-@main("Policy Restore") {
+@import com.depth1.grc.model.Policy 
+@(policies:List[Policy], policySize:Integer)
 
-<script>
-	function del(urlToDelete) {
-		$.ajax({
-			url : urlToDelete,
-			type : 'DELETE',
-			success : function(results) {
-				// Refresh the page
-				location.reload();
-			}
-		});
-	}
-</script>
 
-<section class="wrapper">
-	
-	<section>
-	<!--the buttons, using just html forms-->	
-	<span>
-	
-	<h1>Delete Page</h1>
-	</span>
-	}
-</section>
-	
-	<FORM name= "Restore" ACTION=/policy/restore/done />
-	
-	
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Select</th>
-				<th>Policy Name</th>
-				<th>Policy ID</th>
-				<th>Version</th>
-				<th>Last Updated</th>
-			</tr>
-		</thead>
-		<tbody>
-			@for(Policy <- policies) {
-			<tr>
-				<td>
-					<input type="radio" name="policyId" value="@Policy.getPolicyId()" 
-					style="position: relative; ">
-				</td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
-						@Policy.getName()</a></td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
-						@Policy.getPolicyId()</a></td>
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
-						@Policy.getVersion()</a></td>	
-				<td><a
-					href="com.depth1.grc.controllers.routes.Application.viewAllPolicy()">
-						@Policy.getLastUpdatedDate()</a></td>	
-			</tr>
+@header()
+
+		<center>
+           	<h1> Policy </h1>
+           	<br>
+           	<br>
+        </center>
+		<div class="margin-50">
+        	<div class="float-box">
+        		<input type="search" id="policyListSearchText" onsearch="policyListSearch()" value="Search Policy">
+        	</div>
+        	
+        	
+        	
+	        <div>
+	        	<div class="TableView">
+	              	<p> <a class="blue-link" onclick="changeViewPolicy(10)"> View 10</a> |
+	              	<a class="blue-link" onclick="changeViewPolicy(25)"> View 25</a> | 
+	              	<a class="blue-link" onclick="changeViewPolicy(50)"> View 50</a> </p>
+	          	</div>
+	            <p> <b>Instructions:</b> Please select a Policy and then View, Update, or Delete. </p>
+	        </div>
+	        
+	        
+	        <div>
+	           
+	           	<table id="policyTable">
+	           		<thead>
+	                	<tr>
+	                   		<th id="policyTableCol1" onclick="policyListSort('policyId')"> Policy Id</th>
+	        		   		<th id="policyTableCol2" onclick="policyListSort('name')">Name</span></th>
+					   		<th id="policyTableCol3" onclick="policyListSort('description')">Description</th>
+					   		<th id="policyTableCol4" onclick="policyListSort('version')">Version</th>
+					   		<th id="policyTableCol5" onclick="policyListSort('classification')">Classification</th>
+	                	</tr>
+	              	</thead>
+	              	<tbody>
+	              	 
+	                 	@for(policy <- policies) {
+				     	<tr >
+					    	<td class="policyTableRowCenter"></td>
+					    	<td>@policy.getName</td>
+					    	<td>@policy.getDescription</td>
+					    	<td class="policyTableRowCenter">@policy.getVersion</td>
+					    	<td class="policyTableRowCenter">@policy.getClassification</td>
+				    	</tr>
+				    	}
+	              	</tbody>
+	        	</table>
+	    	</div>
+        </div>
+        <center>
+           	<div id="policyPaginationArray">
+           	</div>
+        </center>
+ 		<br>
+ 		<br>
+ 		<br>
+ 		<center>
+        	<table>
+              	<tr>
+                	<td>
+                 		<INPUT TYPE="button" id="policyRestoreButton" class="policyListButton" VALUE="Restore" onclick="restorePolicy()">
+                 	</td>
+                 	<td>
+                 		<INPUT TYPE="button" id="policyUpdateButton" class="policyListButton" VALUE="Back to List" onclick="goToPolicyList()">
+                 	</td> 	
+                </tr>
+            </table>
+        </center>
+        <br>
+        <br>    
+		<script>
+			var policyRestoreListSize = @policySize;
 			
-			
-		}
-		
-		
-		</tbody>
+		</script>
 
-	</table>
-	<INPUT TYPE="submit"
-		style="position: relative; height:25px; width:50px; " VALUE="Restore">
-	</FORM>
-</section>
-
-
-<section>
-	<FORM ACTION="/policy "/>
-	<INPUT TYPE="submit"
-		style="position: relative; top: 100px; bottom:50px; left:50px; height: 50px; width: 100px;"
-		VALUE="Back to policy">
-	</FORM>
-</section>
-
-
-
-
-
+@footer()

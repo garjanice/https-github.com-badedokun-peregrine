@@ -1,6 +1,6 @@
-@import com.depth1.grc.model.Policy 
-@(selectedPolicy : Policy) 
-@import helper._ 
+@import com.depth1.grc.model.Policy
+@(policy:Policy, policyBody:String)
+
 @header()
 
 	<script src="@routes.Assets.versioned("javascripts/tinymce.min.js")"></script>
@@ -24,10 +24,13 @@
 		});	
 		
 	</script>
+	<script>
 	
+  	</script>
+		
 		<h1 class="position-policy">Policy</h1>
 		
-		<h4 class="position-update">Update Policy</h4>
+		<h4 class="position-create">Update Policy</h4>
         
         <form id="policyForm" action="/policy/update/done" method="post">
            	<fieldset class="policy-position-fieldset-identification">
@@ -35,66 +38,72 @@
         		
         		<div>
                 	<label for="name" class="policy-policy-name" >Policy Name:</label>
-                	<input type="text" id="name" name="name" class="policy-policy-name-text" value="@selectedPolicy.getName">
+                	<input type="text" id="name" name="name" class="policy-policy-name-text" value="@policy.getName">
                  	<label for="version" class="policy-version" >Version:</label>
-                 	<input type="text" id="version" name="version" class="policy-version-text" value="@selectedPolicy.getVersion" >
+                 	<input type="text" id="version" name="version" class="policy-version-text" value="@policy.getVersion">
                  	<label for="author" class="policy-author" >Author:</label>
-                 	<input type="text" id="author" name="author" class="policy-author-text" value="@selectedPolicy.getAuthor">
+                 	<input type="text" id="author" name="author" class="policy-author-text" value="@policy.getAuthor">
             	</div>	
         		<div>
         			<label for="description" class="policy-description" >Description:</label>
-                 	<textarea form="policyForm" cols="103" rows="2" id="description" name="description" class="policy-description-text">@selectedPolicy.getDescription</textarea>
+                 	<textarea form="policyForm" cols="103" rows="2" id="description" name="description" class="policy-description-text">@policy.getDescription</textarea>
                 </div>
                 <div>
                 	<label for="format" class="policy-format" >Format:</label>
-                	<input type="text" id="format" name="format" class="policy-format-text" value="@selectedPolicy.getFormat">
+                	<input type="text" id="format" name="format" class="policy-format-text" value="@policy.getFormat">
                  	<label for="language" class="policy-language" >Language:</label>
-                 	<input type="text" id="language" name="language" class="policy-language-text" value="@selectedPolicy.getLanguage">
+                 	<input type="text" id="language" name="language" class="policy-language-text" value="@policy.getLanguage">
                  	<label for="subject" class="policy-subject" >Subject:</label>
-                 	<input type="text" id="subject" name="subject" class="policy-subject-text" value="@selectedPolicy.getSubject">
+                 	<input type="text" id="subject" name="subject" class="policy-subject-text" value="@policy.getSubject" >
                 </div>
                 <div>
                 	<label for="source" class="policy-source" >Source:</label>
-                	<input type="text" id="source" name="source" class="policy-source-text" value="@selectedPolicy.getSource">
+                	<input type="text" id="source" name="source" class="policy-source-text" value="@policy.getSource">
                  	<label for="category" class="policy-category" >Category:</label>
-                 	<input type="text" id="category" name="category" class="policy-category-text" value="@selectedPolicy.getCategory">
+                 	<input type="text" id="category" name="category" class="policy-category-text" value="@policy.getCategory">
                  	<label for="classification" class="policy-classification" >Classification:</label>
-                 	<input type="text" id="classification" name="classification" class="policy-classification-text" value="@selectedPolicy.getClassification">
+                 	<input type="text" id="classification" name="classification" class="policy-classification-text" value="@policy.getClassification">
                 </div>
                 <div>
                 	<label for="sunsetDate" class="policy-sunset-date" >Sunset Date:</label>
-                	<input type="text" id="sunsetDate" name="sunsetDate" class="policy-sunset-date-text" value="@selectedPolicy.getSunsetDate">
+                	<input type="text" id="sunsetDate" name="sunsetDateString" class="policy-sunset-date-text" value="@policy.getSunsetDateString">
                  	<label for="reference" class="policy-reference" >Reference:</label>
-                 	<input type="text" id="reference" name="reference" class="policy-reference-text" value="@selectedPolicy.getReference">
+                 	<input type="text" id="reference" name="reference" class="policy-reference-text" value="@policy.getReference">
                  	<label for="legalRequirement" class="policy-legal-requirement" >Legal Requirement:</label>
-                 	<input type="text" id="legalRequirement" name="legalRequirement" class="policy-legal-requirement-text" value="@selectedPolicy.getLegalRequirement" >
+                 	<input type="text" id="legalRequirement" name="legalRequirement" class="policy-legal-requirement-text" value="@policy.getLegalRequirement">
                 </div>
                 <div>
                 	<label for="complianceCategory" class="policy-compliance-category" >Compliance Category:</label>
-                	<input type="text" id="complianceCategory" name="complianceCategory" class="policy-compliance-category-text" value="@selectedPolicy.getComplianceCategory">
+                	<input type="text" id="complianceCategory" name="complianceCategory" class="policy-compliance-category-text" value="@policy.getComplianceCategory">
                  	<label for="regulatory" class="policy-regulatory" >Regulatory:</label>
-                 	<input type="text" id="regulatory" name="regulatory" class="policy-regulatory-text" value="@selectedPolicy.getRegulatory">
+                 	<input type="text" id="regulatory" name="regulatory" class="policy-regulatory-text" value="@policy.getRegulatory">
                  	<label for="producingFunction" class="policy-producing-function" >Producing Function:</label>
-                 	<input type="text" id="producingFunction" name="producingFunction" class="policy-producing-function-text" value="@selectedPolicy.getProducingFunction">
+                 	<input type="text" id="producingFunction" name="producingFunction" class="policy-producing-function-text" value="@policy.getProducingFunction">
                 </div>
                 <div>
                 	<label for="approver" class="policy-approver" >Approver:</label>
-                	<input type="text" id="approver" name="approver" class="policy-approver-text" value="@selectedPolicy.getApprover">
+                	<input type="text" id="approver" name="approver" class="policy-approver-text" value="@policy.getApprover">
                  	<label for="owner" class="policy-owner" >Owner:</label>
-                 	<input type="text" id="owner" name="owner" class="policy-owner-text" value="@selectedPolicy.getOwner">
+                 	<input type="text" id="owner" name="owner" class="policy-owner-text" value="@policy.getOwner">
                 	<label for="documentContact" class="policy-document-contact" >Document Contact:</label>
-                 	<input type="text" id="documentContact" name="documentContact" class="policy-document-contact-text" value="@selectedPolicy.getDocumentContact">
+                 	<input type="text" id="documentContact" name="documentContact" class="policy-document-contact-text" value="@policy.getDocumentContact">
                 </div>
                 <div>
                 	<label for="functionalApplicability" class="policy-functional-applicability" >Functional Applicability:</label>
-                	<input type="text" id="functionalApplicability" name="functionalApplicability" class="policy-functional-applicability-text" value="@selectedPolicy.getFunctionalApplicability">
+                	<input type="text" id="functionalApplicability" name="functionalApplicability" class="policy-functional-applicability-text" value="@policy.getFunctionalApplicability">
                  	<label for="geographicApplicability" class="policy-geographic-applicability" >Geographic Applicability:</label>
-                 	<input type="text" id="geographicApplicability" name="geographicApplicability" class="policy-geographic-applicability-text" value="@selectedPolicy.getGeographicApplicability" >
+                 	<input type="text" id="geographicApplicability" name="geographicApplicability" class="policy-geographic-applicability-text" value="@policy.getGeographicApplicability">
                 	<label for="effectiveDate" class="policy-effective-date" >Effective Date:</label>
-                 	<input type="text" id="effectiveDate" name="effectiveDate" class="policy-effective-date-text" value="@selectedPolicy.getEffectiveDate">
+                 	<input type="text" id="effectiveDate" name="effectiveDateString" class="policy-effective-date-text" value="@policy.getEffectiveDateString">
                  	<label for="issueDate" class="policy-issue-date" >Issue Date:</label>
-                 	<input type="text" id="originalIssueDate" name="originalIssueDate" class="policy-issue-date-text" value="@selectedPolicy.getOriginalIssueDate">
+                 	<input type="text" id="originalIssueDate" name="issueDateString" class="policy-issue-date-text" value="@policy.getIssueDateString">
                 </div>
+                <div>
+                	<label for="lastReviewDate" class="policy-lastReviewDate" >Last Review Date:</label>
+                	<input type="text" id="lastReviewDate" name="lastReviewDateString" class="policy-lastReviewDate-text" value="@policy.getLastReviewDateString">
+                 	<label for="nextReviewDate" class="policy-nextReviewDate" >Next Review Date:</label>
+                	<input type="text" id="nextReviewDate" name="nextReviewDateString" class="policy-nextReviewDate-text" value="@policy.getNextReviewDateString">
+            	</div>
         	</fieldset>
         	<br>
         	<br>
@@ -108,7 +117,7 @@
 				<input type="button" value="Click to select file" id="fakeBrowse" onclick="HandleBrowseClick();"/>
 				<br>
 				<br>
-				<textarea form="policyForm" cols="100" rows="50" id="policybody" name="policybody" ></textarea>
+				<textarea form="policyForm" cols="100" rows="50" id="policybody" name="policybody" >@policyBody</textarea>
 				<div>
 					<br>
 					<br>
@@ -120,3 +129,5 @@
             </fieldset>
        	</form>
     	
+        
+@footer()
