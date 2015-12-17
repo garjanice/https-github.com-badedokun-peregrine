@@ -7,11 +7,15 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
+
 import com.depth1.grc.db.util.DataException;
 import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.model.DaoFactory;
+import com.depth1.grc.model.Tenant;
 import com.depth1.grc.util.Picture;
 import com.depth1.grc.views.html.index;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.io.Files;
 //import com.ibm.icu.util.TimeZone;
 //import com.sun.org.apache.xerces.internal.xs.StringList;
@@ -19,6 +23,7 @@ import com.google.common.io.Files;
 import play.Logger;
 import play.Play;
 import play.libs.F;
+import play.libs.Json;
 import play.libs.F.Function;
 import play.libs.F.Promise;
 import play.mvc.Controller;
@@ -173,10 +178,18 @@ public class Universal extends Controller {
 			return null;
 		}
 		StringBuilder options = new StringBuilder();
-		for (int i = 0; i < timezones.size(); i++) {
-			options.append("<option value='" + timezones.get(i) + "'>" + timezones.get(i) + "</option>");
+//		for (int i = 0; i < timezones.size(); i++) {
+//			options.append("<option value='" + timezones.get(i) + "'>" + timezones.get(i) + "</option>");
+//		}
+		
+		//ObjectNode  result = Json.newObject();
+		ArrayNode result = Json.newArray(); 
+		for(String tzone: timezones)
+		{
+			result.add(tzone);
 		}
-		return ok(options.toString());
+		
+		return ok(result);
 	}   
     
     /**

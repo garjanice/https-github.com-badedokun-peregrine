@@ -2,7 +2,8 @@
  *  This function validates the CreateRA form, allowing only alphabets and numbers
  *  @author Barath Ravikumar
  *  @version 1.0 -- 10/13/2015
- */ 
+ */
+
 $(document).ready(function(){
 	var isCreateRA_valid = false;
 	$('#vmsg').hide();	
