@@ -5,5 +5,148 @@
 @header()
 
 
+		<center>
+           <h1> Update Risk Register</h1>
+           
+           </br>
+           </br>
+           </br>
+        </center>
+        <center>
+			<form id="tenantCreation" action="/tenant/update/done" method="post">
+        		<fieldset class="fieldset-bordered tenantFieldset-01">
+	           		<h4 class="bordered-h5"> Identification </h4> 
+	               	<div>
+	                 	<label for="tenantId" class="label-style rrAdjust-tName" >Tenant ID:</label>
+	                 	<input type="text" id="tenantId" name="tenantId" size="80" class="input-style rrAdjust-tId-text" value="selectedRR.getTenantId"> 
+					</div>
+					<div>
+						<label for="riskName" class="label-style rrAdjust-rName" >Risk Name:</label>
+	                 	<input type="text" id="riskName" name="" class="input-style rrAdjust-rName-text" value="@selectedRR.getName">
+						<label for="riskId" class="label-style rrAdjust-rId" >Risk ID (unique):</label>
+	                 	<input type="text" id="riskId" name="riskIdString" class="input-style rrAdjust-rId-text" value="@selectedRR.getRiskId">
+					</div>
+					<div>
+						<label for="status" class="label-style rrAdjust-status" >Status:</label>
+	                 	<input type="radio" id="status" name="status" class="input-style rrAdjust-status-active" value="Active" > 
+	                 	<p class="rrAdjust-status-active-text">Active</p> 
+	                 	<input type="radio" id="status" name="status" class="input-style rrAdjust-status-resolved" value="Resolved" >
+	                 	<p class="rrAdjust-status-resolved-text"> Resolved </p>
+	                 	
+					</div>
+					<div>
+						<label for="riskOwner" class="label-style rrAdjust-rOwner" >Risk ID (unique):</label>
+	                 	<input type="text" id="riskOwner" name="riskOwnerString" class="input-style rrAdjust-rOwner-text" value="@selectedRR.getOwner">
+					</div>
+				</fieldset>
+				
+				<fieldset class="fieldset-bordered tenantFieldset-02">
+	           		<h4 class="bordered-h5">Risk Details</h4>
+	           		<section>
+	           			<label for="rReportingLevel">Risk Reporting Level</label>
+						<select name="rReportingLevel" id="rReportingLevel">
+							<option value="A">A</option>
+							<option value="B" selected>B</option>
+							<option value="C">C</option>
+							<option value="D">D</option>
+						</select>
+						<label for="rCategoryRating">Risk Category Rating</label>
+						<select name="rCategoryRating" id="rCategoryRating">
+							<option value="A">A</option>
+							<option value="B">B</option>
+							<option value="C">C</option>
+							<option value="D" selected>D</option>
+						</select>	           			
+	           		</section>
+	           		<section>
+						<label for="">Risk Decription</label>
+						<input type="text" class="wideInput">
+	           		</section>
+	           		<section>
+	           			<label for="">Impact Description</label>
+	           			<input type="text" class="wideInput">
+	           		</section>
+	           		<section>
+	           			<label for="impactDate">Impact Date</label>
+	           			<input type="date" id="impactDate">
+	           		</section>
+				</fieldset>
+				
+				<fieldset class="fieldset-bordered tenantFieldset-03">
+	           		<h4 class="bordered-h5">Risk Management</h4>
+	           		<ul>
+	           			<li>
+	           				<label for="">Risk Probability</label>
+	           				<input type="radio" value="high">
+	           				<input type="radio" value="medium" checked>
+	           				<input type="radio" value="low">
+	           			</li>
+	           			<li>
+	           				<label for="">Risk Priority</label>
+	           				<input type="radio" value="high">
+	           				<input type="radio" value="medium" checked>
+	           				<input type="radio" value="low">
+	           			</li>
+	           			<li>
+	           				<label for="">Risk Impact</label>
+	           				<input type="radio" value="high" checked>
+	           				<input type="radio" value="medium">
+	           				<input type="radio" value="low">
+	           			</li>
+	           			<li>
+	           				<label for="">Resolution Mitigation</label>
+	           				<input class="wideInput" type="text">
+	           			</li>
+	           			<li>
+	           				<label for="targetResolutionDate">Target Resolution Date</label>
+	           				<input type="date" id="targetResolutionDate">
+	           				<label for="response"></label>
+	           				<select name="responseType" id="response">
+	           					<option value="A" selected>A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D"></option>
+	           				</select>
+	           			</li>
+	           			<li>
+	           				<li>
+		           				<label for="actualResolutionDate">Actual Resolution Date</label>
+		           				<input type="date" id="actualResolutionDate">	
+	           				</li>
+	           				<li>
+	           					<label for="">Associated Risk</label>
+	           					<input type="text">
+	           				</li>
+	           				<li>
+	           					<label>Associated Issue</label>
+	           					<input type="text">
+	           				</li>
+	           			</li>
+	           			<li>
+	           				<label for="">Risk Assumption</label>
+	           				<input type="text" class="wideInput">
+	           			</li>
+	           			<li>
+	           				<label for="">Risk Symptoms</label>
+	           				<input type="text" class="wideInput">
+	           			</li>
+	           		</ul>
+	           	</fieldset>
+	           	<br>
+	           	<br>
+	           	<table>
+	           		<tr>
+	           			<td>
+	           				<button type="button" class="genericButton" onclick="goToTenantList()">List</button>
+	           			</td>
+	           			<td>
+	           				<button type="submit" class="genericButton">Update</button>
+	           			</td>
+	           		</tr>
+	           	</table>
+	           	
+			</form>
+		</center>
+
 
 @footer()

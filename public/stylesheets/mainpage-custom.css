@@ -562,36 +562,36 @@ a:hover {
 	height: 620px;
 	}
 
-.tenantAdjust-status-active-text {
+.tenantAdjust-status-active-text, .rrAdjust-status-active-text {
 	position: absolute;
 	top: 160px;
 	left: 180px;
 	}
-.tenantAdjust-status-resolved-text {
+.tenantAdjust-status-resolved-text, .rrAdjust-status-resolved-text {
 	position: absolute;
 	top: 160px;
 	left: 330px;
 	}
 
-.tenantAdjust-status-resolved {
+.tenantAdjust-status-resolved, .rrAdjust-status-resolved {
 	position: absolute;
 	top: 160px;
 	left: 300px;
 	}
 
-.tenantAdjust-status-active {
+.tenantAdjust-status-active, .tenantAdjust-status-active {
 	position: absolute;
 	top: 160px;
 	left: 150px;
 	}
 
-.tenantAdjust-status {
+.tenantAdjust-status, .rrAdjust-status {
 	position: absolute;
 	top: 160px;
 	left: 25px;
 	}
 
-.tenantAdjust-serviceStartDate{
+.tenantAdjust-serviceStartDate, .rrAdjust-rId{
 	position: absolute;
 	top: 90px;
 	left: 450px;
@@ -603,13 +603,13 @@ a:hover {
 	left: 600px;
 }
 
-.tenantAdjust-createDate{
+.tenantAdjust-createDate, .rrAdjust-rName{
 	position: absolute;
 	top: 90px;
 	left: 25px;
 }
 
-.tenantAdjust-createDate-text{
+.tenantAdjust-createDate-text, .rrAdjust-rName-text{
 	position: absolute;
 	top: 75px;
 	left: 150px;
@@ -620,13 +620,13 @@ a:hover {
 	width: 960px;
 	height: 230px;
 }
-.tenantAdjust-type-text{
+.tenantAdjust-type-text, .rrAdjust-tId-text{
 	position: absolute;
 	top: 20px;
 	left: 150px;
 	}
 
-.tenantAdjust-type {
+.tenantAdjust-type, .rrAdjust-tId {
 	position: absolute;
 	top: 35px;
 	left: 25px;
