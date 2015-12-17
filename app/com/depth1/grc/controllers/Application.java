@@ -1592,10 +1592,7 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Procedure code begins : author: Nilima
-	 * Creates a procedure
-	 * 
-	 * @param void
+	 * Creates a Procedure
 	 * @return Result of the procedure created
 	 */
 
@@ -1622,10 +1619,7 @@ public class Application extends Controller {
 
 	/**
 	 * Saves the procedure body document to a file on the server file system
-	 * 
-	 * @param file
-	 *            name of procedure to be saved, text-area field of procedure
-	 *            body
+	 * @param fileName of procedure to be saved, text-area field of procedure body
 	 * @return void
 	 */
 
@@ -1649,14 +1643,11 @@ public class Application extends Controller {
 			Logger.error("Error while storing the procedure body document " + e);
 		}
 	}
-
+	
 	/**
-	 * Updates a procedure
-	 * 
-	 * @param void
-	 * @return Result of the procedure updated
+	 * Updates the selected Procedure information and then displays the list of Procedures on the FrontTenant Page
+	 * @return Result of updating the Procedure
 	 */
-
 	public Result updateProcedure() {
 		Form<Procedure> filledProcedure = procedureForm.bindFromRequest();
 		Procedure criteria = filledProcedure.get();
@@ -1672,10 +1663,8 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Shows a list of procedure - Front page for Procedure
-	 * 
-	 * @param void
-	 * @return procedure list page
+	 * This method allows users to update selected Procedure
+	 * @return update Procedure page
 	 */
 
 	public Result showUpdateProcedurePage() {
@@ -1683,11 +1672,11 @@ public class Application extends Controller {
 		return ok(updateProcedure.render(selectedProcedure));
 	}
 
+
 	/**
-	 * Deletes a procedure
-	 * 
-	 * @param void
-	 * @return procedure page
+	 * Deletes the selected Procedure from the database.Uses Ajax and JSON.
+	 * Shows the FrontProcedure Page.
+	 * @return Result of the deleting the Procedure.
 	 */
 
 	public Result deleteProcedure() {
@@ -1703,9 +1692,7 @@ public class Application extends Controller {
 
 	/**
 	 * Restores a procedure
-	 * 
-	 * @param procedure
-	 *            ID
+	 * @param procedureId
 	 * @return restore procedure page
 	 */
 
@@ -1729,13 +1716,11 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Shows a list of procedure - Front page for Procedure
-	 * 
-	 * @param void
-	 * @return procedure list page
+	 * Shows the front page of the Procedure UI
+	 * @return to the main page
 	 */
 
-	public Result showFrontPPage() {
+	public Result showFrontProcedurePage() {
 
 		try {
 			ProcedureDao procedureDao = cassandraFactory.getProcedureDao();
@@ -1746,15 +1731,12 @@ public class Application extends Controller {
 
 		return ok(frontProcedure.render(procedures, procedures.size()));
 	}
-
 	/**
-	 * Selects the procedure from list
-	 * 
-	 * @param void
-	 * @return OK
+	 * Sets the the Procedure Selected on the Front Page as the selectedProcedure
+	 * @return a message that the JSON was received ok
 	 */
 
-	public Result setSelectedP() {
+	public Result setSelectedProcedure() {
 		Procedure procedure = new Procedure();
 		JsonNode node = request().body().asJson().get("val");
 
@@ -1770,13 +1752,11 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Shows a create procedure page
-	 * 
-	 * @param void
-	 * @return procedure create page
+	 * This method shows the create Procedure page if the 'Create' button is clicked
+	 * @return create Procedure page
 	 */
 
-	public Result showCreatePPage() {
+	public Result showCreateProcedurePage() {
 
 		return ok(createProcedure.render());
 
@@ -1784,22 +1764,18 @@ public class Application extends Controller {
 
 	/**
 	 * Shows a create procedure editor page
-	 * 
-	 * @param void
 	 * @return procedure editor page
 	 */
 
 	public Result showCreateProcedureEditorPage() {
 
-		// return ok(viewPolicy.render(selectedPolicy));
+		
 		return ok();
 	}
 
 	/**
-	 * Shows a view procedure page
-	 * 
-	 * @param void
-	 * @return procedure view page
+	 * This method allows users to view procedure
+	 * @return view Procedure page
 	 */
 	public Result showViewProcedurePage() {
 
@@ -1808,12 +1784,8 @@ public class Application extends Controller {
 
 	/**
 	 * Shows a delete procedure page
-	 * 
-	 * @param void
 	 * @return procedure delete page
 	 */
-
-	// remove this later, we may not have a specific delete procedure page
 	public Result showDeleteProcedurePage() {
 		try {
 			ProcedureDao procedureDao = cassandraFactory.getProcedureDao();
@@ -1829,8 +1801,6 @@ public class Application extends Controller {
 
 	/**
 	 * Shows a restore procedure page
-	 * 
-	 * @param void
 	 * @return procedure restore page
 	 */
 	public Result showRestoreProcedurePage() {
@@ -1847,9 +1817,7 @@ public class Application extends Controller {
 
 	/**
 	 * Downloads a procedure to a file
-	 * 
-	 * @param procedure
-	 *            
+	 * @param name
 	 * @return creates a procedure file
 	 */
 
@@ -1861,11 +1829,9 @@ public class Application extends Controller {
 
 	/**
 	 * This method allows users to print selected Procedure
-	 * 
-	 * @param void
 	 * @return PDF page of procedure
 	 */
-	public Result printPro() {
+	public Result printProcedure() {
 
 		PrintPdfProcedure pdf = new PrintPdfProcedure();
 		pdf.printProcedure(selectedProcedure);

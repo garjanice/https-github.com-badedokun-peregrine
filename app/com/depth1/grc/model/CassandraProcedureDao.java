@@ -31,15 +31,21 @@ import com.depth1.grc.util.IdProducer;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 
+/**
+ * This class implements the Data Access Object pattern (GoF). It provides capability to create, read, update, delete 
+ * a Procedure - the typical CRUD functions in any business application.
+ * @author Nilima Shinde
+ * Create Date: 10/10/2015
+  */
+
 public class CassandraProcedureDao implements ProcedureDao {
 	
-	/**
-	* Author : Nilima
-	* Creates a procedure
-	* @param procedure to create
-	* @throws DaoException if error occurs while creating the procedure in the database.
-	*/
 	
+	/**
+	 * Creates a new procedure in the procedure table.
+	 * @param procedure the procedure to create
+	 * @throws DaoException if an error occurs while creating a procedure in the procedure table
+	 */
 	@Override
 	public void createProcedure(Procedure procedure) throws DaoException {
 		String procedurePrefix = "p";
@@ -74,12 +80,11 @@ public class CassandraProcedureDao implements ProcedureDao {
 		}
 	}
 
-		 /**
-     * This method updates the selected Procedure with newly inputed data fields by the user.
-     * Replaces old Procedure with the new.
-     * @param Procedure form is passed in to be updated.
-     * @return true if updated successfully.
-     * @throws DaoException error if update failed
+	/**
+	 * Updates procedure information in the procedure table.
+	 * @param procedure the procedure to update
+     * @return boolean true if update succeed, false otherwise
+     * @throws DaoException if an error occurs while updating procedure from the table
      */
 	@Override
 	public boolean updateProcedure(Procedure procedure) throws DaoException {
@@ -117,13 +122,14 @@ public class CassandraProcedureDao implements ProcedureDao {
         return update;
 	}
 
-	/**
-	* Deletes a procedure
-	* 
-	* @param selected procedure
-	* @return true if the policy could be deleted successfully, else false
-	* @throws DaoException if error occurs while deleting the procedure in the data store
-	*/
+
+    /**
+     * This method is called when the 'Delete' button is clicked and prompts the user if they want to
+     * delete the selected Procedure.
+     * @param procedure to be deleted.
+     * @return true if the deletion was successful.
+     * @throws DaoException error if deletion failed.
+     */
 	
 	
 	@Override
@@ -145,13 +151,11 @@ public class CassandraProcedureDao implements ProcedureDao {
 	}
 
 	/**
-	* Restores a procedure
-	* 
-	* @param procedure UUID to restore
-	* @return true if the procedure could be restored successfully, else false
-	* @throws DaoException if error occurs while restoring the Procedure in the data store
-	*/
-	
+	 * Restore procedure information in the procedure table.
+	 * @param procedureId the procedure to restore
+     * @return boolean true if restore succeed, false otherwise
+     * @throws DaoException if an error occurs while restoring procedure from the table
+     */
 	@Override
 	public boolean restoreProcedure(String procedureId) throws DaoException {
 		
@@ -171,13 +175,11 @@ public class CassandraProcedureDao implements ProcedureDao {
 		}
 	}
 
-	/**
-	* Get List of all Procedure
-	* 
-	* @param void
-	* @return List of Procedure
-	* @throws DaoException if error occurs while listing the Procedure in the data store
-	*/
+	 /**
+     * Lists all of the Procedures on the front-end UI
+     * @return List containing all Procedures
+     * @throws DaoException error if unable to retrieve list of Procedures
+     */
 	
 	@Override
 	public List<Procedure> listProcedure() throws DaoException {
@@ -225,10 +227,9 @@ public class CassandraProcedureDao implements ProcedureDao {
 	
 	/**
 	* View a procedure by Procedure name
-	* 
-	* @param procedure name to view
+	* @param procedureName to view
 	* @return Procedure to view
-	* @throws DaoException if error occurs while viewing the Procedure in the data store
+	* @throws DaoException if an error occurs while viewing procedure from the table
 	*/
 	
 	@Override
@@ -260,15 +261,12 @@ public class CassandraProcedureDao implements ProcedureDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 	/**
 	* View a procedure by Procedure id
-	* 
-	* @param  Procedure UUID to view
+	*@param procedure UUID to view
 	* @return Procedure to view
-	* @throws DaoException if error occurs while viewing the Policy in the data store
-	*/	
+	* @throws DaoException if an error occurs while viewing procedure from the table
+	*/
 	
 	@Override
 	public Procedure viewProcedureById(UUID id) throws DaoException {
@@ -294,15 +292,13 @@ public class CassandraProcedureDao implements ProcedureDao {
 		}
 		return null;
 	}
-
-	/**
-	* View all Procedure
-	* 
-	* @param void
-	* @return List of Procedure to view
-	* @throws DaoException if error occurs while viewing the Procedure in the data store
-	*/
 	
+	/**
+	* View all procedure 
+	*@param void
+	*@return List of Procedures to view
+	*@throws DaoException if an error occurs while viewing procedure from the table
+	*/
 	@Override
 	public List<Procedure> viewAllProcedure() throws DaoException {
         List<Procedure> listProcedure = new ArrayList<>();
@@ -351,11 +347,10 @@ public class CassandraProcedureDao implements ProcedureDao {
 	}
 	
 	/**
-	* View all Deleted Procedure
-	* 
-	* @param void
-	* @return List of Procedure that are deleted
-	* @throws DaoException if error occurs while deleting the Procedure in the data store
+	* View all Deleted procedure 
+	*@param void
+	*@return a list containing all Procedures
+	*@throws DaoException if an error occurs while viewing procedure from the table
 	*/
 	
 	@Override

@@ -60,9 +60,9 @@ POST  	/policy/create/done				com.depth1.grc.controllers.Application.createPolic
 
 POST  	/policy/update/done				com.depth1.grc.controllers.Application.updatePolicy()
 
-GET     /procedure                          com.depth1.grc.controllers.Application.showFrontPPage()
+GET     /procedure                          com.depth1.grc.controllers.Application.showFrontProcedurePage()
 
-GET		/procedure/create				   	com.depth1.grc.controllers.Application.showCreatePPage()
+GET		/procedure/create				   	com.depth1.grc.controllers.Application.showCreateProcedurePage()
 
 GET		/procedure/createBody				com.depth1.grc.controllers.Application.showCreateProcedureEditorPage()
 
@@ -80,11 +80,11 @@ GET 	/procedure/view			            com.depth1.grc.controllers.Application.showVi
 
 POST  	/procedure/create/done				com.depth1.grc.controllers.Application.createProcedure()
 
-POST 	/procedure/selected		            com.depth1.grc.controllers.Application.setSelectedP()
+POST 	/procedure/selected		            com.depth1.grc.controllers.Application.setSelectedProcedure()
 
 POST  	/procedure/update/done				com.depth1.grc.controllers.Application.updateProcedure()
 
-GET 	/procedure/print			         com.depth1.grc.controllers.Application.printPro()
+GET 	/procedure/print			         com.depth1.grc.controllers.Application.printProcedure()
 
 GET		/procedure/getLanguages		         com.depth1.grc.controllers.Universal.getLanguageOption()
 
