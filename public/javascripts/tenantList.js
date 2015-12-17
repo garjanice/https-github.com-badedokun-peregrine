@@ -6,7 +6,7 @@
 
 
 (function() {
-	if(tenantListSize){
+	if(typeof tenantListSize !== "undefined"){
 		var pathArray = window.location.pathname.split( '/' );
 	    var listSortValue = window.location.search;
 	    var numberOfPages = tenantListSize / pathArray[3];

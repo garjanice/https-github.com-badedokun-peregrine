@@ -6,7 +6,7 @@
 
 
 (function() {
-	if(userProfileListSize){
+	if(typeof userProfileListSize != "undefined"){
 		var pathArray = window.location.pathname.split( '/' );
 	    var listSortValue = window.location.search;
 	    var numberOfPages = tenantListSize / pathArray[3];
@@ -146,7 +146,20 @@ function userProfileListSearch(){
 onload = function() {
 	
     if (!document.getElementsByTagName || !document.createTextNode) return;
+    if (!document.getElementById('userProfileTable')) {
+        return;
+    }
+    if (!document.getElementById('userProfileTable').getElementsByTagName('tbody')) {
+        return;
+    }
+    if (!document.getElementById('userProfileTable').getElementsByTagName('tbody')[0]) {
+        return;
+    }
+    if (!document.getElementById('userProfileTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')) {
+        return;
+    }
     var rows = document.getElementById('userProfileTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+    
     for (i = 0; i < rows.length; i++) {
         rows[i].onclick = function() {
             //$('#policyViewButton').prop("disabled", false);

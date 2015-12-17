@@ -6,7 +6,7 @@
 
 
 (function() {
-	if(policyListSize){
+	if(typeof policyListSize != "undefined"){
 		var pathArray = window.location.pathname.split( '/' );
 	    var policyListSortValue = window.location.search;
 	    var numberOfPages = policyListSize / pathArray[3];
