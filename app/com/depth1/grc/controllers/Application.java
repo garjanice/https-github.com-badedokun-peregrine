@@ -2,6 +2,7 @@ package com.depth1.grc.controllers;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -181,58 +182,6 @@ public class Application extends Controller {
 
 		return ok();
 	}		
-	/**
-	 * This method is used as a client to test getting data from the Cassandra
-	 * database It displays data it reads from the database on the console
-	 * 
-	 * @param session
-	 *            The established session to the cluster
-	 * @return a result in the future in an non-blocking fashion
-	 */
-	public static Result getCountry() {
-		
-		try {
-			DropDownList dropDown = cassandraFactory.getDropDownList();
-			List<String> countries = dropDown.getCountry();
-			Collections.sort(countries);
-			for (String row : countries) {
-				System.out.printf(" %s\n", row);						
-			}
-
-		} catch (DataException e) {
-
-		}
-		return ok();
-
-	}	
-
-	/**
-	 * This method is used as a client to test getting data from the Cassandra
-	 * database It displays data it reads from the database on the console
-	 * 
-	 * @param session
-	 *            The established session to the cluster
-	 * @return a result in the future in an non-blocking fashion
-	 */
-	public static Result getState(String countryCode) {
-		
-		try {
-			DropDownList dropDown = cassandraFactory.getDropDownList();
-			List<String> states = dropDown.getState(countryCode);
-			Collections.sort(states);
-			for (String row : states) {
-				System.out.printf(" %s\n", row);						
-			}
-
-		} catch (DataException e) {
-
-		}
-		return ok();
-
-	}
-
-	
-
 	/**
 	 * Gets all the tenants in the tenant  table.
 	 * 
@@ -567,7 +516,7 @@ public class Application extends Controller {
 		JpaStrategicObjectiveDao obj;
 		try {
 			
-			objective = new StrategicObjective(18L, "Strategy 2020", "Best Enterprise Risk Management Software");
+			/*objective = new StrategicObjective(18L, "Strategy 2020", "Best Enterprise Risk Management Software");
 			 
 			Measure measure1 = new Measure(18L, "40% in customer base", objective);
 			Measure measure2 = new Measure(18L, "35% increase in revenue", objective);
@@ -581,13 +530,39 @@ public class Application extends Controller {
 			measureSet.add(measure3);
 			measureSet.add(measure4);
 			measureSet.add(measure5);
-			measureSet.add(measure6);
+			measureSet.add(measure6);*/
 			obj = new JpaStrategicObjectiveDao();
-			obj.createStrategicObjective(objective, measureSet);
-			Logger.info("Data Transaction persisted successfully.");
-			Logger.info("Strategic Objective ID="+objective.getObjectiveId());
+			StrategicObjective so = obj.getStrategicObjective(9L);
+			//List<StrategicObjective> result = obj.listStrategicObjective("Strategy 2018");
+			//result.forEach(results->Logger.info("The SO: " + results.getObjective()));
+			so.setName("Strategy 2050");
+			so.setObjective("Most Comprehensive Risk Management Software with Built-in LoD");
+			//so.setTenantId(20L);
+			Measure measure1 = new Measure(17L, "28% increase in customer base", so);
+			Measure measure2 = new Measure(17L, "30% increase in Profit Margin", so);
+			long measureId = so.getObjectiveId();
+			Measure measure = new Measure();
+			measure.setMeasure("28% increase in customer base");
+			//measure.set
+			Set<Measure> measureSet = Collections.synchronizedSet(new LinkedHashSet<Measure>());
+			measureSet.add(measure1);
+			measureSet.add(measure2);
+			so.setMeasure(measureSet);
+			obj.updateStrategicObjective(so);
+			/*so = obj.getStrategicObjective("Strategy 2016");
+			Logger.info("The first SO: " + so.getName());
+			Logger.info("The first SO: " + so.getObjective());
+			Logger.info("The first SO ID: " + so.getObjectiveId());
+			Logger.info("The first SO TID: " + so.getTenantId());*/
+			
+			/*if (obj.deleteStrategicObjective(8L)) {
+				Logger.info("Deletion of Strategic Objective with ID 8L is successful");
+			}*/
+			//obj.createStrategicObjective(objective, measureSet);
+			//Logger.info("Data Transaction persisted successfully.");
+			//Logger.info("Strategic Objective ID="+objective.getObjectiveId());
 		} catch (Exception e) {
-			Logger.error("Error occured while persisting data in the data store.");
+			Logger.error("Error occured while [deleting] data in the data store.", e);
 		}	
 		return ok();
 		}

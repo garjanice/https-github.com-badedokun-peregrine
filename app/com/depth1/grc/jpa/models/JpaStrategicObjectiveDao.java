@@ -3,12 +3,13 @@
  */
 package com.depth1.grc.jpa.models;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import com.depth1.grc.db.util.DataStoreException;
 import com.depth1.grc.db.util.JpaUtil;
@@ -17,16 +18,20 @@ import com.depth1.grc.model.DaoException;
 import play.Logger;
 
 /**
- * @author badedokun
+ * This class provides CRUD capabilities for Strategic Objective.
+ * 
+ * @author Bisi Adedokun
  *
  */
 public class JpaStrategicObjectiveDao implements StrategicObjectiveDao {
+	EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
+	EntityManager entityManager = entityManagerFactory.createEntityManager();
 
 	/**
 	 * 
 	 */
 	public JpaStrategicObjectiveDao() {
-		// TODO Auto-generated constructor stub
+		entityManager = entityManagerFactory.createEntityManager();
 	}
 
 	/**
@@ -38,8 +43,7 @@ public class JpaStrategicObjectiveDao implements StrategicObjectiveDao {
 	 */
 	@Override
 	public void createStrategicObjective(StrategicObjective objective, Set<Measure> measureSet) throws DaoException {
-		EntityManagerFactory entityManagerFactory = JpaUtil.getEntityManagerFactory();
-		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		
 		try {
 			JpaUtil.beginTransaction(entityManager);
 			objective.setMeasure(measureSet);
@@ -64,9 +68,64 @@ public class JpaStrategicObjectiveDao implements StrategicObjectiveDao {
 	 */
 	@Override
 	public boolean deleteStrategicObjective(long objectiveId) throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
+		int deletedCount = 0;
+		try {
+			JpaUtil.beginTransaction(entityManager);
+			StrategicObjective strategicObjective = getStrategicObjective(objectiveId);
+			if (strategicObjective != null) {
+				entityManager.remove(strategicObjective);
+				++deletedCount;
+			}
+			JpaUtil.comitTransaction(entityManager);
+			
+		} catch (DataStoreException e) {
+			Logger.error("Error occurred while deleting data in Strategic Objective tables ", e);
+			JpaUtil.rollbackTransaction(entityManager);
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
+		}
+		
+		return deletedCount > 0 ? true : false;
 	}
+	
+	/**
+	 * Deletes a strategic objective.
+	 * 
+	 * @param objectiveId strategic objective ID to delete
+	 * @return boolean True if the Strategic Objective is successfully deleted, false otherwise
+	 * @throws DaoException if error occurs while deleting a strategic objective from the data store
+	 */
+	//@Override
+	public boolean deleteStrategicObjectiveMeasure(long objectiveId) throws DaoException {
+		int deletedCount = 0;
+		try {
+			JpaUtil.beginTransaction(entityManager);
+			StrategicObjective strategicObjective = getStrategicObjective(objectiveId);   
+			strategicObjective = (StrategicObjective) entityManager.createQuery(
+			        "from StrategicObjective s " +
+			                "join fetch s.name " +
+			                "where s.id = :objectiveId", StrategicObjective.class)
+			        .setParameter("objectiveId", objectiveId)
+			        .getSingleResult();
+			Logger.info("QUERY SUCCESSFUL ");
+			strategicObjective.removeMeasure(strategicObjective.getMeasure().iterator().next());
+			Logger.info("REMOVE ERROR ");
+			++deletedCount;
+			/*if (strategicObjective != null) {
+				entityManager.remove(strategicObjective);
+				++deletedCount;
+			}*/
+			JpaUtil.comitTransaction(entityManager);
+			
+		} catch (DataStoreException e) {
+			Logger.error("Error occurred while deleting data in Strategic Objective tables ", e);
+			JpaUtil.rollbackTransaction(entityManager);
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
+		}
+		
+		return deletedCount > 0 ? true : false;
+	}	
 
 	/**
 	 * List strategic objective in the data store.
@@ -76,8 +135,16 @@ public class JpaStrategicObjectiveDao implements StrategicObjectiveDao {
 	 */
 	@Override
 	public List<StrategicObjective> listStrategicObjective() throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+		List<StrategicObjective> resultList = null;
+		try {
+			JpaUtil.beginTransaction(entityManager);
+			TypedQuery<StrategicObjective> query = entityManager.createQuery("from StrategicObjective", StrategicObjective.class);
+			resultList = query.getResultList();
+			JpaUtil.closeTransaction(entityManager);
+		} catch (DataStoreException e) {
+			Logger.error("Error occurred while retrieving data from Strategic Objective table ", e);
+		}
+		return resultList;
 	}
 
 	/**
@@ -89,8 +156,26 @@ public class JpaStrategicObjectiveDao implements StrategicObjectiveDao {
 	 */
 	@Override
 	public boolean updateStrategicObjective(StrategicObjective objective) throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
+		int updatedCount = 0;
+		try {
+			JpaUtil.beginTransaction(entityManager);
+			StrategicObjective strategicObjective = getStrategicObjective(objective.getObjectiveId());
+			if (strategicObjective != null) {
+				strategicObjective.setName(objective.getName());
+				strategicObjective.setMeasure(objective.getMeasure());
+				strategicObjective.setObjective(objective.getObjective());
+				++updatedCount;
+			}
+			JpaUtil.comitTransaction(entityManager);
+			
+		} catch (DataStoreException e) {
+			Logger.error("Error occurred while updating data in Strategic Objective tables ", e);
+			JpaUtil.rollbackTransaction(entityManager);
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
+		}
+		
+		return updatedCount > 0 ? true : false;
 	}
 
 	/**
@@ -102,8 +187,8 @@ public class JpaStrategicObjectiveDao implements StrategicObjectiveDao {
 	 */
 	@Override
 	public StrategicObjective getStrategicObjective(long objectiveId) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return entityManager.find(StrategicObjective.class, objectiveId);
 	}
 
 	/**
@@ -115,8 +200,37 @@ public class JpaStrategicObjectiveDao implements StrategicObjectiveDao {
 	 */
 	@Override
 	public StrategicObjective getStrategicObjective(String name) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<StrategicObjective> query = null;
+		try {
+			JpaUtil.beginTransaction(entityManager);
+			query = entityManager.createQuery("from StrategicObjective s WHERE s.name = :name", StrategicObjective.class);
+			query.setParameter("name", name);
+		} catch (DataStoreException e) {
+			Logger.error("Error occurred while retrieving data in Strategic Objective tables ", e);			
+			return null;
+		}
+		return query.getSingleResult();
 	}
+	
+	/**
+	 * Lists strategic objectives.
+	 * 
+	 * @param name strategic objective name to find
+	 * @return List of Strategic objective that were found
+	 * @throws DaoException if error occurs while finding a strategic objective in the data store
+	 */
+	@Override
+	public List<StrategicObjective> listStrategicObjective(String name) throws DaoException {
+		TypedQuery<StrategicObjective> query = null;
+		try {
+			JpaUtil.beginTransaction(entityManager);
+			query = entityManager.createQuery("from StrategicObjective s WHERE s.name = :name", StrategicObjective.class);
+			query.setParameter("name", name);
+		} catch (DataStoreException e) {
+			Logger.error("Error occurred while deleting data in Strategic Objective tables ", e);			
+			return null;
+		}
+		return query.getResultList();
+	}	
 
 }

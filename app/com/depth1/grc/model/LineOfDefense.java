@@ -11,8 +11,22 @@ package com.depth1.grc.model;
  *
  */
 public class LineOfDefense {
+	private int lodId;
 	private String description;
 	private String lod;
+	
+	/**
+	 * @return the lodId
+	 */
+	public int getLodId() {
+		return lodId;
+	}
+	/**
+	 * @param lodId the lodId to set
+	 */
+	public void setLodId(int lodId) {
+		this.lodId = lodId;
+	}	
 
 	/**
 	 * @return the description

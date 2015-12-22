@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 import play.Play;
 
 /**
- * Java Persistence utility methods for managing transactions
+ * Java Persistence utility for managing transactions
  * @author Bisi Adedokun
  *
  */
@@ -23,7 +23,7 @@ public class JpaUtil {
 	 * 
 	 */
 	public JpaUtil() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	/**
@@ -56,7 +56,9 @@ public class JpaUtil {
 	 * 
 	 */
 	public static void rollbackTransaction(EntityManager em) {
-		em.getTransaction().rollback();	
+		if (em.getTransaction().isActive()) {
+			em.getTransaction().rollback();	
+		}
 	}
 	
 	/**

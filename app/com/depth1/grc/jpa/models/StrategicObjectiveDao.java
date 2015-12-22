@@ -69,6 +69,16 @@ public interface StrategicObjectiveDao {
 	 * @throws DaoException if error occurs while finding a strategic objective in the data store
 	 */
 	public StrategicObjective getStrategicObjective(String name) throws DaoException;
+	
+	
+	/**
+	 * Lists strategic objectives.
+	 * 
+	 * @param name strategic objective name to find
+	 * @return List of Strategic objective that were found
+	 * @throws DaoException if error occurs while finding a strategic objective in the data store
+	 */
+	public List<StrategicObjective> listStrategicObjective(String name) throws DaoException;	
 		
 
 }

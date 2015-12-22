@@ -102,12 +102,16 @@ public class Measure {
 	public StrategicObjective getObjective() {
 		return objective;
 	}
+	
 
 	/**
 	 * @param objective the objective to set
 	 */
 	public void setObjective(StrategicObjective objective) {
 		this.objective = objective;
+		if (!objective.getMeasure().contains(this)) {
+			objective.getMeasure().add(this);
+		}
 	}
 
 }

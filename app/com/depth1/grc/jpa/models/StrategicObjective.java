@@ -3,12 +3,16 @@
  */
 package com.depth1.grc.jpa.models;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,6 +26,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "strategicobjective")
+@Inheritance(strategy = javax.persistence.InheritanceType.JOINED)
 public class StrategicObjective {
 	
 	@Id
@@ -111,23 +116,44 @@ public class StrategicObjective {
 		this.objective = objective;
 	}
 	
-	@OneToMany(mappedBy="objective")
-    private Set<Measure> measure;
+	 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="objective", orphanRemoval = true)
+    private Set<Measure> measures = Collections.synchronizedSet(new LinkedHashSet<Measure>());
 
 
 	/**
 	 * @return the measure
 	 */
 	public Set<Measure> getMeasure() {
-		return measure;
+		return measures;
 	}
 
 	/**
 	 * @param measure the measure to set
 	 */
 	public void setMeasure(Set<Measure> measure) {
-		this.measure = measure;
+		this.measures = measure;
+	}
+	
+	
+	/**
+	 * Adds measures to the set
+	 * @param measure the measure to add
+	 */
+	public void addMeasure(Measure measure) {
+		this.measures.add(measure);
+		if (measure.getObjective() != this) {
+			measure.setObjective(this);
+		}
 	}
 
+	/**
+	 * Remove measures from the set
+	 * @param measure the measure to remove
+	 */
+	public void removeMeasure(Measure measure) {
+		measure.setObjective(null);
+		this.measures.remove(measure);
+	}	
 
 }

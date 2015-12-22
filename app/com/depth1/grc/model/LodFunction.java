@@ -3,8 +3,6 @@
  */
 package com.depth1.grc.model;
 
-import java.util.UUID;
-
 /**
  * This class is the business object for creating, reading, updating, and deleting (CRUD)
  * Line of Defense Functions
@@ -12,21 +10,21 @@ import java.util.UUID;
  *
  */
 public class LodFunction {
-	private UUID id;
+	private int lodFunctionId;
 	private String lod;
 	private String lodFunction;
 	
 	/**
 	 * @return the id
 	 */
-	public UUID getId() {
-		return id;
+	public int getLodFunctionId() {
+		return lodFunctionId;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(UUID id) {
-		this.id = id;
+	public void setLodFunctionId(int id) {
+		this.lodFunctionId = id;
 	}
 	/**
 	 * @return the lod
