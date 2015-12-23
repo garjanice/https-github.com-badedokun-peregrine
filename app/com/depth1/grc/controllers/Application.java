@@ -516,51 +516,41 @@ public class Application extends Controller {
 		JpaStrategicObjectiveDao obj;
 		try {
 			
-			/*objective = new StrategicObjective(18L, "Strategy 2020", "Best Enterprise Risk Management Software");
+			objective = new StrategicObjective(21L, "Strategy 2050", "COSO Enterprise Risk Management Framework");
 			 
-			Measure measure1 = new Measure(18L, "40% in customer base", objective);
-			Measure measure2 = new Measure(18L, "35% increase in revenue", objective);
-			Measure measure3 = new Measure(18L, "40% increase in profit", objective);
-			Measure measure4 = new Measure(18L, "Minimize software defect by 95% in 2016", objective);
-			Measure measure5 = new Measure(18L, "Expand sales to Europe and EMEA regions in 2016", objective);
-			Measure measure6 = new Measure(18L, "Expand sales to APAC region in 2017", objective);
+			Measure measure1 = new Measure(21L, "40% in customer base", objective);
+			Measure measure2 = new Measure(21L, "35% increase in revenue", objective);
+			Measure measure3 = new Measure(21L, "40% increase in profit", objective);
+			Measure measure4 = new Measure(21L, "Minimize software defect by 99% in 2016", objective);
+			Measure measure5 = new Measure(21L, "Expand sales to Europe and EMEA regions in 2016", objective);
+			Measure measure6 = new Measure(21L, "Expand sales to APAC region in 2017", objective);
 			Set<Measure> measureSet = Collections.synchronizedSet(new LinkedHashSet<Measure>());
 			measureSet.add(measure1);
 			measureSet.add(measure2);
 			measureSet.add(measure3);
 			measureSet.add(measure4);
 			measureSet.add(measure5);
-			measureSet.add(measure6);*/
+			measureSet.add(measure6);
 			obj = new JpaStrategicObjectiveDao();
-			StrategicObjective so = obj.getStrategicObjective(9L);
+			obj.createStrategicObjective(objective, measureSet);
+			//StrategicObjective so = obj.getStrategicObjective(9L);
 			//List<StrategicObjective> result = obj.listStrategicObjective("Strategy 2018");
 			//result.forEach(results->Logger.info("The SO: " + results.getObjective()));
-			so.setName("Strategy 2050");
-			so.setObjective("Most Comprehensive Risk Management Software with Built-in LoD");
+			//so.setName("Strategy 2050");
+			//so.setObjective("Most Comprehensive Risk Management Software with Built-in LoD");
 			//so.setTenantId(20L);
-			Measure measure1 = new Measure(17L, "28% increase in customer base", so);
+			/*Measure measure1 = new Measure(17L, "28% increase in customer base", so);
 			Measure measure2 = new Measure(17L, "30% increase in Profit Margin", so);
 			long measureId = so.getObjectiveId();
 			Measure measure = new Measure();
-			measure.setMeasure("28% increase in customer base");
+			measure.setMeasure("28% increase in customer base");*/
 			//measure.set
-			Set<Measure> measureSet = Collections.synchronizedSet(new LinkedHashSet<Measure>());
+			/*Set<Measure> measureSet = Collections.synchronizedSet(new LinkedHashSet<Measure>());
 			measureSet.add(measure1);
 			measureSet.add(measure2);
 			so.setMeasure(measureSet);
-			obj.updateStrategicObjective(so);
-			/*so = obj.getStrategicObjective("Strategy 2016");
-			Logger.info("The first SO: " + so.getName());
-			Logger.info("The first SO: " + so.getObjective());
-			Logger.info("The first SO ID: " + so.getObjectiveId());
-			Logger.info("The first SO TID: " + so.getTenantId());*/
-			
-			/*if (obj.deleteStrategicObjective(8L)) {
-				Logger.info("Deletion of Strategic Objective with ID 8L is successful");
-			}*/
-			//obj.createStrategicObjective(objective, measureSet);
-			//Logger.info("Data Transaction persisted successfully.");
-			//Logger.info("Strategic Objective ID="+objective.getObjectiveId());
+			obj.updateStrategicObjective(so);*/
+	
 		} catch (Exception e) {
 			Logger.error("Error occured while [deleting] data in the data store.", e);
 		}	

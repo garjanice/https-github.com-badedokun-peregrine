@@ -3,6 +3,7 @@
  */
 package com.depth1.grc.util;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -16,6 +17,7 @@ public class IdProducer {
 
 	private static final IdProducer INSTANCE = new IdProducer(103);
 	private AtomicLong atomicLong;
+	private AtomicInteger atomicInteger;
 
 	/**
 	 * Private constructor that ensures the class cannot be instantiated.
@@ -24,6 +26,14 @@ public class IdProducer {
 	private IdProducer(long initialValue) {
 		this.atomicLong = new AtomicLong(initialValue);
 	}
+	
+	/**
+	 * Private constructor that ensures the class cannot be instantiated.
+	 * @param initialValue initial value to set
+	 */
+	private IdProducer(int initialValue) {
+		this.atomicInteger = new AtomicInteger(initialValue);
+	}	
 
 	/**
 	 * Gets the only instance of the class.
@@ -44,10 +54,20 @@ public class IdProducer {
 	}
 	
 	/**
+	 * Gets the next value.
+	 * 
+	 * @return the next long value after it has been incremented by 1
+	 */
+	public int getNextIntId() {
+		return atomicInteger.getAndIncrement();
+	}	
+	
+	/**
 	 * 
 	 */
 	private static AtomicReference<Long> currentTime = new AtomicReference<>(System.currentTimeMillis());
 
+	
 	/**
 	 * Generates a unique Id based on Atomic Reference, which is guaranteed to be unique across multiple JVMs.
 	 * 
@@ -56,6 +76,15 @@ public class IdProducer {
 	public static Long nextId() {
 		return currentTime.accumulateAndGet(System.currentTimeMillis(), (prev, next) -> next > prev ? next : prev + 1);
 	}
+	
+	/**
+	 * Generates a unique Id based on Atomic Reference, which is guaranteed to be unique across multiple JVMs.
+	 * 
+	 * @return next unique identifier
+	 */
+	public static Integer nextIntId() {
+		return currentTime.accumulateAndGet(System.currentTimeMillis(), (prev, next) -> next > prev ? next : prev + 1).intValue();
+	}	
 	
 	public static String nextStringId(String prefix) {
 		return prefix.toUpperCase().concat(nextId().toString().substring(4, 13));

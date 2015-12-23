@@ -1,10 +1,12 @@
 /**
  * 
  */
-package com.depth1.grc.model;
+package com.depth1.grc.jpa.models;
 
 import java.util.List;
 import java.util.UUID;
+
+import com.depth1.grc.model.DaoException;
 
 /**
  * The Line of Defense interface defines the contract that all implementing classes must abide by.

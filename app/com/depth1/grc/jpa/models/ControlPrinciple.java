@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.depth1.grc.model;
+package com.depth1.grc.jpa.models;
 
 /**
  * This class is the business object for creating, reading, updating, and deleting (CRUD)

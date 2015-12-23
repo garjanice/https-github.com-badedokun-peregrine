@@ -51,10 +51,12 @@ public class JpaStrategicObjectiveDao implements StrategicObjectiveDao {
 			// using Java 8 forEach to iterate over the Set object
 			measureSet.forEach(measures->entityManager.persist(measures));
 			JpaUtil.comitTransaction(entityManager);
-			JpaUtil.closeTransaction(entityManager);
+			
 		} catch (DataStoreException e) {
 			Logger.error("Error occurred while saving data in Strategic Objective tables ", e);
 			JpaUtil.rollbackTransaction(entityManager);
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
 		}
 
 	}
