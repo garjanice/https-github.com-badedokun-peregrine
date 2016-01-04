@@ -6,6 +6,8 @@ package com.depth1.grc.model;
 import java.util.List;
 import java.util.UUID;
 
+import com.depth1.grc.exception.DaoException;
+
 /**
  * The UserProfile interface defines the contract that all implementing classes must abide by.
  * It provides API to expose to caller of classes that implement the interface
@@ -30,7 +32,7 @@ public interface UserProfileDao {
 	 * @return boolean True if the user profile is successfully deleted, false otherwise
 	 * @throws DaoException if error occurs while deleting a user profile from the data store
 	 */
-	public boolean deleteUserProfile(String username) throws DaoException;
+	public boolean deleteUserProfile(String username, long tenantId) throws DaoException;
 	
 	
 	/**
@@ -39,7 +41,7 @@ public interface UserProfileDao {
 	 * @return List list of user profiles
 	 * @throws DaoException if error occurs while reading user profiles from the data store
 	 */
-	public List<UserProfile> listUserProfile() throws DaoException;
+	public List<UserProfile> listUserProfile(long tenantId) throws DaoException;
 	
 	/**
 	 * Updates a user profile.
@@ -68,7 +70,7 @@ public interface UserProfileDao {
 	 * @return UserProfile user profile that was found
 	 * @throws DaoException if error occurs while finding a user profile in the data store
 	 */
-	public UserProfile findUserProfile(String username, String lastname) throws DaoException;	
+	public UserProfile findUserProfile(String username, String lastname, long tenantId) throws DaoException;	
 	
 	/**
 	 * Authenticates a user with username and password. Username is email address.

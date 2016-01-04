@@ -13,7 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * @author badedokun
+ * This class captures how an objective that is set by an entity is measured for meeting the goals of the 
+ * set objective.
+ * @author Bisi Adedokun
  *
  */
 @Entity
@@ -26,11 +28,14 @@ public class Measure {
 	private long measureId;
 	
 	@Column(name="tenantId")
-	private long tenantdId;
+	private long tenantId;
 	
 	@Column(name="measure")
 	private String measure;
-
+	
+	@Column(name="objectivetype")
+	private String objectiveType;
+	
 	/**
 	 * 
 	 */
@@ -44,9 +49,10 @@ public class Measure {
 	 * @param measure
 	 * @param objective
 	 */
-	public Measure(long tenantdId, String measure, StrategicObjective objective) {
-		this.tenantdId = tenantdId;
+	public Measure(long tenantdId, String measure, String objectiveType, Objective objective) {
+		this.tenantId = tenantdId;
 		this.measure = measure;
+		this.objectiveType = objectiveType;
 		this.objective = objective;
 	}
 
@@ -67,15 +73,15 @@ public class Measure {
 	/**
 	 * @return the tenantdId
 	 */
-	public long getTenantdId() {
-		return tenantdId;
+	public long getTenantId() {
+		return tenantId;
 	}
 
 	/**
 	 * @param tenantdId the tenantdId to set
 	 */
-	public void setTenantdId(long tenantdId) {
-		this.tenantdId = tenantdId;
+	public void setTenantId(long tenantdId) {
+		this.tenantId = tenantdId;
 	}
 
 	/**
@@ -94,20 +100,35 @@ public class Measure {
 	
 	@ManyToOne
     @JoinColumn(name="objectiveid", nullable=false)
-    private StrategicObjective objective;
+    private Objective objective;
 
 	/**
 	 * @return the objective
 	 */
-	public StrategicObjective getObjective() {
+	public Objective getObjective() {
 		return objective;
 	}
+	
+	/**
+	 * @return the objectiveType
+	 */
+	public String getObjectiveType() {
+		return objectiveType;
+	}
+
+	/**
+	 * @param objectiveType the objectiveType to set
+	 */
+	public void setObjectiveType(String objectiveType) {
+		this.objectiveType = objectiveType;
+	}
+	
 	
 
 	/**
 	 * @param objective the objective to set
 	 */
-	public void setObjective(StrategicObjective objective) {
+	public void setObjective(Objective objective) {
 		this.objective = objective;
 		if (!objective.getMeasure().contains(this)) {
 			objective.getMeasure().add(this);

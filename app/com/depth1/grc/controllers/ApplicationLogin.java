@@ -6,7 +6,7 @@ package com.depth1.grc.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.depth1.grc.model.DaoException;
+import com.depth1.grc.exception.DaoException;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Login;
 import com.depth1.grc.model.UserProfile;

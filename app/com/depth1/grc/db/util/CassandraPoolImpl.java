@@ -4,6 +4,7 @@ import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Host;
 import com.datastax.driver.core.Metadata;
 import com.datastax.driver.core.Session;
+import com.depth1.grc.exception.DataStoreException;
 
 import play.Play;
 
@@ -72,7 +73,7 @@ public class CassandraPoolImpl extends ConnectionPool<Session> {
 		      ((Session) pool).close();
 		      ((Session) pool).getCluster().close();
 		    } catch (DataStoreException dse) {
-		    	throw new DataStoreException("Unable to connect to the cluster.");
+		    	throw new DataStoreException("Unable to close connection to the cluster.");
 		    }
 
 	}

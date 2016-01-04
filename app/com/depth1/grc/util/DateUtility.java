@@ -15,6 +15,8 @@ import java.util.TimeZone;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import com.depth1.grc.exception.DateException;
+
 /**
  * Date utility class for converting dates from different formats; including date validations
  * 
@@ -36,6 +38,8 @@ public final class DateUtility {
 	public static final String OTHER_DATE_FORMAT = "dd/MM/yyyy";
 	public static final String NORTH_AMERICA_DATE_FORMAT = "MM/dd/yyyy";
 	
+	static final long NUM_100NS_INTERVALS_SINCE_UUID_EPOCH = 0x01b21dd213814000L;
+	
 	//public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat("MM/dd/yyyy H:mm:ss.SSS");
 	public static DateFormat IN_TIMESTAMP_FORMAT = new SimpleDateFormat(NORTH_AMERICA_DATE_FORMAT);
 
@@ -54,7 +58,7 @@ public final class DateUtility {
 	 * @param date date retrieved from the database
 	 * @return a string representative of the date
 	 */
-	public static String formatDateFromUuid(String dateFormat, Date date) {
+	public static String formatDateFromUUID(String dateFormat, Date date) {
 		
 		if (date == null) {
 			return null;
@@ -519,9 +523,38 @@ public final class DateUtility {
 	public String getDateAsString(Date date, long uuidTime, UUID uuid) {
 		uuidTime = UUID.randomUUID().timestamp();
 		date = new Date(uuidTime);
-		return DateUtility.formatDateFromUuid(NORTH_AMERICA_DATE_FORMAT, date);
+		return DateUtility.formatDateFromUUID(NORTH_AMERICA_DATE_FORMAT, date);
 	}
+	
+	/**
+	 * Gets time from a UUID
+	 * @param uuid
+	 * @return a time stamp that has been converted to long expected by the Date object
+	 */
+	public static long getTimeFromUUID(UUID uuid) {
+		return  (uuid.timestamp() - NUM_100NS_INTERVALS_SINCE_UUID_EPOCH) / 10000;
+	}
+	
+	/**
+	 * Converts time from timeuuid to a date object
+	 * @param uuidString the string form of the timeuuid 
+	 * @return Date object
+	 */	
+	public static Date convertTimeuuid(String uuidString) {
+		UUID uuid = UUID.fromString(uuidString);
+		long time = getTimeFromUUID(uuid);
+		return new Date(time);
+	}
+	
+	/**
+	 * Converts time from timeuuid to a date object
+	 * @param uuid the UUID to convert from 
+	 * @return Date object
+	 */	
+	public static Date convertTimeuuid(UUID uuid) {
+		long time = getTimeFromUUID(uuid);
+		return new Date(time);
+	}	
 	    
-
 }
 

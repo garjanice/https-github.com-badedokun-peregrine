@@ -14,7 +14,6 @@ import java.util.UUID;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.querybuilder.Assignment;
@@ -24,9 +23,10 @@ import com.datastax.driver.core.querybuilder.Select;
 import com.datastax.driver.core.querybuilder.Update;
 import com.datastax.driver.core.utils.UUIDs;
 import com.depth1.grc.db.util.DataReaderUtil;
+import com.depth1.grc.exception.DaoException;
 import com.depth1.grc.model.common.Keyspace;
 import com.depth1.grc.security.BCrypt;
-import com.depth1.grc.util.IdProducer;
+import com.depth1.grc.util.DateUtility;
 
 import play.Logger;
 import play.Play;
@@ -56,16 +56,16 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	public void createUserProfile(UserProfile user) throws DaoException {
 
 		UUID id = java.util.UUID.randomUUID();
-		user.setId(id);
+		user.setUserProfileId(id);
 		try {
 			Statement insert = QueryBuilder
 					.insertInto(Keyspace.valueOf(keyspace), "userprofile")
-					.value("id", user.getId())
+					.value("id", user.getUserProfileId())
 					.value("tenantid", user.getTenantId())
-					.value("fname", user.getFname())
-					.value("pfname", user.getPfname())
-					.value("minitial", user.getMinitial())
-					.value("lname", user.getLname())
+					.value("fname", user.getFirstName())
+					.value("pfname", user.getPreferredFirstName())
+					.value("minitial", user.getMiddleInitial())
+					.value("lname", user.getLastName())
 					.value("title", user.getTitle())
 					.value("salutation", user.getSalutation())
 					.value("username", user.getUsername())
@@ -80,13 +80,17 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.value("province", user.getProvince())
 					.value("country", user.getCountry())
 					.value("phones", user.getPhones())
-					.value("lineofdefense", user.getLineofdefense())
-					.value("createdate", UUIDs.timeBased()) //Timestamp.valueOf(LocalDateTime.now())
+					.value("lineofdefense", user.getLineOfDefense())
+					.value("createdate", user.getCreateDate()) //Timestamp.valueOf(LocalDateTime.now())
 					.value("latitude", user.getLatitude())
 					.value("longitude", user.getLongitude())
 					.value("timezone", user.getTimeZone())
 					.value("language", user.getLanguage())
 					.value("locale", user.getLocale())
+					.value("deptid", user.getDeptId())
+					.value("deptname", user.getDeptName())
+					.value("lodfunctionid", user.getLodFunctionId())
+					.value("lodfunction", user.getLodFunction())
 					.value("status", user.getStatus());	
 					CassandraDaoFactory.getSession().execute(insert);
 					createUserAuth(user); // create user login credentials
@@ -114,10 +118,10 @@ public class CassandraUserProfileDao implements UserProfileDao {
 			if (user.getUsername()!= null && user.getPassword() != null && user.getUsername().length() < 100) {
 			Statement insert = QueryBuilder
 					.insertInto(Keyspace.valueOf(keyspace), "userauth")
-					.value("id", user.getId())
+					.value("id", user.getUserProfileId())
 					.value("tenantid", user.getTenantId())
-					.value("fname", user.getFname())
-					.value("lname", user.getLname())
+					.value("fname", user.getFirstName())
+					.value("lname", user.getLastName())
 					.value("username", user.getUsername())
 					.value("hash", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)))
 					.value("createdate", UUIDs.timeBased()); //Timestamp.valueOf(LocalDateTime.now())	
@@ -140,12 +144,13 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	 * @throws DaoException if error occurs while deleting a user profile from the user profile table
 	 */
 	@Override
-	public boolean deleteUserProfile(String username) throws DaoException {
+	public boolean deleteUserProfile(String username, long tenantId) throws DaoException {
 		boolean del = false;
 		try {					
 			Where delete = QueryBuilder.delete()
 					.from(Keyspace.valueOf(keyspace), "userprofile")
-					.where(eq("username", username));							
+					.where(eq("username", username))
+					.and(eq("tenantid", tenantId));
 
 			CassandraDaoFactory.getSession().execute(delete);
 			del = true;
@@ -173,9 +178,8 @@ public class CassandraUserProfileDao implements UserProfileDao {
 			Update.Assignments updateAssignments = QueryBuilder
 					.update(Keyspace.valueOf(keyspace), "userauth")					
 					.with(set("hash", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12))))
-					.and(set("lname", user.getLname()))
-					.and(set("fname", user.getFname()));
-
+					.and(set("lname", user.getLastName()))
+					.and(set("fname", user.getFirstName()));
 					Statement updateDetails = updateAssignments
 					.where(eq("username", user.getUsername()));
 			CassandraDaoFactory.getSession().execute(updateDetails);			
@@ -208,16 +212,21 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.and(set("state", user.getState()))
 					.and(set("province", user.getProvince()))
 					.and(set("country", user.getCountry()))
-					.and(set("lineofdefense", user.getLineofdefense()))
+					.and(set("lineofdefense", user.getLineOfDefense()))
 					.and(set("latitude", user.getLatitude()))
 					.and(set("longitude", user.getLongitude()))					
 					.and(set("locale", user.getLocale()))
 					.and(set("language", user.getLanguage()))
-					.and(set("timezone", user.getTimeZone()));
+					.and(set("timezone", user.getTimeZone()))
+					.and(set("deptid", user.getDeptId()))
+					.and(set("deptname", user.getDeptName()))
+					.and(set("lodfunctionid", user.getLodFunctionId()))
+					.and(set("lodfunction", user.getLodFunction()));
 			Statement updateDetails = updateAssignments
 					.where(eq("username", user.getUsername()))
-					.and(eq("lname", user.getLname()))
-					.and(eq("fname", user.getFname()));
+					.and(eq("lname", user.getLastName()))
+					.and(eq("fname", user.getFirstName()))
+					.and(eq("tenantid", user.getTenantId()));
 			CassandraDaoFactory.getSession().execute(updateDetails);
 			updateUserAuth(user);
 			update = true;
@@ -238,54 +247,19 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	 * @throws DaoException if error occurs while reading user profiles from the data store
 	 */
 	@Override
-	public List<UserProfile> listUserProfile() throws DaoException {
+	public List<UserProfile> listUserProfile(long tenantId) throws DaoException {
 		List<UserProfile> list = new ArrayList<>();
-
 		String table = "userprofile";
-		try {					
-			
-			ResultSetFuture results = DataReaderUtil.getAll(table);
-
+		try {								
+			ResultSetFuture results = DataReaderUtil.getAll(table, tenantId);
 			if (results == null) {
 				return null;
 			}
-
 			// get data elements from the Result set
-
-
 			for (Row row : results.getUninterruptibly()) {
 				UserProfile user = new UserProfile();
-				user.setId(row.getUUID("id"));
-				user.setTenantId(row.getLong("tenantid"));
-				user.setLname(row.getString("lname"));
-				user.setFname(row.getString("fname"));
-				user.setFname(row.getString("pfname"));
-				user.setFname(row.getString("minitial"));
-				user.setFname(row.getString("title"));
-				user.setFname(row.getString("salutation"));
-				user.setEmail(row.getString("email"));
-				user.setPhones(row.getMap("phones", String.class, String.class));
-				user.setPassword(row.getString("password"));
-				user.setGender(row.getString("gender"));
-				user.setStreet1(row.getString("street1"));
-				user.setStreet2(row.getString("street2"));
-				user.setCity(row.getString("city"));
-				user.setZipcode(row.getString("zipcode"));
-				user.setState(row.getString("state"));
-				user.setProvince(row.getString("province"));
-				user.setCountry(row.getString("country"));				
-				user.setLineofdefense(row.getString("lineofdefense"));
-				user.setLatitude(row.getString("latitude"));
-				user.setLongitude(row.getString("longitude"));
-				user.setTimeZone(row.getString("timezone"));
-				user.setLanguage(row.getString("language"));
-				user.setLocale(row.getString("locale"));
-				user.setStatus(row.getString("status"));
-				list.add(user);
-				
+				list.add(setUserAttributes(user, row));
 			}
-
-
 		} catch (DriverException e) {
 			Logger.error("Error occurred while getting user profile data from the user profile table ", e);
 		} finally {
@@ -312,39 +286,10 @@ public class CassandraUserProfileDao implements UserProfileDao {
 			if (result == null) {
 				return null;
 			}
-
 			// get data elements from the Result set
-
 			for (Row row : result.getUninterruptibly()) {
 				user = new UserProfile();
-				user.setId(row.getUUID("id"));
-				user.setTenantId(row.getLong("tenantid"));
-				user.setLname(row.getString("lname"));
-				user.setFname(row.getString("fname"));
-				user.setFname(row.getString("pfname"));
-				user.setFname(row.getString("minitial"));
-				user.setFname(row.getString("title"));
-				user.setFname(row.getString("salutation"));
-				user.setEmail(row.getString("email"));
-				user.setPassword(row.getString("password"));
-				user.setGender(row.getString("gender"));
-				user.setStreet1(row.getString("street1"));
-				user.setStreet2(row.getString("street2"));
-				user.setCity(row.getString("city"));
-				user.setZipcode(row.getString("zipcode"));
-				user.setState(row.getString("state"));
-				user.setProvince(row.getString("province"));
-				user.setCountry(row.getString("country"));
-				user.setPhones(row.getMap("phones", String.class, String.class));	
-				user.setLineofdefense(row.getString("lineofdefense"));
-				user.setLatitude(row.getString("latitude"));
-				user.setLongitude(row.getString("longitude"));
-				user.setTimeZone(row.getString("timezone"));
-				user.setLanguage(row.getString("language"));
-				user.setLocale(row.getString("locale"));
-				user.setStatus(row.getString("status"));
-				user.setUuidTime(UUIDs.unixTimestamp(row.getUUID("createdate")));
-								
+				user = setUserAttributes(user, row);								
 			}
 
 		} catch (DriverException e) {
@@ -366,49 +311,19 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	 * @throws DaoException if error occurs while finding a user profile in the data store
 	 */
 	@Override
-	public UserProfile findUserProfile(String username, String lastname) throws DaoException {
+	public UserProfile findUserProfile(String username, String lastname, long tenantId) throws DaoException {
 		UserProfile user = null;
 		try {					
 			
-			ResultSetFuture result = getOneUserProfile(username, lastname);
+			ResultSetFuture result = getOneUserProfile(username, lastname, tenantId);
 			if (result == null) {
 				return null;
 			}
-
 			// get data elements from the Result set
-
 			for (Row row : result.getUninterruptibly()) {
 				user = new UserProfile();
-				user.setId(row.getUUID("id"));
-				user.setTenantId(row.getLong("tenantid"));
-				user.setLname(row.getString("lname"));
-				user.setFname(row.getString("fname"));
-				user.setPfname(row.getString("pfname"));
-				user.setMinitial(row.getString("minitial"));
-				user.setTitle(row.getString("title"));
-				user.setSalutation(row.getString("salutation"));
-				user.setEmail(row.getString("email"));
-				user.setPhones(row.getMap("phones", String.class, String.class));
-				user.setPassword(row.getString("password"));
-				user.setGender(row.getString("gender"));
-				user.setStreet1(row.getString("street1"));
-				user.setStreet2(row.getString("street2"));
-				user.setCity(row.getString("city"));
-				user.setZipcode(row.getString("zipcode"));
-				user.setState(row.getString("state"));
-				user.setProvince(row.getString("province"));
-				user.setCountry(row.getString("country"));
-				user.setLineofdefense(row.getString("lineofdefense"));
-				user.setLatitude(row.getString("latitude"));
-				user.setLongitude(row.getString("longitude"));
-				user.setTimeZone(row.getString("timezone"));
-				user.setLanguage(row.getString("language"));
-				user.setLocale(row.getString("locale"));
-				user.setStatus(row.getString("status"));
-				user.setDateUtil(new Date(user.getUuidTime()));
-								
+				user = setUserAttributes(user, row);								
 			}
-
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving user profile data from the user profile table ", e);
 		} finally {
@@ -456,46 +371,22 @@ public class CassandraUserProfileDao implements UserProfileDao {
 		return login;
 	}	
 	
-	/**
-<<<<<<< HEAD
-=======
-	 * Gets all rows in the user profile table
-	 * 
-	 * @return all rows in the user profile table
-	 * @throws DaoException if error occurs while getting user profiles from the user profile table
-	 */
-	private ResultSetFuture getAll() throws DaoException {
-
-		Select query = null;
-		try {
-			query = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "userprofile");
-
-		} catch (DriverException e) {
-			Logger.error("Error occurred while getting user profiles from the user profile table ", e);
-		} finally {
-			// close the connection to the database();
-			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-		}
-
-		return CassandraDaoFactory.getSession().executeAsync(query);
-
-	}
 	
 	/**
->>>>>>> 56acbead5d85b5ad9448c9a21b81c4e78b1b47ef
 	 * Get a user profile that matches the given criteria of username and lastname
 	 * 
 	 * @return a row that matches the user profile
 	 * @throws DaoException if error occurs while getting user profiles from the user profile table
 	 */
-	private ResultSetFuture getOneUserProfile(String username, String lastname) {
+	private ResultSetFuture getOneUserProfile(String username, String lastname, long tenantId) {
 		Select.Where select = null;
 		try {
 		 select = QueryBuilder.select()
 				.all()
 				.from(Keyspace.valueOf(keyspace), "userprofile")
 				.where(eq("username", username))
-				.and(eq("lname", lastname));
+				.and(eq("lname", lastname))
+				.and(eq("tenantid", tenantId));
 				
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving a user profile from the user profile table ", e);
@@ -508,7 +399,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	}
 	
 	/**
-	 * Get a user profile that matches the given criteria of userId
+	 * Gets a user profile that matches the given criteria of userId
 	 * 
 	 * @return a row that matches the user profile
 	 * @throws DaoException if error occurs while getting user profiles from the user profile table
@@ -530,5 +421,49 @@ public class CassandraUserProfileDao implements UserProfileDao {
 		return CassandraDaoFactory.getSession().executeAsync(select);
 		
 	}	
+	
+	/**
+	 * Sets user profile attributes
+	 * 
+	 * @param user the user profile attributes to set
+	 * @param row the result of a query 
+	 * @return user profile with the attributes set
+	 */
+	private UserProfile setUserAttributes(UserProfile user, Row row) {
+		user.setUserProfileId(row.getUUID("id"));
+		user.setTenantId(row.getLong("tenantid"));
+		user.setLastName(row.getString("lname"));
+		user.setFirstName(row.getString("fname"));
+		user.setPreferredFirstName(row.getString("pfname"));
+		user.setMiddleInitial(row.getString("minitial"));
+		user.setTitle(row.getString("title"));
+		user.setSalutation(row.getString("salutation"));
+		user.setEmail(row.getString("email"));
+		user.setPhones(row.getMap("phones", String.class, String.class));
+		user.setPassword(row.getString("password"));
+		user.setGender(row.getString("gender"));
+		user.setStreet1(row.getString("street1"));
+		user.setStreet2(row.getString("street2"));
+		user.setCity(row.getString("city"));
+		user.setZipcode(row.getString("zipcode"));
+		user.setState(row.getString("state"));
+		user.setProvince(row.getString("province"));
+		user.setCountry(row.getString("country"));				
+		user.setLineOfDefense(row.getString("lineofdefense"));
+		user.setLatitude(row.getString("latitude"));
+		user.setLongitude(row.getString("longitude"));
+		user.setTimeZone(row.getString("timezone"));
+		user.setLanguage(row.getString("language"));
+		user.setLocale(row.getString("locale"));
+		user.setStatus(row.getString("status"));
+		user.setDeptId(row.getUUID("deptid"));
+		user.setDeptName(row.getString("deptname"));
+		user.setLodFunctionId(row.getInt("lodfunctionid"));
+		user.setLodFunction(row.getString("lodfunction"));
+		Date date = DateUtility.convertTimeuuid(row.getUUID("createdate"));
+		user.setCreateDate(date);
+		
+		return user;	
+	}
 
 }

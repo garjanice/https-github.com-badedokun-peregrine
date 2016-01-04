@@ -6,6 +6,8 @@ package com.depth1.grc.db.util;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import com.depth1.grc.exception.DataStoreException;
+
 /**
  * 
  * This class implements the ObjectPool pattern to provide an efficient way of accessing data store 

@@ -28,8 +28,8 @@ public class UserProfileSort {
 		if(order.compareTo("descendingName")== 0){
 			Collections.sort(userprofiles, new Comparator<UserProfile>() {
 				public int compare(UserProfile a1, UserProfile a2){
-					String name1 = a1.getLname() + " " + a1.getFname(); 
-					String name2 = a2.getLname() + " " + a2.getFname();
+					String name1 = a1.getLastName() + " " + a1.getFirstName(); 
+					String name2 = a2.getLastName() + " " + a2.getFirstName();
 					return name1.compareTo(name2);
 				}
 				
@@ -37,8 +37,8 @@ public class UserProfileSort {
 		} else if(order.compareTo("ascendingName")== 0){
 			Collections.sort(userprofiles, new Comparator<UserProfile>() {
 				public int compare(UserProfile a1, UserProfile a2){
-					String name1 = a1.getLname() + " " + a1.getFname(); 
-					String name2 = a2.getLname() + " " + a2.getFname();
+					String name1 = a1.getLastName() + " " + a1.getFirstName(); 
+					String name2 = a2.getLastName() + " " + a2.getFirstName();
 					return name2.compareTo(name1);
 				}
 				
@@ -102,7 +102,7 @@ public class UserProfileSort {
 		List<UserProfile> filteredUserProfiles = new ArrayList<>();
 		String name;
 		for(int x=0;x < userprofiles.size();x++){
-			name = userprofiles.get(x).getFname() + " " + userprofiles.get(x).getLname();
+			name = userprofiles.get(x).getFirstName() + " " + userprofiles.get(x).getLastName();
 			if(name.contains(query)){
 				filteredUserProfiles.add(userprofiles.get(x));
 			} else if (userprofiles.get(x).getUsername().contains(query)){

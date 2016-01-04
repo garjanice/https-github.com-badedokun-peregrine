@@ -1,105 +1,49 @@
 package com.depth1.grc.controllers;
 
 import java.util.Collections;
-import java.util.Comparator;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.UUID;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.lang.Long;
-
-import org.jsoup.*;
 
 import play.Logger;
 import play.data.Form;
 import play.data.Form.Field;
-import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Http.RequestBody;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.mvc.Security;
 
-import com.datastax.driver.core.ResultSetFuture;
-import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
-import com.datastax.driver.core.Statement;
-import com.datastax.driver.core.querybuilder.Delete;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
-import com.datastax.driver.core.utils.UUIDs;
-import com.depth1.grc.db.util.DataException;
 import com.depth1.grc.db.util.DropDownList;
-import com.depth1.grc.db.util.JpaUtil;
-import com.depth1.grc.jpa.models.JpaStrategicObjectiveDao;
+import com.depth1.grc.exception.DaoException;
+import com.depth1.grc.exception.DataException;
+import com.depth1.grc.jpa.models.JpaObjectiveDao;
 import com.depth1.grc.jpa.models.Measure;
-import com.depth1.grc.jpa.models.StrategicObjective;
-import com.depth1.grc.model.DaoException;
+import com.depth1.grc.jpa.models.Objective;
 import com.depth1.grc.model.DaoFactory;
+import com.depth1.grc.model.Department;
 import com.depth1.grc.model.PrintPdfRiskAssessment;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.RiskAssessmentSort;
-import com.depth1.grc.model.RiskAssessment;
-import com.depth1.grc.model.RiskAssessmentDao;
-import com.depth1.grc.model.Tenant;
-import com.depth1.grc.model.TenantDao;
-import com.depth1.grc.model.UserProfile;
-import com.depth1.grc.model.UserProfileDao;
-import com.depth1.grc.security.BCrypt;
-import com.depth1.grc.util.DateUtility;
-import com.depth1.grc.util.IdProducer;
 import com.depth1.grc.model.Policy;
 import com.depth1.grc.model.PolicyDao;
 import com.depth1.grc.model.PolicySort;
-import com.depth1.grc.model.PolicyUtil;
-import com.depth1.grc.model.PrintPdfRiskAssessment;
-import com.depth1.grc.model.RiskAssessment;
-import com.depth1.grc.model.RiskAssessmentDao;
-import com.depth1.grc.model.RiskAssessmentSort;
-import com.depth1.grc.model.Tenant;
-import com.depth1.grc.model.TenantDao;
-import com.depth1.grc.model.TenantSort;
-import com.depth1.grc.model.UserProfile;
-import com.depth1.grc.model.UserProfileDao;
-import com.depth1.grc.model.UserProfileSort;
 import com.depth1.grc.views.html.*;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import play.Logger;
-import play.data.Form;
-import play.i18n.Messages;
-import play.mvc.Controller;
-import play.mvc.Result;
-import play.mvc.Security;
 
 @Security.Authenticated(Secured.class)
 public class Application extends Controller {
@@ -114,120 +58,6 @@ public class Application extends Controller {
 	final static Form<Policy> policyForm = Form.form(Policy.class);
 	static List<Policy> policies;
 	static Policy selectedPolicy;
-	
-	static List<Tenant> tenants;
-	static Tenant selectedTenant;
-	final static Form<Tenant> tenantForm = Form.form(Tenant.class);
-	
-	static List<UserProfile> userProfiles;
-	static UserProfile selectedUserProfile;
-	final static Form<UserProfile> userProfileForm = Form.form(UserProfile.class);
-	
-	/**
-	 * Creates a user profile
-	 * @param user User to create
-	 * @return Result of the user created
-	 */
-	public static Result createUserProfile(UserProfile user) {
-		try {
-			UserProfileDao profile = cassandraFactory.getUserProfileDao();
-			profile.createUserProfile(user);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating a user ", e);
-		}
-
-		return ok();
-	}
-
-	/**
-	 * Deletes a Tenant
-	 * @param tenantId is the id of the tenant to delete
-	 * @return Result of the delete tenant
-	 */
-	public static Result deleteTenant(long tenantId) {
-		boolean deleted = false;
-		try {
-			TenantDao tenant = cassandraFactory.getTenantDao();
-			deleted = tenant.deleteTenant(tenantId);
-			if (deleted) {
-				Logger.info("Tenant profile deleted successfully.");
-			} else {
-				Logger.info("Tenant profile not deleted.");
-			}
-		} catch (DaoException e) {
-			Logger.error("Error occurred while deleting a tenant ", e);
-		}
-
-		return ok();
-	}
-	
-	/**
-	 * Creates a user profile
-	 * @param user User to create
-	 * @return Result of the user created
-	 */
-	public static Result deleteUserProfile(String username) {
-		boolean deleted = false;
-		try {
-			UserProfileDao profile = cassandraFactory.getUserProfileDao();
-			deleted = profile.deleteUserProfile(username);
-			if (deleted) {
-				Logger.info("User profile deleted successfully.");
-			} else {
-				Logger.info("User profile not deleted.");
-			}
-		} catch (DaoException e) {
-			Logger.error("Error occurred while deleting a user ", e);
-		}
-
-		return ok();
-	}		
-	/**
-	 * Gets all the tenants in the tenant  table.
-	 * 
-	 * @return Result of all the tenants in the table
-	 */
-	public static Result getTenant(long tenantId) {
-		try {
-			TenantDao tenantDao = cassandraFactory.getTenantDao();
-			Tenant list = tenantDao.getTenant(tenantId);
-			Map<String, String> phones = list.getPhones();
-			String direct = phones.get("Direct");
-			String main = phones.get("Main");
-			String dateFormat = "yyyy-dd-MM HH:mm:ss";
-			Date dateTime = list.getCreateDateUtil();
-			String outTimestamp = Messages.get("date.out.timestamp.format");
-			DateFormat df = new SimpleDateFormat(outTimestamp);
-
-		} catch (DaoException e) {
-			Logger.error("Error occurred while reading a tenant data ", e);
-		}
-
-		return redirect("/riskAssessment/1/10/descendingRisk");
-	}
-	
-	/**
-	 * Gets all the tenants in the tenant  table.
-	 * 
-	 * @return Result of all the tenants in the table
-	 */
-	public static Result getTenant(String name) {
-		try {
-			TenantDao tenantDao = cassandraFactory.getTenantDao();
-			Tenant list = tenantDao.getTenant(name);
-			Map<String, String> phones = list.getPhones();
-			String direct = phones.get("Direct");
-			String main = phones.get("Main");
-			String dateFormat = "yyyy-dd-MM HH:mm:ss";
-			Date dateTime = list.getCreateDateUtil();
-			String outTimestamp = Messages.get("date.out.timestamp.format");
-			DateFormat df = new SimpleDateFormat(outTimestamp);				
-		} catch (DaoException e) {
-			Logger.error("Error occurred while reading a tenant data ", e);
-		}
-
-		return ok();
-	}
 	
 	/**
 	 * This method is used as a client to test getting data from the Cassandra
@@ -280,147 +110,6 @@ public class Application extends Controller {
 	}	
 	
 	/**
-	 * Gets a user that matches search criteria of username and lastname.
-	 * 
-	 * @return Result of all the users in the table
-	 */
-	public static Result getUserProfile(String username, String lastname) {
-		try {
-			UserProfileDao profile = cassandraFactory.getUserProfileDao();
-			UserProfile user = profile.findUserProfile(username, lastname);
-			String dateFormat = "yyyy-dd-MM HH:mm:ss";
-			Date dateTime = user.getDateUtil();
-			Map<String, String> map = user.getPhones();
-			String work   = map.get("Work");
-			String mobile = map.get("Mobile");
-			
-		
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating a user ", e);
-		}
-
-		return ok();
-	}
-	
-
-	/**
-	 * Gets a user that matches search criteria of username and lastname.
-	 * 
-	 * @return Result of all the users in the table
-	 */
-	public static Result getUserProfile(UUID userId) {
-		try {
-			UserProfileDao profile = cassandraFactory.getUserProfileDao();
-			UserProfile user = profile.findUserProfile(userId);
-
-			
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating a user ", e);
-		}
-
-		return ok();
-	}	
-	
-
-	/**
-	 * Gets all the users in the user profile table.
-	 * 
-	 * @return Result of all the users in the table
-	 */
-	public static Result listProfile() {
-		try {
-			UserProfileDao profile = cassandraFactory.getUserProfileDao();
-			List<UserProfile> userList = profile.listUserProfile();
-			
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating a user ", e);
-		}
-
-		return ok();
-	}
-	
-	
-	/**
-	 * Gets all the tenants in the tenant  table.
-	 * 
-	 * @return Result of all the tenants in the table
-	 */
-	public static Result listTenant() {
-		try {
-			TenantDao tenantDao = cassandraFactory.getTenantDao();
-			List<Tenant> tenantList = tenantDao.listTenant();
-			for (Tenant list : tenantList) {
-				Map<String, String> phones = list.getPhones();
-				//String direct = map.get("Direct");
-				//String main   = map.get("Main");
-				String dateFormat = "yyyy-dd-MM HH:mm:ss";
-				Date dateTime = list.getCreateDateUtil();
-				String outTimestamp = Messages.get("date.out.timestamp.format");
-				DateFormat df = new SimpleDateFormat(outTimestamp);
-				Logger.info("Tenant Created On: " +  DateUtility.formatDateFromUuid(dateFormat, dateTime));
-				Logger.info("Tenant UUID: " + list.getId());
-				Logger.info("Tenant Id: " + list.getTenantId());
-				Logger.info("Tenant Name: " + list.getName());
-				Logger.info("Tenant Type: " + list.getType());
-				Logger.info("Tenant Stret1: " + list.getStreet1());
-				Logger.info("Tenant Street2: " + list.getStreet2());
-				Logger.info("Tenant City: " + list.getCity());
-				Logger.info("Tenant Zipcode: " + list.getZipcode());
-				Logger.info("Tenant State: " + list.getState());
-				Logger.info("Tenant Province: " + list.getProvince());
-				Logger.info("Tenant Country: " + list.getCountry());
-				Logger.info("Tenant Latitude: " + list.getLatitude());
-				Logger.info("Tenant Longitude: " + list.getLongitude());
-				Logger.info("Tenant Contact Person: " + list.getContactPersonName());
-				Logger.info("Tenant Contact Person Email: " + list.getContactPersonEmail());
-				//Logger.info("Tenant Main Phone:  " + main);
-				//Logger.info("Tenant Direct Line:  " + direct);
-				Logger.info("Tenant Service Start Date: " + DateUtility.toString(list.getServiceStartDate(), df));
-				Logger.info("Tenant Web Address: " + list.getCompanyUrl());
-				Logger.info("Tenant IP Address: " + list.getIpaddress());
-				Logger.info("Tenant Status: " + list.getStatus());
-				
-			}
-		} catch (DaoException e) {
-			Logger.error("Error occurred while reading a tenant data ", e);
-		}
-
-		return ok();
-	}
-	
-    /**
-	 * Updates a tenant profile
-	 * @param tenant Tenant to create
-	 * @return Result of the tenant created
-	 */
-	public static Result updateTenant(Tenant tenant) {
-		try {
-			TenantDao profile = cassandraFactory.getTenantDao();
-			profile.updateTenant(tenant);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while updating a tenant ", e);
-		}
-
-		return ok();
-	}
-	
-	/**
-	 * Creates a user profile
-	 * @param user User to create
-	 * @return Result of the user created
-	 */
-	public static Result updateUserProfile(UserProfile user) {
-		try {
-			UserProfileDao profile = cassandraFactory.getUserProfileDao();
-			profile.updateUserProfile(user);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while updating a user ", e);
-		}
-
-		return ok();
-	}
-	
-	/**
 	 * @return the result of the RAC creation
 	 */
 	public Result addRiskAssessment() {
@@ -438,44 +127,8 @@ public class Application extends Controller {
 	}
 	
 	
-	/**
-	 * Adds a Tenant to the database from form information
-	 * @return a redirect to the main tenant page
-	 */
-	public Result addTenant() {
-		Form<Tenant> filledTenant = tenantForm.bindFromRequest();
-		Tenant criteria = filledTenant.get();
-		try {
-			TenantDao tenantDao = cassandraFactory
-					.getTenantDao();
-			tenantDao.createTenant(criteria);
-		} catch (Exception e) {
-			Logger.error(
-					"Error occurred while creating risk assessment criteria ",
-					e);
-		}
 
-		return redirect("/tenant/1/10/descendingName");
-	}
-	
-	/**
-	 * Adds a User Profile to the Database
-	 * 
-	 * @return redirect to the User Profile Front Page
-	 */
-	public Result addUserProfile() {
-		Form<UserProfile> filledUserProfile = userProfileForm.bindFromRequest();
-		UserProfile criteria = filledUserProfile.get();
-		
-		try {
-			UserProfileDao userProfileDao = cassandraFactory.getUserProfileDao();
-					
-			userProfileDao.createUserProfile(criteria);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating user profile criteria ", e);
-		}
-		return redirect("/userprofile/1/10/descendingName");
-	}
+
 
 	/**
 	 * Creates a policy 
@@ -512,13 +165,13 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public Result createSO() {
-		StrategicObjective objective;
-		JpaStrategicObjectiveDao obj;
+		Objective objective;
+		JpaObjectiveDao obj = new JpaObjectiveDao();
 		try {
 			
-			objective = new StrategicObjective(21L, "Strategy 2050", "COSO Enterprise Risk Management Framework");
+			//objective = new StrategicObjective(21L, "Strategy 2050", "COSO Enterprise Risk Management Framework");
 			 
-			Measure measure1 = new Measure(21L, "40% in customer base", objective);
+			/*Measure measure1 = new Measure(21L, "40% in customer base", objective);
 			Measure measure2 = new Measure(21L, "35% increase in revenue", objective);
 			Measure measure3 = new Measure(21L, "40% increase in profit", objective);
 			Measure measure4 = new Measure(21L, "Minimize software defect by 99% in 2016", objective);
@@ -532,12 +185,84 @@ public class Application extends Controller {
 			measureSet.add(measure5);
 			measureSet.add(measure6);
 			obj = new JpaStrategicObjectiveDao();
-			obj.createStrategicObjective(objective, measureSet);
-			//StrategicObjective so = obj.getStrategicObjective(9L);
+			obj.createStrategicObjective(objective, measureSet);*/
+			//obj = new JpaStrategicObjectiveDao();
+			//StrategicObjective so = new StrategicObjective();
+			//so = obj.getStrategicObjective(13);
 			//List<StrategicObjective> result = obj.listStrategicObjective("Strategy 2018");
 			//result.forEach(results->Logger.info("The SO: " + results.getObjective()));
-			//so.setName("Strategy 2050");
-			//so.setObjective("Most Comprehensive Risk Management Software with Built-in LoD");
+			/*so.setName("Strategy 2060");
+			so.setObjective("Most Comprehensive Risk Management Software with Built-in 3LoD");
+			obj.updateStrategicObjective(so);*/
+			Objective so = new Objective();
+			//obj = new JpaStrategicObjectiveDao();
+			so = obj.getObjective(9L);
+			//Set<Measure> set = (Set<Measure>)obj.getMeasure(so.getObjectiveId());
+			so.setName("Strategy 2014");
+			so.setObjective("Risk Management Software with Built-in 3LoD");
+			Set<Measure> measureSet = new LinkedHashSet<Measure>();
+			Measure m1 = new Measure();
+			Measure m2 = new Measure();
+			Measure m3 = new Measure();
+			Measure m4 = new Measure();
+			Map<Long, Measure> measure1 = new HashMap<>();
+			Set<Objective> set = obj.getMeasure(so.getObjectiveId());
+			set.forEach(results-> {
+				Logger.info("Objective name: "+ results.getName());
+				Logger.info("Objective is: "+ results.getObjective());
+				Set<Measure> m = results.getMeasure();
+				m.forEach(r-> {
+					Logger.info("Measure Id: "+ r.getMeasureId());
+					Logger.info("Measure is: "+ r.getMeasure());
+					try {
+						if (r.getMeasureId() == 37) {
+							m1.setMeasureId(r.getMeasureId());
+							m1.setMeasure("Acquire major bank customers in 2017");
+							Logger.info("Measure r ID: " + r.getMeasureId());
+							Logger.info("Measure m1 ID: " + m1.getMeasureId());
+							measure1.put(m1.getMeasureId(), m1);
+							//obj.updateMeasure(m1, 9L);
+						}
+						if (r.getMeasureId() == 38) {
+							m2.setMeasureId(r.getMeasureId());
+							m2.setMeasure("Form partnerships with Software Vendors");
+							Logger.info("Measure r ID: " + r.getMeasureId());
+							Logger.info("Measure m2 ID: " + m2.getMeasureId());
+							measure1.put(m2.getMeasureId(), m2);
+							//obj.updateMeasure(m2, 9L);
+						}
+						if (r.getMeasureId() == 41) {
+							m3.setMeasureId(r.getMeasureId());
+							m3.setMeasure("Host Trade Show in Las Vegas");
+							Logger.info("Measure r ID: " + r.getMeasureId());
+							Logger.info("Measure m2 ID: " + m3.getMeasureId());
+							measure1.put(m3.getMeasureId(), m3);
+							//obj.updateMeasure(m2, 9L);
+						}
+						if (r.getMeasureId() == 39) {
+							m4.setMeasureId(r.getMeasureId());
+							m4.setMeasure("Increase operation in North America, Europe and Asia");
+							Logger.info("Measure r ID: " + r.getMeasureId());
+							Logger.info("Measure m2 ID: " + m4.getMeasureId());
+							measure1.put(m4.getMeasureId(), m4);
+							//obj.updateMeasure(m2, 9L);
+						}
+					} catch (Exception e) {
+						Logger.error("Error updating measure table.", e);
+
+					}
+				});
+				
+			});
+			obj.updateObjective(so);
+			obj.updateMeasure(measure1, so);
+			/*measureSet.add(m1);
+			measureSet.add(m2);
+			so.setName("Strategy 2015");
+			so.setObjective("Comprehensive Risk Management Software with Built-in 3LoD");*/
+			//so.setMeasure(measureSet);
+			//obj.updateStrategicObjective(so);
+			//Logger.info("The measure"););
 			//so.setTenantId(20L);
 			/*Measure measure1 = new Measure(17L, "28% increase in customer base", so);
 			Measure measure2 = new Measure(17L, "30% increase in Profit Margin", so);
@@ -552,7 +277,7 @@ public class Application extends Controller {
 			obj.updateStrategicObjective(so);*/
 	
 		} catch (Exception e) {
-			Logger.error("Error occured while [deleting] data in the data store.", e);
+			Logger.error("Error occured while [updating] data in the data store.", e);
 		}	
 		return ok();
 		}
@@ -564,10 +289,10 @@ public class Application extends Controller {
 	 * @return delete policy page
 	 */
 	public Result deletePolicy() {
-		boolean result = false;
+		//boolean result = false;
 		try {
 			PolicyDao policyDao = cassandraFactory.getPolicyDao();
-			result = policyDao.deletePolicy(selectedPolicy.getId());
+			boolean result = policyDao.deletePolicy(selectedPolicy.getId());
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating Policy Delete Page ", e);
 		}		
@@ -584,33 +309,10 @@ public class Application extends Controller {
 					.getRiskAssessmentDao();
 			riskAssessmentDao.deleteRiskAssessment(selectedRA);
 		} catch (DaoException e) {
-			Logger.error(
-					"Error occurred while deleting risk assessment criteria ",
-					e);
+			Logger.error("Error occurred while deleting risk assessment criteria ",	e);
 		}
-
 
 		return redirect("/riskAssessment/1/10/descendingRisk");
-	}
-	
-	
-	/**
-	 * Deletes the selected Tenant from the database.  Uses Ajax and JSON.
-	 * Shows the FrontTenant Page.
-	 * @return Result of the deleting the Tenant.
-	 */
-	public Result deleteTenant() {
-		try {
-			TenantDao tenantDao = cassandraFactory
-					.getTenantDao();
-			tenantDao.deleteTenant(selectedTenant.getTenantId());
-		} catch (DaoException e) {
-			Logger.error(
-					"Error occurred while deleting tenant ",
-					e);
-		}
-
-		return redirect("/tenant/1/10/descendingName");
 	}
 	
 	/**
@@ -632,35 +334,23 @@ public class Application extends Controller {
 		}
 		return policyBody;
 	}
-	/**
-	 *  Returns a list of tenants in the database
-	 * @return JSON object that is a list of Tenants in the database
-	 */
-	public Result getTenantNames(){
-		
-		TenantDao tenantDao = null;
-		List<Tenant> list = null;
-		try {
-			tenantDao = cassandraFactory.getTenantDao();
-			list =  tenantDao.listTenant();
-		} catch (DaoException e) {
-			Logger.error(
-					"Error reading Tenant IDs ",e);
-		}
-		
-		ObjectNode result = Json.newObject();
-		
-		for(Tenant tenant: list)
-		{
-			result.put(tenant.getName(), String.valueOf(tenant.getTenantId()) );
-		}
-		
-	    return ok(result);
-	}
+
 	public Result index() {
-		// test JPA
-		createSO();
-		return ok(index.render()); 
+		Department dept = new Department();
+		long tenantId = 1443847131068L;
+		dept.setTenantId(tenantId);
+		dept.setDeptName("Engineering");
+		dept.setDescription("Responsible for product engineering");
+		OrganizationResource.createDepartment(dept);
+		//
+		Department dept1 = new Department();
+		//long tenantId = 1443947438722L;
+		dept1.setTenantId(tenantId);
+		dept1.setDeptName("Global Technology");
+		dept1.setDescription("Responsible for infrastructure management");
+		OrganizationResource.createDepartment(dept1);
+		
+		return ok(index.render());
 	}
 	/**
 	 * This method allows users to update selected Risk Assessments
@@ -751,7 +441,7 @@ public class Application extends Controller {
 	}	
 	
 	public Result setSelectedRA() {
-		RiskAssessmentSort riskAssessmentUtil = new RiskAssessmentSort();
+		//RiskAssessmentSort riskAssessmentUtil = new RiskAssessmentSort();
 		JsonNode node = request().body().asJson().get("val");
 		
 		 if(node == null){
@@ -759,54 +449,16 @@ public class Application extends Controller {
 		    }
 		String inputString = node.textValue();
 		int index = Integer.parseInt(inputString);
-		int size = 0;
+		//int size = 0;
 		
 		selectedRA = riskAssessments.get(index);
 		return ok();
 	}	
 	
 	
-	/**
-	 * Sets the Tenant that the user picks from the list of Tenants
-	 * on the FrontTenant Page.   Uses Ajax and JSON.
-	 * @return Result of setting the selected Tenant
-	 */
-	public Result setSelectedTenant() {
-		
-		JsonNode node = request().body().asJson().get("val");
-		
-		if(node == null){
-		        return badRequest("empty json"); 
-		}
-		String inputString = node.textValue();
-		
-		int index = Integer.parseInt(inputString);
-		
-		
-		selectedTenant = tenants.get(index);
-		return ok();
-	}
+
 	
-	/**
-	 * Sets the the User Profile Selected on the Front Page as the selectedUserProfile
-	 * 
-	 * @return a message that the JSON was received ok
-	 */
-	public Result setSelectedUserProfile() {
-		
-		JsonNode node = request().body().asJson().get("val");
-		
-		if(node == null){
-		        return badRequest("empty json"); 
-		}
-		String inputString = node.textValue();
-		
-		int index = Integer.parseInt(inputString);
-		
-		selectedUserProfile = userProfiles.get(index);
-		return ok();
-	}	
-	
+
 	/**
 	 * Shows a create policy editor page 
 	 * @param void
@@ -837,23 +489,7 @@ public class Application extends Controller {
 
 		return ok(createRA.render());
 	}
-	/**
-	 * Shows the Tenant Creation Page
-	 * @return Result of the tenant creation
-	 */
-	public Result showCreateTenant() {
-		
-		return ok(createTenant.render());
-	}
-	/**
-	 * Shows the Create User Profile Page
-	 * 
-	 * @return User Profile Create Page
-	 */
-	public Result showCreateUserProfile() {
-		
-		return ok(createUserProfile.render());
-	}
+
 	/**
 	 * Shows the front page of the Risk Assessment UI
 	 * 
@@ -903,72 +539,6 @@ public class Application extends Controller {
 	}
 	
 	
-	
-	/**
-	 *  Shows the list of Tenants in the Database on the FrontTenant Page
-	 * @param page current page number form pagination
-	 * @param view the number of items to show per page
-	 * @param order the sorting order of the page
-	 * @param query the string to search for in the tenant list
-	 * @return Result of the List Page
-	 */
-	public Result showFrontTenantPage(int page, int view, String order, String query){
-		int size = 0;
-		
-		try {
-			TenantDao tenantDao = cassandraFactory.getTenantDao();
-			TenantSort tenantSort = new TenantSort();
-			tenants = tenantDao.listTenant();
-			
-			size = tenants.size();
-			if(query.compareTo("")!= 0){
-				tenants = tenantSort.filterDataByQuery(tenants, query);
-				size = tenants.size();
-				
-			}
-			if(size > 0){
-				tenants = tenantSort.sortTenant(tenants, order);
-				tenants = tenantSort.paginateTenants(tenants, view, page);
-			}
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating risk assessment criteria ", e);
-		}
-			
-		return ok(frontTenant.render(tenants, size));
-	}
-	
-	/**
-	 * Shows the front page of the User Profile
-	 * 
-	 * @param page current page number for Pagination
-	 * @param view current number of items for Pagination
-	 * @param order current sorting order for Pagination
-	 * @param query any search query used to filter user profile list
-	 * @return page to display the front page of the User Profile
-	 */
-	public Result showFrontUserProfile(int page, int view, String order, String query){
-		int size = 0;
-		try {
-			UserProfileDao userProfileDao = cassandraFactory.getUserProfileDao();
-			UserProfileSort userProfileSort = new UserProfileSort();
-			userProfiles = userProfileDao.listUserProfile();
-			
-			size = userProfiles.size();
-			if(query.compareTo("")!= 0){
-				userProfiles = userProfileSort.filterDataByQuery(userProfiles, query);
-				size = userProfiles.size();
-				
-			}
-			if(size > 0){
-				userProfiles = userProfileSort.sortUserProfile(userProfiles, order);
-				userProfiles = userProfileSort.paginateUserProfiles(userProfiles, view, page);
-			}
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating risk assessment criteria ", e);
-		}
-			
-		return ok(frontUserProfile.render(userProfiles, size));
-	}
 
 	/**
 	 * Shows a list of policy - Front page for Policy 
@@ -1064,15 +634,7 @@ public class Application extends Controller {
 		return ok(updateRA.render(selectedRA));
 	}
 
-	/**
-	 * Shows the UpdateTenant Page with the Tenant Information Populating
-	 * the fields.
-	 * @return Result of updating the Tenant information
-	 */
-	public Result showUpdateTenant() {
 
-		return ok(updateTenant.render(selectedTenant));
-	}
 
 	/**
 	 * Shows a view policy page 
@@ -1106,15 +668,7 @@ public class Application extends Controller {
 
 		return ok(viewRA.render(selectedRA));
 	}
-	/**
-	 * Shows the ViewTenant Page with the currently selected Tenants
-	 * information.
-	 * @return Result of the viewing the Tenant Information
-	 */
-	public Result showViewTenant() {
 
-		return ok(viewTenant.render(selectedTenant));
-	}
 	
 	/**
 	 * Updates a policy 
@@ -1170,27 +724,6 @@ public class Application extends Controller {
 		return redirect("/riskAssessment/1/10/descendingRisk");
 	}		
 
-	/**
-	 * Updates the selected Tenants information and then displays
-	 * the list of Tenants on the FrontTenant Page
-	 * @return Result of updating the Tenant
-	 */
-	public Result updateTenant() {
-		Form<Tenant> filledTenant = tenantForm.bindFromRequest();
-		Tenant criteria = filledTenant.get();
-		criteria.setTenantId(selectedTenant.getTenantId());
-		criteria.setId(selectedTenant.getId());
-		try {
-			TenantDao tenantDao = cassandraFactory
-					.getTenantDao();
-			tenantDao.updateTenant(criteria);
-			
-		} catch (DaoException e) {
-			Logger.error("Error occurred while updating risk assessment criteria ",	e);
-		}
-
-		return redirect("/tenant/1/10/descendingName");
-	}
 	
 	public Result uploadFilePolicyBody(){
 		FilePart uploadedFile = request().body().asMultipartFormData().getFile("file");

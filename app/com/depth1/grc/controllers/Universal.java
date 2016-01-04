@@ -7,9 +7,8 @@ import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
-
-import com.depth1.grc.db.util.DataException;
 import com.depth1.grc.db.util.DropDownList;
+import com.depth1.grc.exception.DataException;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.util.Picture;

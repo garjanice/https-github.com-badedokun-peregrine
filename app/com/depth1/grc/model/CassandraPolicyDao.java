@@ -1,7 +1,6 @@
 package com.depth1.grc.model;
 
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -13,6 +12,7 @@ import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.utils.UUIDs;
+import com.depth1.grc.exception.DaoException;
 
 /**
  * This class implements the Data Access Object pattern (GoF). It provides capability to create, read, update, delete 
@@ -122,36 +122,7 @@ public class CassandraPolicyDao implements PolicyDao {
 		List<Policy> listPolicy = new ArrayList<>();
 		for (Row row : result.all()) {
 			Policy policy = new Policy();
-			policy.setId(row.getUUID("id"));
-			policy.setName(row.getString("name"));
-			policy.setDescription(row.getString("description"));
-		    policy.setPolicyId(row.getString("policyid"));
-			policy.setAuthor(row.getString("author"));
-			policy.setVersion(row.getString("version"));
-			policy.setCreationDate(row.getUUID("create_date"));
-			policy.setFormat(row.getString("format"));
-			policy.setLanguage(row.getString("language"));
-			policy.setSubject(row.getString("subject"));
-			policy.setSource(row.getString("source"));
-			policy.setSunsetDate(new Timestamp(row.getDate("sunset_date").getTime()));
-			policy.setCategory(row.getString("category"));
-			policy.setClassification(row.getString("classification"));
-			policy.setReference(row.getString("reference"));
-			policy.setLegalRequirement(row.getString("legal"));
-			policy.setRegulatory(row.getString("regulatory"));
-			policy.setApprover(row.getString("approver"));
-			policy.setProducingFunction(row.getString("producing_function"));
-			policy.setComplianceCategory(row.getString("compliance_category"));
-			policy.setOwner(row.getString("owner"));
-			policy.setDocumentContact(row.getString("document_contact"));
-			policy.setFunctionalApplicability(row.getString("functional_applicability"));
-			policy.setGeographicApplicability(row.getString("geographic_applicability"));
-			policy.setEffectiveDate(new Timestamp(row.getDate("effective_date").getTime()));
-			policy.setOriginalIssueDate(new Timestamp(row.getDate("issue_date").getTime()));
-			policy.setLastReviewDate(new Timestamp(row.getDate("last_review_date").getTime()));
-			policy.setNextReviewDate(new Timestamp(row.getDate("next_review_date").getTime()));
-			policy.setLastUpdatedDate(new Timestamp(row.getDate("last_updated_date").getTime()));
-			listPolicy.add(policy);
+			listPolicy.add(setPolicyAttributes(policy, row));
 			result.iterator();
 		}
 		return listPolicy;
@@ -216,36 +187,7 @@ public class CassandraPolicyDao implements PolicyDao {
 
             for (Row row : result.all()) {
                 Policy policy = new Policy();
-                policy.setId(row.getUUID("id"));
-                policy.setName(row.getString("name"));
-                policy.setPolicyId(row.getString("policyid"));
-                policy.setDescription(row.getString("description"));
-                policy.setAuthor(row.getString("author"));
-                policy.setVersion(row.getString("version"));
-                policy.setCreationDate(row.getUUID("create_date"));
-                policy.setFormat(row.getString("format"));
-                policy.setLanguage(row.getString("language"));
-                policy.setSubject(row.getString("subject"));
-                policy.setSource(row.getString("source"));
-                policy.setSunsetDate(new Timestamp(row.getDate("sunset_date").getTime()));
-                policy.setCategory(row.getString("category"));
-                policy.setClassification(row.getString("classification"));
-                policy.setReference(row.getString("reference"));
-                policy.setLegalRequirement(row.getString("legal"));
-                policy.setRegulatory(row.getString("regulatory"));
-                policy.setApprover(row.getString("approver"));
-                policy.setProducingFunction(row.getString("producing_function"));
-                policy.setComplianceCategory(row.getString("compliance_category"));
-                policy.setOwner(row.getString("owner"));
-                policy.setDocumentContact(row.getString("document_contact"));
-                policy.setFunctionalApplicability(row.getString("functional_applicability"));
-                policy.setGeographicApplicability(row.getString("geographic_applicability"));
-                policy.setEffectiveDate(new Timestamp(row.getDate("effective_date").getTime()));
-    			policy.setOriginalIssueDate(new Timestamp(row.getDate("issue_date").getTime()));
-    			policy.setLastReviewDate(new Timestamp(row.getDate("last_review_date").getTime()));
-    			policy.setNextReviewDate(new Timestamp(row.getDate("next_review_date").getTime()));
-    			policy.setLastUpdatedDate(new Timestamp(row.getDate("last_updated_date").getTime()));
-		        listPolicy.add(policy);
+		        listPolicy.add(setPolicyAttributes(policy, row));
                 result.iterator();
             }
         } catch (DriverException e) {
@@ -275,47 +217,18 @@ public class CassandraPolicyDao implements PolicyDao {
                     .where(QueryBuilder.eq("is_deleted", false));
             ResultSet result = CassandraDaoFactory.getSession().execute(viewAllPolicy);
             if (result == null) {
-                return null;
+            	return null;
             }
-            
+
             for (Row row : result.all()) {
-                Policy policy = new Policy();
-                policy.setId(row.getUUID("id"));
-                policy.setName(row.getString("name"));
-                policy.setPolicyId(row.getString("policyid"));
-                policy.setDescription(row.getString("description"));
-                policy.setAuthor(row.getString("author"));
-                policy.setVersion(row.getString("version"));
-                policy.setCreationDate(row.getUUID("create_date"));
-                policy.setFormat(row.getString("format"));
-                policy.setLanguage(row.getString("language"));
-                policy.setSubject(row.getString("subject"));
-                policy.setSource(row.getString("source"));
-                policy.setSunsetDate(new Timestamp(row.getDate("sunset_date").getTime()));
-                policy.setCategory(row.getString("category"));
-                policy.setClassification(row.getString("classification"));
-                policy.setReference(row.getString("reference"));
-                policy.setLegalRequirement(row.getString("legal"));
-                policy.setRegulatory(row.getString("regulatory"));
-                policy.setApprover(row.getString("approver"));
-                policy.setProducingFunction(row.getString("producing_function"));
-                policy.setComplianceCategory(row.getString("compliance_category"));
-                policy.setOwner(row.getString("owner"));
-                policy.setDocumentContact(row.getString("document_contact"));
-                policy.setFunctionalApplicability(row.getString("functional_applicability"));
-                policy.setGeographicApplicability(row.getString("geographic_applicability"));
-                policy.setEffectiveDate(new Timestamp(row.getDate("effective_date").getTime()));
-    			policy.setOriginalIssueDate(new Timestamp(row.getDate("issue_date").getTime()));
-    			policy.setLastReviewDate(new Timestamp(row.getDate("last_review_date").getTime()));
-    			policy.setNextReviewDate(new Timestamp(row.getDate("next_review_date").getTime()));
-    			policy.setLastUpdatedDate(new Timestamp(row.getDate("last_updated_date").getTime()));
-		        listPolicy.add(policy);
-                result.iterator();
+            	Policy policy = new Policy();
+            	listPolicy.add(setPolicyAttributes(policy, row));
+            	result.iterator();
             }
         } catch (DriverException e) {
-            Logger.error("Error occurred while retrieving list of Policies from database ", e);
+        	Logger.error("Error occurred while retrieving list of Policies from database ", e);
         } finally {
-            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+        	CassandraDaoFactory.close(CassandraDaoFactory.getSession());
         }
 
         return listPolicy;
@@ -409,5 +322,46 @@ public class CassandraPolicyDao implements PolicyDao {
 		}
 		return null;	
 	}
+	
+	/**
+	 * Sets policy attributes
+	 * 
+	 * @param policy the policy attributes to set
+	 * @param row the result of a query 
+	 * @return policy with the attributes set
+	 */
+	private Policy setPolicyAttributes(Policy policy, Row row) {
+		policy.setId(row.getUUID("id"));
+		policy.setName(row.getString("name"));
+		policy.setDescription(row.getString("description"));
+	    policy.setPolicyId(row.getString("policyid"));
+		policy.setAuthor(row.getString("author"));
+		policy.setVersion(row.getString("version"));
+		policy.setCreationDate(row.getUUID("create_date"));
+		policy.setFormat(row.getString("format"));
+		policy.setLanguage(row.getString("language"));
+		policy.setSubject(row.getString("subject"));
+		policy.setSource(row.getString("source"));
+		policy.setSunsetDate(row.getTimestamp("sunset_date"));
+		policy.setCategory(row.getString("category"));
+		policy.setClassification(row.getString("classification"));
+		policy.setReference(row.getString("reference"));
+		policy.setLegalRequirement(row.getString("legal"));
+		policy.setRegulatory(row.getString("regulatory"));
+		policy.setApprover(row.getString("approver"));
+		policy.setProducingFunction(row.getString("producing_function"));
+		policy.setComplianceCategory(row.getString("compliance_category"));
+		policy.setOwner(row.getString("owner"));
+		policy.setDocumentContact(row.getString("document_contact"));
+		policy.setFunctionalApplicability(row.getString("functional_applicability"));
+		policy.setGeographicApplicability(row.getString("geographic_applicability"));
+		policy.setEffectiveDate(row.getTimestamp("effective_date"));
+		policy.setOriginalIssueDate(row.getTimestamp("issue_date"));
+		policy.setLastReviewDate(row.getTimestamp("last_review_date"));
+		policy.setNextReviewDate(row.getTimestamp("next_review_date"));
+		policy.setLastUpdatedDate(row.getTimestamp("last_updated_date"));
+		
+		return policy;	
+	}		
 
 }

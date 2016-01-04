@@ -8,8 +8,8 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.QueryExecutionException;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import com.depth1.grc.exception.DaoException;
 import com.depth1.grc.model.CassandraDaoFactory;
-import com.depth1.grc.model.DaoException;
 
 import play.Logger;
 

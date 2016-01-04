@@ -8,6 +8,7 @@ import com.datastax.driver.core.exceptions.DriverException;
 import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.db.util.DropDownListReader;
+import com.depth1.grc.exception.DaoException;
 
 import play.Logger;
 
@@ -20,96 +21,121 @@ import play.Logger;
 public class CassandraDaoFactory extends DaoFactory {	
 	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!--  end-user-doc  -->
 	 * @generated
 	 */
-	public CassandraDaoFactory(){
-		super();
+	public CassandraDaoFactory() {
+		
 	}
-	
 	
 	 /**
 	 * Creates a connection to the Cassandra database
 	 * @return session The session object to connect to the database
 	 */
 	public static Session getSession() {
-		  CassandraPoolImpl pool = null;
-		  Session session = null;
-		  try {
-			  pool = new CassandraPoolImpl();
-			  session = pool.create();
+		CassandraPoolImpl pool = null;
+		Session session = null;
+		try {
+			pool = new CassandraPoolImpl();
+			session = pool.checkOut(); // instead of using: session =
+										// pool.create();
 		} catch (DriverException e) {
 			Logger.error("Error occurred while connecting to the cassandra cluster ", e);
-		} 
-		  return session;
-	  }
+		}
+		return session;
+	}
 	  
 	 /**
 	 * Closes connection to the Cassandra database
 	 * @return session The session object to connect to the database
 	 */
 	public static void close(Session session) {
-		  CassandraPoolImpl pool = null;		  
-		  try {
-			  pool = new CassandraPoolImpl();
-			  pool.expire(session);
+		CassandraPoolImpl pool = null;
+		try {
+			pool = new CassandraPoolImpl();
+			pool.checkIn(session);
+			pool.expire(session);
 		} catch (DriverException e) {
 			Logger.error("Error occurred while closing open connection to the cassandra database ", e);
-		} 
-		  
-	  }
+		}
+
+	}
 	
-	/* (non-Javadoc)
-	 * @see com.depth1.grc.model.DaoFactory#getPolicyDao()
+	/**
+	 * Returns the Policy DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return PolicyDao policy data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
 	 */
 	public PolicyDao getPolicyDao() {
-		    
-		    return new CassandraPolicyDao();
-		  }
+		return new CassandraPolicyDao();
+	}
 	
-	/* (non-Javadoc)
-	 * @see com.depth1.grc.model.DaoFactory#getRiskAssesmentDao()
+	/**
+	 * Returns the Risk Assessment DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return RiskAssessmentDao risk assessment data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
 	 */
 	@Override
 	public RiskAssessmentDao getRiskAssessmentDao() throws DaoException {
-		
 		return new CassandraRiskAssessmentDao();
 	}
-
-
 	
-	/* (non-Javadoc)
-	 * @see com.depth1.grc.model.DaoFactory#getPolicyDao()
+	/**
+	 * Returns the Risk Register DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return RiskRegisterDao risk register data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
 	 */
 	public RiskRegisterDao getRiskRegisterDao() {
-		    
-		    return null;
-		  }
+		return null;
+	}
 	  	
-	
-	/* (non-Javadoc)
-	 * @see com.depth1.grc.model.DaoFactory#getTenantDao()
+	/**
+	 * Returns the Tenant DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return TenantDao tenant data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
 	 */
 	public TenantDao getTenantDao() {
-		    
-		    return new CassandraTenantDao();
-		  }
+		return new CassandraTenantDao();
+	}
 	
-	/* (non-Javadoc)
-	 * @see com.depth1.grc.model.DaoFactory#getTenantDao()
+	/**
+	 * Returns the UserProfile DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return UserProfileDao user profile data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
 	 */
 	public UserProfileDao getUserProfileDao() {
-		    
-		    return new CassandraUserProfileDao();
-		  }
+		return new CassandraUserProfileDao();
+	}
 	
-	/* (non-Javadoc)
-	 * @see com.depth1.grc.model.DaoFactory#getTenantDao()
+	/**
+	 * Returns the DropDownlist DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return DropDownList drop down data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
 	 */
 	public DropDownList getDropDownList() {
-		    
-		    return new DropDownListReader();
-		  }	
+		return new DropDownListReader();
+	}
+
+	/**
+	 * Returns the Department DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return DepartmentDao department data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
+	 */	
+	public DepartmentDao getDepartmentDao() {
+		return new CassandraDepartmentDao();
+	}
 
 }

@@ -3,13 +3,9 @@
  */
 package com.depth1.grc.model;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
-
-import com.datastax.driver.core.utils.UUIDs;
-
 
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.MaxLength;
@@ -24,14 +20,13 @@ import play.data.validation.Constraints.Required;
  */
 public class UserProfile {
 	
-    private UUID id;
-
+    private UUID userProfileId;
     @Required
     private long tenantId;
     @Required
-    private String fname;
+    private String firstName;
     @Required
-    private String lname;
+    private String lastName;
     @Required
     private String gender;
     @Required
@@ -58,32 +53,34 @@ public class UserProfile {
     private String country;
     private String latitude;
     private String longitude;
-    private String lineofdefense; //values: 1LoD, 2LoD, 3LoD
-    private UUIDs createdate;
+    private String lineOfDefense; //values: 1LoD, 2LoD, 3LoD
+    private Date createDate;
     @Required
     private String status;
     private Map<String, String> phones;
     private String timeZone;
     private String locale;
     private String language;
-	private String minitial;
+	private String middleInitial;
     private String salutation;
-    private String pfname;
+    private String preferredFirstName;
     private String title;
-	private long uuidTime;
-	private Date dateUtil;
+	private UUID deptId;
+	private String deptName;
+	private int lodFunctionId;
+	private String lodFunction;
     
     /**
 	 * @return the id
 	 */
-	public UUID getId() {
-		return id;
+	public UUID getUserProfileId() {
+		return userProfileId;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(UUID id) {
-		this.id = id;
+	public void setUserProfileId(UUID id) {
+		this.userProfileId = id;
 	}
 	/**
 	 * @return the tenantId
@@ -100,26 +97,26 @@ public class UserProfile {
 	/**
 	 * @return the fname
 	 */
-	public String getFname() {
-		return fname;
+	public String getFirstName() {
+		return firstName;
 	}
 	/**
-	 * @param fname the fname to set
+	 * @param firstName the firstName to set
 	 */
-	public void setFname(String fname) {
-		this.fname = fname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	/**
-	 * @return the lname
+	 * @return the lastName
 	 */
-	public String getLname() {
-		return lname;
+	public String getLastName() {
+		return lastName;
 	}
 	/**
-	 * @param lname the lname to set
+	 * @param lastName the lastName to set
 	 */
-	public void setLname(String lname) {
-		this.lname = lname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 	/**
 	 * @return the username
@@ -323,28 +320,28 @@ public class UserProfile {
 		this.longitude = longitude;
 	}
 	/**
-	 * @return the lineofdefense
+	 * @return the lineOfDefense
 	 */
-	public String getLineofdefense() {
-		return lineofdefense;
+	public String getLineOfDefense() {
+		return lineOfDefense;
 	}
 	/**
-	 * @param lineofdefense the lineofdefense to set
+	 * @param lineOfDefense the lineOfDefense to set
 	 */
-	public void setLineofdefense(String lineofdefense) {
-		this.lineofdefense = lineofdefense;
+	public void setLineOfDefense(String lineOfDefense) {
+		this.lineOfDefense = lineOfDefense;
 	}
 	/**
-	 * @return the createdate
+	 * @return the createDate
 	 */
-	public UUIDs getCreatedate() {
-		return createdate;
+	public Date getCreateDate() {
+		return createDate;
 	}
 	/**
-	 * @param createdate the createdate to set
+	 * @param createDate the createDate to set
 	 */
-	public void setCreatedate(UUIDs createdate) {
-		this.createdate = createdate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 	/**
 	 * @return the status
@@ -371,16 +368,16 @@ public class UserProfile {
 		this.phones = phones;
 	}
     /**
-	 * @return the minitial
+	 * @return the middleInitial
 	 */
-	public String getMinitial() {
-		return minitial;
+	public String getMiddleInitial() {
+		return middleInitial;
 	}
 	/**
-	 * @param minitial the minitial to set
+	 * @param middleInitial the middleInitial to set
 	 */
-	public void setMinitial(String minitial) {
-		this.minitial = minitial;
+	public void setMiddleInitial(String middleInitial) {
+		this.middleInitial = middleInitial;
 	}
 	/**
 	 * @return the salutation
@@ -395,16 +392,16 @@ public class UserProfile {
 		this.salutation = salutation;
 	}
 	/**
-	 * @return the pfname
+	 * @return the preferred first name
 	 */
-	public String getPfname() {
-		return pfname;
+	public String getPreferredFirstName() {
+		return preferredFirstName;
 	}
 	/**
-	 * @param pfname the pfname to set
+	 * @param preferredFirstName the preferredFirstName to set
 	 */
-	public void setPfname(String pfname) {
-		this.pfname = pfname;
+	public void setPreferredFirstName(String preferredFirstName) {
+		this.preferredFirstName = preferredFirstName;
 	}
 	/**
 	 * @return the title
@@ -419,29 +416,52 @@ public class UserProfile {
 		this.title = title;
 	}
 	/**
-	 * @return the uuidTime
+	 * @return the deptId
 	 */
-	public long getUuidTime() {
-		return uuidTime;
+	public UUID getDeptId() {
+		return deptId;
 	}
 	/**
-	 * @param uuidTime the uuidTime to set
+	 * @param deptId the deptId to set
 	 */
-	public void setUuidTime(long uuidTime) {
-		this.uuidTime = uuidTime;
-	}
-	/**
-	 * @return the dateUtil
-	 */
-	public Date getDateUtil() {
-		return dateUtil;
-	}
-	/**
-	 * @param dateUtil the dateUtil to set
-	 */
-	public void setDateUtil(Date dateUtil) {
-		this.dateUtil = dateUtil;
+	public void setDeptId(UUID deptId) {
+		this.deptId = deptId;
 	}	
-	
+	/**
+	 * @return the deptName
+	 */
+	public String getDeptName() {
+		return deptName;
+	}
+	/**
+	 * @param deptName the deptName to set
+	 */
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
+	}	
+	/**
+	 * @return the lodFunctionId
+	 */
+	public int getLodFunctionId() {
+		return lodFunctionId;
+	}
+	/**
+	 * @param lodFunctionId the lodFunctionId to set
+	 */
+	public void setLodFunctionId(int lodFunctionId) {
+		this.lodFunctionId = lodFunctionId;
+	}	
+	/**
+	 * @return the lodFunction
+	 */
+	public String getLodFunction() {
+		return lodFunction;
+	}
+	/**
+	 * @param lodFunction the lodFunction to set
+	 */
+	public void setLodFunction(String lodFunction) {
+		this.lodFunction = lodFunction;
+	}	
 
 }

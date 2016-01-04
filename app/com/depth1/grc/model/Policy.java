@@ -45,17 +45,17 @@ public class Policy {
 	private String documentContact;
 	private String functionalApplicability;
 	private String geographicApplicability;
-	private Timestamp sunsetDate;
+	private Date sunsetDate;
 	
-	private Timestamp effectiveDate;
+	private Date effectiveDate;
 	
-	private Timestamp issueDate;
+	private Date issueDate;
 	
-	private Timestamp lastReviewDate;
+	private Date lastReviewDate;
 	
-	private Timestamp nextReviewDate;
+	private Date nextReviewDate;
 	
-	private Timestamp lastUpdatedDate;
+	private Date lastUpdatedDate;
 	
 	//Constructor
 	public Policy(){
@@ -127,11 +127,11 @@ public class Policy {
 		return creationDate;
 	}
 			
-	public void setEffectiveDate(Timestamp effectiveDate){
+	public void setEffectiveDate(Date effectiveDate){
 		this.effectiveDate = effectiveDate;
 	}
 			
-	public Timestamp getEffectiveDate(){
+	public Date getEffectiveDate(){
 		return effectiveDate;
 	}
 			
@@ -167,11 +167,11 @@ public class Policy {
 		return source;
 	}
 			
-	public void setSunsetDate(Timestamp sunsetDate){
+	public void setSunsetDate(Date sunsetDate){
 		this.sunsetDate = sunsetDate;
 	}
 			
-	public Timestamp getSunsetDate(){
+	public Date getSunsetDate(){
 		return sunsetDate;
 	}
 			
@@ -263,27 +263,27 @@ public class Policy {
 		return geographicApplicability;
 	}
 	
-	public void setOriginalIssueDate(Timestamp originalIssueDate){
+	public void setOriginalIssueDate(Date originalIssueDate){
 		this.issueDate = originalIssueDate;
 	}
 	
-	public Timestamp getOriginalIssueDate(){
+	public Date getOriginalIssueDate(){
 		return issueDate;
 	}
 	
-	public void setLastReviewDate(Timestamp lastReviewDate){
+	public void setLastReviewDate(Date lastReviewDate){
 		this.lastReviewDate = lastReviewDate;
 	}
 	
-	public Timestamp getLastReviewDate(){
+	public Date getLastReviewDate(){
 		return lastReviewDate;
 	}
 	
-	public void setNextReviewDate(Timestamp nextReviewDate){
+	public void setNextReviewDate(Date nextReviewDate){
 		this.nextReviewDate = nextReviewDate;
 	}
 	
-	public Timestamp getNextReviewDate(){
+	public Date getNextReviewDate(){
 		return nextReviewDate;
 	}
 	
@@ -295,11 +295,11 @@ public class Policy {
 		return regulatory;
 	}
 	
-	public void setLastUpdatedDate(Timestamp lastUpdatedDate){
+	public void setLastUpdatedDate(Date lastUpdatedDate){
 		this.lastUpdatedDate = lastUpdatedDate;
 	}
 	
-	public Timestamp getLastUpdatedDate(){
+	public Date getLastUpdatedDate(){
 		return lastUpdatedDate;
 	}
 	//TODO: update the getLastUpdatedDate to current date for a new policy
@@ -335,7 +335,7 @@ public class Policy {
 	public String getCreationDateString() {	
 		uuidTime = UUIDs.unixTimestamp(creationDate);
 		createDateUtil = new Date(uuidTime);
-		return DateUtility.formatDateFromUuid("MM/dd/yyyy",createDateUtil );
+		return DateUtility.formatDateFromUUID("MM/dd/yyyy",createDateUtil );
 	}
 	public String getSunsetDateString(){
 		java.text.DateFormat df = new SimpleDateFormat("MM/dd/yyyy");

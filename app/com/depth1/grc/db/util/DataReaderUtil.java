@@ -3,6 +3,8 @@
  */
 package com.depth1.grc.db.util;
 
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +14,9 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Select;
+import com.datastax.driver.core.querybuilder.Select.Where;
+import com.depth1.grc.exception.DaoException;
 import com.depth1.grc.model.CassandraDaoFactory;
-import com.depth1.grc.model.DaoException;
 import com.depth1.grc.model.common.Keyspace;
 
 import play.Logger;
@@ -33,9 +36,37 @@ public class DataReaderUtil {
 
 	
 	/**
-	 * Gets all rows in the user profile table
+	 * Gets all rows in a given table
 	 * 
-	 * @return all rows in the user profile table
+	 * @param table the table to query
+	 * @param tenantId the tenant ID to get data about
+	 * @return all rows in the table that belongs to a particular tenant
+	 * @throws DaoException if error occurs while getting user profiles from the user profile table
+	 */
+	public static ResultSetFuture getAll(String table, long tenantId) throws DaoException {
+
+		Where query = null;
+		try {
+			query = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), table)
+					.where(eq("tenantid", tenantId));
+
+		} catch (DriverException e) {
+			Logger.error("Error occurred while getting data from the data store: " + table, e);
+		} finally {
+			// close the connection to the database();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+
+		return CassandraDaoFactory.getSession().executeAsync(query);
+
+	}
+	
+	/**
+	 * Gets all rows in a given table
+	 * 
+	 * @param table the table to query
+	 * @param tenantId the tenant ID to get data about
+	 * @return all rows in the table that belongs to a particular tenant
 	 * @throws DaoException if error occurs while getting user profiles from the user profile table
 	 */
 	public static ResultSetFuture getAll(String table) throws DaoException {
@@ -43,6 +74,7 @@ public class DataReaderUtil {
 		Select query = null;
 		try {
 			query = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), table);
+					
 
 		} catch (DriverException e) {
 			Logger.error("Error occurred while getting data from the data store: " + table, e);

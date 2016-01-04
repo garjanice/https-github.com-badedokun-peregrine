@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+
 /**
  * This class captures strategic objectives of an entity, including how the objective is measured
  * and any related objectives associated with the strategic objective
@@ -25,9 +27,9 @@ import org.hibernate.annotations.GenericGenerator;
  *
  */
 @Entity
-@Table(name = "strategicobjective")
+@Table(name = "objective")
 @Inheritance(strategy = javax.persistence.InheritanceType.JOINED)
-public class StrategicObjective {
+public class Objective {
 	
 	@Id
 	@GeneratedValue(generator="increment")
@@ -43,12 +45,16 @@ public class StrategicObjective {
 	@Column(name="objective")
 	private String objective;
 	
+	@Column(name="objectivetype")
+	private String objectiveType;
 	
-
+	@Column (name="objectivelevel")
+	private String objectiveLevel;
+	
 	/**
 	 * No argument constructor required by Hibernate
 	 */
-	public StrategicObjective() {
+	public Objective() {
 		
 	}	
 	
@@ -58,13 +64,39 @@ public class StrategicObjective {
 	 * @param name
 	 * @param objective
 	 */
-	public StrategicObjective(long tenantId, String name, String objective) {
+	public Objective(long tenantId, String name, String objective) {
 		this.tenantId = tenantId;
 		this.name = name;
 		this.objective = objective;
 	}
 
+	/**
+	 * @return the objectiveType
+	 */
+	public String getObjectiveType() {
+		return objectiveType;
+	}
 
+	/**
+	 * @return the objectiveLevel
+	 */
+	public String getObjectiveLevel() {
+		return objectiveLevel;
+	}
+
+	/**
+	 * @param objectiveType the objectiveType to set
+	 */
+	public void setObjectiveType(String objectiveType) {
+		this.objectiveType = objectiveType;
+	}
+
+	/**
+	 * @param objectiveLevel the objectiveLevel to set
+	 */
+	public void setObjectiveLevel(String objectiveLevel) {
+		this.objectiveLevel = objectiveLevel;
+	}
 
 	/**
 	 * @return the objectiveId
@@ -117,7 +149,7 @@ public class StrategicObjective {
 	}
 	
 	 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="objective", orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="objective", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Measure> measures = Collections.synchronizedSet(new LinkedHashSet<Measure>());
 
 

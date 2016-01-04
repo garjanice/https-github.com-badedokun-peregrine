@@ -6,6 +6,8 @@ package com.depth1.grc.db.util;
 import java.util.List;
 import java.util.Map;
 
+import com.depth1.grc.exception.DataException;
+
 /**
  * This interface provides methods that return list of data to populate different drop down list
  * @author Bisi Adedokun

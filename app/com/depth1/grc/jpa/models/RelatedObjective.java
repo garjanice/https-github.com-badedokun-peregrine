@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "relatedobjective")
-public class RelatedObjective extends StrategicObjective {
+public class RelatedObjective extends Objective {
 	
 	@Column (name = "type")
 	private String objectiveType;

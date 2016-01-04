@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.depth1.grc.exception.DataStoreException;
+
 import play.Logger;
 import play.Play;
 

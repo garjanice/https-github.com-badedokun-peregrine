@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.depth1.grc.util;
+package com.depth1.grc.exception;
 
 /**
  * This exception class indicates that some operations with Date manipulation failed
