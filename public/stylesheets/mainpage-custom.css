@@ -1785,8 +1785,13 @@ a:hover {
     width: 25%;
     }   
 #pTableCol4 {
+    width: 20%;
+
+    }  
+#pTableCol5 {
     width: 40%;
     border-radius: 0px 10px 0px 0px;
+     
     }  
  
 #pTable thead th{
@@ -1802,7 +1807,7 @@ a:hover {
 
 #pTable td {
     padding: 5px 10px 5px 10px;
-   
+  
     } 
    
 #pTable tr {
@@ -1810,7 +1815,7 @@ a:hover {
     border-bottom-width: 1px;
     }
 .pTableRowCenter {
-    text-align: center;
+    text-align: left;
     }
         
 #pViewTable tr td{
@@ -1840,3 +1845,121 @@ a:hover {
 	width: 175px;
 	}	
 	
+/*--------------------------Create Procedure--------------------*/
+
+
+.procedure-position-fieldset {
+	position: absolute;
+	top: 350px;
+	left: 200px;
+	border: 2px solid black;
+    width: 1050px;
+    height: 300px;
+	}
+.procedure-name{
+	position: absolute;
+	top: 25px;
+	left: 25px;
+	}
+.procedure-name-text{
+	position: absolute;
+	top: 25px;
+	left: 175px;
+	}
+.version{
+	position: absolute;
+	top: 25px;
+	left: 375px;
+	}
+.version-text{
+	position: absolute;
+	top: 25px;
+	left: 475px;
+	}
+.author{
+	position: absolute;
+	top: 25px;
+	left: 700px;
+	}
+.author-text{
+	position: absolute;
+	top: 25px;
+	left: 845px;
+	}
+.procedure-description{
+	position: absolute;
+	top: 75px;
+	left: 25px;
+	}
+.procedure-description-text{
+	position: absolute;
+	top: 75px;
+	left: 175px;
+	}
+.format {
+	position: absolute;
+	top: 150px;
+	left: 25px;
+	}
+.format-text{
+	position: absolute;
+	top: 150px;
+	left: 175px;
+	}
+.language {
+	position: absolute;
+	top: 150px;
+	left: 375px;
+	}
+.language-text{
+	position: absolute;
+	top: 150px;
+	left: 475px;
+	}
+.subject {
+	position: absolute;
+	top: 150px;
+	left: 700px;
+	}
+.subject-text{
+	position: absolute;
+	top: 150px;
+	left: 845px;
+	}
+.reference {
+	position: absolute;
+	top: 200px;
+	left: 25px;
+	}
+.reference-text{
+	position: absolute;
+	top: 200px;
+	left: 175px;
+	}
+.approver {
+	position: absolute;
+	top: 200px;
+	left: 375px;
+	}
+.approver-text{
+	position: absolute;
+	top: 200px;
+	left: 475px;
+	}
+.owner {
+	position: absolute;
+	top: 200px;
+	left: 700px;
+	}
+.owner-text{
+	position: absolute;
+	top: 200px;
+	left: 845px;
+	}
+	.procedure-position-fieldset-procedure-body {
+	position: absolute;
+	top: 650px;
+	left: 200px;
+	
+    width: 1050px;
+	}

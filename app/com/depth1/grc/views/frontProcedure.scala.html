@@ -38,7 +38,7 @@
 	              <a class="blue-link" onclick="changeViewP(25)"> View 25</a> | 
 	              <a class="blue-link" onclick="changeViewP(50)"> View 50</a> </p>
 	           </div>
-	            <p> <b>Instructions:</b> Please select a Procedure and then View, Update, or Delete. </p>
+	            <p> <b>Instructions:</b> Please select a Procedure and then View, Update, Delete or Print. </p>
 	        </div>
 	        <br>
 	        
@@ -50,7 +50,8 @@
 	                   <th align="justify" id="pTableCol1" onclick="pListSort('pid')">Procedure Id</th>
 	        		   <th id="pTableCol2" onclick="pListSort('pname')">Procedure Name</th>
 					   <th id="pTableCol3" onclick="pListSort('version')">Version</th>
-					   <th id="pTableCol4" onclick="pListSort('lastupdate')">Last Updated</th>
+					    <th id="pTableCol4" onclick="pListSort('version')">Subject</th>
+					   <th id="pTableCol5" onclick="pListSort('lastupdate')">Last Updated</th>
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -61,6 +62,7 @@
 					    <td class="pTableRowCenter">@Procedure.getProcedureId</td>
 					    <td>@Procedure.getName</td>
 					    <td class="pTableRowCenter">@Procedure.getVersion</td>
+					    <td>@Procedure.getSubject</td>
 					    <td>@Procedure.getLastUpdatedDate</td>
 				    </tr>
 				    }

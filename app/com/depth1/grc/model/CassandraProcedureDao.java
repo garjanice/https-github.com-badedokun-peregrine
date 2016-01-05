@@ -80,9 +80,9 @@ public class CassandraProcedureDao implements ProcedureDao {
 		}
 	}
 
-	/**
-	 * Updates procedure information in the procedure table.
-	 * @param procedure the procedure to update
+    /**
+     * Updates procedure information in the procedure table.
+     * @param procedure the procedure to update
      * @return boolean true if update succeed, false otherwise
      * @throws DaoException if an error occurs while updating procedure from the table
      */
@@ -124,11 +124,10 @@ public class CassandraProcedureDao implements ProcedureDao {
 
 
     /**
-     * This method is called when the 'Delete' button is clicked and prompts the user if they want to
-     * delete the selected Procedure.
-     * @param procedure to be deleted.
-     * @return true if the deletion was successful.
-     * @throws DaoException error if deletion failed.
+     * Deletes a procedure when the 'Delete' button is clicked and prompts the user to confirm deletion.
+     * @param procedure - procedure to be deleted
+     * @return true if the deletion was successful
+     * @throws DaoException if error occurs while deleting a procedure
      */
 	
 	
@@ -150,9 +149,9 @@ public class CassandraProcedureDao implements ProcedureDao {
         return del;
 	}
 
-	/**
-	 * Restore procedure information in the procedure table.
-	 * @param procedureId the procedure to restore
+    /**
+     * Restores procedure information in the procedure table.
+     * @param procedureId the procedure to restore
      * @return boolean true if restore succeed, false otherwise
      * @throws DaoException if an error occurs while restoring procedure from the table
      */
@@ -175,8 +174,9 @@ public class CassandraProcedureDao implements ProcedureDao {
 		}
 	}
 
-	 /**
-     * Lists all of the Procedures on the front-end UI
+    /**
+     * Lists all of the Procedures on the front-end UI.
+     * 
      * @return List containing all Procedures
      * @throws DaoException error if unable to retrieve list of Procedures
      */
@@ -226,10 +226,10 @@ public class CassandraProcedureDao implements ProcedureDao {
 
 	
 	/**
-	* View a procedure by Procedure name
-	* @param procedureName to view
+	* Views a procedure by Procedure name.
+	* @param procedureName the procedure name to view
 	* @return Procedure to view
-	* @throws DaoException if an error occurs while viewing procedure from the table
+	* @throws DaoException if error occurs while retrieving procedure from the table
 	*/
 	
 	@Override
@@ -262,10 +262,10 @@ public class CassandraProcedureDao implements ProcedureDao {
 		return null;
 	}
 	/**
-	* View a procedure by Procedure id
-	*@param procedure UUID to view
+	* Views a procedure by Procedure id.
+	* @param id the UUID of the procedure to view
 	* @return Procedure to view
-	* @throws DaoException if an error occurs while viewing procedure from the table
+	* @throws DaoException if error occurs while retrieving procedure from the table
 	*/
 	
 	@Override
@@ -294,10 +294,9 @@ public class CassandraProcedureDao implements ProcedureDao {
 	}
 	
 	/**
-	* View all procedure 
-	*@param void
-	*@return List of Procedures to view
-	*@throws DaoException if an error occurs while viewing procedure from the table
+	* View all procedures 
+	* @return List of Procedures to view
+	* @throws DaoException if error occurs while retrieving procedure from the table
 	*/
 	@Override
 	public List<Procedure> viewAllProcedure() throws DaoException {
@@ -347,10 +346,9 @@ public class CassandraProcedureDao implements ProcedureDao {
 	}
 	
 	/**
-	* View all Deleted procedure 
-	*@param void
-	*@return a list containing all Procedures
-	*@throws DaoException if an error occurs while viewing procedure from the table
+	* Views all Deleted procedures 
+	* @return a list containing all Procedures
+	* @throws DaoException if error occurs while retrieving procedure from the table
 	*/
 	
 	@Override
@@ -402,6 +400,3 @@ public class CassandraProcedureDao implements ProcedureDao {
 }
 
 }
-
-
-
