@@ -1,0 +1,118 @@
+
+@import com.depth1.grc.model.Procedure
+
+@(procedures:List[Procedure], pSize:Integer)
+
+@header()
+
+
+
+
+ 
+       <ol class="breadcrumb">
+           <li><a class="blue-link" href="#">Home</a></li>
+           
+           <li>Procedure</li>
+        </ol>
+        
+        <center>
+           <h1> Procedure</h1>
+           <h6> Front Page</h6>
+           <br>
+           <br>
+           <br>
+        </center>
+        <div class="margin-50">
+        	
+        		<div class="float-box">
+        			<input type="search" id="pListSearchText" onsearch = "searchTable()">
+        			
+        		</div>
+        	
+        	
+        	
+	        <div >
+	          
+	           <div class="pTableView">
+	              <p> <a class="blue-link" onclick="changeViewP(10)"> View 10</a> |
+	              <a class="blue-link" onclick="changeViewP(25)"> View 25</a> | 
+	              <a class="blue-link" onclick="changeViewP(50)"> View 50</a> </p>
+	           </div>
+	            <p> <b>Instructions:</b> Please select a Procedure and then View, Update, Delete or Print. </p>
+	        </div>
+	        <br>
+	        
+	        <div>
+	           
+	           <table id="pTable">
+	              <thead>
+	                <tr>
+	                   <th align="justify" id="pTableCol1" onclick="pListSort('pid')">Procedure Id</th>
+	        		   <th id="pTableCol2" onclick="pListSort('pname')">Procedure Name</th>
+					   <th id="pTableCol3" onclick="pListSort('version')">Version</th>
+					    <th id="pTableCol4" onclick="pListSort('version')">Subject</th>
+					   <th id="pTableCol5" onclick="pListSort('lastupdate')">Last Updated</th>
+	                </tr>
+	              </thead>
+	              <tbody>
+	              	 
+	                 @for(Procedure <- procedures) {
+				     <tr>
+					    
+					    <td class="pTableRowCenter">@Procedure.getProcedureId</td>
+					    <td>@Procedure.getName</td>
+					    <td class="pTableRowCenter">@Procedure.getVersion</td>
+					    <td>@Procedure.getSubject</td>
+					    <td>@Procedure.getLastUpdatedDate</td>
+				    </tr>
+				    }
+	              </tbody>
+	           </table>
+	        </div>
+        </div>
+        <center>
+           <div id="paginationArray">
+           </div>
+        </center>
+        <br>
+        <br>
+        <br>
+        <center>
+           <table>
+              <tr>
+                 <td>
+	                <FORM ACTION=/procedure/create>
+		               <INPUT TYPE="submit" class="pList-Button" VALUE="Create">
+		            </FORM>
+		         </td>
+	             <td>
+	                <FORM ACTION=/procedure/view>
+			           <INPUT TYPE="submit" id="pViewButton" class="pList-Button" value="View" disabled>
+	                </FORM>
+	             </td>
+	             <td>
+	             <INPUT TYPE="button" id="pDeleteButton" class="pList-Button" value = "Delete" onclick="deleteP()" disabled>
+	             </td>
+	             <td>
+	                <FORM ACTION=/procedure/update>
+			           <INPUT TYPE="submit" id="pUpdateButton" class="pList-Button" value="Update" disabled>
+	                </FORM>
+	             </td>
+	             <td>
+	                <FORM ACTION=/procedure/print>
+			           <INPUT TYPE="submit" id="pPrintButton" class="pList-Button" value="Print" disabled>
+	                </FORM>
+	             </td>
+	          </tr>
+           </table>
+        </center>
+        <br>
+        <br>
+        <br>
+        <!-- Needed script to get the total number of Risk Assessment -->
+       <script>
+           var pFrontListSize = @pSize;
+        </script> 
+      
+@footer()
+

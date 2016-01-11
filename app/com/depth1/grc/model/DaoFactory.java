@@ -99,6 +99,19 @@ public abstract class DaoFactory {
 	
 	public abstract DropDownList getDropDownList() throws DaoException;		
 	
+	
+	 /**
+	 * Returns the Procedure DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return ProcedureDao procedure data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
+	 */
+
+
+    public abstract ProcedureDao getProcedureDao() throws DaoException; 
+
+	
 	/**
 	 * Selects the appropriate DAO factory to use based on data store option the application 
 	 * plans to use
@@ -124,4 +137,5 @@ public abstract class DaoFactory {
 		    }
 		  }
 
+	 
 }

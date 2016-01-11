@@ -1,0 +1,146 @@
+
+<!-- header -->
+@header()
+		<!-- Main HTML -->
+        <ol class="breadcrumb">
+           <li><a class="blue-link" href="#">Home</a></li>
+           <li><a class="blue-link" href="/procedure/1/2/descendingP">Procedure</a></li>
+           <li>Create Procedure</li>
+        </ol>
+@import com.depth1.grc.model.Procedure
+@import com.depth1.grc.db.util.DropDownListReader
+
+@import helper._ 
+@import play.api.data.Forms._
+ 
+
+
+@main("Create Procedure") {
+	<script src="@routes.Assets.versioned("javascripts/tinymce.min.js")"></script>
+	<script>
+	    tinymce.init({
+	    selector: "#procedurebody",
+	    theme: "modern",
+	    plugins: [
+	        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+	        "searchreplace wordcount visualblocks visualchars code fullscreen",
+	        "insertdatetime media nonbreaking save table contextmenu directionality",
+	        "emoticons template paste textcolor colorpicker textpattern imagetools"
+	    ],
+	    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+	    toolbar2: "print preview media | forecolor backcolor emoticons",
+	    image_advtab: true,
+	    templates: [
+	        {title: 'Test template 1', content: 'Test 1'},
+	        {title: 'Test template 2', content: 'Test 2'}
+	    ]
+		});	
+		
+	    
+	   
+	   	 function getLanguages(){
+	   		    var xhttp = new XMLHttpRequest();
+	   		    xhttp.open("GET","getLanguages");
+	   		    xhttp.send();
+
+
+	   		        xhttp.onreadystatechange = function(){
+	   		            if (xhttp.readyState == 4 && xhttp.status == 200) {
+	   		                    $('#language').append(xhttp.responseText);
+	   		            }
+
+	   		        }
+	   	 }    
+	   		    
+		function HandleBrowseClick() {
+			document.getElementById("browse").click();
+		}
+		
+		function HandleChange() {
+			var fileinput = document.getElementById("browse");
+    		var textinput = document.getElementById("filename");
+    		textinput.value = fileinput.value;  
+     		fileinput.addEventListener("change", function(event){
+     			event.stopPropagation();    
+         		var reader = new FileReader();        
+         		reader.onload = function(event){
+         			event.stopPropagation();
+             		var contents = event.target.result;
+               		document.getElementById('procedurebody').value = contents;            
+         		};        
+         		reader.onerror = function(event){
+            		console.error("File could not be read! Code " + event.target.error.code);
+         		};        
+         		console.log("Filename: " + fileinput.files[0].name);
+         		reader.readAsText(fileinput.files[0]);        
+     		}, false);
+		}
+	</script>
+	
+	
+        <center>
+           <h1> Procedure</h1>
+                     </br>
+        </center>
+       
+        <form id="pCreation" action="/procedure/create/done" method="post">
+	 	
+          
+		               
+				<fieldset class="procedure-position-fieldset">
+				<div>
+				 <label for="name" class="procedure-name" >Procedure Name:</label>
+				 <input type="text" id="name" name="name" class="procedure-name-text" >
+				 <label for="version" class="version" >Version:</label>
+			     <input type="text" id="version" name="version" class="version-text" >
+			      <label for="author" class="author" >Author:</label>
+				 <input type="text" id="author" name="author" class="author-text" >
+				 </div>
+				 
+				 <div>
+				 <label for="description" class="procedure-description" >Description: </label>			 
+				 <textarea form="pCreation"  id="description" name="description" class="procedure-description-text" cols="121" rows="2"></textarea>
+				</div>
+				
+				 
+				 <div>
+				 <label for="format" class="format" >Format:</label>
+				 <input type="text" id="format" name="format" class="format-text" >
+				 <label for="language" class="language" >Language:</label>
+				 <select  id="language" name="language" class="language-text" onclick ="getLanguages();" > <option Value = "Select Language"> --Select Language-- </select>
+                 <label for="sub" class="subject" >Subject:</label>
+                 <input type="text" id="subject" name="subject" class="subject-text">
+                 </div>
+                 
+                 <div>
+                 <label for="ref" class="reference" >Reference:</label>
+                 <input type="text" id="reference" name="reference" class="reference-text" >
+                 <label for="appr" class="approver" >Approver:</label>
+                <input type="text" id="approver" name="approver" class="approver-text" >
+                 <label for="owner" class="owner" >Owner:</label>
+                 <input type="text" id="owner" name="owner" class="owner-text" >
+                </div>
+                 </fieldset>
+               	               	
+          	<fieldset class="procedure-position-fieldset-procedure-body">
+          	
+		<input type="file" id="browse" name="fileupload" style="display: none" onchange="HandleChange();"/>
+		</br>
+		<center>
+		<input type="text" align="right" id="filename" readonly="true"/>
+		<input type="button" align="right" value="Click to select file"  id="fakeBrowse" onclick="HandleBrowseClick();"/>
+		</center>
+		<br>
+		<br>
+		<textarea form="pCreation" cols="20" rows="10" id="procedurebody" name="procedurebody" class="textarea-adjust"></textarea></td>
+		<center><input type="submit" name="action" value="Submit">
+		<input type="submit" value="Cancel"></center>
+         </fieldset>
+	</form>
+    }  
+    </br> </br> 
+    
+     
+
+<!-- footer -->
+@footer()
