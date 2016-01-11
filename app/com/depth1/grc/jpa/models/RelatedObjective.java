@@ -32,8 +32,9 @@ public class RelatedObjective extends Objective {
 	 * @param name
 	 * @param objective
 	 */
-	public RelatedObjective(long tenantId, String name, String objective) {
-		super(tenantId, name, objective);
+	public RelatedObjective(long tenantId, String name, String objective, String objectiveType, String objectiveLevel,
+			String objectiveSettingBody) {
+		super(tenantId, name, objective, objectiveType, objectiveLevel,objectiveSettingBody);
 		// TODO Auto-generated constructor stub
 	}
 

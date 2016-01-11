@@ -3,9 +3,12 @@
  */
 package com.depth1.grc.util;
 
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+
+import play.Logger;
 
 /**
  * This class produces unique id that can be used to set id for classes that requires ID generator
@@ -66,6 +69,7 @@ public class IdProducer {
 	 * 
 	 */
 	private static AtomicReference<Long> currentTime = new AtomicReference<>(System.currentTimeMillis());
+	private static char Character;
 
 	
 	/**
@@ -86,8 +90,36 @@ public class IdProducer {
 		return currentTime.accumulateAndGet(System.currentTimeMillis(), (prev, next) -> next > prev ? next : prev + 1).intValue();
 	}	
 	
+	/**
+	 * Generates a unique Id with a prefix. For example, a prefix could be P for Procedure or any other character
+	 * @param prefix the prefix to prepend to the generated number
+	 * @return an Id with a character prefix
+	 */
 	public static String nextStringId(String prefix) {
-		return prefix.toUpperCase().concat(nextId().toString().substring(4, 13));
-	}	
+		if (prefix == null)
+			return null;
+		
+		return prefix.substring(0,1).toUpperCase().concat(nextId().toString().substring(4, 13));
+	}
+	
+	/**
+	 * Returns a string form of a java.util.UUID
+	 * @param uuid the UUID to convert to a string with no "-" in between
+	 * @return a string with dashes removed
+	 */
+	public static String convertUUIDToString(UUID uuid) {
+		return uuid.toString().replace("-", "");
+	}
+	
+	/**
+	 * Returns a java.util.UUID from a string UUID.
+	 * @param uuid the string UUID to convert
+	 * @return a java.util.UUID object
+	 */
+	public static UUID convertStringToUUID(String uuid) {
+		uuid = uuid.substring(0, 8).concat("-").concat(uuid.substring(8, 12)).concat("-").concat(uuid.substring(12, 16))
+				.concat("-").concat(uuid.substring(16, 20)).concat("-").concat(uuid.substring(20));
+		return java.util.UUID.fromString(uuid);
+	}
 
 }

@@ -49,7 +49,10 @@ public class Objective {
 	private String objectiveType;
 	
 	@Column (name="objectivelevel")
-	private String objectiveLevel;
+	private String objectiveLevel;		// The level at which the objective is being set such as Entity or Division
+	
+	@Column (name="objectivesettingbody")
+	private String objectiveSettingBody;	// The body responsible for setting the objective such as the Board or Senior Management
 	
 	/**
 	 * No argument constructor required by Hibernate
@@ -58,17 +61,25 @@ public class Objective {
 		
 	}	
 	
+
 	/**
-	 * @param objectiveId
 	 * @param tenantId
 	 * @param name
 	 * @param objective
+	 * @param objectiveType
+	 * @param objectiveLevel
+	 * @param objectiveSettingBody
 	 */
-	public Objective(long tenantId, String name, String objective) {
+	public Objective(long tenantId, String name, String objective, String objectiveType, String objectiveLevel,
+			String objectiveSettingBody) {
 		this.tenantId = tenantId;
 		this.name = name;
 		this.objective = objective;
+		this.objectiveType = objectiveType;
+		this.objectiveLevel = objectiveLevel;
+		this.objectiveSettingBody = objectiveSettingBody;
 	}
+
 
 	/**
 	 * @return the objectiveType
@@ -158,6 +169,20 @@ public class Objective {
 	 */
 	public Set<Measure> getMeasure() {
 		return measures;
+	}
+
+	/**
+	 * @return the objectiveSettingBody
+	 */
+	public String getObjectiveSettingBody() {
+		return objectiveSettingBody;
+	}
+
+	/**
+	 * @param objectiveSettingBody the objectiveSettingBody to set
+	 */
+	public void setObjectiveSettingBody(String objectiveSettingBody) {
+		this.objectiveSettingBody = objectiveSettingBody;
 	}
 
 	/**
