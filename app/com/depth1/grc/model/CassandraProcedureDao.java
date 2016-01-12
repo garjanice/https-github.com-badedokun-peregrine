@@ -1,35 +1,28 @@
 package com.depth1.grc.model;
-import java.io.File;
-import java.sql.Date;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
+
 import java.sql.Timestamp;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.text.SimpleDateFormat;
-
-import org.joda.time.LocalDateTime;
-
-import java.util.Calendar;
-
-import play.Logger;
-import play.mvc.Http.MultipartFormData;
 
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
 import com.datastax.driver.core.exceptions.DriverException;
-import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Delete;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Update;
-import com.datastax.driver.core.querybuilder.Assignment;
 import com.datastax.driver.core.utils.UUIDs;
+import com.depth1.grc.exception.DaoException;
+import com.depth1.grc.model.common.Keyspace;
+import com.depth1.grc.util.DateUtility;
 import com.depth1.grc.util.IdProducer;
 
-import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
-import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
+import play.Logger;
+import play.Play;
 
 /**
  * This class implements the Data Access Object pattern (GoF). It provides capability to create, read, update, delete 
@@ -40,6 +33,8 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 
 public class CassandraProcedureDao implements ProcedureDao {
 	
+	//select the type of deployment model from the configuration file
+	private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
 	
 	/**
 	 * Creates a new procedure in the procedure table.
@@ -49,11 +44,8 @@ public class CassandraProcedureDao implements ProcedureDao {
 	@Override
 	public void createProcedure(Procedure procedure) throws DaoException {
 		String procedurePrefix = "p";
- 		try {
-			Calendar calendar = Calendar.getInstance();
-			java.util.Date now = calendar.getTime();
-			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());   
-			Statement insert = QueryBuilder.insertInto("grc", "procedure")
+ 		try {   
+			Statement insert = QueryBuilder.insertInto(Keyspace.valueOf(keyspace), "procedure")
 					.value("id", UUID.randomUUID()) // TBD
 					.value("name", procedure.getName())
 					.value("author", procedure.getAuthor())
@@ -62,14 +54,14 @@ public class CassandraProcedureDao implements ProcedureDao {
 					.value("policyid", procedure.getPolicyId())
 					.value("tenantid", procedure.getTenantId())
 					.value("description", procedure.getDescription())
-					.value("createdate", currentTimestamp)
+					.value("createdate", UUIDs.timeBased())
 					.value("format", procedure.getFormat())
 					.value("language", procedure.getLanguage())
 					.value("subject", procedure.getSubject())
 					.value("reference", procedure.getReference())
 					.value("approver", procedure.getApprover())
 					.value("owner", procedure.getOwner())
-				 	.value("last_updated_date", currentTimestamp);
+				 	.value("last_updated_date", Timestamp.valueOf(java.time.LocalDateTime.now()));
 				     
 			CassandraDaoFactory.getSession().execute(insert);
 					Logger.info("Inserted successfully to database");
@@ -79,49 +71,6 @@ public class CassandraProcedureDao implements ProcedureDao {
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 	}
-
-    /**
-     * Updates procedure information in the procedure table.
-     * @param procedure the procedure to update
-     * @return boolean true if update succeed, false otherwise
-     * @throws DaoException if an error occurs while updating procedure from the table
-     */
-	@Override
-	public boolean updateProcedure(Procedure procedure) throws DaoException {
-        boolean update = false;
-       
-        try {
-            
-        	Calendar calendar = Calendar.getInstance();
-			java.util.Date now = calendar.getTime();
-			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-        	
-        	Update.Assignments updateProcedure = QueryBuilder
-                    .update("grc", "procedure")
-                    .with(set("name", procedure.getName()))
-                    .and(set("author", procedure.getAuthor()))
-                    .and(set("version", procedure.getVersion()))
-                    .and(set("description", procedure.getDescription()))
-                    .and(set("format", procedure.getFormat()))
-                    .and(set("language", procedure.getLanguage())) 
-                    .and(set("subject", procedure.getSubject()))
-                    .and(set("reference", procedure.getReference()))
-                    .and(set("approver", procedure.getApprover()))
-                    .and(set("owner", procedure.getOwner()))
-        	        .and(set("last_updated_date", currentTimestamp));                  
-                     Statement updateDetails = updateProcedure
-                    .where(eq("id", procedure.getId()));
-
-                     CassandraDaoFactory.getSession().execute(updateDetails);
-            update = true;
-        } catch (DriverException e) {
-            Logger.error("Error occurred while attempting to update procedure ", e);
-        } finally {
-            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-        }
-        return update;
-	}
-
 
     /**
      * Deletes a procedure when the 'Delete' button is clicked and prompts the user to confirm deletion.
@@ -136,7 +85,7 @@ public class CassandraProcedureDao implements ProcedureDao {
         boolean del = false;
      
         try {
-            Delete.Where delete = QueryBuilder.delete().from("grc", "procedure")
+            Delete.Where delete = QueryBuilder.delete().from(Keyspace.valueOf(keyspace), "procedure")
                     .where(eq("id", procedure.getId()));
             CassandraDaoFactory.getSession().execute(delete);
             
@@ -149,29 +98,10 @@ public class CassandraProcedureDao implements ProcedureDao {
         return del;
 	}
 
-    /**
-     * Restores procedure information in the procedure table.
-     * @param procedureId the procedure to restore
-     * @return boolean true if restore succeed, false otherwise
-     * @throws DaoException if an error occurs while restoring procedure from the table
-     */
-	@Override
-	public boolean restoreProcedure(String procedureId) throws DaoException {
-		
-		try{
-			Statement restore = QueryBuilder
-							.update("grc","procedure")
-							.with(QueryBuilder.set("is_deleted", false))
-							.where(QueryBuilder.eq("id", UUID.fromString(procedureId)));
-			CassandraDaoFactory.getSession().execute(restore);
-			
-			return true;
-		} catch (DriverException e){
-			Logger.error("Error while restoring",e);
-			return false;
-		} finally{
-			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-		}
+
+    private List<Procedure> getResultList(ResultSet result) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
     /**
@@ -185,82 +115,199 @@ public class CassandraProcedureDao implements ProcedureDao {
 	public List<Procedure> listProcedure() throws DaoException {
 		
 		List<Procedure> listProcedure = new ArrayList<>();
-     
-        try {
-            Statement listAllP = QueryBuilder.select().all()
-                    .from("grc", "procedure");
 
-            ResultSet result = CassandraDaoFactory.getSession().execute(listAllP);
-            
-            if (result == null) {
-                return null;
-            }
-          
-		for (Row row : result.all()) {
-			Procedure procedure = new Procedure();
-			procedure.setId(row.getUUID("id"));
-			procedure.setName(row.getString("name"));
-			procedure.setDescription(row.getString("description"));
-		    procedure.setProcedureId(row.getString("procedureid"));
-			procedure.setAuthor(row.getString("author"));
-			procedure.setVersion(row.getString("version"));
-			procedure.setCreationDate(new Timestamp(row.getDate("createdate").getTime()));
-			procedure.setFormat(row.getString("format"));
-			procedure.setLanguage(row.getString("language"));
-			procedure.setSubject(row.getString("subject"));
-			procedure.setReference(row.getString("reference"));
-			procedure.setApprover(row.getString("approver"));
-			procedure.setOwner(row.getString("owner"));
-			procedure.setLastUpdatedDate(new Timestamp(row.getDate("last_updated_date").getTime()));
-			listProcedure.add(procedure);
-			result.iterator();
-		 } 
-        }catch (DriverException e) {
-	            Logger.error("Error occurred while retrieving list of Procedures from database ", e);
-	        } finally {
-	            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-	        }
+		try {
+			Statement listAllP = QueryBuilder.select().all()
+					.from(Keyspace.valueOf(keyspace), "procedure");
 
-	        return listProcedure;
+			ResultSet result = CassandraDaoFactory.getSession().execute(listAllP);
+
+			if (result == null) {
+				return null;
+			}
+
+			for (Row row : result.all()) {
+				Procedure procedure = new Procedure();
+				listProcedure.add(setProcedureAttributes(procedure, row));
+				result.iterator();
+			} 
+		}catch (DriverException e) {
+			Logger.error("Error occurred while retrieving list of Procedures from database ", e);
+		} finally {
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
+
+		return listProcedure;
+	}
+
+    /**
+     * Restores procedure information in the procedure table.
+     * @param procedureId the procedure to restore
+     * @return boolean true if restore succeed, false otherwise
+     * @throws DaoException if an error occurs while restoring procedure from the table
+     */
+	@Override
+	public boolean restoreProcedure(String procedureId) throws DaoException {
+		
+		try{
+			Statement restore = QueryBuilder
+							.update(Keyspace.valueOf(keyspace),"procedure")
+							.with(QueryBuilder.set("is_deleted", false))
+							.where(QueryBuilder.eq("id", UUID.fromString(procedureId)));
+			CassandraDaoFactory.getSession().execute(restore);
+			
+			return true;
+		} catch (DriverException e){
+			Logger.error("Error while restoring procedure from the data store ",e);
+			return false;
+		} finally{
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+	}
 
 	
 	/**
-	* Views a procedure by Procedure name.
-	* @param procedureName the procedure name to view
-	* @return Procedure to view
+	 * Sets procedure attributes
+	 * 
+	 * @param procedure the procedure attributes to set
+	 * @param row the result of a query 
+	 * @return procedure with the attributes set
+	 */
+	private Procedure setProcedureAttributes(Procedure procedure, Row row) {
+		procedure.setId(row.getUUID("id"));
+		procedure.setName(row.getString("name"));
+		procedure.setProcedureId(row.getString("procedureid"));
+		procedure.setDescription(row.getString("description"));
+		procedure.setAuthor(row.getString("author"));
+		procedure.setVersion(row.getString("version"));
+		procedure.setCreateDate(row.getTimestamp("createdate"));
+		procedure.setFormat(row.getString("format"));
+		procedure.setLanguage(row.getString("language"));
+		procedure.setSubject(row.getString("subject"));
+		procedure.setReference(row.getString("reference"));
+		procedure.setApprover(row.getString("approver"));
+		procedure.setOwner(row.getString("owner"));
+		procedure.setLastUpdatedDate(row.getTimestamp("last_updated_date"));
+		Date date = DateUtility.convertTimeuuid(row.getUUID("createdate"));
+		procedure.setCreateDate(date);
+		
+		return procedure;	
+	}
+
+	
+	/**
+     * Updates procedure information in the procedure table.
+     * @param procedure the procedure to update
+     * @return boolean true if update succeed, false otherwise
+     * @throws DaoException if an error occurs while updating procedure from the table
+     */
+	@Override
+	public boolean updateProcedure(Procedure procedure) throws DaoException {
+        boolean update = false;
+       
+        try {
+        	
+        	Update.Assignments updateProcedure = QueryBuilder
+                    .update(Keyspace.valueOf(keyspace), "procedure")
+                    .with(set("name", procedure.getName()))
+                    .and(set("author", procedure.getAuthor()))
+                    .and(set("version", procedure.getVersion()))
+                    .and(set("description", procedure.getDescription()))
+                    .and(set("format", procedure.getFormat()))
+                    .and(set("language", procedure.getLanguage())) 
+                    .and(set("subject", procedure.getSubject()))
+                    .and(set("reference", procedure.getReference()))
+                    .and(set("approver", procedure.getApprover()))
+                    .and(set("owner", procedure.getOwner()))
+        	        .and(set("last_updated_date", Timestamp.valueOf(java.time.LocalDateTime.now())));                  
+                     Statement updateDetails = updateProcedure
+                    .where(eq("id", procedure.getId()));
+
+                     CassandraDaoFactory.getSession().execute(updateDetails);
+            update = true;
+        } catch (DriverException e) {
+            Logger.error("Error occurred while attempting to update procedure ", e);
+        } finally {
+            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+        }
+        return update;
+	}
+	/**
+	* Views all Deleted procedures 
+	* @return a list containing all Procedures
 	* @throws DaoException if error occurs while retrieving procedure from the table
 	*/
 	
 	@Override
-	public Procedure viewProcedureByName(String procedureName) throws DaoException {
-		List<Procedure> listProcedure;
-		//Session dbSession = CassandraDaoFactory.connect();
-		try {
-			Statement viewProcedureById = QueryBuilder.select().all().from("grc", "procedure").where(QueryBuilder.eq("name", procedureName));
+	public List<Procedure> viewAllDeletedProcedure() throws DaoException {
+		List<Procedure> listProcedure = new ArrayList<>();
 
-			ResultSet result = CassandraDaoFactory.getSession().execute(viewProcedureById);
-			
+		try {
+			Statement viewAllDeletedProcedure = QueryBuilder
+					.select()
+					.all()
+					.from(Keyspace.valueOf(keyspace), "procedure")
+					.where(QueryBuilder.eq("is_deleted", true));
+
+			ResultSet result = CassandraDaoFactory.getSession().execute(viewAllDeletedProcedure);;
+
 			if (result == null) {
 				return null;
 			}
-			listProcedure = getResultList(result);
-			if(listProcedure.isEmpty())
-				return null;
-			return listProcedure.get(0);
+
+			for (Row row : result.all()) {
+				Procedure procedure = new Procedure();
+				listProcedure.add(setProcedureAttributes(procedure, row));
+				//result.iterator();
+			}
 		} catch (DriverException e) {
-			Logger.error("Error occurred while retrieving list of Procedure from database ", e);
+			Logger.error("Error occurred while retrieving list of Procedures from database ", e);
 		} finally {
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
-		return null;	
-	}
 
-	
-	private List<Procedure> getResultList(ResultSet result) {
-		// TODO Auto-generated method stub
-		return null;
+		return listProcedure;
+
+
 	}
+	
+	/**
+	* View all procedures 
+	* @return List of Procedures to view
+	* @throws DaoException if error occurs while retrieving procedure from the table
+	*/
+	@Override
+	public List<Procedure> viewAllProcedure() throws DaoException {
+        List<Procedure> listProcedure = new ArrayList<>();
+        
+        try {
+            Statement viewAllProcedure = QueryBuilder
+            		.select()
+            		.all()
+                    .from(Keyspace.valueOf(keyspace), "procedure")
+                    .where(QueryBuilder.eq("is_deleted", false));
+            ResultSet result = CassandraDaoFactory.getSession().execute(viewAllProcedure);
+            
+            if (result == null) {
+                return null;
+            }
+
+            for (Row row : result.all()) {
+                Procedure procedure = new Procedure();
+                listProcedure.add(setProcedureAttributes(procedure, row));
+                //result.iterator();
+            }
+        } catch (DriverException e) {
+            Logger.error("Error occurred while retrieving list of Procedures from database ", e);
+        } finally {
+          
+            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+
+        }
+
+        return listProcedure;
+	}
+	
 	/**
 	* Views a procedure by Procedure id.
 	* @param id the UUID of the procedure to view
@@ -272,7 +319,7 @@ public class CassandraProcedureDao implements ProcedureDao {
 	public Procedure viewProcedureById(UUID id) throws DaoException {
 		List<Procedure> listProcedure;
 			try {
-			Statement viewProcedureById = QueryBuilder.select().all().from("grc", "procedure").where(QueryBuilder.eq("id", id));
+			Statement viewProcedureById = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "procedure").where(QueryBuilder.eq("id", id));
 
 			ResultSet result = CassandraDaoFactory.getSession().execute(viewProcedureById);
 			
@@ -294,109 +341,33 @@ public class CassandraProcedureDao implements ProcedureDao {
 	}
 	
 	/**
-	* View all procedures 
-	* @return List of Procedures to view
-	* @throws DaoException if error occurs while retrieving procedure from the table
-	*/
-	@Override
-	public List<Procedure> viewAllProcedure() throws DaoException {
-        List<Procedure> listProcedure = new ArrayList<>();
-        
-        try {
-            Statement viewAllProcedure = QueryBuilder
-            		.select()
-            		.all()
-                    .from("grc", "procedure")
-                    .where(QueryBuilder.eq("is_deleted", false));
-            ResultSet result = CassandraDaoFactory.getSession().execute(viewAllProcedure);
-            
-            if (result == null) {
-                return null;
-            }
-
-            for (Row row : result.all()) {
-                Procedure procedure = new Procedure();
-                procedure.setId(row.getUUID("id"));
-                procedure.setName(row.getString("name"));
-                procedure.setProcedureId(row.getString("procedureid"));
-                procedure.setDescription(row.getString("description"));
-                procedure.setAuthor(row.getString("author"));
-                procedure.setVersion(row.getString("version"));
-                procedure.setCreationDate(new Timestamp(row.getDate("createdate").getTime()));
-                procedure.setFormat(row.getString("format"));
-                procedure.setLanguage(row.getString("language"));
-                procedure.setSubject(row.getString("subject"));
-                procedure.setReference(row.getString("reference"));
-                procedure.setApprover(row.getString("approver"));
-                procedure.setOwner(row.getString("owner"));
-                procedure.setLastUpdatedDate(new Timestamp(row.getDate("last_updated_date").getTime()));
-							
-		        listProcedure.add(procedure);
-                result.iterator();
-            }
-        } catch (DriverException e) {
-            Logger.error("Error occurred while retrieving list of Procedures from database ", e);
-        } finally {
-          
-            CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-
-        }
-
-        return listProcedure;
-	}
-	
-	/**
-	* Views all Deleted procedures 
-	* @return a list containing all Procedures
+	* Views a procedure by Procedure name.
+	* @param procedureName the procedure name to view
+	* @return Procedure to view
 	* @throws DaoException if error occurs while retrieving procedure from the table
 	*/
 	
 	@Override
-	public List<Procedure> viewAllDeletedProcedure() throws DaoException {
-        List<Procedure> listProcedure = new ArrayList<>();
-     
-        try {
-            Statement viewAllDeletedProcedure = QueryBuilder
-            		.select()
-            		.all()
-                    .from("grc", "procedure")
-                    .where(QueryBuilder.eq("is_deleted", true));
+	public Procedure viewProcedureByName(String procedureName) throws DaoException {
+		List<Procedure> listProcedure;
+		try {
+			Statement viewProcedureById = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "procedure").where(QueryBuilder.eq("name", procedureName));
 
-            ResultSet result = CassandraDaoFactory.getSession().execute(viewAllDeletedProcedure);;
-            
-            if (result == null) {
-                return null;
-            }
-
-            for (Row row : result.all()) {
-                Procedure procedure = new Procedure();
-                procedure.setId(row.getUUID("id"));
-                procedure.setName(row.getString("name"));
-                procedure.setProcedureId(row.getString("procedureid"));
-                procedure.setDescription(row.getString("description"));
-                procedure.setAuthor(row.getString("author"));
-                procedure.setVersion(row.getString("version"));
-                procedure.setCreationDate(new Timestamp(row.getDate("createdate").getTime()));
-                procedure.setFormat(row.getString("format"));
-                procedure.setLanguage(row.getString("language"));
-                procedure.setSubject(row.getString("subject"));
-                procedure.setReference(row.getString("reference"));
-                procedure.setApprover(row.getString("approver"));
-                procedure.setOwner(row.getString("owner"));
-                procedure.setLastUpdatedDate(new Timestamp(row.getDate("last_updated_date").getTime()));
-							
-		        listProcedure.add(procedure);
-                result.iterator();
-            }
-        } catch (DriverException e) {
-            Logger.error("Error occurred while retrieving list of Procedures from database ", e);
-        } finally {
-        	CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-        }
-
-        return listProcedure;
-	
-
-}
+			ResultSet result = CassandraDaoFactory.getSession().execute(viewProcedureById);
+			
+			if (result == null) {
+				return null;
+			}
+			listProcedure = getResultList(result);
+			if(listProcedure.isEmpty())
+				return null;
+			return listProcedure.get(0);
+		} catch (DriverException e) {
+			Logger.error("Error occurred while retrieving list of Procedure from database ", e);
+		} finally {
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+		return null;	
+	}		
 
 }

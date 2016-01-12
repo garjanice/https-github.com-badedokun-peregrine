@@ -42,10 +42,77 @@ import play.Play;
 public class CassandraUserProfileDao implements UserProfileDao {
 	
 	//select the type of deployment model from the configuration file
-
-		private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
+	private final static Boolean keyspace = Play.application().configuration().getBoolean("onpremise.deploy.model");
 
 	
+	/**
+	 * Authenticates a user with username and password. Username is email address.
+	 * @param username user name of the user to authenticate
+	 * @param password password of the user to authenticate
+	 * @return login credentials of the authenticated user
+	 * @throws DaoException if errors occurs while authenticating a user
+	 */
+	@Override
+	public Login authenticate(String username, String password) throws DaoException {
+		Login login = new Login();
+		try {
+			Statement find = QueryBuilder.select().all()
+					.from(Keyspace.valueOf(keyspace), "userauth")
+					.where(eq("username", username));
+			ResultSet result = CassandraDaoFactory.getSession().execute(find);
+			if (result == null) {
+				return null;
+			}
+			Row row = result.one();
+
+			// get data elements from the Result set
+			if (BCrypt.checkpw(password, row.getString("hash"))) {
+				login.setUsername(row.getString("username"));
+			} else {
+				Logger.error("Hash value does not match");
+				return null;
+			}
+		} catch (DriverException e) {
+			Logger.error("Error occurred while retrieving data from the userauth table ", e);
+		} finally {
+			// close the connection to the database();
+
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+		return login;
+	}
+	
+	/**
+	* Creates a user authentication profile.
+	* 
+	* @param user user profile to create
+	* @throws DaoException if error occurs while creating the User in the data store
+	*/
+	//@Override
+	private void createUserAuth(UserProfile user) throws DaoException {
+					
+		try {
+			if (user.getUsername()!= null && user.getPassword() != null && user.getUsername().length() < 100) {
+			Statement insert = QueryBuilder
+					.insertInto(Keyspace.valueOf(keyspace), "userauth")
+					.value("id", user.getUserProfileId())
+					.value("tenantid", user.getTenantId())
+					.value("fname", user.getFirstName())
+					.value("lname", user.getLastName())
+					.value("username", user.getUsername())
+					.value("hash", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)))
+					.value("createdate", UUIDs.timeBased()); //Timestamp.valueOf(LocalDateTime.now())	
+					CassandraDaoFactory.getSession().execute(insert);
+			}		
+			
+		} catch (DriverException e) {
+			Logger.error("Error occurred while inserting user profile in the user profile table ", e);
+		} finally {
+			//close the connection to the database();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+	}	
+
 	/**
 	* Creates a user profile.
 	* 
@@ -104,37 +171,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 		}
 
 	}
-	
-	/**
-	* Creates a user authentication profile.
-	* 
-	* @param user user profile to create
-	* @throws DaoException if error occurs while creating the User in the data store
-	*/
-	//@Override
-	private void createUserAuth(UserProfile user) throws DaoException {
-					
-		try {
-			if (user.getUsername()!= null && user.getPassword() != null && user.getUsername().length() < 100) {
-			Statement insert = QueryBuilder
-					.insertInto(Keyspace.valueOf(keyspace), "userauth")
-					.value("id", user.getUserProfileId())
-					.value("tenantid", user.getTenantId())
-					.value("fname", user.getFirstName())
-					.value("lname", user.getLastName())
-					.value("username", user.getUsername())
-					.value("hash", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)))
-					.value("createdate", UUIDs.timeBased()); //Timestamp.valueOf(LocalDateTime.now())	
-					CassandraDaoFactory.getSession().execute(insert);
-			}		
-			
-		} catch (DriverException e) {
-			Logger.error("Error occurred while inserting user profile in the user profile table ", e);
-		} finally {
-			//close the connection to the database();
-			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-		}
-	}	
+
 
 	/**
 	 * Deletes a user profile from the user profile table
@@ -161,145 +198,6 @@ public class CassandraUserProfileDao implements UserProfileDao {
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
 		return del;
-	}
-
-
-	/**
-	 * Updates a user profile.
-	 * 
-	 * @param user user profile to update
-	 * @return boolean True if the user profile is successfully updated, false otherwise
-	 * @throws DaoException if error occurs while updating a user profile in the data store
-	 */
-	
-	private void updateUserAuth(final UserProfile user) throws DaoException {
-		//boolean update = false;		
-		try {
-			Update.Assignments updateAssignments = QueryBuilder
-					.update(Keyspace.valueOf(keyspace), "userauth")					
-					.with(set("hash", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12))))
-					.and(set("lname", user.getLastName()))
-					.and(set("fname", user.getFirstName()));
-					Statement updateDetails = updateAssignments
-					.where(eq("username", user.getUsername()));
-			CassandraDaoFactory.getSession().execute(updateDetails);			
-			//update = true;
-		} catch (DriverException e) {
-			Logger.error("Error occurred while updating data in the user profile table ", e);
-		} finally {
-			//close the connection to the database();
-			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-		}
-		//return update;
-	}
-	
-	public boolean updateUserProfile(final UserProfile user) throws DaoException {
-		boolean update = false;		
-		try {
-			Assignment phones = QueryBuilder.putAll("phones", user.getPhones());
-			Update.Assignments updateAssignments = QueryBuilder
-					.update(Keyspace.valueOf(keyspace), "userprofile")					
-					.with(set("password", user.getPassword()))
-					.and(phones)
-					.and(set("email", user.getEmail()))
-					.and(set("title", user.getTitle()))
-					.and(set("salutation", user.getSalutation()))
-					.and(set("gender", user.getGender()))
-					.and(set("street1", user.getStreet1()))
-					.and(set("street2", user.getStreet2()))
-					.and(set("city", user.getCity()))
-					.and(set("zipcode", user.getZipcode()))
-					.and(set("state", user.getState()))
-					.and(set("province", user.getProvince()))
-					.and(set("country", user.getCountry()))
-					.and(set("lineofdefense", user.getLineOfDefense()))
-					.and(set("latitude", user.getLatitude()))
-					.and(set("longitude", user.getLongitude()))					
-					.and(set("locale", user.getLocale()))
-					.and(set("language", user.getLanguage()))
-					.and(set("timezone", user.getTimeZone()))
-					.and(set("deptid", user.getDeptId()))
-					.and(set("deptname", user.getDeptName()))
-					.and(set("lodfunctionid", user.getLodFunctionId()))
-					.and(set("lodfunction", user.getLodFunction()));
-			Statement updateDetails = updateAssignments
-					.where(eq("username", user.getUsername()))
-					.and(eq("lname", user.getLastName()))
-					.and(eq("fname", user.getFirstName()))
-					.and(eq("tenantid", user.getTenantId()));
-			CassandraDaoFactory.getSession().execute(updateDetails);
-			updateUserAuth(user);
-			update = true;
-		} catch (DriverException e) {
-			Logger.error("Error occurred while updating data in the user profile table ", e);
-		} finally {
-			//close the connection to the database();
-			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-		}
-		return update;
-	}	
-		
-	
-	/**
-	 * List user profiles in the data store.
-	 * 
-	 * @return List list of user profiles
-	 * @throws DaoException if error occurs while reading user profiles from the data store
-	 */
-	@Override
-	public List<UserProfile> listUserProfile(long tenantId) throws DaoException {
-		List<UserProfile> list = new ArrayList<>();
-		String table = "userprofile";
-		try {								
-			ResultSetFuture results = DataReaderUtil.getAll(table, tenantId);
-			if (results == null) {
-				return null;
-			}
-			// get data elements from the Result set
-			for (Row row : results.getUninterruptibly()) {
-				UserProfile user = new UserProfile();
-				list.add(setUserAttributes(user, row));
-			}
-		} catch (DriverException e) {
-			Logger.error("Error occurred while getting user profile data from the user profile table ", e);
-		} finally {
-			//close the connection to the database();
-			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-		}
-		
-		return list;
-	}
-	
-	/**
-	 * Finds a user profile.
-	 * 
-	 * @param userId user profile ID to find
-	 * @return UserProfile user profile that was found
-	 * @throws DaoException if error occurs while finding a user profile in the data store
-	 */
-	@Override
-	public UserProfile findUserProfile(UUID userId) throws DaoException {
-		UserProfile user = null;
-		try {					
-			
-			ResultSetFuture result = getOneUserProfile(userId);
-			if (result == null) {
-				return null;
-			}
-			// get data elements from the Result set
-			for (Row row : result.getUninterruptibly()) {
-				user = new UserProfile();
-				user = setUserAttributes(user, row);								
-			}
-
-		} catch (DriverException e) {
-			Logger.error("Error occurred while retrieving user profile data from the user profile table ", e);
-		} finally {
-			// close the connection to the database
-			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-		}
-		
-		return user;
 	}
 	
 	/**
@@ -333,44 +231,39 @@ public class CassandraUserProfileDao implements UserProfileDao {
 		
 		return user;
 	}	
+		
 	
 	/**
-	 * Authenticates a user with username and password. Username is email address.
-	 * @param username user name of the user to authenticate
-	 * @param password password of the user to authenticate
-	 * @return login credentials of the authenticated user
-	 * @throws DaoException if errors occurs while authenticating a user
+	 * Finds a user profile.
+	 * 
+	 * @param userId user profile ID to find
+	 * @return UserProfile user profile that was found
+	 * @throws DaoException if error occurs while finding a user profile in the data store
 	 */
 	@Override
-	public Login authenticate(String username, String password) throws DaoException {
-		Login login = new Login();
-		try {
-			Statement find = QueryBuilder.select().all()
-					.from(Keyspace.valueOf(keyspace), "userauth")
-					.where(eq("username", username));
-			ResultSet result = CassandraDaoFactory.getSession().execute(find);
+	public UserProfile findUserProfile(UUID userId) throws DaoException {
+		UserProfile user = null;
+		try {					
+			
+			ResultSetFuture result = getOneUserProfile(userId);
 			if (result == null) {
 				return null;
 			}
-			Row row = result.one();
-
 			// get data elements from the Result set
-			if (BCrypt.checkpw(password, row.getString("hash"))) {
-				login.setUsername(row.getString("username"));
-			} else {
-				Logger.error("Hash value does not match");
-				return null;
+			for (Row row : result.getUninterruptibly()) {
+				user = new UserProfile();
+				user = setUserAttributes(user, row);								
 			}
-		} catch (DriverException e) {
-			Logger.error("Error occurred while retrieving data from the userauth table ", e);
-		} finally {
-			// close the connection to the database();
 
+		} catch (DriverException e) {
+			Logger.error("Error occurred while retrieving user profile data from the user profile table ", e);
+		} finally {
+			// close the connection to the database
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
-		return login;
-	}	
-	
+		
+		return user;
+	}
 	
 	/**
 	 * Get a user profile that matches the given criteria of username and lastname
@@ -423,6 +316,37 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	}	
 	
 	/**
+	 * List user profiles in the data store.
+	 * 
+	 * @return List list of user profiles
+	 * @throws DaoException if error occurs while reading user profiles from the data store
+	 */
+	@Override
+	public List<UserProfile> listUserProfile(long tenantId) throws DaoException {
+		List<UserProfile> list = new ArrayList<>();
+		String table = "userprofile";
+		try {								
+			ResultSetFuture results = DataReaderUtil.getAll(table, tenantId);
+			if (results == null) {
+				return null;
+			}
+			// get data elements from the Result set
+			for (Row row : results.getUninterruptibly()) {
+				UserProfile user = new UserProfile();
+				list.add(setUserAttributes(user, row));
+			}
+		} catch (DriverException e) {
+			Logger.error("Error occurred while getting user profile data from the user profile table ", e);
+		} finally {
+			//close the connection to the database();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+		
+		return list;
+	}	
+	
+	
+	/**
 	 * Sets user profile attributes
 	 * 
 	 * @param user the user profile attributes to set
@@ -464,6 +388,81 @@ public class CassandraUserProfileDao implements UserProfileDao {
 		user.setCreateDate(date);
 		
 		return user;	
+	}
+	
+	/**
+	 * Updates a user profile.
+	 * 
+	 * @param user user profile to update
+	 * @return boolean True if the user profile is successfully updated, false otherwise
+	 * @throws DaoException if error occurs while updating a user profile in the data store
+	 */
+	
+	private void updateUserAuth(final UserProfile user) throws DaoException {
+		//boolean update = false;		
+		try {
+			Update.Assignments updateAssignments = QueryBuilder
+					.update(Keyspace.valueOf(keyspace), "userauth")					
+					.with(set("hash", BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12))))
+					.and(set("lname", user.getLastName()))
+					.and(set("fname", user.getFirstName()));
+					Statement updateDetails = updateAssignments
+					.where(eq("username", user.getUsername()));
+			CassandraDaoFactory.getSession().execute(updateDetails);			
+			//update = true;
+		} catch (DriverException e) {
+			Logger.error("Error occurred while updating data in the user profile table ", e);
+		} finally {
+			//close the connection to the database();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+		//return update;
+	}	
+	
+	public boolean updateUserProfile(final UserProfile user) throws DaoException {
+		boolean update = false;		
+		try {
+			Assignment phones = QueryBuilder.putAll("phones", user.getPhones());
+			Update.Assignments updateAssignments = QueryBuilder
+					.update(Keyspace.valueOf(keyspace), "userprofile")					
+					.with(set("password", user.getPassword()))
+					.and(phones)
+					.and(set("email", user.getEmail()))
+					.and(set("title", user.getTitle()))
+					.and(set("salutation", user.getSalutation()))
+					.and(set("gender", user.getGender()))
+					.and(set("street1", user.getStreet1()))
+					.and(set("street2", user.getStreet2()))
+					.and(set("city", user.getCity()))
+					.and(set("zipcode", user.getZipcode()))
+					.and(set("state", user.getState()))
+					.and(set("province", user.getProvince()))
+					.and(set("country", user.getCountry()))
+					.and(set("lineofdefense", user.getLineOfDefense()))
+					.and(set("latitude", user.getLatitude()))
+					.and(set("longitude", user.getLongitude()))					
+					.and(set("locale", user.getLocale()))
+					.and(set("language", user.getLanguage()))
+					.and(set("timezone", user.getTimeZone()))
+					.and(set("deptid", user.getDeptId()))
+					.and(set("deptname", user.getDeptName()))
+					.and(set("lodfunctionid", user.getLodFunctionId()))
+					.and(set("lodfunction", user.getLodFunction()));
+			Statement updateDetails = updateAssignments
+					.where(eq("username", user.getUsername()))
+					.and(eq("lname", user.getLastName()))
+					.and(eq("fname", user.getFirstName()))
+					.and(eq("tenantid", user.getTenantId()));
+			CassandraDaoFactory.getSession().execute(updateDetails);
+			updateUserAuth(user);
+			update = true;
+		} catch (DriverException e) {
+			Logger.error("Error occurred while updating data in the user profile table ", e);
+		} finally {
+			//close the connection to the database();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+		return update;
 	}
 
 }

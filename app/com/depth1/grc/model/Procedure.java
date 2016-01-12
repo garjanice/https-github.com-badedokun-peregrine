@@ -30,7 +30,7 @@ public class Procedure {
 	@Required
 	private String author;
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	private Timestamp creationDate;
+	private Date createDate;
 	private String format;
 	private String language;
 	private String subject;
@@ -39,7 +39,7 @@ public class Procedure {
 	private String owner;
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
 	@DateFormat("MM-dd-yyyy")
-	private Timestamp lastUpdatedDate;
+	private Date lastUpdatedDate;
 	
 	//Constructor
 	public Procedure(){
@@ -146,16 +146,16 @@ public class Procedure {
 		return version;
 	}
 	/**
-	 * @param creationDate the creationDate to set
+	 * @param createDate the createDate to set
 	 */			
-	public void setCreationDate(Timestamp creationDate){
-		this.creationDate = creationDate;
+	public void setCreateDate(Date createDate){
+		this.createDate = createDate;
 	}
 	/**
-	 * @return the creationDate
+	 * @return the createDate
 	 */			
-	public Timestamp getCreationDate(){
-		return creationDate;
+	public Date getCreateDate(){
+		return createDate;
 	}
 	/**
 	 * @param format the format to set
@@ -232,13 +232,13 @@ public class Procedure {
 	/**
 	 * @param lastUpdatedDate the lastUpdatedDate to set
 	 */	
-	public void setLastUpdatedDate(Timestamp lastUpdatedDate){
+	public void setLastUpdatedDate(Date lastUpdatedDate){
 		this.lastUpdatedDate = lastUpdatedDate;
 	}
 	/**
 	 * @return the lastUpdatedDate
 	 */
-	public Timestamp getLastUpdatedDate(){
+	public Date getLastUpdatedDate(){
 		return lastUpdatedDate;
 	}
 	

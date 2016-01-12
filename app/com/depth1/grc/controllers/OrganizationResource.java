@@ -14,12 +14,12 @@ import com.depth1.grc.model.TenantSort;
 import com.depth1.grc.model.UserProfile;
 import com.depth1.grc.model.UserProfileDao;
 import com.depth1.grc.model.UserProfileSort;
-import com.depth1.grc.views.html.createTenant;
-import com.depth1.grc.views.html.createUserProfile;
+import com.depth1.grc.views.html.*;
+/*import com.depth1.grc.views.html.createUserProfile;
 import com.depth1.grc.views.html.frontTenant;
 import com.depth1.grc.views.html.frontUserProfile;
 import com.depth1.grc.views.html.updateTenant;
-import com.depth1.grc.views.html.viewTenant;
+import com.depth1.grc.views.html.viewTenant;*/
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
