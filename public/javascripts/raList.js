@@ -6,7 +6,7 @@
  */
 
 (function() {
-	if(typeof rAFrontListSize != "undefined"){
+	if(rAFrontListSize){
 		var pathArray = window.location.pathname.split( '/' );
 	    var raListSortValue = window.location.search;
 	    var numberOfPages = rAFrontListSize / pathArray[3];

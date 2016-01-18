@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -84,8 +85,8 @@ public class CassandraTenantDao implements TenantDao
 	
 	public void createTenant(Tenant tenant) throws DaoException {
 
-		Map<String, String> cphones = new HashMap<String, String>();
-		Map<String, String> bphones = new HashMap<String, String>();
+		Map<String, String> cphones = new LinkedHashMap<String, String>();
+		Map<String, String> bphones = new LinkedHashMap<String, String>();
 		if(tenant.getPhoneName1().length() > 0){
 			cphones.put(tenant.getPhoneName1(), tenant.getPhoneNumber1());
 		} 
@@ -219,8 +220,8 @@ public class CassandraTenantDao implements TenantDao
 	public boolean updateTenant(final Tenant tenant) throws DaoException {
 		boolean update = false;
 		
-		Map<String, String> cphones = new HashMap<String, String>();
-		Map<String, String> bphones = new HashMap<String, String>();
+		Map<String, String> cphones = new LinkedHashMap<String, String>();
+		Map<String, String> bphones = new LinkedHashMap<String, String>();
 		if(tenant.getPhoneName1().length() > 0){
 			cphones.put(tenant.getPhoneName1(), tenant.getPhoneNumber1());
 		} 
