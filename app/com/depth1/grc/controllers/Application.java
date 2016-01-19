@@ -17,7 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.lang.Long;
-
+import org.jsoup.*;
 import play.Logger;
 import play.data.Form;
 import play.data.Form.Field;
@@ -661,7 +661,7 @@ public class Application extends Controller {
 			PrintWriter writer = new PrintWriter(new BufferedWriter(
 					new FileWriter(procedureDoc)), true);
 			// flushing the buffer after file-write
-			writer.print(Json.parse(procedureBody.value()).asText());
+			writer.print(Jsoup.parse(procedureBody.value()).asText());
 			writer.close();
 			Logger.info("Procedure Body Documented at " + dirString + fileName);
 		} catch (IOException e) {
