@@ -12,7 +12,7 @@ import com.depth1.grc.exception.DataException;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.util.Picture;
-import com.depth1.grc.views.html.index;
+
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.io.Files;
@@ -127,7 +127,7 @@ public class Universal extends Controller {
 			@Override
 			public Result apply(Throwable arg0) throws Throwable {				
 				//return redirect(routes.Universal.defaultPicture());
-				return ok(index.render());
+				return ok();
 			}
     	});
     }
@@ -177,6 +177,7 @@ public class Universal extends Controller {
 			return null;
 		}
 		StringBuilder options = new StringBuilder();
+
 //		for (int i = 0; i < timezones.size(); i++) {
 //			options.append("<option value='" + timezones.get(i) + "'>" + timezones.get(i) + "</option>");
 //		}
@@ -191,6 +192,23 @@ public class Universal extends Controller {
 		return ok(result);
 	}   
     
+	
+    
+//	
+//	public Result getTimezoneOption() {
+//		
+//		String[] zones = TimeZone.getAvailableIDs();
+//		StringBuffer out = new StringBuffer();
+//		
+//		for (int i = 0; i < zones.length; i++) {
+//			out.append("<option>" + zones[i] + "</option>"  );
+//		}
+//		
+//		return ok(out.toString());
+//	}
+//	
+//	
+
     /**
      * Retrieves common titles from the data store.
      * 

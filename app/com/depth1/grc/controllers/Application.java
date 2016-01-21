@@ -17,16 +17,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.lang.Long;
+import org.jsoup.*;
 
 import play.Logger;
 import play.data.Form;
 import play.data.Form.Field;
 import play.libs.Json;
 import play.mvc.Controller;
+import play.mvc.Http.RequestBody;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.mvc.Security;
-
+import com.datastax.driver.core.ResultSetFuture;
+import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.exception.DaoException;
@@ -42,6 +45,14 @@ import com.depth1.grc.model.ProcedureDao;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.RiskAssessmentSort;
+import com.depth1.grc.model.RiskAssessment;
+import com.depth1.grc.model.RiskAssessmentDao;
+import com.depth1.grc.model.Tenant;
+import com.depth1.grc.model.TenantDao;
+import com.depth1.grc.model.UserProfile;
+import com.depth1.grc.model.UserProfileDao;
+import com.depth1.grc.security.BCrypt;
+import com.depth1.grc.util.DateUtility;
 import com.depth1.grc.util.IdProducer;
 import com.depth1.grc.model.Policy;
 import com.depth1.grc.model.PolicyDao;
@@ -50,6 +61,17 @@ import com.depth1.grc.model.RiskRegister;
 import com.depth1.grc.model.RiskRegisterDao;
 import com.depth1.grc.model.RiskRegisterSort;
 import com.depth1.grc.model.PrintPdfProcedure;
+import com.depth1.grc.model.PolicyUtil;
+import com.depth1.grc.model.PrintPdfRiskAssessment;
+import com.depth1.grc.model.RiskAssessment;
+import com.depth1.grc.model.RiskAssessmentDao;
+import com.depth1.grc.model.RiskAssessmentSort;
+import com.depth1.grc.model.Tenant;
+import com.depth1.grc.model.TenantDao;
+import com.depth1.grc.model.TenantSort;
+import com.depth1.grc.model.UserProfile;
+import com.depth1.grc.model.UserProfileDao;
+import com.depth1.grc.model.UserProfileSort;
 import com.depth1.grc.views.html.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -956,7 +978,7 @@ public class Application extends Controller {
 		return redirect("/riskRegister/1/10/descendingName");
 	}
 	public Result showViewRRPage() {
-
+		
 		return ok(viewRR.render(selectedRR));
 	}
 	public Result updateRiskRegister() {

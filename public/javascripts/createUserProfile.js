@@ -149,7 +149,7 @@ $(document).ready(function(){
     /*On submit obtain the co-ordinates from the google maps service*/
     $('#userProfileCreation').on("submit", function(event){
        
-        //event.preventDefault();
+        event.preventDefault();
         
         
         function getCoordinates(){
@@ -189,10 +189,22 @@ $(document).ready(function(){
                                        .attr("name", "latitude").val(longitude);
                     
                         console.log(latitude);
-                        $('#userProfileCreation').append(latitudeInput);
-                        $('#userProfileCreation').append(longitudeInput);
+						console.log(latitudeInput);
+						$('#userProfileCreation').append('<input type="hidden" name="latitude" value='+latitude.toString()+' />');
+                        $('#userProfileCreation').append('<input type="hidden" name="longitude" value='+longitude.toString()+' />');
+                    
+
+                    //    $('#userProfileCreation').append(latitudeInput);
+                    //    $('#userProfileCreation').append(longitudeInput);
 
                    }
+                    if( $("#pword").val() === $("#cpword").val() )
+                    {
+                        $('#userProfileCreation').submit();
+                        $('#userProfileCreation').off("submit");
+                    }else{
+                        alert("Password and Confirm Password must be the same")
+                    }
             }
             
             
@@ -200,7 +212,7 @@ $(document).ready(function(){
 
         getCoordinates();
         
-
+		//$('#userProfileCreation').submit();
 //        console.log("validate form");
 //        if(!isCreateRA_valid){
 //            $('html,body').animate({
@@ -210,5 +222,9 @@ $(document).ready(function(){
 //        }
 
     });
+    
+    
+
+
     
 });

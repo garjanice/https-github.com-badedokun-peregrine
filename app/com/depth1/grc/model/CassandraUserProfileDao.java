@@ -8,7 +8,9 @@ import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.datastax.driver.core.ResultSet;
@@ -125,8 +127,22 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	public void createUserProfile(UserProfile user) throws DaoException {
 
 		UUID id = java.util.UUID.randomUUID();
+
 		user.setUserProfileId(id);
+		
+		
+		Map<String, String> phones = new HashMap<String, String>();
+
+		phones.put(user.getUserProfilePhoneType1(), user.getUserProfilePhoneNumber1());
+		phones.put(user.getUserProfilePhoneType2(), user.getUserProfilePhoneNumber2());
+		phones.put(user.getUserProfilePhoneType3(), user.getUserProfilePhoneNumber3());
+		phones.put(user.getUserProfilePhoneType4(), user.getUserProfilePhoneNumber4());
+
+		
+		user.setPhones(phones);
+		
 		try {
+			System.out.println("Latitude is "+user.getLatitude());
 			Statement insert = QueryBuilder
 					.insertInto(Keyspace.valueOf(keyspace), "userprofile")
 					.value("id", user.getUserProfileId())

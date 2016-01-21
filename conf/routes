@@ -87,11 +87,15 @@ POST 	/procedure/selected		   		 		com.depth1.grc.controllers.Application.setSel
 
 POST  	/procedure/update/done		    		com.depth1.grc.controllers.Application.updateProcedure()
 
+GET     /policy              		  	    	com.depth1.grc.controllers.Application.showPolicyListPage()
+
 GET 	/procedure/print		    			com.depth1.grc.controllers.Application.printProcedure()
 
 GET		/procedure/getLanguages		    		com.depth1.grc.controllers.Universal.getLanguageOption()
 
-GET		/tenant/:page/:view/:order				com.depth1.grc.controllers.OrganizationResource.showFrontTenantPage(page: Integer, view: Integer, order: String, query: String ?= "")
+#   This page has gotten lost somewhere...
+#
+#GET		/tenant/:page/:view/:order				com.depth1.grc.controllers.OrganizationResource.showFrontTenantPage(page: Integer, view: Integer, order: String, query: String ?= "")
 
 GET  	/tenant/create							com.depth1.grc.controllers.OrganizationResource.showCreateTenant()
 
@@ -103,13 +107,30 @@ POST  	/tenant/create/done						com.depth1.grc.controllers.OrganizationResource.
 
 POST 	/tenant/selected						com.depth1.grc.controllers.OrganizationResource.setSelectedTenant()
 
+GET		/policy/update/							com.depth1.grc.controllers.Application.showUpdatePolicyPage()
+
+GET 	/policy/restore/done					com.depth1.grc.controllers.Application.restorePolicy()
+
+DELETE	/policy/delete							com.depth1.grc.controllers.Application.deletePolicy()
+
 POST  	/tenant/update/done						com.depth1.grc.controllers.OrganizationResource.updateTenant()
 
 DELETE	/tenant/delete							com.depth1.grc.controllers.OrganizationResource.deleteTenant()
 
 GET		/userprofile/:page/:view/:order			com.depth1.grc.controllers.OrganizationResource.showFrontUserProfile(page: Integer, view: Integer, order: String, query: String ?= "", tenant: Long)
 
+
 POST 	/userprofile/selected					com.depth1.grc.controllers.OrganizationResource.setSelectedUserProfile()
+
+GET		/riskAssessment/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontRAPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
+
+GET		/policy/:page/:view/:order				com.depth1.grc.controllers.Application.showPolicyListPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
+
+POST 	/policy/selected						com.depth1.grc.controllers.Application.setSelectedPolicy()
+
+GET 	/policy/restore/:page/:view/:order		com.depth1.grc.controllers.Application.showRestorePolicyPage(page: Integer, view: Integer, order: String, query: String ?= "")
+
+POST	/policy/uploadFile						com.depth1.grc.controllers.Application.uploadFilePolicyBody()
 
 GET  	/userprofile/create						com.depth1.grc.controllers.OrganizationResource.showCreateUserProfile()
 
@@ -121,23 +142,23 @@ GET		/userprofile/getLanguages				com.depth1.grc.controllers.Universal.getLangua
 
 GET		/userprofile/getTimezones				com.depth1.grc.controllers.Universal.getTimezoneOption()
 
-GET		/userprofile/getStates/:CCode				com.depth1.grc.controllers.Universal.getStateOption(CCode: String)
+GET		/userprofile/getStates/:CCode			com.depth1.grc.controllers.Universal.getStateOption(CCode: String)
 
 POST  	/userprofile/create/done				com.depth1.grc.controllers.OrganizationResource.addUserProfile()
 
-GET 	/riskRegister/create			com.depth1.grc.controllers.Application.showCreateRRPage()
+GET 	/riskRegister/create					com.depth1.grc.controllers.Application.showCreateRRPage()
 
-GET 	/riskRegister/view				com.depth1.grc.controllers.Application.showViewRRPage()
+GET 	/riskRegister/view						com.depth1.grc.controllers.Application.showViewRRPage()
 
-GET 	/riskRegister/update			com.depth1.grc.controllers.Application.showUpdateRRPage()
+GET 	/riskRegister/update					com.depth1.grc.controllers.Application.showUpdateRRPage()
 
-DELETE	/riskRegister/delete			com.depth1.grc.controllers.Application.deleteRiskRegister()
+DELETE	/riskRegister/delete					com.depth1.grc.controllers.Application.deleteRiskRegister()
 
-POST  	/riskRegister/update/done		com.depth1.grc.controllers.Application.updateRiskRegister()
+POST  	/riskRegister/update/done				com.depth1.grc.controllers.Application.updateRiskRegister()
 
-POST  	/riskRegister/create/done		com.depth1.grc.controllers.Application.addRiskRegister()
+POST  	/riskRegister/create/done				com.depth1.grc.controllers.Application.addRiskRegister()
 
-POST 	/riskRegister/selected			com.depth1.grc.controllers.Application.setSelectedRR()
+POST 	/riskRegister/selected					com.depth1.grc.controllers.Application.setSelectedRR()
 
 GET		/riskRegister/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontRRPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
 
