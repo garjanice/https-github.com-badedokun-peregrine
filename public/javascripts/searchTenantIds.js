@@ -1,4 +1,10 @@
+/**
+ *  This function validates the CreateRA form, allowing only alphabets and numbers
+ *  @author Barath Ravikumar
+ *  @version 1.0 -- 12/17/2015
+ */
 
+/*Show a dropdown of tenant names, and select the appropriate tenant id*/
 $(document).ready(function(){
 	var jsonObjArray = {}
     searchTenant();

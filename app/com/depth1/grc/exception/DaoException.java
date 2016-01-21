@@ -1,9 +1,7 @@
 /**
  * 
  */
-package com.depth1.grc.model;
-
-import com.depth1.grc.db.util.DataException;
+package com.depth1.grc.exception;
 
 /**
  * Data Access Object specific exception handler

@@ -46,7 +46,7 @@
 	                 @for(userProfile <- userProfiles) {
 				     <tr >
 					    
-					    <td >@userProfile.getFname @userProfile.getLname</td>
+					    <td >@userProfile.getFirstName @userProfile.getLastName</td>
 					    <td class="tableRowCenter">@userProfile.getUsername</td>
 					    <td class="tableRowCenter">@userProfile.getEmail</td>
 					    
@@ -66,7 +66,9 @@
         <center>
         	<table>
             	<tr>
-                	
+					<td>
+						<input type="button" class="genericButton" onclick="window.location = '/userprofile/create'" value="Create">
+					</td>
 	          	</tr>
            	</table>
         </center>

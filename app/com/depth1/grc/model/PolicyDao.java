@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.datastax.driver.core.ResultSet;
+import com.depth1.grc.exception.DaoException;
 
 /**
  * The PolicyDao interface defines the contract that all implementing classes must abide by.

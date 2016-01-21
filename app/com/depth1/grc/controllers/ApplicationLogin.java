@@ -3,9 +3,13 @@
  */
 package com.depth1.grc.controllers;
 
-import com.depth1.grc.model.DaoException;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.depth1.grc.exception.DaoException;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Login;
+import com.depth1.grc.model.UserProfile;
 import com.depth1.grc.model.UserProfileDao;
 import com.depth1.grc.views.html.index;
 import com.depth1.grc.views.html.login;
@@ -25,18 +29,12 @@ import play.mvc.Result;
 public class ApplicationLogin extends Controller {
 	
 	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
-	private static final Form<Login> loginForm = Form.form(Login.class);
 	public static final String LOGIN_EMAIL = "username";
 	public static final String SUCCESS = "success";
 	
-	public Result login() {
-
-		return ok(login.render());
-
-	}
-	
 	/**
-	 * Authenticates a user during login to the application
+	 * Authenticates a user during login to the application.
+	 * 
 	 * @return Result result of the action call
 	 */
 	public Result authenticate() {
@@ -53,7 +51,6 @@ public class ApplicationLogin extends Controller {
 			Logger.error("Error occurred while reading user data ", e);
 		}
 		
-		
 		session().clear();
 		session("username", username);
 				
@@ -61,16 +58,27 @@ public class ApplicationLogin extends Controller {
 				
 	}
 	
-    /**
-     * Logout a login user when the user clicks the logout button
+	/**
+     * Login a user into the application.
      * 
+     * @return Result result of the action call
+     */
+	public Result login() {
+
+		return ok(login.render());
+
+	}
+	
+	/**
+     * Logout a login user when the user clicks the logout button.
+     * 
+     * @return Result result of the action call
      */
     public Result logout() {
         session().remove(LOGIN_EMAIL);
         Cache.remove(LOGIN_EMAIL);
         flash(SUCCESS, "You have successfully logged out!");
         return redirect(routes.ApplicationLogin.login() );
-        //return ok(index.render());
     }	
 
 }

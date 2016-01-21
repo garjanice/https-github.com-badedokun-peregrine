@@ -4,11 +4,9 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.datastax.driver.core.utils.UUIDs;
 import com.depth1.grc.util.DateUtility;
 
 
@@ -50,16 +48,14 @@ public class Tenant
 	private String contactPersonEmail;
 	private Map<String, String> contactPersonPhones;
 	//@DateFormat("MM-dd-yyyy")
-	private Timestamp serviceStartDate;
-	private UUIDs createDate;
+	private Date serviceStartDate;
 	@Required
 	private String companyUrl;
 	@Required
 	private String status;
 	private String ipaddress;
-	private long uuidTime;
-	private Date startDateUtil;
-	private Date createDateUtil;
+	private Date startDate;
+	private Date createDate;
 	private String phoneName1;
 	private String phoneName2;
 	private String phoneName3;
@@ -263,26 +259,12 @@ public class Tenant
 		this.contactPersonPhones = contactPersonPhones;
 	}
 
-	public Timestamp getServiceStartDate() {
+	public Date getServiceStartDate() {
 		return serviceStartDate;
 	}
 
-	public void setServiceStartDate(Timestamp date) {
+	public void setServiceStartDate(Date date) {
 		this.serviceStartDate = date;
-	}
-
-	/**
-	 * @return the createDate
-	 */
-	public UUIDs getCreateDate() {
-		return createDate;
-	}
-
-	/**
-	 * @param createDate the createDate to set
-	 */
-	public void setCreateDate(UUIDs createDate) {
-		this.createDate = createDate;
 	}
 
 	public String getCompanyUrl() {
@@ -309,45 +291,31 @@ public class Tenant
 	}
 
 	/**
-	 * @return the uuidTime
-	 */
-	public long getUuidTime() {
-		return uuidTime;
-	}
-
-	/**
-	 * @param uuidTime the uuidTime to set
-	 */
-	public void setUuidTime(long uuidTime) {
-		this.uuidTime = uuidTime;
-	}
-
-	/**
 	 * @return the dateUtil
 	 */
-	public Date getStartDateUtil() {
-		return startDateUtil;
+	public Date getStartDate() {
+		return startDate;
 	}
 
 	/**
 	 * @param dateUtil the dateUtil to set
 	 */
-	public void setStartDateUtil(Date dateUtil) {
-		this.startDateUtil = dateUtil;
+	public void setStartDate(Date dateUtil) {
+		this.startDate = dateUtil;
 	}
 
 	/**
 	 * @return the createDateUtil
 	 */
-	public Date getCreateDateUtil() {
-		return createDateUtil;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
 	/**
 	 * @param createDateUtil the createDateUtil to set
 	 */
-	public void setCreateDateUtil(Date createDateUtil) {
-		this.createDateUtil = createDateUtil;
+	public void setCreateDate(Date createDateUtil) {
+		this.createDate = createDateUtil;
 	}
 
 	public CassandraTenantDao getCassandraTenantDao() {
@@ -358,7 +326,7 @@ public class Tenant
 		this.cassandraTenantDao = cassandraTenantDao;
 	}
 	public String getCreateDateString() {		
-		return DateUtility.formatDateFromUuid("MM/dd/yyyy",createDateUtil );
+		return DateUtility.formatDateFromUUID("MM/dd/yyyy",createDate );
 	}
 	public String getServiceStartDateString(){
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");

@@ -1,6 +1,7 @@
 package com.depth1.grc.model;
 
 import java.util.List;
+import com.depth1.grc.exception.DaoException;
 
 public interface RiskRegisterDao {
 	

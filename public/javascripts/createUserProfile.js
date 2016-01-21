@@ -1,6 +1,12 @@
+/**
+ *  This function validates the CreateRA form, allowing only alphabets and numbers
+ *  @author Barath Ravikumar
+ *  @version 1.0 -- 12/17/2015
+ */
+
 $(document).ready(function(){
     
-    
+    /*Get the titles, from the Backend to pouplate the dropdown*/
     function getTitles(){
         $('#title').find('option').remove();
         $('#title').append('<option></option>');
@@ -18,8 +24,9 @@ $(document).ready(function(){
         }
         
     }
-    
-    
+
+    /*Get the Country List, from the Backend to pouplate the dropdown*/
+
     function getCountries(){
         $('#country').find('option').remove();
         $('#country').append('<option></option>');
@@ -37,8 +44,9 @@ $(document).ready(function(){
         }
         
     }
-    
-    
+
+
+    /*Get the Languages List, from the Backend to pouplate the dropdown*/
 
     function getLanguages(){
         
@@ -59,8 +67,9 @@ $(document).ready(function(){
     
         
     }
-    
-    
+
+    /*Get the Timezones, from the Backend to pouplate the dropdown*/
+
     function getTimeZones(){
         
                 $('#tzone').find('option').remove();
@@ -70,18 +79,21 @@ $(document).ready(function(){
     xhttp.open("GET","getTimezones");
     xhttp.send();
 
+    xhttp.onreadystatechange = function(){
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
 
-        xhttp.onreadystatechange = function(){
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                    $('#tzone').append(xhttp.responseText);
-            }
+            var timeZoneResponse = JSON.parse(xhttp.responseText);
 
+            for(var i=0;i < timeZoneResponse.length ; i++)
+                $('#tzone').append("<option>"+timeZoneResponse[i]+"</option>");
         }
+
+    }
     
         
     }    
 
-    
+    /*Populate the states field if the selected country is either US or Canada*/
     $('#country').change(function(){
         
             function getStates(){
@@ -117,8 +129,7 @@ $(document).ready(function(){
         
         getStates();
     });
-    
-    /*Temporary*/
+
     $('#city').click(function(){
         $('#city').replaceWith('<input  id="city" name="city" class="userProfileCreation-city-text" ></input>');
         $('#city').focus();
@@ -135,7 +146,7 @@ $(document).ready(function(){
     getLanguages();
     getTimeZones();
     
-    
+    /*On submit obtain the co-ordinates from the google maps service*/
     $('#userProfileCreation').on("submit", function(event){
        
         //event.preventDefault();

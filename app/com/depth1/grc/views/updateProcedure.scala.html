@@ -1,0 +1,131 @@
+@import com.depth1.grc.model.Procedure
+@import helper._ 
+@import play.api.data.Forms._
+@(selectedProcedure:Procedure)
+
+<!-- header -->
+@header()
+		<!-- Main HTML -->
+        <ol class="breadcrumb">
+           <li><a class="blue-link" href="#">Home</a></li>
+           <li><a class="blue-link" href="/procedure/1/2/descendingP">Procedure</a></li>
+           <li>Update</li>
+        </ol>
+
+@main("Update Procedure") {
+	<script src="@routes.Assets.versioned("javascripts/tinymce.min.js")"></script>
+	<script>
+	    tinymce.init({
+	    selector: "#procedurebody",
+	    theme: "modern",
+	    plugins: [
+	        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+	        "searchreplace wordcount visualblocks visualchars code fullscreen",
+	        "insertdatetime media nonbreaking save table contextmenu directionality",
+	        "emoticons template paste textcolor colorpicker textpattern imagetools"
+	    ],
+	    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+	    toolbar2: "print preview media | forecolor backcolor emoticons",
+	    image_advtab: true,
+	    templates: [
+	        {title: 'Test template 1', content: 'Test 1'},
+	        {title: 'Test template 2', content: 'Test 2'}
+	    ]
+		});	
+		
+		function HandleBrowseClick() {
+			document.getElementById("browse").click();
+		}
+		
+		function HandleChange() {
+			var fileinput = document.getElementById("browse");
+    		var textinput = document.getElementById("filename");
+    		textinput.value = fileinput.value;  
+     		fileinput.addEventListener("change", function(event){
+     			event.stopPropagation();    
+         		var reader = new FileReader();        
+         		reader.onload = function(event){
+         			event.stopPropagation();
+             		var contents = event.target.result;
+               		document.getElementById('procedurebody').value = contents;            
+         		};        
+         		reader.onerror = function(event){
+            		console.error("File could not be read! Code " + event.target.error.code);
+         		};        
+         		console.log("Filename: " + fileinput.files[0].name);
+         		reader.readAsText(fileinput.files[0]);        
+     		}, false);
+		}
+	</script>
+	
+	
+        <center>
+           <h1> Update Procedure</h1>
+                     </br>
+        </center>
+       
+        <form id="pCreation" action="/procedure/update/done" method="post">
+        <table id="procedureidtable" align="center">
+	           <tr>
+	              <td class="Row1"> <b>Procedure Id:&nbsp;&nbsp;</b></td>
+	              <td class="Row1">@selectedProcedure.getProcedureId</td>
+	              </tr>
+	     </table>
+	 	<fieldset class="procedure-position-fieldset">
+		
+		<div>
+		<label for="name" class="procedure-name" >Procedure Name:</label>
+		<input type="text" id="name" name="name" class="procedure-name-text" value = "@selectedProcedure.getName" >
+		<label for="version" class="version" >Version:</label>
+		<input type="text" id="version" name="version" class="version-text" value = "@selectedProcedure.getVersion" >
+		<label for="author" class="author" >Author:</label>
+		<input type="text" id="author" name="author" class="author-text" value = "@selectedProcedure.getAuthor">
+		</div>
+		
+		<div>
+		<label for="description" class="procedure-description" >Description: </label>
+		<textarea form="pCreation" cols="121" rows="2" id="description" name="description" class="procedure-description-text">@selectedProcedure.getDescription</textarea>
+		</div>		 
+		
+		<div>	
+		<label for="format" class="format" >Format:</label>
+		<input type="text" id="format" name="format" class="format-text" value = "@selectedProcedure.getFormat" >
+		<label for="lang" class="language" >Language:</label>
+        <input type="text" id="language" name="language" class="language-text" value = "@selectedProcedure.getLanguage" >
+        <label for="sub" class="subject" >Subject:</label>
+         <input type="text" id="subject" name="subject" class="subject-text" value = "@selectedProcedure.getSubject">
+       </div>
+       
+       <div>          
+       <label for="ref" class="reference" >Policy Reference:</label>
+       <input type="text" id="reference" name="reference" class="reference-text"  value = "@selectedProcedure.getReference">
+      <label for="appr" class="approver" >Approver:</label>
+      <input type="text" id="approver" name="approver" class="approver-text" value = "@selectedProcedure.getApprover" >
+      <label for="owner" class="owner" >Owner:</label>
+      <input type="text" id="owner" name="owner" class="owner-text" value = "@selectedProcedure.getOwner"></td>
+      </div>          
+      </fieldset>             
+	 
+			
+      <fieldset class="procedure-position-fieldset-procedure-body">
+     <input type="file" id="browse" name="fileupload" style="display: none" onchange="HandleChange();"/>
+	</br>
+	<center>
+	<input type="text" align="right" id="filename" readonly="true"/>
+	<input type="button" align="right" value="Click to select file"  id="fakeBrowse" onclick="HandleBrowseClick();"/>
+	</center>
+	<br>
+	<br>
+	<textarea form="pbdy" cols="20" rows="10" id="procedurebody" name="procedurebody" class="textarea-adjust"></textarea></td>
+	<center><input type="submit" name="action" value="Submit">
+		    <input type="submit" value="Cancel">
+	</center>	    
+	
+	</form>
+    }  
+    </br> </br> 
+    
+     
+
+<!-- footer -->
+@footer()

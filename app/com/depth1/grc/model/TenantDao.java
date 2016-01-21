@@ -3,6 +3,8 @@ package com.depth1.grc.model;
 import java.text.ParseException;
 import java.util.List;
 
+import com.depth1.grc.exception.DaoException;
+
 /**
  * The Tenant interface that defines the contract that all implementing classes must abide by
  * It provides API to expose to caller of classes that implement the interface

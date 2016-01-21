@@ -14,6 +14,9 @@ import com.datastax.driver.core.exceptions.DriverException;
 import com.datastax.driver.core.querybuilder.Delete;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.core.querybuilder.Update;
+
+import com.depth1.grc.exception.DaoException;
+
 import play.Logger;
 
 

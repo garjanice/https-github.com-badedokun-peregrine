@@ -4,96 +4,126 @@
 
 
 # Login page
-GET		/login 							com.depth1.grc.controllers.ApplicationLogin.login()
+GET	/login 										com.depth1.grc.controllers.ApplicationLogin.login()
 
-GET     /logout        				    com.depth1.grc.controllers.ApplicationLogin.logout()
+GET     /logout        				    		com.depth1.grc.controllers.ApplicationLogin.logout()
 
-POST	/authenticate 					com.depth1.grc.controllers.ApplicationLogin.authenticate()
+POST	/authenticate 							com.depth1.grc.controllers.ApplicationLogin.authenticate()
 
 # Home page
-GET     /                          		com.depth1.grc.controllers.Application.index()
+GET     /                          				com.depth1.grc.controllers.Application.index()
 
-GET     /riskAssessment                 com.depth1.grc.controllers.Application.showFrontRAPage()
+GET     /riskAssessment                 		com.depth1.grc.controllers.Application.showFrontRAPage()
 
-GET 	/riskAssessment/create			com.depth1.grc.controllers.Application.showCreateRAPage()
+GET 	/riskAssessment/create					com.depth1.grc.controllers.Application.showCreateRAPage()
 
-GET 	/riskAssessment/view			com.depth1.grc.controllers.Application.showViewRAPage()
+GET 	/riskAssessment/view					com.depth1.grc.controllers.Application.showViewRAPage()
 
-GET 	/riskAssessment/print			com.depth1.grc.controllers.Application.printRA()
+GET 	/riskAssessment/print					com.depth1.grc.controllers.Application.printRA()
 
-GET 	/riskAssessment/update			com.depth1.grc.controllers.Application.showUpdateRAPage()
+GET 	/riskAssessment/update					com.depth1.grc.controllers.Application.showUpdateRAPage()
 
-DELETE	/riskAssessment/delete			com.depth1.grc.controllers.Application.deleteRiskAssessment()
+DELETE	/riskAssessment/delete					com.depth1.grc.controllers.Application.deleteRiskAssessment()
 
-POST  	/riskAssessment/update/done		com.depth1.grc.controllers.Application.updateRiskAssessment()
+POST  	/riskAssessment/update/done				com.depth1.grc.controllers.Application.updateRiskAssessment()
 
-POST  	/riskAssessment/create/done		com.depth1.grc.controllers.Application.addRiskAssessment()
+POST  	/riskAssessment/create/done				com.depth1.grc.controllers.Application.addRiskAssessment()
 
-POST 	/riskAssessment/selected		com.depth1.grc.controllers.Application.setSelectedRA()
+POST 	/riskAssessment/selected				com.depth1.grc.controllers.Application.setSelectedRA()
 
 GET		/riskAssessment/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontRAPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
 
 GET     /picture        						com.depth1.grc.controllers.Universal.getPicture(pictureName: String)
 
-GET 	/riskAssessment/cacheTenants	com.depth1.grc.controllers.Application.getTenantNames()
+GET 	/riskAssessment/cacheTenants			com.depth1.grc.controllers.OrganizationResource.getTenantNames()
 
-GET 	/userprofile/cacheTenants		com.depth1.grc.controllers.Application.getTenantNames()
+GET 	/userprofile/cacheTenants				com.depth1.grc.controllers.OrganizationResource.getTenantNames()
 
-GET     /policy/:page/:view/:order    	com.depth1.grc.controllers.Application.showPolicyListPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
+GET     /policy/:page/:view/:order    			com.depth1.grc.controllers.Application.showPolicyListPageQuery(page: Integer, view: Integer, order: String, query: String ?= "")
 
-GET		/policy/create				   	com.depth1.grc.controllers.Application.showCreatePolicyPage()
+GET		/policy/create				   			com.depth1.grc.controllers.Application.showCreatePolicyPage()
 
-GET		/policy/createBody				com.depth1.grc.controllers.Application.showCreatePolicyEditorPage()
+GET		/policy/createBody						com.depth1.grc.controllers.Application.showCreatePolicyEditorPage()
 
-GET		/policy/view/:id				com.depth1.grc.controllers.Application.showViewPolicyPage(id: java.util.UUID)
+GET		/policy/view							com.depth1.grc.controllers.Application.showViewPolicyPage()
 
-GET		/policy/update					com.depth1.grc.controllers.Application.showUpdatePolicyPage()
+GET		/policy/update							com.depth1.grc.controllers.Application.showUpdatePolicyPage()
 
 GET 	/policy/restore/:page/:view/:order 		com.depth1.grc.controllers.Application.showRestorePolicyPage(page: Integer, view: Integer, order: String, query: String ?= "")
 
-GET 	/policy/restore/done			com.depth1.grc.controllers.Application.restorePolicy()
+GET 	/policy/restore/done					com.depth1.grc.controllers.Application.restorePolicy()
 
-GET		/policy/delete					com.depth1.grc.controllers.Application.deletePolicy()
+DELETE	/policy/delete							com.depth1.grc.controllers.Application.deletePolicy()
 
-GET		/policy/download/name			com.depth1.grc.controllers.Application.downloadPolicy(name: String)
+GET		/policy/download/name					com.depth1.grc.controllers.Application.downloadPolicy(name: String)
 
-POST  	/policy/create/done				com.depth1.grc.controllers.Application.createPolicy()
+POST  	/policy/create/done						com.depth1.grc.controllers.Application.createPolicy()
 
-POST  	/policy/update/done				com.depth1.grc.controllers.Application.updatePolicy()
+POST  	/policy/update/done						com.depth1.grc.controllers.Application.updatePolicy()
 
-GET		/tenant/:page/:view/:order		com.depth1.grc.controllers.Application.showFrontTenantPage(page: Integer, view: Integer, order: String, query: String ?= "")
+POST 	/policy/selected						com.depth1.grc.controllers.Application.setSelectedPolicy()
 
-GET  	/tenant/create					com.depth1.grc.controllers.Application.showCreateTenant()
+GET     /procedure                          	com.depth1.grc.controllers.Application.showFrontProcedurePage()
 
-GET  	/tenant/update					com.depth1.grc.controllers.Application.showUpdateTenant()
+GET		/procedure/create		    			com.depth1.grc.controllers.Application.showCreateProcedurePage()
 
-GET  	/tenant/view					com.depth1.grc.controllers.Application.showViewTenant()
+GET		/procedure/createBody		    		com.depth1.grc.controllers.Application.showCreateProcedureEditorPage()
 
-POST  	/tenant/create/done				com.depth1.grc.controllers.Application.addTenant()
+GET		/procedure/update  		    			com.depth1.grc.controllers.Application.showUpdateProcedurePage()
 
-POST 	/tenant/selected				com.depth1.grc.controllers.Application.setSelectedTenant()
+DELETE	/procedure/delete		    			com.depth1.grc.controllers.Application.deleteProcedure()
 
-POST  	/tenant/update/done				com.depth1.grc.controllers.Application.updateTenant()
+GET 	/procedure/restore		    			com.depth1.grc.controllers.Application.showRestoreProcedurePage()
 
-DELETE	/tenant/delete					com.depth1.grc.controllers.Application.deleteTenant()
+GET 	/procedure/restore/done		    		com.depth1.grc.controllers.Application.restoreProcedure(procedureId: String)
 
-GET		/userprofile/:page/:view/:order	com.depth1.grc.controllers.Application.showFrontUserProfile(page: Integer, view: Integer, order: String, query: String ?= "")
+GET		/procedure/download/name	    		com.depth1.grc.controllers.Application.downloadProcedure(name: String)
 
-POST 	/userprofile/selected			com.depth1.grc.controllers.Application.setSelectedUserProfile()
+GET 	/procedure/view			    			com.depth1.grc.controllers.Application.showViewProcedurePage()
 
-GET  	/userprofile/create				com.depth1.grc.controllers.Application.showCreateUserProfile()
+POST  	/procedure/create/done		    		com.depth1.grc.controllers.Application.createProcedure()
 
-GET		/userprofile/getTitles			com.depth1.grc.controllers.Universal.getTitleOption()
+POST 	/procedure/selected		   		 		com.depth1.grc.controllers.Application.setSelectedProcedure()
 
-GET		/userprofile/getCountries		com.depth1.grc.controllers.Universal.getCountryOption()
+POST  	/procedure/update/done		    		com.depth1.grc.controllers.Application.updateProcedure()
 
-GET		/userprofile/getLanguages		com.depth1.grc.controllers.Universal.getLanguageOption()
+GET 	/procedure/print		    			com.depth1.grc.controllers.Application.printProcedure()
 
-GET		/userprofile/getTimezones		com.depth1.grc.controllers.Universal.getTimezoneOption()
+GET		/procedure/getLanguages		    		com.depth1.grc.controllers.Universal.getLanguageOption()
 
-GET		/userprofile/getStates/:CCode	com.depth1.grc.controllers.Universal.getStateOption(CCode: String)
+GET		/tenant/:page/:view/:order				com.depth1.grc.controllers.OrganizationResource.showFrontTenantPage(page: Integer, view: Integer, order: String, query: String ?= "")
 
-POST  	/userprofile/create/done		com.depth1.grc.controllers.Application.addUserProfile()
+GET  	/tenant/create							com.depth1.grc.controllers.OrganizationResource.showCreateTenant()
+
+GET  	/tenant/update							com.depth1.grc.controllers.OrganizationResource.showUpdateTenant()
+
+GET  	/tenant/view							com.depth1.grc.controllers.OrganizationResource.showViewTenant()
+
+POST  	/tenant/create/done						com.depth1.grc.controllers.OrganizationResource.addTenant()
+
+POST 	/tenant/selected						com.depth1.grc.controllers.OrganizationResource.setSelectedTenant()
+
+POST  	/tenant/update/done						com.depth1.grc.controllers.OrganizationResource.updateTenant()
+
+DELETE	/tenant/delete							com.depth1.grc.controllers.OrganizationResource.deleteTenant()
+
+GET		/userprofile/:page/:view/:order			com.depth1.grc.controllers.OrganizationResource.showFrontUserProfile(page: Integer, view: Integer, order: String, query: String ?= "", tenant: Long)
+
+POST 	/userprofile/selected					com.depth1.grc.controllers.OrganizationResource.setSelectedUserProfile()
+
+GET  	/userprofile/create						com.depth1.grc.controllers.OrganizationResource.showCreateUserProfile()
+
+GET		/userprofile/getTitles					com.depth1.grc.controllers.Universal.getTitleOption()
+
+GET		/userprofile/getCountries				com.depth1.grc.controllers.Universal.getCountryOption()
+
+GET		/userprofile/getLanguages				com.depth1.grc.controllers.Universal.getLanguageOption()
+
+GET		/userprofile/getTimezones				com.depth1.grc.controllers.Universal.getTimezoneOption()
+
+GET		/userprofile/getStates/:CCode				com.depth1.grc.controllers.Universal.getStateOption(CCode: String)
+
+POST  	/userprofile/create/done				com.depth1.grc.controllers.OrganizationResource.addUserProfile()
 
 GET 	/riskRegister/create			com.depth1.grc.controllers.Application.showCreateRRPage()
 
@@ -113,4 +143,4 @@ GET		/riskRegister/:page/:view/:order		com.depth1.grc.controllers.Application.sh
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file               				controllers.Assets.versioned(path="/public", file: Asset)

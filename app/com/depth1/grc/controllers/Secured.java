@@ -3,13 +3,11 @@
  */
 package com.depth1.grc.controllers;
 
-import com.depth1.grc.model.Login;
 import com.depth1.grc.views.html.login;
 
-import play.data.Form;
+import play.mvc.Http.Context;
 import play.mvc.Result;
 import play.mvc.Security;
-import play.mvc.Http.Context;
 
 /**
  * This class protect actions with authentication using action composition - the ability to compose
@@ -18,8 +16,6 @@ import play.mvc.Http.Context;
  *
  */
 public class Secured extends Security.Authenticator {
-	private static final Form<Login> loginForm = Form.form(Login.class);
-	
 	/* (non-Javadoc)
 	 * @see play.mvc.Security.Authenticator#getUsername(play.mvc.Http.Context)
 	 */

@@ -190,23 +190,14 @@ onload = function() {
             
             var id = row.attr('id');
             currentPolicyUUID = id;
-            /*if(policyListSortValue[1]){
-                var obj = {
+            var obj = {
                     "val": String(index),
-                    "sort": pathArray[4],
-                    "query": policyListSortValue
-                    }
-            } else {
-                var obj = {
-                    "val":String(index),
-                    "sort":raListSortValue[0],
-                    "query":"UNDEFINED"
-                    }
+             
             
             }
             
-           /* $.ajax({
-				url: "/riskAssessment/selected",
+            $.ajax({
+				url: "/policy/selected",
 				type: 'POST',
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
@@ -219,7 +210,7 @@ onload = function() {
                         console.log("POST Failure!")	
                     }
                 }
-            })*/
+            })
             
         }
     }
@@ -234,12 +225,12 @@ onload = function() {
  * @version 1.0 -- 9/2/2015
  * 
  */
-function deleteRA(){
-	if (!confirm('Are you sure want to delete this Risk Assessment?')){
+function DeletePolicy(){
+	if (!confirm('Are you sure want to delete this Policy?')){
         return false;
     }
 	$.ajax({
-		url : "/riskAssessment/delete",
+		url : "/policy/delete",
 		type : 'DELETE',
 		success : function(result) {
 			if (result){
@@ -270,11 +261,11 @@ function changeViewPolicy(numberOfItems){
 }
 
 function goToPolicyView(){
-	window.open("/policy/view/" + currentPolicyUUID, "_self");
+	window.open("/policy/view" , "_self");
 	
 }
 function goToPolicyUpdate(){
-	window.open("/policy/update/" + currentPolicyUUID, "_self");
+	window.open("/policy/update" , "_self");
 	
 }
 function goToPolicyCreate(){

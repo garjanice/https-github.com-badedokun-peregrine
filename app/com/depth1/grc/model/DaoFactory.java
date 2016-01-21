@@ -4,6 +4,7 @@
 package com.depth1.grc.model;
 
 import com.depth1.grc.db.util.DropDownList;
+import com.depth1.grc.exception.DaoException;
 
 /**
  * 
@@ -27,13 +28,13 @@ public abstract class DaoFactory {
 	  public static final int ORACLE = 3;
 	  public static final int XML = 4;
 
-		/**
-		 * Returns the Policy DAO.
-		 * 
-		 * <p>This abstract method is implemented by the subclass
-		 * @return PolicyDao policy data access object interface
-		 * @throws DaoException if errors occurs while retrieving data from the data store
-		 */
+	/**
+	 * Returns the Policy DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return PolicyDao policy data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
+	 */
 	
 	public abstract PolicyDao getPolicyDao() throws DaoException; 
 	
@@ -76,7 +77,17 @@ public abstract class DaoFactory {
 	 * @throws DaoException if errors occurs while retrieving data from the data store
 	 */
 	
-	public abstract UserProfileDao getUserProfileDao() throws DaoException;	
+	public abstract UserProfileDao getUserProfileDao() throws DaoException;
+	
+	/**
+	 * Returns the Department DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return DepartmentDao department data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
+	 */
+	
+	public abstract DepartmentDao getDepartmentDao() throws DaoException;		
 	
 	/**
 <<<<<<< HEAD
@@ -89,6 +100,19 @@ public abstract class DaoFactory {
 	 */
 	
 	public abstract DropDownList getDropDownList() throws DaoException;		
+	
+	
+	 /**
+	 * Returns the Procedure DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return ProcedureDao procedure data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
+	 */
+
+
+    public abstract ProcedureDao getProcedureDao() throws DaoException; 
+
 	
 	/**
 >>>>>>> e7f9fff99988c7a3a868fe38792778202192484b
@@ -107,7 +131,7 @@ public abstract class DaoFactory {
 		      case MARIADB: 
 		          return new RdbDaoFactory();       
 		      case ORACLE: 
-		          return new NoSqlDaoFactory();      
+		          return new RdbDaoFactory();      
 		      case XML: 
 		          return new XmlDaoFactory();
 		      
@@ -116,4 +140,5 @@ public abstract class DaoFactory {
 		    }
 		  }
 
+	 
 }

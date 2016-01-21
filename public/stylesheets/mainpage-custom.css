@@ -1003,13 +1003,13 @@ a:hover {
 	}
 .policy-author {
 	position: absolute;
-	top: 25px;
-	left: 700px;
+	top: 400px;
+	left: 25px;
 	}
 .policy-author-text{
 	position: absolute;
-	top: 25px;
-	left: 850px;
+	top: 400px;
+	left: 175px;
 	}
 .policy-description {
 	position: absolute;
@@ -1024,192 +1024,212 @@ a:hover {
 .policy-format {
 	position: absolute;
 	top: 150px;
-	left: 25px;
+	left: 375px;
 	}
 .policy-format-text{
 	position: absolute;
 	top: 150px;
-	left: 175px;
+	left: 475px;
 	}
 .policy-language {
 	position: absolute;
 	top: 150px;
-	left: 375px;
+	left: 700px;
 	}
 .policy-language-text{
 	position: absolute;
 	top: 150px;
-	left: 475px;
+	left: 850px;
 	}
 .policy-subject {
 	position: absolute;
 	top: 150px;
-	left: 700px;
+	left: 25px;
 	}
 .policy-subject-text{
 	position: absolute;
 	top: 150px;
-	left: 850px;
+	left: 175px;
 	}
 .policy-source {
 	position: absolute;
 	top: 200px;
-	left: 25px;
+	left: 700px;
 	}
 .policy-source-text{
 	position: absolute;
 	top: 200px;
-	left: 175px;
+	left: 850px;
 	}
 .policy-category {
 	position: absolute;
 	top: 200px;
-	left: 375px;
+	left: 25px;
 	}
 .policy-category-text{
 	position: absolute;
 	top: 200px;
-	left: 475px;
+	left: 175px;
 	}
 .policy-classification {
 	position: absolute;
 	top: 200px;
-	left: 700px;
+	left: 375px;
 	}
 .policy-classification-text{
 	position: absolute;
 	top: 200px;
-	left: 850px;
-	}
-.policy-sunset-date {
-	position: absolute;
-	top: 250px;
-	left: 25px;
-	}
-.policy-sunset-date-text{
-	position: absolute;
-	top: 250px;
-	left: 175px;
+	left: 475px;
 	}
 .policy-reference {
 	position: absolute;
-	top: 250px;
-	left: 375px;
+	top: 25px;
+	left: 700px;
 	}
 .policy-reference-text{
 	position: absolute;
-	top: 250px;
-	left: 475px;
+	top: 25px;
+	left: 850px;
 	}
 .policy-legal-requirement {
 	position: absolute;
 	top: 250px;
-	left: 700px;
+	left: 375px;
 	}
 .policy-legal-requirement-text{
 	position: absolute;
 	top: 250px;
-	left: 850px;
+	left: 475px;
 	}
 .policy-compliance-category {
 	position: absolute;
-	top: 300px;
+	top: 250px;
 	left: 25px;
 	}
 .policy-compliance-category-text{
 	position: absolute;
-	top: 300px;
+	top: 250px;
 	left: 175px;
 	}
 .policy-regulatory {
 	position: absolute;
-	top: 300px;
-	left: 375px;
+	top: 250px;
+	left: 700px;
 	}
 .policy-regulatory-text{
 	position: absolute;
-	top: 300px;
-	left: 475px;
+	top: 250px;
+	left: 850px;
 	}
 .policy-producing-function {
 	position: absolute;
 	top: 300px;
-	left: 700px;
+	left: 25px;
 	}
 .policy-producing-function-text{
 	position: absolute;
 	top: 300px;
-	left: 850px;
+	left: 225px;
 	}
 .policy-approver {
 	position: absolute;
-	top: 350px;
-	left: 25px;
+	top: 400px;
+	left: 375px;
 	}
 .policy-approver-text{
 	position: absolute;
-	top: 350px;
-	left: 175px;
+	top: 400px;
+	left: 475px;
 	}
 .policy-owner {
 	position: absolute;
-	top: 350px;
-	left: 375px;
+	top: 400px;
+	left: 700px;
 	}
 .policy-owner-text{
 	position: absolute;
-	top: 350px;
-	left: 475px;
+	top: 400px;
+	left: 850px;
 	}
 .policy-document-contact {
 	position: absolute;
-	top: 350px;
-	left: 700px;
+	top: 300px;
+	left: 500px;
 	}
 .policy-document-contact-text{
 	position: absolute;
-	top: 350px;
-	left: 850px;
+	top: 300px;
+	left: 700px;
 	}
 .policy-functional-applicability {
 	position: absolute;
-	top: 400px;
+	top: 350px;
 	left: 25px;
 	}
 .policy-functional-applicability-text{
 	position: absolute;
-	top: 400px;
+	top: 350px;
 	left: 225px;
 	}
 .policy-geographic-applicability {
 	position: absolute;
-	top: 400px;
+	top: 350px;
 	left: 500px;
 	}
 .policy-geographic-applicability-text{
 	position: absolute;
-	top: 400px;
+	top: 350px;
 	left: 700px;
 	}
 .policy-effective-date {
 	position: absolute;
 	top: 450px;
-	left: 25px;
+	left: 375px;
 	}
 .policy-effective-date-text{
 	position: absolute;
 	top: 450px;
-	left: 175px;
+	left: 475px;
 	}
 .policy-issue-date {
 	position: absolute;
 	top: 450px;
-	left: 375px;
+	left: 25px;
 	}
 .policy-issue-date-text{
 	position: absolute;
 	top: 450px;
-	left: 475px;
+	left: 175px;
+	}
+.policy-sunset-date {
+	position: absolute;
+	top: 450px;
+	left: 700px;
+	}
+.policy-sunset-date-text{
+	position: absolute;
+	top: 450px;
+	left: 850px;
+	}
+.policy-last-review-date {
+	position: absolute;
+	top: 500px;
+	left: 25px;
+	}
+.policy-last-review-date-text{
+	position: absolute;
+	top: 500px;
+	left: 225px;
+	}
+.policy-next-review-date {
+	position: absolute;
+	top: 500px;
+	left: 500px;
+	}
+.policy-next-review-date-text{
+	position: absolute;
+	top: 500px;
+	left: 700px;
 	}
 .policy-position-fieldset-policy-body {
 	position: absolute;
@@ -1739,4 +1759,227 @@ a:hover {
 	top: 630px;
 	left: 600px;
     width: 175px;
+	}
+	
+/*-------------------front procedure---------------*/
+  
+.pList-Button {
+    width: 100px;
+    height: 30px;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color:Blue;
+    color: #ffffff;
+    border-color: lightblue;
+    }
+    
+    #pListSearchText{
+    float: right;
+    clear: both;
+    border-radius: 10px;
+    }
+
+ .pTableView{
+    float: right;
+    
+    }
+ .highlight{
+    background-color: blue;
+    color: #ffffff;
+    }
+ 
+    #pTable {
+    width: 100%;
+    
+    }
+#pTableCol1 {
+    width: 20%;
+     border-radius: 10px 0px 0px 0px;
+    }
+#pTableCol2 {
+    width: 20%;
+    
+   
+    }
+ #pTableCol3 {
+    width: 25%;
+    }   
+#pTableCol4 {
+    width: 20%;
+
+    }  
+#pTableCol5 {
+    width: 40%;
+    border-radius: 0px 10px 0px 0px;
+     
+    }  
+ 
+#pTable thead th{
+    
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    border-bottom-width: 3px;
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    background: blue;
+    color: #ffffff;
+    }
+
+#pTable td {
+    padding: 5px 10px 5px 10px;
+  
+    } 
+   
+#pTable tr {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    }
+.pTableRowCenter {
+    text-align: left;
+    }
+        
+#pViewTable tr td{
+    padding-top: 25px;
+    }
+    
+.pViewBoxTitle{
+    
+    }
+.pViewBox{
+    border: 2px solid black;
+    padding: 10px;
+    width: 1000px
+    }
+
+
+.pViewRow1{
+    width: 120px;
+    vertical-align: top;
+    
+    }
+#pViewTable{
+    width: 960px;
+    }
+.select-style createprocedure-language-text{
+	
+	width: 175px;
+	}	
+	
+/*--------------------------Create Procedure--------------------*/
+
+
+.procedure-position-fieldset {
+	position: absolute;
+	top: 350px;
+	left: 200px;
+	border: 2px solid black;
+    width: 1050px;
+    height: 300px;
+	}
+.procedure-name{
+	position: absolute;
+	top: 25px;
+	left: 25px;
+	}
+.procedure-name-text{
+	position: absolute;
+	top: 25px;
+	left: 175px;
+	}
+.version{
+	position: absolute;
+	top: 25px;
+	left: 375px;
+	}
+.version-text{
+	position: absolute;
+	top: 25px;
+	left: 475px;
+	}
+.author{
+	position: absolute;
+	top: 25px;
+	left: 700px;
+	}
+.author-text{
+	position: absolute;
+	top: 25px;
+	left: 845px;
+	}
+.procedure-description{
+	position: absolute;
+	top: 75px;
+	left: 25px;
+	}
+.procedure-description-text{
+	position: absolute;
+	top: 75px;
+	left: 175px;
+	}
+.format {
+	position: absolute;
+	top: 150px;
+	left: 25px;
+	}
+.format-text{
+	position: absolute;
+	top: 150px;
+	left: 175px;
+	}
+.language {
+	position: absolute;
+	top: 150px;
+	left: 375px;
+	}
+.language-text{
+	position: absolute;
+	top: 150px;
+	left: 475px;
+	}
+.subject {
+	position: absolute;
+	top: 150px;
+	left: 700px;
+	}
+.subject-text{
+	position: absolute;
+	top: 150px;
+	left: 845px;
+	}
+.reference {
+	position: absolute;
+	top: 200px;
+	left: 25px;
+	}
+.reference-text{
+	position: absolute;
+	top: 200px;
+	left: 175px;
+	}
+.approver {
+	position: absolute;
+	top: 200px;
+	left: 375px;
+	}
+.approver-text{
+	position: absolute;
+	top: 200px;
+	left: 475px;
+	}
+.owner {
+	position: absolute;
+	top: 200px;
+	left: 700px;
+	}
+.owner-text{
+	position: absolute;
+	top: 200px;
+	left: 845px;
+	}
+	.procedure-position-fieldset-procedure-body {
+	position: absolute;
+	top: 650px;
+	left: 200px;
+	
+    width: 1050px;
 	}
