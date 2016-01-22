@@ -489,7 +489,7 @@ public final class DateUtility {
 	 * @param format the date string format
 	 * @return String date corresponding to the date object
 	 */
-    public String getDateAsString(Timestamp timeStamp, DateFormat format) {
+    public static String getDateAsString(Timestamp timeStamp, DateFormat format) {
     	format = new SimpleDateFormat(NORTH_AMERICA_DATE_FORMAT);
     	return DateUtility.toString(timeStamp, format);
     }
@@ -501,7 +501,7 @@ public final class DateUtility {
 	 * @param timeStamp the timestamp object to set
 	 * @throws DateException if error occurs while parsing the date object
 	 */
-	public void setDateAsString(String date, Timestamp timeStamp) throws DateException {
+	public static void setDateAsString(String date, Timestamp timeStamp) throws DateException {
 		try {
 			timeStamp = DateUtility.toTimestamp(date, NORTH_AMERICA_DATE_FORMAT);
 
@@ -520,7 +520,7 @@ public final class DateUtility {
 	 * @param uuid the UUID object to convert to date
 	 * @return Date object as a string 
 	 */
-	public String getDateAsString(Date date, long uuidTime, UUID uuid) {
+	public static String getDateAsString(Date date, long uuidTime, UUID uuid) {
 		uuidTime = UUID.randomUUID().timestamp();
 		date = new Date(uuidTime);
 		return DateUtility.formatDateFromUUID(NORTH_AMERICA_DATE_FORMAT, date);

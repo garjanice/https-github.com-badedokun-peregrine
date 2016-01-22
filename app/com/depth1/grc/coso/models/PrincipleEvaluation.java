@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.depth1.grc.model;
+package com.depth1.grc.coso.models;
 
 import java.util.Map;
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.depth1.grc.model;
+package com.depth1.grc.coso.models;
 
 /**
  * This class links existing internal control structure to the 17 COSO

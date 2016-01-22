@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class EnumConstant {
-	public enum Type {
+	public enum ObjectiveType {
 		STRATEGIC, OPERATIONS, EXTERNAL_FINANCIAL_REPORTING, EXTERNAL_NON_FINANCIAL_REPORTING, INTERNAL_REPORTING, COMPLIANCE
 	}
 
@@ -22,11 +22,11 @@ public class EnumConstant {
 	}
 
 	private String description;
-	private Type type;
+	private ObjectiveType objectiveType;
 
-	public EnumConstant(String description, Type type) {
+	public EnumConstant(String description, ObjectiveType objectiveType) {
 		this.description = description;
-		this.type = type;
+		this.objectiveType = objectiveType;
 	}
 	
 	/**
@@ -35,12 +35,12 @@ public class EnumConstant {
 	 * @return
 	 */
 
-	public Map<EnumConstant.Type, Set<EnumConstant>> objective(EnumConstant[] objective) {
-		Map<EnumConstant.Type, Set<EnumConstant>> objectiveByType = new EnumMap<EnumConstant.Type, Set<EnumConstant>>(EnumConstant.Type.class);
-		for (EnumConstant.Type t : EnumConstant.Type.values())
+	public Map<EnumConstant.ObjectiveType, Set<EnumConstant>> objective(EnumConstant[] objective) {
+		Map<EnumConstant.ObjectiveType, Set<EnumConstant>> objectiveByType = new EnumMap<EnumConstant.ObjectiveType, Set<EnumConstant>>(EnumConstant.ObjectiveType.class);
+		for (EnumConstant.ObjectiveType t : EnumConstant.ObjectiveType.values())
 			objectiveByType.put(t, new HashSet<EnumConstant>());
 		for (EnumConstant o : objective)
-			objectiveByType.get(o.type).add(o);
+			objectiveByType.get(o.objectiveType).add(o);
 		
 		return objectiveByType;
 	}
@@ -50,8 +50,8 @@ public class EnumConstant {
 	 * 
 	 * @return list of objective types in the enum.
 	 */
-	public List<EnumConstant.Type> listObjective() {
-		return new ArrayList<EnumConstant.Type>(Arrays.asList(EnumConstant.Type.values()));
+	public List<EnumConstant.ObjectiveType> listObjective() {
+		return new ArrayList<EnumConstant.ObjectiveType>(Arrays.asList(EnumConstant.ObjectiveType.values()));
 	}
 	
 	/**

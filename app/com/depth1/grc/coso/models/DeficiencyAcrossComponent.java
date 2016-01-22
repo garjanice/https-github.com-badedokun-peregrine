@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.depth1.grc.model;
+package com.depth1.grc.coso.models;
 
 /**
  * This class evaluates deficiencies across the component. Evaluates if any internal control deficiencies

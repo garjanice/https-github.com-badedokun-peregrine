@@ -180,7 +180,7 @@ public class CassandraProcedureDao implements ProcedureDao {
 		procedure.setDescription(row.getString("description"));
 		procedure.setAuthor(row.getString("author"));
 		procedure.setVersion(row.getString("version"));
-		procedure.setCreateDate(row.getTimestamp("createdate"));
+		//procedure.setCreateDate(row.getTimestamp("createdate"));
 		procedure.setFormat(row.getString("format"));
 		procedure.setLanguage(row.getString("language"));
 		procedure.setSubject(row.getString("subject"));

@@ -1,13 +1,14 @@
 /**
  * 
  */
-package com.depth1.grc.model;
+package com.depth1.grc.coso.models;
 
 import java.util.Map;
 import java.util.Set;
 
 /**
- * 
+ * The control assessment is an assessment of the 2013 control framework to assist organizations to link
+ * their controls to the updated control framework. 
  * @author Bisi Adedokun
  *
  */
@@ -18,12 +19,6 @@ public class ControlAssessment {
 	private Set<String> category;
 	private Map<Float, String> section; // key is the section number, value is the section text
 	private String question;
-	private String answer;
-	private String reference;
-	private String comment;
-	
-
-	
 	/**
 	 * 
 	 */
@@ -57,30 +52,6 @@ public class ControlAssessment {
 
 
 	/**
-	 * @return the answer
-	 */
-	public String getAnswer() {
-		return answer;
-	}
-
-
-	/**
-	 * @return the reference
-	 */
-	public String getReference() {
-		return reference;
-	}
-
-
-	/**
-	 * @return the comment
-	 */
-	public String getComment() {
-		return comment;
-	}
-
-
-	/**
 	 * @param controlId the controlId to set
 	 */
 	public void setControlAssessmentId(long controlId) {
@@ -103,29 +74,6 @@ public class ControlAssessment {
 		this.question = question;
 	}
 
-
-	/**
-	 * @param answer the answer to set
-	 */
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
-
-
-	/**
-	 * @param reference the reference to set
-	 */
-	public void setReference(String reference) {
-		this.reference = reference;
-	}
-
-
-	/**
-	 * @param comment the comment to set
-	 */
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
 
 	/**
 	 * @return the principle
