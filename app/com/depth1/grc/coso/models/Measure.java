@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.depth1.grc.jpa.models;
+package com.depth1.grc.coso.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -28,12 +28,12 @@ import play.mvc.Result;
 import play.mvc.Security;
 
 import com.datastax.driver.core.Session;
+import com.depth1.grc.coso.models.JpaObjectiveDao;
+import com.depth1.grc.coso.models.Measure;
+import com.depth1.grc.coso.models.Objective;
 import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.exception.DaoException;
 import com.depth1.grc.exception.DataException;
-import com.depth1.grc.jpa.models.JpaObjectiveDao;
-import com.depth1.grc.jpa.models.Measure;
-import com.depth1.grc.jpa.models.Objective;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Department;
 import com.depth1.grc.model.PrintPdfRiskAssessment;
@@ -136,7 +136,41 @@ public class Application extends Controller {
 	}
 	
 	
+	/**
+	 * Creates strategic objective
+	 * @return
+	 */
+	public Result createSO() {
+		Objective objective;
+		JpaObjectiveDao obj;
+		try {
 
+			objective = new Objective(25L, "Strategy 2018", "Best Enterprise Risk Management Software", 
+					"Strategic Reporting", "Entity", "Board of Directors");
+
+			Measure measure1 = new Measure(25L, "Launch new product by end of September 2016", "STRATEGIC", objective);
+			Measure measure2 = new Measure(25L, "Secure strategic partners", "STRATEGIC", objective);
+			Measure measure3 = new Measure(25L, "Complete UI/UX of the application by July 2016","STRATEGIC", objective);
+			//Measure measure4 = new Measure(17L, "Minimize software defect by 80% in 2016", objective);
+			//Measure measure5 = new Measure(17L, "Expand sales to other regions in 2017", objective);
+
+			//Set<Measure> measureSet = new HashSet<Measure>();
+			Set<Measure> measureSet = Collections.synchronizedSet(new LinkedHashSet<Measure>());
+			measureSet.add(measure1);
+			measureSet.add(measure2);
+			measureSet.add(measure3);
+			//measureSet.add(measure4);
+			//measureSet.add(measure5);
+			obj = new JpaObjectiveDao();
+			obj.createObjective(objective, measureSet);
+			Logger.info("Data Transaction persisted successfully.");
+			Logger.info("Strategic Objective ID = " +objective.getObjectiveId());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ok();
+		}
 
 
 	/**
@@ -229,7 +263,7 @@ public class Application extends Controller {
 	 * @return
 	 */
 	public Result index() {
-		
+		createSO();
 		return ok(index.render());
 	}
 	/**
@@ -661,7 +695,7 @@ public class Application extends Controller {
 			PrintWriter writer = new PrintWriter(new BufferedWriter(
 					new FileWriter(procedureDoc)), true);
 			// flushing the buffer after file-write
-			writer.print(Jsoup.parse(procedureBody.value()).asText());
+			//writer.print(Jsoup.parse(procedureBody.value()).asText());
 			writer.close();
 			Logger.info("Procedure Body Documented at " + dirString + fileName);
 		} catch (IOException e) {

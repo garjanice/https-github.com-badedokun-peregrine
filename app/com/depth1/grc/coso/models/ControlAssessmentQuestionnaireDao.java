@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.depth1.grc.coso.models;
 
 import java.util.List;
@@ -5,11 +8,12 @@ import java.util.List;
 import com.depth1.grc.exception.DaoException;
 
 /**
- * The Control Assessment interface that defines the contract that all implementing classes must abide by
+ * The Control Assessment Questionnaire interface defines the contract that all implementing classes must abide by
  * It provides API to expose to caller of classes that implement the interface.
+ * @author Bisi Adedokun
  *
  */
-public interface ControlAssessmentDao {
+public interface ControlAssessmentQuestionnaireDao {
 	
 	/**
 	 * Creates a control assessment.
@@ -17,7 +21,7 @@ public interface ControlAssessmentDao {
 	 * @param assessment the control assessment to create
 	 * @throws DaoException if error occurs while creating the Control Assessment in the data store
 	 */
-	public void createControlAssessment(ControlPrinciple assessment) throws DaoException;
+	public void createControlAssessment(ControlPrinciple principle) throws DaoException;
 	
 	/**
 	 * Deletes a control assessment.
@@ -77,5 +81,6 @@ public interface ControlAssessmentDao {
 	 * @throws DaoException if error occurs while updating a control assessment in the data store
 	 */
 	public boolean updateControlAssessment(ControlPrinciple control) throws DaoException; 	
+	
 
 }

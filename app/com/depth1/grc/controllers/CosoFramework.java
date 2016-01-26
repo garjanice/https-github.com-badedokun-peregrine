@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.depth1.grc.coso.models.JpaObjectiveDao;
+import com.depth1.grc.coso.models.Measure;
+import com.depth1.grc.coso.models.Objective;
+import com.depth1.grc.coso.models.ObjectiveDao;
 import com.depth1.grc.exception.DaoException;
 import com.depth1.grc.exception.DataException;
-import com.depth1.grc.jpa.models.JpaObjectiveDao;
-import com.depth1.grc.jpa.models.Measure;
-import com.depth1.grc.jpa.models.Objective;
-import com.depth1.grc.jpa.models.ObjectiveDao;
 import com.depth1.grc.model.DaoFactory;
 
 import play.Logger;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.depth1.grc.jpa.models;
+package com.depth1.grc.coso.models;
 
 import java.util.List;
 import java.util.Map;

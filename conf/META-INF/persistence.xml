@@ -7,8 +7,11 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <non-jta-data-source>RemoteDS</non-jta-data-source>
         
-        <class>com.depth1.grc.jpa.models.Objective</class>
-        <class>com.depth1.grc.jpa.models.Measure</class>
+        <class>com.depth1.grc.coso.models.Objective</class>
+        <class>com.depth1.grc.coso.models.Measure</class>
+        <class>com.depth1.grc.coso.models.ControlPrinciple</class>
+        <class>com.depth1.grc.coso.models.ControlAssesmentQuestion</class>
+        <class>com.depth1.grc.coso.models.ControlAssessmentQuestionnaire</class>
 
         <properties>
             <!--Hibernate properties-->

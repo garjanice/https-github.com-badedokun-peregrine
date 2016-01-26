@@ -8,8 +8,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
-import play.Logger;
-
 /**
  * This class produces unique id that can be used to set id for classes that requires ID generator
  * The class is a singleton and cannot be instantiated
@@ -19,15 +17,15 @@ import play.Logger;
 public class IdProducer {
 
 	private static final IdProducer INSTANCE = new IdProducer(103);
-	private AtomicLong atomicLong;
-	private AtomicInteger atomicInteger;
+	private static AtomicLong atomicLong;
+	private static AtomicInteger atomicInteger;
 
 	/**
 	 * Private constructor that ensures the class cannot be instantiated.
 	 * @param initialValue initial value to set
 	 */
 	private IdProducer(long initialValue) {
-		this.atomicLong = new AtomicLong(initialValue);
+		IdProducer.atomicLong = new AtomicLong(initialValue);
 	}
 	
 	/**
@@ -35,7 +33,7 @@ public class IdProducer {
 	 * @param initialValue initial value to set
 	 */
 	private IdProducer(int initialValue) {
-		this.atomicInteger = new AtomicInteger(initialValue);
+		IdProducer.atomicInteger = new AtomicInteger(initialValue);
 	}	
 
 	/**
@@ -52,16 +50,16 @@ public class IdProducer {
 	 * 
 	 * @return the next long value after it has been incremented by 1
 	 */
-	public long getNextId() {
+	public static long getNextId() {
 		return atomicLong.getAndIncrement();
 	}
 	
 	/**
 	 * Gets the next value.
 	 * 
-	 * @return the next long value after it has been incremented by 1
+	 * @return the next integer value after it has been incremented by 1
 	 */
-	public int getNextIntId() {
+	public static int getNextIntId() {
 		return atomicInteger.getAndIncrement();
 	}	
 	
@@ -69,9 +67,6 @@ public class IdProducer {
 	 * 
 	 */
 	private static AtomicReference<Long> currentTime = new AtomicReference<>(System.currentTimeMillis());
-	private static char Character;
-
-	
 	/**
 	 * Generates a unique Id based on Atomic Reference, which is guaranteed to be unique across multiple JVMs.
 	 * 

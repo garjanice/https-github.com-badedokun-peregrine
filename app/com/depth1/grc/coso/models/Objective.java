@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.depth1.grc.jpa.models;
+package com.depth1.grc.coso.models;
 
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -18,6 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.depth1.grc.util.IdProducer;
+
+import play.Logger;
 
 
 /**
@@ -53,6 +57,17 @@ public class Objective {
 	
 	@Column (name="objectivesettingbody")
 	private String objectiveSettingBody;	// The body responsible for setting the objective such as the Board or Senior Management
+
+	/**
+	 * Produces custom identifier (Id) to use for the entity
+	 * 
+	 */
+	//@PrePersist
+	public void generateId() {
+		//IdProducer.getInstance();
+		objectiveId = IdProducer.nextId();
+		Logger.info("Id value: "+ objectiveId);
+	}	
 	
 	/**
 	 * No argument constructor required by Hibernate
