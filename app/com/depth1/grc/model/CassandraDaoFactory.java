@@ -97,10 +97,10 @@ public class CassandraDaoFactory extends DaoFactory {
 	}
 	  	
 	/**
-	 * Returns the Tenant DAO.
+	 * Returns the Objective DAO.
 	 * 
 	 * <p>This abstract method is implemented by the subclass
-	 * @return TenantDao tenant data access object interface
+	 * @return ObjectiveDao objective data access object interface
 	 * @throws DaoException if errors occurs while retrieving data from the data store
 	 */
 	public ObjectiveDao getObjectiveDao() {
