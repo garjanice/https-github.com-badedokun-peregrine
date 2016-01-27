@@ -2,11 +2,10 @@ package com.depth1.grc.model;
 
 import java.util.UUID;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import com.depth1.grc.util.DateUtility;
-
-import com.depth1.grc.model.common.DateFormat;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import play.data.validation.Constraints.Required;
 import play.data.format.*;
@@ -241,7 +240,17 @@ public class Procedure {
 	public Date getLastUpdatedDate(){
 		return lastUpdatedDate;
 	}
-	
+	public String getLastUpdatedDateString(){
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		return DateUtility.toString(lastUpdatedDate, df);
+	}
+	public void setLastUpdatedDateString(String date){
+		try{
+			lastUpdatedDate = DateUtility.toTimestamp(date, "MM/dd/yyyy");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	
 	}
 
