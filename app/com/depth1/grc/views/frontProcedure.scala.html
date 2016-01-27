@@ -51,7 +51,7 @@
 	        		   <th id="pTableCol2" onclick="pListSort('pname')">Procedure Name</th>
 					   <th id="pTableCol3" onclick="pListSort('version')">Version</th>
 					    <th id="pTableCol4" onclick="pListSort('version')">Subject</th>
-					   <th id="pTableCol5" onclick="pListSort('lastupdate')">Last Updated</th>
+					   <th id="pTableCol5" onclick="pListSort('lastupdate')">Last Updated Date</th>
 	                </tr>
 	              </thead>
 	              <tbody>
@@ -63,7 +63,7 @@
 					    <td>@Procedure.getName</td>
 					    <td class="pTableRowCenter">@Procedure.getVersion</td>
 					    <td>@Procedure.getSubject</td>
-					    <td>@Procedure.getLastUpdatedDate</td>
+					    <td>@Procedure.getLastUpdatedDateString</td>
 				    </tr>
 				    }
 	              </tbody>
