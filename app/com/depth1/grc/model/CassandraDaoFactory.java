@@ -9,6 +9,8 @@ import com.depth1.grc.db.util.CassandraPoolImpl;
 import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.db.util.DropDownListReader;
 import com.depth1.grc.exception.DaoException;
+import com.depth1.grc.jpa.models.JpaObjectiveDao;
+import com.depth1.grc.jpa.models.ObjectiveDao;
 
 import play.Logger;
 
@@ -101,9 +103,22 @@ public class CassandraDaoFactory extends DaoFactory {
 	 * @return TenantDao tenant data access object interface
 	 * @throws DaoException if errors occurs while retrieving data from the data store
 	 */
+	public ObjectiveDao getObjectiveDao() {
+		return new JpaObjectiveDao();
+	}
+	
+	
+	/**
+	 * Returns the Tenant DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return TenantDao tenant data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
+	 */
 	public TenantDao getTenantDao() {
 		return new CassandraTenantDao();
 	}
+	
 	
 	/**
 	 * Returns the UserProfile DAO.

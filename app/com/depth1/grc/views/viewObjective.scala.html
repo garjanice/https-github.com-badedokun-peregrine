@@ -1,0 +1,49 @@
+ @import com.depth1.grc.jpa.models.Objective
+ @(selectedObjective:Objective)
+
+ @header()
+
+	<center>
+        <h1> Objectives </h1>
+        <br>
+        <br>
+    	<br>
+    </center>
+   	<center>
+        <div class="genericViewBox">
+            <h4 class="genericViewBoxTitle"> Identification and Basic Information</h4>
+			<table id="genericViewTable">
+				<tr>
+					<td class="genericViewTableRow2"><b> Objective Id: </b></td>
+					<td class="genericViewTableRow2"> @selectedObjective.getObjectiveId</td>
+					<td class="genericViewTableRow2"> <b>Objective Type:</b> </td>
+					<td class="genericViewTableRow2"> @selectedObjective.getObjectiveType</td>
+				</tr>
+				<tr>
+					<td class="genericViewTableRow2"> <b>Name:</b> </td>
+					<td class="genericViewTableRow2"> @selectedObjective.getName </td>
+					<td class="genericViewTableRow2"> <b>Objective Name:</b> </td>
+					<td class="genericViewTableRow2"> @selectedObjective.getObjective</td>
+				</tr>
+				<tr>
+					<td class="genericViewTableRow2"> <b>Objective Level:</b></td>
+					<td class="genericViewTableRow2"> @selectedObjective.getObjectiveLevel </td>
+					<td class="genericViewTableRow2"> <b>Objective Setting Body:</b></td>
+					<td class="genericViewTableRow2"> @selectedObjective.getObjective </td>
+				</tr>
+			</table>
+		</div>
+		<br>
+		<table>
+	           		<tr>
+	           			<td>
+	           				<button type="button" class="genericButton" onclick="objectiveList()">List</button>
+	           			</td>
+	           		</tr>
+	    </table>
+	    <br>
+	    <br>
+	    
+	</center>
+
+ @footer()

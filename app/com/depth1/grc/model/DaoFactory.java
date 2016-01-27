@@ -5,6 +5,7 @@ package com.depth1.grc.model;
 
 import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.exception.DaoException;
+import com.depth1.grc.jpa.models.ObjectiveDao;
 
 /**
  * 
@@ -58,6 +59,7 @@ public abstract class DaoFactory {
 	
 	public abstract RiskRegisterDao getRiskRegisterDao() throws DaoException;
 	
+	
 	/**
 	 * Returns the Tenant DAO.
 	 * 
@@ -67,6 +69,18 @@ public abstract class DaoFactory {
 	 */
 	
 	public abstract TenantDao getTenantDao() throws DaoException;
+	
+	
+	/**
+	 * Returns the Objective DAO.
+	 * 
+	 * <p>This abstract method is implemented by the subclass
+	 * @return ObjectiveDao data access object interface
+	 * @throws DaoException if errors occurs while retrieving data from the data store
+	 */
+	
+	
+    public abstract ObjectiveDao getObjectiveDao() throws DaoException;
 	
 	
 	/**

@@ -1,10 +1,14 @@
-
 package com.depth1.grc.controllers;
 
 import java.util.List;
 import java.util.UUID;
 
 import com.depth1.grc.exception.DaoException;
+import com.depth1.grc.jpa.models.JpaObjectiveDao;
+import com.depth1.grc.jpa.models.Objective;
+import com.depth1.grc.jpa.models.ObjectiveDao;
+import com.depth1.grc.jpa.models.ObjectiveSort;
+import com.depth1.grc.views.html.frontObjective;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Department;
 import com.depth1.grc.model.DepartmentDao;
@@ -45,6 +49,7 @@ public class OrganizationResource extends Controller {
 	static List<Tenant> tenants;
 	final static Form<Tenant> tenantForm = Form.form(Tenant.class);
 	static Tenant selectedTenant;
+	static List<Objective> objective;
 
 	/**
 	 * 
@@ -474,6 +479,7 @@ public class OrganizationResource extends Controller {
 		return ok(frontTenant.render(tenants, size));
 	}
 	
+			
 	/**
 	 * Shows the front page of the User Profile
 	 * 
@@ -548,4 +554,43 @@ public class OrganizationResource extends Controller {
 		return ok(updateTenant.render(selectedTenant));
 	}	
 
+	
+	/**
+	 *  Shows the list of Objectives in the Database on the FrontObjective Page
+	 * @param page current page number form pagination
+	 * @param view the number of items to show per page
+	 * @param order the sorting order of the page
+	 * @param query the string to search for in the Objective list
+	 * @return Result of the List Page
+	 */
+	public Result showFrontObjectivePage(int page, int view, String order, String query){
+		int size = 0;
+		long objectiveId;
+		long tenantId;
+				
+		try {
+			
+			ObjectiveDao objectiveDao = cassandraFactory.getObjectiveDao();
+			ObjectiveSort objectiveSort = new ObjectiveSort();
+			objective = objectiveDao.listObjective();
+			
+			size = objective.size();
+			if(query.compareTo("")!= 0){
+				objective = objectiveSort.filterDataByQuery(objective, query);
+				size = objective.size();
+				
+			}
+			if(size > 0){
+				objective = objectiveSort.sortObjective(objective, order);
+				objective = objectiveSort.paginateObjective(objective, view, page);
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Objective Front ", e);
+		}
+			
+		return ok(frontObjective.render(objective, size));
+	}
+	
+	
+	
 }

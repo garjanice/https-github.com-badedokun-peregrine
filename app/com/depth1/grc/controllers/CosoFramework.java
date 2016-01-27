@@ -12,9 +12,12 @@ import com.depth1.grc.jpa.models.JpaObjectiveDao;
 import com.depth1.grc.jpa.models.Measure;
 import com.depth1.grc.jpa.models.Objective;
 import com.depth1.grc.jpa.models.ObjectiveDao;
+import com.depth1.grc.jpa.models.ObjectiveSort;
 import com.depth1.grc.model.DaoFactory;
+import com.depth1.grc.views.html.frontObjective;
 
 import play.Logger;
+import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -31,6 +34,11 @@ public class CosoFramework extends Controller {
 	// create the required DAO Factory
 	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
 	static DaoFactory rdbFactory = DaoFactory.getDaoFactory(DaoFactory.MARIADB);	
+	
+	final static Form<Objective> objectiveForm = Form.form(Objective.class);
+	static List<Objective> objective;
+	static Objective selectedObjective;
+	
 
 	/**
 	 * 
@@ -152,5 +160,41 @@ public class CosoFramework extends Controller {
 		}
 		return ok();
 	}	
+	
+	
+	
+	/**
+	 *  Shows the list of Objectives in the Database on the FrontObjective Page
+	 * @param page current page number form pagination
+	 * @param view the number of items to show per page
+	 * @param order the sorting order of the page
+	 * @param query the string to search for in the Objective list
+	 * @return Result of the List Page
+	 */
+	public Result showFrontObjectivePage(int page, int view, String order, String query){
+		int size = 0;
+						
+		try {
+			
+			ObjectiveSort objectiveSort = new ObjectiveSort();
+			ObjectiveDao objectiveDao = cassandraFactory.getObjectiveDao();
+			objective = objectiveDao.listObjective();
+			
+			size = objective.size();
+			if(query.compareTo("")!= 0){
+				objective = objectiveSort.filterDataByQuery(objective, query);
+				size = objective.size();
+				
+			}
+			if(size > 0){
+				objective = objectiveSort.sortObjective(objective, order);
+				objective = objectiveSort.paginateObjective(objective, view, page);
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating Objective Front ", e);
+		}
+			
+		return ok(frontObjective.render(objective, size));
+	}
 
 }

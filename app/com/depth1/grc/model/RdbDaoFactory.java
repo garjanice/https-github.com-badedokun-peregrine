@@ -9,6 +9,8 @@ import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.db.util.DropDownListReader;
 import com.depth1.grc.db.util.RdbPoolImpl;
 import com.depth1.grc.exception.DaoException;
+import com.depth1.grc.jpa.models.JpaObjectiveDao;
+import com.depth1.grc.jpa.models.ObjectiveDao;
 
 import play.Logger;
 
@@ -94,6 +96,17 @@ public class RdbDaoFactory extends DaoFactory
 		    return new CassandraTenantDao();
 		  }
 	
+	
+	/* (non-Javadoc)
+	 * @see com.depth1.grc.model.DaoFactory#getObjectiveDao()
+	 */
+	public ObjectiveDao getObjective() {
+		    
+		    return new JpaObjectiveDao();
+		  }
+	
+	
+	
 	/* (non-Javadoc)
 	 * @see com.depth1.grc.model.DaoFactory#getUserProfileDao()
 	 */
@@ -119,7 +132,13 @@ public class RdbDaoFactory extends DaoFactory
 	public DropDownList getDropDownList() {
 		    
 		    return new DropDownListReader();
-		  }		
+		  }
+
+	@Override
+	public ObjectiveDao getObjectiveDao() throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
+	}		
 
 	
 }

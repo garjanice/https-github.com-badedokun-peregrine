@@ -1,0 +1,90 @@
+@import com.depth1.grc.jpa.models.Objective
+@(objectives:List[Objective], objectiveSize:Integer)
+
+@header()
+        
+        <center>
+           <h1> Objectives</h1>
+           <br>
+           <br>
+        </center>
+        <div class="margin-50">
+        	
+        		<div class="float-box">
+        			<input type="search" id="objectiveListSearchText" class="searchText" onsearch="objectiveListSearch()" value="Search Objectivest">
+        		</div>
+        	
+        	  <div >
+	          
+	           <div class="tableView">
+	              <p> <a class="blue-link" onclick="changeViewObjective(10)"> View 10</a> |
+	              <a class="blue-link" onclick="changeViewObjective(25)"> View 25</a> | 
+	              <a class="blue-link" onclick="changeViewObjective(50)"> View 50</a> </p>
+	           </div>
+	            <p> <b>Instructions:</b> Please select an Objective and then View, Update, or Delete. </p>
+	        </div>
+	        <br>
+	        
+	        <div>
+	           
+	           <table id="objectiveTable" class="frontTable">
+	              <thead>
+	                <tr>
+	                   <th id="objectiveTableCol1" onclick="objectiveListSort('objectiveId')">Objective Id</th>
+	        		   <th id="objectiveTableCol2" onclick="objectiveListSort('tenantId')">Tenant Id</span></th>
+					   <th id="objectiveTableCol3" onclick="objectiveListSort('name')">Name</th>
+					   <th id="objectiveTableCol4" onclick="objectiveListSort('objective')">Objective</th>
+					   <th id="objectiveTableCol5" onclick="objectiveListSort('objectivetype')">Objective Type</th>
+					   <th id="objectiveTableCol6" onclick="objectiveListSort('objectivelevel')">Objective Level</th>
+		   
+     			    </tr>
+	              </thead>
+	              <tbody>	              	 
+	                 @for(Objective <- objectives) {
+				     <tr>
+					    <td>@Objective.getObjectiveId</td>
+					    <td>@Objective.getTenantId</td>
+					    <td>@Objective.getName</td>
+					    <td class="tableRowCenter">@Objective.getObjective</td>
+					    <td class="tableRowCenter">@Objective.getObjectiveType</td>
+					    <td class="tableRowCenter">@Objective.getObjectiveLevel</td>					   
+				    </tr>
+				    }
+	              </tbody>
+	           </table>
+	        </div>
+        </div>
+        <center>
+           <div id="paginationArray">
+           </div>
+        </center>
+        <br>
+        <br>
+        <br>
+        <center>
+        	<table>
+            	<tr>
+                	<td>
+                		<input type="button" class="genericButton" onclick="createStrategicObjective()" value="Create">
+                	</td>
+                	<td>
+                		<input type="button" class="genericButton" onclick="updateStrategicObjective()" value="Update">
+                	</td>
+                	<td>
+                		<input type="button" class="genericButton" onclick="listStrategicObjective()" value="View">
+                	</td>
+                	<td>
+                		<input type="button" class="genericButton" onclick="deleteStrategicObjective()" value="Delete">
+                	</td>
+	          	</tr>
+           	</table>
+        </center>
+        <br>
+        <br>
+        <br>
+        <!-- Needed script to get the total number of Objectives -->
+        <script>
+           var objectiveListSize = @objectiveSize;
+        </script> 
+
+@footer()

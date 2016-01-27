@@ -237,6 +237,15 @@ public class JpaObjectiveDao implements ObjectiveDao {
 		return resultList;
 	}	
 	
+	
+	
+	@Override
+	public List<Objective> listObjective() throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
+	}	
+	
+	
 	/**
 	 * List strategic objective in the data store.
 	 * 
@@ -347,6 +356,8 @@ public class JpaObjectiveDao implements ObjectiveDao {
 		}
 		
 		return updatedCount > 0 ? true : false;
-	}	
+	}
+
+	
 
 }

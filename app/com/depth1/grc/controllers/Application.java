@@ -199,7 +199,7 @@ public class Application extends Controller {
 			so = obj.getObjective(9L);
 			//Set<Measure> set = (Set<Measure>)obj.getMeasure(so.getObjectiveId());
 			so.setName("Strategy 2014");
-			so.setObjective("Risk Management Software with Built-in 3LoD");
+			so.setObjective("Risk Management Software with Built-in 3LoDi");
 			Set<Measure> measureSet = new LinkedHashSet<Measure>();
 			Measure m1 = new Measure();
 			Measure m2 = new Measure();

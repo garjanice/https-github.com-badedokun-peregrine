@@ -1,0 +1,55 @@
+@header()
+
+
+		<center>
+           <h1> New Objective</h1>
+           
+           </br>
+           </br>
+           </br>
+        </center>
+        <center>
+			<form id="objectiveCreation" action="/objective/create/done" method="post">
+        		<fieldset class="fieldset-bordered objectiveFieldset-01">
+	           		<h4 class="bordered-h5"> Identification </h4> 
+	               	<div>
+	                 	<label for="objectivetype" class="label-style objectiveAdjust-type" >Objective Type:</label>
+	                 	<input type="text" id="type" name="objectivetype" size="80" class="input-style objectiveAdjust-type-text" >
+					</div>
+					<div>
+						<label for="name" class="label-style objectiveAdjust-name" >Name:</label>
+	                 	<input type="text" id="name" name="" class="input-style objectiveAdjust-name-text" >
+	                </div>
+					<div>
+						<label for="objectivename" class="label-style objectiveAdjust-name" >Objective Name:</label>
+	                 	<input type="text" id="objectivename" name="" class="input-style objectiveAdjust-objectivename-text" >
+	                </div>
+	                <div>
+						<label for="objectivelevel" class="label-style objectiveAdjust-objectivelevel" >Objective Level:</label>
+	                 	<input type="text" id="objectivelevel" name="objectivelevel" class="input-style tenantAdjust-objectivelevel-text" >
+					</div>
+					<div>
+						<label for="objectivesettingbody" class="label-style objectiveAdjust-objectivesettingbody" >Objective Setting Body:</label>
+	                 	<input type="text" id="objectivesettinglevel" name="objectivesettinglevel" class="input-style objectiveAdjust-objectivesettingbody-text" >
+					</div>
+					
+				</fieldset>
+				
+				<br>
+	           	<br>
+	           	<table>
+	           		<tr>
+	           			<td>
+	           				<button type="button" class="raList-Button" onclick="objectiveList()">List</button>
+	           			</td>
+	           			<td>
+	           				<button type="submit" class="raList-Button">Submit</button>
+	           			</td>
+	           		</tr>
+	           	</table>
+	           	
+			</form>
+		</center>
+		
+
+@footer()

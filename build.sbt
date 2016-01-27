@@ -22,7 +22,9 @@ libraryDependencies ++= Seq(
   "org.apache.shiro" % "shiro-core" % "1.2.3",
   "org.apache.pdfbox" % "pdfbox" % "1.8.10",
   "org.mariadb.jdbc" % "mariadb-java-client" % "1.3.0",
-  "mysql" % "mysql-connector-java" % "5.1.36"
+  "mysql" % "mysql-connector-java" % "5.1.36",
+  "javax.persistence" % "persistence-api" % "1.0"
+
  
 )
 
@@ -31,3 +33,6 @@ libraryDependencies ++= Seq(
 // Play provides two styles of routers, one expects its actions to be injected, the
 // other, legacy style, accesses its actions statically.
 routesGenerator := InjectedRoutesGenerator
+
+
+fork in run := true

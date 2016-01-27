@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.depth1.grc.exception.DaoException;
+import com.depth1.grc.model.Tenant;
 
 /**
  * The Strategic Objective interface that defines the contract that all implementing classes must abide by
@@ -83,6 +84,17 @@ public interface ObjectiveDao {
 	 * @throws DaoException if error occurs while reading measures from the data store
 	 */
 	public List<Measure> listMeasure(long tenantId) throws DaoException;	
+	
+	
+
+	/**
+	 * List objectives in the data store.
+	 * 
+	 * @return List list of objectives
+	 * @throws DaoException if error occurs while reading objectives from the data store
+	 */
+	public List<Objective> listObjective() throws DaoException;
+	
 	
 	/**
 	 * List strategic objective in the data store.
