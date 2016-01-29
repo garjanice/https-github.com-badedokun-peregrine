@@ -102,7 +102,9 @@ GET  	/objective/update						com.depth1.grc.controllers.CosoFramework.showUpdate
 
 GET  	/objective/view						com.depth1.grc.controllers.CosoFramework.showViewObjective()
 
-#POST  	/objective/create/done					com.depth1.grc.controllers.CosoFramework.addObjective()
+#GET 	/objective/print				com.depth1.grc.controllers.CosoFramework.printObjective()
+
+POST  	/objective/create/done					com.depth1.grc.controllers.Application.createSO()
 
 POST 	/objective/selected					com.depth1.grc.controllers.CosoFramework.setSelectedObjective()
 
