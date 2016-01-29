@@ -21,9 +21,9 @@
 				</tr>
 				<tr>
 					<td class="genericViewTableRow2"> <b>Creation Date:</b> </td>
-					<td class="genericViewTableRow2"> @selectedTenant.getCreateDateString </td>
+					<td class="genericViewTableRow2"> @selectedTenant.getCreateDate </td>
 					<td class="genericViewTableRow2"> <b>Service Start Date:</b> </td>
-					<td class="genericViewTableRow2"> @selectedTenant.getServiceStartDateString </td>
+					<td class="genericViewTableRow2"> @selectedTenant.getServiceStartDate </td>
 				</tr>
 				<tr>
 					<td class="genericViewTableRow2"> <b>Status:</b></td>
@@ -67,23 +67,8 @@
 			<table id="genericViewTable">
 				<tr>
 					<td class="genericViewTableRow3" ><b>Phone Numbers </b></td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName5</td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber5</td>
-				</tr>
-				<tr>
-					<td class="genericViewTableRow3" ><b> </b></td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName6</td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber6</td>
-				</tr>
-				<tr>
-					<td class="genericViewTableRow3" ><b> </b></td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName7</td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber7</td>
-				</tr>
-				<tr>
-					<td class="genericViewTableRow3" ><b> </b></td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName8</td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber8</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhones</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getPhones</td>
 				</tr>
 			</table>
 		</div>
@@ -108,34 +93,20 @@
 			<table id="genericViewTable">
 				<tr>
 					<td class="genericViewTableRow3" ><b>Phone Numbers </b></td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName1</td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber1</td>
-				</tr>
-				<tr>
-					<td class="genericViewTableRow3" ><b> </b></td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName2</td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber2</td>
-				</tr>
-				<tr>
-					<td class="genericViewTableRow3" ><b> </b></td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName3</td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber3</td>
-				</tr>
-				<tr>
-					<td class="genericViewTableRow3" ><b> </b></td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneName4</td>
-					<td class="genericViewTableRow3" >@selectedTenant.getPhoneNumber4</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getContactPersonPhones</td>
+					<td class="genericViewTableRow3" >@selectedTenant.getContactPersonPhones</td>
 				</tr>
 			</table>
 		</div>
 		<br>
 		<table>
-	           		<tr>
-	           			<td>
-	           				<button type="button" class="genericButton" onclick="goToTenantList()">List</button>
-	           			</td>
-	           		</tr>
-	    </table>
+		<tr>
+			<td>
+				<button type="button" class="genericButton"
+					onclick="goToTenantList()">List</button>
+			</td>
+		</tr>
+	</table>
 	    <br>
 	    <br>
 	    

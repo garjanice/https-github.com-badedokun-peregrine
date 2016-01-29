@@ -56,7 +56,9 @@ public class JpaObjectiveDao implements ObjectiveDao {
 			objective.setMeasure(measureSet);
 			entityManager.persist(objective);
 			// using Java 8 forEach to iterate over the Set object
-			measureSet.forEach(measures->entityManager.persist(measures));
+			
+			if (!(measureSet.isEmpty()))
+				measureSet.forEach(measures->entityManager.persist(measures));
 			JpaUtil.comitTransaction(entityManager);
 			
 		} catch (DataStoreException e) {

@@ -43,7 +43,7 @@ public class ControlPrinciple {
 	private String role;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="principle", orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<ControlAssesmentQuestion> questions = Collections.synchronizedSet(new LinkedHashSet<ControlAssesmentQuestion>());
+    private Set<ControlAssessmentQuestion> questions = Collections.synchronizedSet(new LinkedHashSet<ControlAssessmentQuestion>());
 	
 	
 	/**

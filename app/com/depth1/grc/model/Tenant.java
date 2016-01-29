@@ -1,13 +1,8 @@
 package com.depth1.grc.model;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
-
-import com.depth1.grc.util.DateUtility;
 
 import play.data.validation.Constraints.Email;
 import play.data.validation.Constraints.Required;
@@ -45,7 +40,6 @@ public class Tenant
 	@Email
 	private String contactPersonEmail;
 	private Map<String, String> contactPersonPhones;
-	//@DateFormat("MM-dd-yyyy")
 	private Date serviceStartDate;
 	@Required
 	private String companyUrl;
@@ -54,42 +48,12 @@ public class Tenant
 	private String ipaddress;
 	private Date startDate;
 	private Date createDate;
-	private String phoneName1;
-	private String phoneName2;
-	private String phoneName3;
-	private String phoneName4;
-	private String phoneName5;
-	private String phoneName6;
-	private String phoneName7;
-	private String phoneName8;
-	private String phoneNumber1;
-	private String phoneNumber2;
-	private String phoneNumber3;
-	private String phoneNumber4;
-	private String phoneNumber5;
-	private String phoneNumber6;
-	private String phoneNumber7;
-	private String phoneNumber8;
-	
-		
-	public CassandraTenantDao cassandraTenantDao;
 	
 	/**
 	 * No argument constructor
 	 */
 	public Tenant(){
-		super();
 		
-		
-	}
-	
-	public void setPhoneName1(String phoneName1){
-		this.phoneName1 = phoneName1;
-		
-	}
-	
-	public String getPhoneName1(){
-		return phoneName1;
 	}
 	
 	/**
@@ -316,237 +280,6 @@ public class Tenant
 	 */
 	public void setCreateDate(Date createDateUtil) {
 		this.createDate = createDateUtil;
-	}
-
-	public CassandraTenantDao getCassandraTenantDao() {
-		return cassandraTenantDao;
-	}
-
-	public void setCassandraTenantDao(CassandraTenantDao cassandraTenantDao) {
-		this.cassandraTenantDao = cassandraTenantDao;
-	}
-	public String getCreateDateString() {		
-		return DateUtility.formatDateFromUUID("MM/dd/yyyy",createDate );
-	}
-	public String getServiceStartDateString(){
-		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		return DateUtility.toString(serviceStartDate, df);
-	}
-	public void setServiceStartDateString(String date){
-		try{
-			serviceStartDate = DateUtility.toTimestamp(date, "MM/dd/yyyy");
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * @return the phoneName2
-	 */
-	public String getPhoneName2() {
-		return phoneName2;
-	}
-
-	/**
-	 * @param phoneName2 the phoneName2 to set
-	 */
-	public void setPhoneName2(String phoneName2) {
-		this.phoneName2 = phoneName2;
-	}
-
-	/**
-	 * @return the phoneName3
-	 */
-	public String getPhoneName3() {
-		return phoneName3;
-	}
-
-	/**
-	 * @param phoneName3 the phoneName3 to set
-	 */
-	public void setPhoneName3(String phoneName3) {
-		this.phoneName3 = phoneName3;
-	}
-
-	/**
-	 * @return the phoneName4
-	 */
-	public String getPhoneName4() {
-		return phoneName4;
-	}
-
-	/**
-	 * @param phoneName4 the phoneName4 to set
-	 */
-	public void setPhoneName4(String phoneName4) {
-		this.phoneName4 = phoneName4;
-	}
-
-	/**
-	 * @return the phoneNumber1
-	 */
-	public String getPhoneNumber1() {
-		return phoneNumber1;
-	}
-
-	/**
-	 * @param phoneNumber1 the phoneNumber1 to set
-	 */
-	public void setPhoneNumber1(String phoneNumber1) {
-		this.phoneNumber1 = phoneNumber1;
-	}
-
-	/**
-	 * @return the phoneNumber2
-	 */
-	public String getPhoneNumber2() {
-		return phoneNumber2;
-	}
-
-	/**
-	 * @param phoneNumber2 the phoneNumber2 to set
-	 */
-	public void setPhoneNumber2(String phoneNumber2) {
-		this.phoneNumber2 = phoneNumber2;
-	}
-
-	/**
-	 * @return the phoneNumber3
-	 */
-	public String getPhoneNumber3() {
-		return phoneNumber3;
-	}
-
-	/**
-	 * @param phoneNumber3 the phoneNumber3 to set
-	 */
-	public void setPhoneNumber3(String phoneNumber3) {
-		this.phoneNumber3 = phoneNumber3;
-	}
-
-	/**
-	 * @return the phoneNumber4
-	 */
-	public String getPhoneNumber4() {
-		return phoneNumber4;
-	}
-
-	/**
-	 * @param phoneNumber4 the phoneNumber4 to set
-	 */
-	public void setPhoneNumber4(String phoneNumber4) {
-		this.phoneNumber4 = phoneNumber4;
-	}
-
-	/**
-	 * @return the phoneName5
-	 */
-	public String getPhoneName5() {
-		return phoneName5;
-	}
-
-	/**
-	 * @param phoneName5 the phoneName5 to set
-	 */
-	public void setPhoneName5(String phoneName5) {
-		this.phoneName5 = phoneName5;
-	}
-
-	/**
-	 * @return the phoneName6
-	 */
-	public String getPhoneName6() {
-		return phoneName6;
-	}
-
-	/**
-	 * @param phoneName6 the phoneName6 to set
-	 */
-	public void setPhoneName6(String phoneName6) {
-		this.phoneName6 = phoneName6;
-	}
-
-	/**
-	 * @return the phoneName7
-	 */
-	public String getPhoneName7() {
-		return phoneName7;
-	}
-
-	/**
-	 * @param phoneName7 the phoneName7 to set
-	 */
-	public void setPhoneName7(String phoneName7) {
-		this.phoneName7 = phoneName7;
-	}
-
-	/**
-	 * @return the phoneName8
-	 */
-	public String getPhoneName8() {
-		return phoneName8;
-	}
-
-	/**
-	 * @param phoneName8 the phoneName8 to set
-	 */
-	public void setPhoneName8(String phoneName8) {
-		this.phoneName8 = phoneName8;
-	}
-
-	/**
-	 * @return the phoneNumber5
-	 */
-	public String getPhoneNumber5() {
-		return phoneNumber5;
-	}
-
-	/**
-	 * @param phoneNumber5 the phoneNumber5 to set
-	 */
-	public void setPhoneNumber5(String phoneNumber5) {
-		this.phoneNumber5 = phoneNumber5;
-	}
-
-	/**
-	 * @return the phoneNumber6
-	 */
-	public String getPhoneNumber6() {
-		return phoneNumber6;
-	}
-
-	/**
-	 * @param phoneNumber6 the phoneNumber6 to set
-	 */
-	public void setPhoneNumber6(String phoneNumber6) {
-		this.phoneNumber6 = phoneNumber6;
-	}
-
-	/**
-	 * @return the phoneNumber7
-	 */
-	public String getPhoneNumber7() {
-		return phoneNumber7;
-	}
-
-	/**
-	 * @param phoneNumber7 the phoneNumber7 to set
-	 */
-	public void setPhoneNumber7(String phoneNumber7) {
-		this.phoneNumber7 = phoneNumber7;
-	}
-
-	/**
-	 * @return the phoneNumber8
-	 */
-	public String getPhoneNumber8() {
-		return phoneNumber8;
-	}
-
-	/**
-	 * @param phoneNumber8 the phoneNumber8 to set
-	 */
-	public void setPhoneNumber8(String phoneNumber8) {
-		this.phoneNumber8 = phoneNumber8;
 	}
 	
 }

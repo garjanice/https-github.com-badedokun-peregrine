@@ -45,7 +45,7 @@ public class ControlAssessmentQuestionnaire {
 	
 	@OneToOne
 	@JoinColumn(name = "questionid")
-	private ControlAssesmentQuestion question;
+	private ControlAssessmentQuestion question;
 	
 	/**
 	 * 
@@ -141,14 +141,14 @@ public class ControlAssessmentQuestionnaire {
 	/**
 	 * @return the question
 	 */
-	public ControlAssesmentQuestion getQuestion() {
+	public ControlAssessmentQuestion getQuestion() {
 		return question;
 	}
 
 	/**
 	 * @param question the question to set
 	 */
-	public void setQuestion(ControlAssesmentQuestion question) {
+	public void setQuestion(ControlAssessmentQuestion question) {
 		this.question = question;
 	}
 

@@ -3,7 +3,6 @@ package com.depth1.grc.model;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 import static com.datastax.driver.core.querybuilder.QueryBuilder.set;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,76 +46,6 @@ public class CassandraTenantDao implements TenantDao
 		super();
 	}
 
-	private void changePhonesToStrings(Tenant tenant){
-		tenant.setPhoneName1("");
-		tenant.setPhoneName2("");
-		tenant.setPhoneName3("");
-		tenant.setPhoneName4("");
-		tenant.setPhoneName5("");
-		tenant.setPhoneName6("");
-		tenant.setPhoneName7("");
-		tenant.setPhoneName8("");
-		tenant.setPhoneNumber1("");
-		tenant.setPhoneNumber2("");
-		tenant.setPhoneNumber3("");
-		tenant.setPhoneNumber4("");
-		tenant.setPhoneNumber5("");
-		tenant.setPhoneNumber6("");
-		tenant.setPhoneNumber7("");
-		tenant.setPhoneNumber8("");
-		
-		int count = 0;
-		Map<String, String> map = tenant.getContactPersonPhones();
-		
-		if(map != null){
-			for (Map.Entry<String, String> entry : map.entrySet()) {
-				
-			    if(count == 0){
-			    	tenant.setPhoneName1(entry.getKey());
-			    	tenant.setPhoneNumber1(entry.getValue());
-			    }
-			    if(count == 1){
-			    	tenant.setPhoneName2(entry.getKey());
-			    	tenant.setPhoneNumber2(entry.getValue());
-			    }
-			    if(count == 2){
-			    	tenant.setPhoneName3(entry.getKey());
-			    	tenant.setPhoneNumber3(entry.getValue());
-			    }
-			    if(count == 3){
-			    	tenant.setPhoneName4(entry.getKey());
-			    	tenant.setPhoneNumber4(entry.getValue());
-			    }
-			    count++;
-			}
-		}
-		
-		count = 0;
-		map = tenant.getPhones();
-		if(map != null){
-			for (Map.Entry<String, String> entry : map.entrySet()) {
-			    if(count == 0){
-			    	tenant.setPhoneName5(entry.getKey());
-			    	tenant.setPhoneNumber5(entry.getValue());
-			    }
-			    if(count == 1){
-			    	tenant.setPhoneName6(entry.getKey());
-			    	tenant.setPhoneNumber6(entry.getValue());
-			    }
-			    if(count == 2){
-			    	tenant.setPhoneName7(entry.getKey());
-			    	tenant.setPhoneNumber7(entry.getValue());
-			    }
-			    if(count == 3){
-			    	tenant.setPhoneName8(entry.getKey());
-			    	tenant.setPhoneNumber8(entry.getValue());
-			    }
-			    count++;
-			}
-		}
-	}	
-	
-	
 	/**
 	 * Creates a new tenant in the tenant table.
 	 * 
@@ -128,30 +57,6 @@ public class CassandraTenantDao implements TenantDao
 
 		Map<String, String> cphones = new HashMap<String, String>();
 		Map<String, String> bphones = new HashMap<String, String>();
-		if(tenant.getPhoneName1().length() > 0){
-			cphones.put(tenant.getPhoneName1(), tenant.getPhoneNumber1());
-		} 
-		if(tenant.getPhoneName2().length() > 0){
-			cphones.put(tenant.getPhoneName2(), tenant.getPhoneNumber2());
-		}
-		if(tenant.getPhoneName3().length() > 0){
-			cphones.put(tenant.getPhoneName3(), tenant.getPhoneNumber3());
-		}
-		if(tenant.getPhoneName4().length() > 0){
-			cphones.put(tenant.getPhoneName4(), tenant.getPhoneNumber4());
-		}
-		if(tenant.getPhoneName5().length() > 0){
-			bphones.put(tenant.getPhoneName5(), tenant.getPhoneNumber5());
-		}
-		if(tenant.getPhoneName6().length() > 0){
-			bphones.put(tenant.getPhoneName6(), tenant.getPhoneNumber6());
-		}
-		if(tenant.getPhoneName7().length() > 0){
-			bphones.put(tenant.getPhoneName7(), tenant.getPhoneNumber7());
-		}
-		if(tenant.getPhoneName8().length() > 0){
-			bphones.put(tenant.getPhoneName8(), tenant.getPhoneNumber8());
-		}
 		tenant.setContactPersonPhones(cphones);
 		tenant.setPhones(bphones);
 		try {					
@@ -341,7 +246,7 @@ public class CassandraTenantDao implements TenantDao
 			// get data elements from the Result set
 			for (Row row : result.getUninterruptibly()) {
 				tenant = setTenantAttributes(tenant, row);
-				changePhonesToStrings(tenant); // this needs to be refactored -
+				//changePhonesToStrings(tenant); // this needs to be refactored -
 			}
 
 		} catch (DriverException e) {
@@ -372,7 +277,7 @@ public class CassandraTenantDao implements TenantDao
 			// get data elements from the Result set
 			for (Row row : results.getUninterruptibly()) {
 				Tenant tenant = new Tenant();
-				changePhonesToStrings(tenant);
+				//changePhonesToStrings(tenant);
 				list.add(setTenantAttributes(tenant, row));
 			}
 
@@ -399,30 +304,6 @@ public class CassandraTenantDao implements TenantDao
 		
 		Map<String, String> cphones = new HashMap<String, String>();
 		Map<String, String> bphones = new HashMap<String, String>();
-		if(tenant.getPhoneName1().length() > 0){
-			cphones.put(tenant.getPhoneName1(), tenant.getPhoneNumber1());
-		} 
-		if(tenant.getPhoneName2().length() > 0){
-			cphones.put(tenant.getPhoneName2(), tenant.getPhoneNumber2());
-		}
-		if(tenant.getPhoneName3().length() > 0){
-			cphones.put(tenant.getPhoneName3(), tenant.getPhoneNumber3());
-		}
-		if(tenant.getPhoneName4().length() > 0){
-			cphones.put(tenant.getPhoneName4(), tenant.getPhoneNumber4());
-		}
-		if(tenant.getPhoneName5().length() > 0){
-			bphones.put(tenant.getPhoneName5(), tenant.getPhoneNumber5());
-		}
-		if(tenant.getPhoneName6().length() > 0){
-			bphones.put(tenant.getPhoneName6(), tenant.getPhoneNumber6());
-		}
-		if(tenant.getPhoneName7().length() > 0){
-			bphones.put(tenant.getPhoneName7(), tenant.getPhoneNumber7());
-		}
-		if(tenant.getPhoneName8().length() > 0){
-			bphones.put(tenant.getPhoneName8(), tenant.getPhoneNumber8());
-		}
 		tenant.setContactPersonPhones(cphones);
 		tenant.setPhones(bphones);
 		

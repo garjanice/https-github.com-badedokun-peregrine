@@ -55,14 +55,14 @@ public class TenantSort {
 		} else if(order.compareTo("descendingCreatedDate")== 0){
 			Collections.sort(tenants, new Comparator<Tenant>() {
 				public int compare(Tenant a1, Tenant a2){
-					return a1.getCreateDateString().compareTo(a2.getCreateDateString()) ;
+					return a1.getCreateDate().compareTo(a2.getCreateDate()) ;
 				}
 				
 			});
 		} else if(order.compareTo("ascendingCreatedDate")== 0){
 			Collections.sort(tenants, new Comparator<Tenant>() {
 				public int compare(Tenant a1, Tenant a2){
-					return a2.getCreateDateString().compareTo(a1.getCreateDateString()) ;
+					return a2.getCreateDate().compareTo(a1.getCreateDate()) ;
 				}
 				
 			});

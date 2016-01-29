@@ -22,16 +22,16 @@
 					</div>
 					<div>
 						<label for="createDate" class="label-style tenantAdjust-createDate" >Create Date:</label>
-	                 	<input type="text" id="createDate" name="" class="input-style tenantAdjust-createDate-text" value="@tenant.getCreateDateString">
+	                 	<input type="text" id="createDate" name="" class="input-style tenantAdjust-createDate-text" value="@tenant.getCreateDate">
 						<label for="serviceStartDate" class="label-style tenantAdjust-serviceStartDate" >Service Start Date:</label>
-	                 	<input type="text" id="serviceStartDate" name="serviceStartDateString" class="input-style tenantAdjust-serviceStartDate-text" value="@tenant.getServiceStartDateString">
+	                 	<input type="text" id="serviceStartDate" name="serviceStartDate" class="input-style tenantAdjust-serviceStartDate-text" value="@tenant.getServiceStartDate">
 					</div>
 					<div>
 						<label for="status" class="label-style tenantAdjust-status" >Status:</label>
 	                 	<input type="radio" id="status" name="status" class="input-style tenantAdjust-status-active" value="Active" > 
 	                 	<p class="tenantAdjust-status-active-text">Active</p> 
-	                 	<input type="radio" id="status" name="status" class="input-style tenantAdjust-status-resolved" value="Resolved" >
-	                 	<p class="tenantAdjust-status-resolved-text"> Resolved </p>
+	                 	<input type="radio" id="status" name="status" class="input-style tenantAdjust-status-inactive" value="Inactive" >
+	                 	<p class="tenantAdjust-status-inactive-text"> Inactive </p>
 	                 	
 					</div>
 				</fieldset>
@@ -74,14 +74,8 @@
 						<label for="contactPersonPhone" class="label-style tenantAdjust-PhoneMain" >Phone Numbers</label>
 						<label for="contactPersonPhone" class="label-style tenantAdjust-PhoneNumberMain" >Names</label>
 	                 	
-	                 	<input type="text" id="contactPersonPhone1" name="phoneName5" class="input-style tenantAdjust-Phone5-text" value="@tenant.getPhoneName5">
-						<input type="text" id="contactPersonPhoneNumber1" name="phoneNumber5" class="input-style tenantAdjust-PhoneNumber5-text" value="@tenant.getPhoneNumber5">
-						<input type="text" id="contactPersonPhone2" name="phoneName6" class="input-style tenantAdjust-Phone6-text" value="@tenant.getPhoneName6">
-						<input type="text" id="contactPersonPhoneNumber2" name="phoneNumber6" class="input-style tenantAdjust-PhoneNumber6-text" value="@tenant.getPhoneNumber6">
-						<input type="text" id="contactPersonPhone3" name="phoneName7" class="input-style tenantAdjust-Phone7-text" value="@tenant.getPhoneName7">
-						<input type="text" id="contactPersonPhoneNumber3" name="phoneNumber7" class="input-style tenantAdjust-PhoneNumber7-text" value="@tenant.getPhoneNumber7">
-						<input type="text" id="contactPersonPhone4" name="phoneName8" class="input-style tenantAdjust-Phone8-text" value="@tenant.getPhoneName8">
-						<input type="text" id="contactPersonPhoneNumber4" name="phoneNumber8" class="input-style tenantAdjust-PhoneNumber8-text" value="@tenant.getPhoneNumber8">
+	                 	<input type="text" id="contactPersonBusinessPhone" name="contactPersonPhones" class="input-style tenantAdjust-BusinessPhone-text" value="@tenant.getContactPersonPhones">
+						<input type="text" id="contactPersonMobilePhone" name="contactPersonPhones" class="input-style tenantAdjust-MobilePhone-text" value="@tenant.getContactPersonPhones">
 					</div>
 				</fieldset>
 				<br>
@@ -101,16 +95,9 @@
 						<label for="contactPersonPhone" class="label-style tenantAdjust-contactPersonPhoneMain" >Phone Numbers</label>
 						<label for="contactPersonPhone" class="label-style tenantAdjust-contactPersonPhoneNumberMain" >Names</label>
 	                 	
-	                 	<input type="text" id="contactPersonPhone1" name="phoneName1" class="input-style tenantAdjust-contactPersonPhone1-text" value="@tenant.getPhoneName1">
-						<input type="text" id="contactPersonPhoneNumber1" name="phoneNumber1" class="input-style tenantAdjust-contactPersonPhoneNumber1-text" value="@tenant.getPhoneNumber1">
-						<input type="text" id="contactPersonPhone2" name="phoneName2" class="input-style tenantAdjust-contactPersonPhone2-text" value="@tenant.getPhoneName2">
-						<input type="text" id="contactPersonPhoneNumber2" name="phoneNumber2" class="input-style tenantAdjust-contactPersonPhoneNumber2-text" value="@tenant.getPhoneNumber2">
-						<input type="text" id="contactPersonPhone3" name="phoneName3" class="input-style tenantAdjust-contactPersonPhone3-text" value="@tenant.getPhoneName3">
-						<input type="text" id="contactPersonPhoneNumber3" name="phoneNumber3" class="input-style tenantAdjust-contactPersonPhoneNumber3-text" value="@tenant.getPhoneNumber3">
-						<input type="text" id="contactPersonPhone4" name="phoneName4" class="input-style tenantAdjust-contactPersonPhone4-text" value="@tenant.getPhoneName4">
-						<input type="text" id="contactPersonPhoneNumber4" name="phoneNumber4" class="input-style tenantAdjust-contactPersonPhoneNumber4-text" value="@tenant.getPhoneNumber4">
-						
-					
+	                 	<input type="text" id="contactPersonBusinessPhone" name="contactPersonPhones" class="input-style tenantAdjust-contactPersonPhone1-text" value="@tenant.getContactPersonPhones">
+						<input type="text" id="contactPersonMobilePhone" name="contactPersonPhones" class="input-style tenantAdjust-contactPersonPhoneNumber-text" value="@tenant.getContactPersonPhones">
+
 					</div>
 	           	</fieldset>
 	           	<br>

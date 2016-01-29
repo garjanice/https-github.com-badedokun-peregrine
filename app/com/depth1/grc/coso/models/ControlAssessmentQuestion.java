@@ -24,7 +24,7 @@ import com.depth1.grc.util.IdProducer;
 
 @Entity
 @Table(name = "controlassesmentquestion")
-public class ControlAssesmentQuestion {
+public class ControlAssessmentQuestion {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="questionid")
@@ -51,7 +51,7 @@ public class ControlAssesmentQuestion {
 	/**
 	 * 
 	 */
-	public ControlAssesmentQuestion() {
+	public ControlAssessmentQuestion() {
 		
 	}
 
