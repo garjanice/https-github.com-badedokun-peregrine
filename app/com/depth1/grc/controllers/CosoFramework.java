@@ -14,12 +14,23 @@ import com.depth1.grc.jpa.models.Objective;
 import com.depth1.grc.jpa.models.ObjectiveDao;
 import com.depth1.grc.jpa.models.ObjectiveSort;
 import com.depth1.grc.model.DaoFactory;
+import com.depth1.grc.model.Tenant;
+import com.depth1.grc.model.TenantDao;
+import com.depth1.grc.views.html.createObjective;
 import com.depth1.grc.views.html.frontObjective;
+import com.depth1.grc.views.html.updateObjective;
+import com.depth1.grc.views.html.viewObjective;
+
+import com.depth1.grc.views.html.viewTenant;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import play.Logger;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.libs.Json;
+
 
 /**
  * This controller class provides operations to support the COSO framework for frontend use.
@@ -196,5 +207,95 @@ public class CosoFramework extends Controller {
 			
 		return ok(frontObjective.render(objective, size));
 	}
+	
+	
+	/**
+	 * Shows the ViewObjectives Page with the currently selected Objectives
+	 * information.
+	 * @return Result of the viewing the Objective Information
+	 */
+	public Result showViewObjective() {
 
+		return ok(viewObjective.render(selectedObjective));
+	}
+	
+	/**
+	 * Updates the selected Objective information and then displays
+	 * the list of Objective on the FrontObjective Page
+	 * @return Result of updating the Objective
+	 */
+	public Result updateObjective() {
+		Form<Objective> filledObjective = objectiveForm.bindFromRequest();
+		Objective criteria = filledObjective.get();
+		criteria.setObjectiveId(selectedObjective.getTenantId());
+		criteria.setObjectiveId(selectedObjective.getObjectiveId());
+		try {
+			ObjectiveDao objectiveDao = cassandraFactory.getObjectiveDao();
+			objectiveDao.updateObjective(criteria);
+			
+		} catch (DaoException e) {
+			Logger.error("Error occurred while updating objectives ",	e);
+		}
+
+		return redirect("/objective/1/10/descendingName");
+	}
+	
+	/**
+	 * Shows the UpdateObjective Page with the Objective Information Populating
+	 * the fields.
+	 * @return Result of updating the Objective information
+	 */
+	public Result showUpdateObjective() {
+		return ok(updateObjective.render(selectedObjective));
+	}	
+	
+	
+	/**
+	 * Shows the Objective Creation Page
+	 * @return Result of the Objective creation
+	 */
+	public Result showCreateObjective() {
+		
+		return ok(createObjective.render());
+	}
+	
+
+	/**
+	 * Sets the Objective that the user picks from the list of Objective
+	 * on the FrontObjective Page.   Uses Ajax and JSON.
+	 * @return Result of setting the selected Objective
+	 */
+	public Result setSelectedObjective() {
+		
+		JsonNode node = request().body().asJson().get("val");
+		
+		if(node == null){
+		        return badRequest("empty json"); 
+		}
+		String inputString = node.textValue();
+		
+		int index = Integer.parseInt(inputString);
+		
+		
+		selectedObjective = objective.get(index);
+		return ok();
+	}
+	
+	
+	/**
+	 * Deletes the selected Objective from the database.  Uses Ajax and JSON.
+	 * Shows the FrontObjective Page.
+	 * @return Result of the deleting the Objective.
+	 */
+	public Result deleteObjective() {
+		try {
+			ObjectiveDao objectiveDao = cassandraFactory.getObjectiveDao();
+			objectiveDao.deleteObjective(selectedObjective.getObjectiveId(), selectedObjective.getTenantId());
+		} catch (DaoException e) {
+			Logger.error("Error occurred while deleting objective ", e);
+		}
+
+		return redirect("/objective/1/10/ascendingName");
+	}
+	
 }
