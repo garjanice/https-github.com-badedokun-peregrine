@@ -1,4 +1,3 @@
-@import com.depth1.grc.controllers.CosoFramework
 @import com.depth1.grc.jpa.models.Objective
 @(objectives:List[Objective], objectiveSize:Integer)
 
@@ -66,16 +65,30 @@
         	<table>
             	<tr>
                 	<td>
-                		<input type="button" class="genericButton" onclick="createStrategicObjective()" value="Create">
+                	   <FORM ACTION=/objective/create>
+		                 <INPUT TYPE="submit"  id="objectiveCreateButton" class="genericButton" VALUE="Create">
+		               </FORM>
+                		<!-- <input type="button" class="genericButton" onclick="createStrategicObjective()" value="Create"> -->
                 	</td>
                 	<td>
-                		<input type="button" class="genericButton" onclick="updateStrategicObjective()" value="Update">
+                	   <FORM ACTION=/objective/view>
+			             <INPUT TYPE="submit" id="objectiveViewButton" class="genericButton" value="View" disabled>
+	                   </FORM>
+                		<!-- <input type="button" class="genericButton" onclick="updateStrategicObjective()" value="Update"> -->
                 	</td>
                 	<td>
-                		<input type="button" class="genericButton" onclick="listStrategicObjective()" value="View">
+                	   <FORM ACTION=/objective/update>
+			              <INPUT TYPE="submit" id="objectiveUpdateButton" class="genericButton" value="Update" disabled>
+	                   </FORM>
+                		<!-- <input type="button" class="genericButton" onclick="listStrategicObjective()" value="View"> -->
                 	</td>
                 	<td>
-                		<input type="button" class="genericButton" onclick="deleteStrategicObjective()" value="Delete">
+	                   <FORM ACTION=/objective/print>
+			              <INPUT TYPE="submit" id="objectivePrintButton" class="genericButton" value="Print" disabled>
+	                   </FORM>
+	                </td>
+                	<td>
+                	   <input type="button"  id="objectiveDeleteButton" class="genericButton" onclick="deleteObjective()" value="Delete">
                 	</td>
 	          	</tr>
            	</table>
@@ -85,7 +98,7 @@
         <br>
         <!-- Needed script to get the total number of Objectives -->
         <script>
-           var objectiveListSize = @objectiveSize;
+           var objectiveFrontListSize = @objectiveSize;
         </script> 
 
 @footer()
