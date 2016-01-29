@@ -14,6 +14,7 @@ import com.depth1.grc.jpa.models.Objective;
 import com.depth1.grc.jpa.models.ObjectiveDao;
 import com.depth1.grc.jpa.models.ObjectiveSort;
 import com.depth1.grc.model.DaoFactory;
+import com.depth1.grc.model.PrintPdfRiskAssessment;
 import com.depth1.grc.model.Tenant;
 import com.depth1.grc.model.TenantDao;
 import com.depth1.grc.views.html.createObjective;
@@ -297,5 +298,6 @@ public class CosoFramework extends Controller {
 
 		return redirect("/objective/1/10/ascendingName");
 	}
+	
 	
 }
