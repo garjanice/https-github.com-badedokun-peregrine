@@ -1,5 +1,6 @@
 package com.depth1.grc.controllers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -7,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,36 +17,39 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.lang.Long;
-import org.jsoup.*;
+
 import play.Logger;
 import play.data.Form;
 import play.data.Form.Field;
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.mvc.Security;
 
 import com.datastax.driver.core.Session;
-import com.depth1.grc.coso.models.JpaObjectiveDao;
-import com.depth1.grc.coso.models.Measure;
-import com.depth1.grc.coso.models.Objective;
 import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.exception.DaoException;
 import com.depth1.grc.exception.DataException;
+import com.depth1.grc.jpa.models.JpaObjectiveDao;
+import com.depth1.grc.jpa.models.LineOfDefenseDao;
+import com.depth1.grc.jpa.models.Measure;
+import com.depth1.grc.jpa.models.Objective;
+import com.depth1.grc.jpa.models.LineOfDefense;
+import com.depth1.grc.jpa.models.LodFunction;
+import com.depth1.grc.jpa.models.ControlPrinciple;
+import com.depth1.grc.jpa.models.JpaLineOfDefenseDao;
+import com.depth1.grc.jpa.models.LodSort;
+import com.depth1.grc.jpa.models.PrincipleSort;
+import com.depth1.grc.jpa.models.ObjectiveDao;
 import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Department;
 import com.depth1.grc.model.PrintPdfRiskAssessment;
-import com.depth1.grc.model.Procedure;
-import com.depth1.grc.model.ProcedureDao;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.RiskAssessmentSort;
-import com.depth1.grc.util.IdProducer;
 import com.depth1.grc.model.Policy;
 import com.depth1.grc.model.PolicyDao;
 import com.depth1.grc.model.PolicySort;
-import com.depth1.grc.model.PrintPdfProcedure;
 import com.depth1.grc.views.html.*;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -56,6 +59,7 @@ public class Application extends Controller {
 	// create the required DAO Factory
 	static DaoFactory cassandraFactory = DaoFactory.getDaoFactory(DaoFactory.CASSANDRA);
 	static DaoFactory rdbFactory = DaoFactory.getDaoFactory(DaoFactory.MARIADB);
+	
 	final static Form<RiskAssessment> rAForm = Form.form(RiskAssessment.class);
 	static List<RiskAssessment> riskAssessments;
 	static RiskAssessment selectedRA;
@@ -64,9 +68,13 @@ public class Application extends Controller {
 	static List<Policy> policies;
 	static Policy selectedPolicy;
 	
-	final static Form<Procedure> procedureForm = Form.form(Procedure.class);
-	static List<Procedure> procedures;
-	static Procedure selectedProcedure;
+	final static Form<LineOfDefense> lodForm=Form.form(LineOfDefense.class);
+	static List<LineOfDefense> lods;
+	static LineOfDefense selectedlod;
+	
+	final static Form<ControlPrinciple> cpForm=Form.form(ControlPrinciple.class);
+	static List<ControlPrinciple> cps;
+	static ControlPrinciple selectedcp;
 	
 	/**
 	 * This method is used as a client to test getting data from the Cassandra
@@ -134,44 +142,6 @@ public class Application extends Controller {
 		}
 		return ok();
 	}
-	
-	
-	/**
-	 * Creates strategic objective
-	 * @return
-	 */
-	public Result createSO() {
-		Objective objective;
-		JpaObjectiveDao obj;
-		try {
-
-			objective = new Objective(25L, "Strategy 2018", "Best Enterprise Risk Management Software", 
-					"Strategic Reporting", "Entity", "Board of Directors");
-
-			Measure measure1 = new Measure(25L, "Launch new product by end of September 2016", "STRATEGIC", objective);
-			Measure measure2 = new Measure(25L, "Secure strategic partners", "STRATEGIC", objective);
-			Measure measure3 = new Measure(25L, "Complete UI/UX of the application by July 2016","STRATEGIC", objective);
-			//Measure measure4 = new Measure(17L, "Minimize software defect by 80% in 2016", objective);
-			//Measure measure5 = new Measure(17L, "Expand sales to other regions in 2017", objective);
-
-			//Set<Measure> measureSet = new HashSet<Measure>();
-			Set<Measure> measureSet = Collections.synchronizedSet(new LinkedHashSet<Measure>());
-			measureSet.add(measure1);
-			measureSet.add(measure2);
-			measureSet.add(measure3);
-			//measureSet.add(measure4);
-			//measureSet.add(measure5);
-			obj = new JpaObjectiveDao();
-			obj.createObjective(objective, measureSet);
-			Logger.info("Data Transaction persisted successfully.");
-			Logger.info("Strategic Objective ID = " +objective.getObjectiveId());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return ok();
-		}
-
 
 	/**
 	 * Creates a policy 
@@ -202,6 +172,129 @@ public class Application extends Controller {
 		return redirect("/policy/1/10/descendingName");
 	}
 
+	/**
+	 * Creates strategic objective using JPA.
+	 * 
+	 * @return
+	 */
+	public Result createSO() {
+		Objective objective;
+		JpaObjectiveDao obj = new JpaObjectiveDao();
+		try {
+			
+			//objective = new StrategicObjective(21L, "Strategy 2050", "COSO Enterprise Risk Management Framework");
+			 
+			/*Measure measure1 = new Measure(21L, "40% in customer base", objective);
+			Measure measure2 = new Measure(21L, "35% increase in revenue", objective);
+			Measure measure3 = new Measure(21L, "40% increase in profit", objective);
+			Measure measure4 = new Measure(21L, "Minimize software defect by 99% in 2016", objective);
+			Measure measure5 = new Measure(21L, "Expand sales to Europe and EMEA regions in 2016", objective);
+			Measure measure6 = new Measure(21L, "Expand sales to APAC region in 2017", objective);
+			Set<Measure> measureSet = Collections.synchronizedSet(new LinkedHashSet<Measure>());
+			measureSet.add(measure1);
+			measureSet.add(measure2);
+			measureSet.add(measure3);
+			measureSet.add(measure4);
+			measureSet.add(measure5);
+			measureSet.add(measure6);
+			obj = new JpaStrategicObjectiveDao();
+			obj.createStrategicObjective(objective, measureSet);*/
+			//obj = new JpaStrategicObjectiveDao();
+			//StrategicObjective so = new StrategicObjective();
+			//so = obj.getStrategicObjective(13);
+			//List<StrategicObjective> result = obj.listStrategicObjective("Strategy 2018");
+			//result.forEach(results->Logger.info("The SO: " + results.getObjective()));
+			/*so.setName("Strategy 2060");
+			so.setObjective("Most Comprehensive Risk Management Software with Built-in 3LoD");
+			obj.updateStrategicObjective(so);*/
+			Objective so = new Objective();
+			//obj = new JpaStrategicObjectiveDao();
+			so = obj.getObjective(9L);
+			//Set<Measure> set = (Set<Measure>)obj.getMeasure(so.getObjectiveId());
+			so.setName("Strategy 2014");
+			so.setObjective("Risk Management Software with Built-in 3LoD");
+			Set<Measure> measureSet = new LinkedHashSet<Measure>();
+			Measure m1 = new Measure();
+			Measure m2 = new Measure();
+			Measure m3 = new Measure();
+			Measure m4 = new Measure();
+			Map<Long, Measure> measure1 = new HashMap<>();
+			Set<Objective> set = obj.getMeasure(so.getObjectiveId());
+			set.forEach(results-> {
+				Logger.info("Objective name: "+ results.getName());
+				Logger.info("Objective is: "+ results.getObjective());
+				Set<Measure> m = results.getMeasure();
+				m.forEach(r-> {
+					Logger.info("Measure Id: "+ r.getMeasureId());
+					Logger.info("Measure is: "+ r.getMeasure());
+					try {
+						if (r.getMeasureId() == 37) {
+							m1.setMeasureId(r.getMeasureId());
+							m1.setMeasure("Acquire major bank customers in 2017");
+							Logger.info("Measure r ID: " + r.getMeasureId());
+							Logger.info("Measure m1 ID: " + m1.getMeasureId());
+							measure1.put(m1.getMeasureId(), m1);
+							//obj.updateMeasure(m1, 9L);
+						}
+						if (r.getMeasureId() == 38) {
+							m2.setMeasureId(r.getMeasureId());
+							m2.setMeasure("Form partnerships with Software Vendors");
+							Logger.info("Measure r ID: " + r.getMeasureId());
+							Logger.info("Measure m2 ID: " + m2.getMeasureId());
+							measure1.put(m2.getMeasureId(), m2);
+							//obj.updateMeasure(m2, 9L);
+						}
+						if (r.getMeasureId() == 41) {
+							m3.setMeasureId(r.getMeasureId());
+							m3.setMeasure("Host Trade Show in Las Vegas");
+							Logger.info("Measure r ID: " + r.getMeasureId());
+							Logger.info("Measure m2 ID: " + m3.getMeasureId());
+							measure1.put(m3.getMeasureId(), m3);
+							//obj.updateMeasure(m2, 9L);
+						}
+						if (r.getMeasureId() == 39) {
+							m4.setMeasureId(r.getMeasureId());
+							m4.setMeasure("Increase operation in North America, Europe and Asia");
+							Logger.info("Measure r ID: " + r.getMeasureId());
+							Logger.info("Measure m2 ID: " + m4.getMeasureId());
+							measure1.put(m4.getMeasureId(), m4);
+							//obj.updateMeasure(m2, 9L);
+						}
+					} catch (Exception e) {
+						Logger.error("Error updating measure table.", e);
+
+					}
+				});
+				
+			});
+			obj.updateObjective(so);
+			obj.updateMeasure(measure1, so);
+			/*measureSet.add(m1);
+			measureSet.add(m2);
+			so.setName("Strategy 2015");
+			so.setObjective("Comprehensive Risk Management Software with Built-in 3LoD");*/
+			//so.setMeasure(measureSet);
+			//obj.updateStrategicObjective(so);
+			//Logger.info("The measure"););
+			//so.setTenantId(20L);
+			/*Measure measure1 = new Measure(17L, "28% increase in customer base", so);
+			Measure measure2 = new Measure(17L, "30% increase in Profit Margin", so);
+			long measureId = so.getObjectiveId();
+			Measure measure = new Measure();
+			measure.setMeasure("28% increase in customer base");*/
+			//measure.set
+			/*Set<Measure> measureSet = Collections.synchronizedSet(new LinkedHashSet<Measure>());
+			measureSet.add(measure1);
+			measureSet.add(measure2);
+			so.setMeasure(measureSet);
+			obj.updateStrategicObjective(so);*/
+	
+		} catch (Exception e) {
+			Logger.error("Error occured while [updating] data in the data store.", e);
+		}	
+		return ok();
+		}
+	
 	/**
 	 * Deletes a policy.
 	 * 
@@ -245,7 +338,6 @@ public class Application extends Controller {
 		return ok(new java.io.File(filepath));
 
 	}
-	
 	private String getPolicyBodyAsString(String name){
 		String policyBody = "";
 		try {
@@ -256,14 +348,21 @@ public class Application extends Controller {
 		return policyBody;
 	}
 
-	
-	/**
-	 * The call to home page of the application.
-	 * 
-	 * @return
-	 */
 	public Result index() {
-		createSO();
+		Department dept = new Department();
+		long tenantId = 1443847131068L;
+		dept.setTenantId(tenantId);
+		dept.setDeptName("Engineering");
+		dept.setDescription("Responsible for product engineering");
+		OrganizationResource.createDepartment(dept);
+		//
+		Department dept1 = new Department();
+		//long tenantId = 1443947438722L;
+		dept1.setTenantId(tenantId);
+		dept1.setDeptName("Global Technology");
+		dept1.setDescription("Responsible for infrastructure management");
+		OrganizationResource.createDepartment(dept1);
+		
 		return ok(index.render());
 	}
 	/**
@@ -651,250 +750,219 @@ public class Application extends Controller {
 	}
 
 	/**
-	 * Creates a Procedure
-	 * @return Result of the procedure created
+	 * Creates a Line of Defense.
+	 * 
+	 * @param lod Line of Defense to create
+	 * @throws DaoException if error occurs while creating the Line of Defense in the data store
 	 */
+	public Result addLineOfDefense(){
+	//	LineOfDefense lod=new LineOfDefense();
+		Form<LineOfDefense> filledlod= lodForm.bindFromRequest();
+		LineOfDefense lodcriteria = filledlod.get();
+		try{
+				LineOfDefenseDao lodDao=rdbFactory.getLineOfDefenseDao();
+				lodDao.createLineOfDefense(lodcriteria);
+		}catch(DataException e) {
+			Logger.error("Error occured while creating line of defense");
+		}
+		return redirect("/lod/1/10/descendingLod");
+	}
 
-	public Result createProcedure() {
-		// create form object from the request
-		Form<Procedure> filledProcedure = procedureForm.bindFromRequest();
-		// check for required and validate input fields
-		Procedure criteria = filledProcedure.get();
-		System.out.println("Here it is: " + criteria.getDescription());
+	public Result createLineOfDefensePage(){
+		return ok(createlod.render(lodForm));
+	}
+	
+	/**
+	 * Deletes a Line of Defense.
+	 * 
+	 * @param lod Line of Defense to delete
+	 * @return boolean True if the line of defense was successfully deleted, false otherwise
+	 * @throws DaoException if error occurs while deleting a line of defense from the data store
+	 */
+	public Result deleteLineOfDefense(String lod){
+
 		try {
-			ProcedureDao procedureDao = cassandraFactory.getProcedureDao();
-			// create procedure on DB
-			procedureDao.createProcedure(criteria);
-
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Procedure ", e);
+			LineOfDefenseDao lodDao = rdbFactory.getLineOfDefenseDao();
+			lodDao.deleteLineOfDefense(lod);
+		} catch (DataException e) {
+			Logger.error("Error occured while deleting strategic objective", e);
 		}
-		if (filledProcedure.field("procedurebody").value() != null) {
-			saveProcedureBodyDocument(criteria.getName(),
-					filledProcedure.field("procedurebody"));
-		}
-		return redirect("/procedure");
+		
+		return ok("/lod/1/10/descendingLod");
 	}
-
+	
 	/**
-	 * Saves the procedure body document to a file on the server file system
-	 * @param fileName of procedure to be saved, text-area field of procedure body
-	 * @return void
+	 * Select the Line of defense which the user wants to view, update, delete
+	 * @return
 	 */
-
-	private void saveProcedureBodyDocument(String fileName, Field procedureBody) {
-		try {
-			// TODO: Replace the path with path on server for file storage
-			String dirString = "public/procedureDocuments/";
-			Path dirPath = Paths.get(dirString);
-			if (Files.notExists(dirPath)) {
-				Files.createDirectory(dirPath);
-			}
-			Path filePath = Paths.get(dirString + fileName);
-			File procedureDoc = filePath.toFile();
-			PrintWriter writer = new PrintWriter(new BufferedWriter(
-					new FileWriter(procedureDoc)), true);
-			// flushing the buffer after file-write
-			//writer.print(Jsoup.parse(procedureBody.value()).asText());
-			writer.close();
-			Logger.info("Procedure Body Documented at " + dirString + fileName);
-		} catch (IOException e) {
-			Logger.error("Error while storing the procedure body document " + e);
-		}
+	public Result setSelectedLineOfDefense() {
+		
+		JsonNode node = request().body().asJson().get("val");
+		
+		 if(node == null){
+		      return badRequest("empty json"); 
+		    }
+		String inputString = node.textValue();
+		int index = Integer.parseInt(inputString);		
+		selectedlod = lods.get(index);
+		return ok();
 	}
-
+	
 	/**
-	 * Updates the selected Procedure information and then displays the list of Procedures on the FrontTenant Page
-	 * @return Result of updating the Procedure
-	 */
-	public Result updateProcedure() {
-		Form<Procedure> filledProcedure = procedureForm.bindFromRequest();
-		Procedure criteria = filledProcedure.get();
-		criteria.setId(selectedProcedure.getId());
-		try {
-			ProcedureDao procedureDao = cassandraFactory.getProcedureDao();
-			procedureDao.updateProcedure(criteria);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while updating procedure criteria ", e);
-		}
-
-		return redirect("/procedure");
-	}
-
-	/**
-	 * This method allows users to update selected Procedure
-	 * @return update Procedure page
-	 */
-
-	public Result showUpdateProcedurePage() {
-
-		return ok(updateProcedure.render(selectedProcedure));
-	}
-
-
-	/**
-	 * Deletes the selected Procedure from the database.Uses Ajax and JSON.
-	 * Shows the FrontProcedure Page.
-	 * @return Result of the deleting the Procedure.
-	 */
-
-	public Result deleteProcedure() {
-		try {
-			ProcedureDao procedureDao = cassandraFactory.getProcedureDao();
-			procedureDao.deleteProcedure(selectedProcedure);
-		} catch (DaoException e) {
-			Logger.error("Error occurred while deleting procedure ", e);
-		}
-
-		return redirect("/procedure");
-	}
-
-	/**
-	 * Restores a procedure
-	 * @param procedureId
-	 * @return restore procedure page
-	 */
-
-	public Result restoreProcedure(String procedureId) {
-		// Logger.error("correct");
-		// call cassandra procedure dao
-		boolean result = false;
-		try {
-			ProcedureDao procedureDao = cassandraFactory.getProcedureDao();
-			result = procedureDao.restoreProcedure(procedureId);
-			// System.out.println("COMPLETED result = " + result );
-		} catch (DaoException e) {
-			System.out.println("ERROR OCCURED");
-			Logger.error("Error occurred while creating Procedure Front Page ",
-					e);
-		}
-
-		return ok(restoreProcedure.render(procedures));
-
-		// return TODO;
-	}
-
-	/**
-	 * Shows the front page of the Procedure UI
+	 * Shows the front page of the Line Of Defense UI
+	 * 
 	 * @return to the main page
 	 */
-
-	public Result showFrontProcedurePage() {
+	 public Result showFrontLodPage() {
 
 		try {
-			ProcedureDao procedureDao = cassandraFactory.getProcedureDao();
-			procedures = procedureDao.listProcedure();
+			LineOfDefenseDao lodDao=rdbFactory.getLineOfDefenseDao();
+			lods = lodDao.listLineOfDefense();
 		} catch (DaoException e) {
-			Logger.error("Error occurred while creating procedure criteria ", e);
+			Logger.error("Error occurred while creating Line Of Defense criteria ", e);
 		}
-
-		return ok(frontProcedure.render(procedures, procedures.size()));
+		return ok(frontlod.render(lods,lods.size()));
 	}
+	
 	/**
-	 * Sets the the Procedure Selected on the Front Page as the selectedProcedure
-	 * @return a message that the JSON was received ok
+	 * Lists all the Line Of Defenses
+	 * @param page
+	 * @param view
+	 * @param order
+	 * @param query
+	 * @return DaoException if error occurs while creating the Control Principle in the data store
 	 */
-
-	public Result setSelectedProcedure() {
-		Procedure procedure = new Procedure();
-		JsonNode node = request().body().asJson().get("val");
-
-		if (node == null) {
-			return badRequest("empty json");
-		}
-		String inputString = node.textValue();
-		int index = Integer.parseInt(inputString);
+	public Result showFrontlodPageQuery(int page, int view, String order, String query){
 		int size = 0;
 
-		selectedProcedure = procedures.get(index);
+		try {
+			LineOfDefenseDao lodDao=rdbFactory.getLineOfDefenseDao();
+			LodSort lodSort = new LodSort();
+			lods = lodDao.listLineOfDefense();
+			size = lods.size();
+			if(query.compareTo("")!= 0){
+				lods = lodSort.filterDataByQuery(lods, query);
+				size = lods.size();
+			}
+			if(size > 0){
+				lods = lodSort.sortLod(lods, order);
+				lods = lodSort.paginateLineOfDefense(lods, view, page);
+			}
+		} catch (DaoException e) {
+			Logger.error("Error occurred while listing Line Of Defense criteria ", e);
+		}
+		return ok(frontlod.render(lods,size));
+	}
+	/**
+	 * Views the selected Line of Defense
+	 */
+	public Result showViewlodPage(String lod) {
+		/*try {
+			//LineOfDefense lod1=new LineOfDefense();
+			LineOfDefenseDao lodDao=rdbFactory.getLineOfDefenseDao();
+			selectedlod=lodDao.findLineOfDefense(lod);
+			Logger.info("The required lod is " +selectedlod.getLod());
+		}catch(DaoException e){
+			Logger.error("Error occured while viewing Line of Defense ");
+		}*/
+		return ok(viewLod.render(selectedlod));
+	}
+	/**
+	 * Updates a Line of Defense.
+	 * @param lod Line of defense to update
+	 * @return boolean True if the line of defense was successfully updated, false otherwise
+	 * @throws DaoException if error occurs while updating a line of defense in the data store
+	 */
+	public Result updateLineofDefense(){
+		Form<LineOfDefense> filledlod= lodForm.bindFromRequest();
+		LineOfDefense lodcriteria = filledlod.get();
+		try{
+			LineOfDefenseDao lodDao=rdbFactory.getLineOfDefenseDao();
+			lodDao.updateLineOfDefense(lodcriteria);
+		}catch(DaoException e){
+			Logger.error("Error occured while updating data in Line Of Defense tables");
+		}
+		return ok("/lod/1/10/descendingLod");
+	}
+
+	public Result updateLodPage(){
+		return ok(updatelod.render(selectedlod));
+	}
+	/**
+	 * Creates a Control Principle.
+	 * 
+	 * @param controlPrinciple The control principle to create
+	 * @throws DaoException if error occurs while creating the control principle in the data store
+	 */
+	public Result addControlPrinciple() {
+		Form<ControlPrinciple> filledcp=cpForm.bindFromRequest();
+		ControlPrinciple cpcriteria=filledcp.get();
+		try {
+				LineOfDefenseDao cpdao=rdbFactory.getLineOfDefenseDao();
+				cpdao.createControlPrinciple(cpcriteria);
+		}catch(DaoException e){
+			Logger.error("Error occured while creating Control Principle");
+		}
+		return ok("/cp/1/10/descendingComponent");
+	}
+	
+	/**
+	 * 
+	 * @return the page where the creation of control principle takes place
+	 */
+	public Result addControlPrinciplePage(){
+		return ok(createcp.render(cpForm));
+	}
+
+	/**
+	 * Select the Line of defense which the user wants to view, update, delete
+	 * @return
+	 */
+	public Result setSelectedPrinciple() {
+		
+		JsonNode node = request().body().asJson().get("val");
+		
+		 if(node == null){
+		      return badRequest("empty json"); 
+		    }
+		String inputString = node.textValue();
+		int index = Integer.parseInt(inputString);		
+		selectedcp = cps.get(index);
 		return ok();
 	}
-
+	
 	/**
-	 * This method shows the create Procedure page if the 'Create' button is clicked
-	 * @return create Procedure page
+	 * Lists all the Line Of Defenses
+	 * @param page
+	 * @param view
+	 * @param order
+	 * @param query
+	 * @return DaoException if error occurs while creating the Control Principle in the data store
 	 */
+	public Result showFrontcpPageQuery(int page, int view, String order, String query){
+		int size = 0;
 
-	public Result showCreateProcedurePage() {
-
-		return ok(createProcedure.render());
-
-	}
-
-	/**
-	 * Shows a create procedure editor page
-	 * @return procedure editor page
-	 */
-
-	public Result showCreateProcedureEditorPage() {
-
-		return ok();
-	}
-
-	/**
-	 * This method allows users to view procedure
-	 * @return view Procedure page
-	 */
-	public Result showViewProcedurePage() {
-
-		return ok(viewProcedure.render(selectedProcedure));
-	}
-
-	/**
-	 * Shows a delete procedure page
-	 * @return procedure delete page
-	 */
-	public Result showDeleteProcedurePage() {
 		try {
-			ProcedureDao procedureDao = cassandraFactory.getProcedureDao();
-			procedures = procedureDao.viewAllProcedure();
+			LineOfDefenseDao cpDao=rdbFactory.getLineOfDefenseDao();
+			PrincipleSort cpSort = new PrincipleSort();
+			cps = cpDao.listControlPrinciple();
+			size = cps.size();
+			if(query.compareTo("")!= 0){
+				cps = cpSort.filterDataByQuery(cps, query);
+				size = cps.size();
+			}
+			if(size > 0){
+				cps = cpSort.sortPrinciple(cps, order);
+				cps = cpSort.paginateControlPrinciple(cps, view, page);
+			}
 		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Procedure Front Page ",
-					e);
+			Logger.error("Error occurred while listing Control Principle criteria ", e);
 		}
-
-		return ok(deleteProcedure.render(procedures));
-
+		return ok(frontcp.render(cps,size));
 	}
-
-	/**
-	 * Shows a restore procedure page
-	 * @return procedure restore page
-	 */
-	public Result showRestoreProcedurePage() {
-		try {
-			ProcedureDao procedureDao = cassandraFactory.getProcedureDao();
-			procedures = procedureDao.viewAllDeletedProcedure();
-		} catch (DaoException e) {
-			Logger.error("Error occurred while creating Procedure Front Page ",
-					e);
-		}
-
-		return ok(restoreProcedure.render(procedures));
-	}
-
-	/**
-	 * Downloads a procedure to a file
-	 * @param name
-	 * @return creates a procedure file
-	 */
-
-	public Result downloadProcedure(String name) {
-		String filepath = "public/procedureDocuments/" + name;
-		return ok(new java.io.File(filepath));
-
-	}
-
-	/**
-	 * This method allows users to print selected Procedure
-	 * @return PDF page of procedure
-	 */
-	public Result printProcedure() {
-
-		PrintPdfProcedure pdf = new PrintPdfProcedure();
-		pdf.printProcedure(selectedProcedure);
-		return redirect("/assets/pdf/Procedure.pdf");
-
+	
+	public Result showViewcpPage() {
+		return ok(viewcp.render(selectedcp));
 	}
 
 }
