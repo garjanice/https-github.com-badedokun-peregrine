@@ -37,7 +37,7 @@ public class Procedure {
 	private String approver;
 	private String owner;
 	@Formats.DateTime(pattern = "yyyy-MM-dd")
-	@DateFormat("MM-dd-yyyy")
+	//@DateFormat("MM-dd-yyyy")
 	private Date lastUpdatedDate;
 	
 	//Constructor

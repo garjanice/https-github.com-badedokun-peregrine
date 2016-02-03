@@ -11,7 +11,8 @@ import com.depth1.grc.model.DaoFactory;
 import com.depth1.grc.model.Login;
 import com.depth1.grc.model.UserProfile;
 import com.depth1.grc.model.UserProfileDao;
-import com.depth1.grc.views.html.index;
+import com.depth1.grc.util.IdProducer;
+import com.depth1.grc.views.html.*;
 import com.depth1.grc.views.html.login;
 
 import play.Logger;
@@ -80,6 +81,6 @@ public class ApplicationLogin extends Controller {
         Cache.remove(LOGIN_EMAIL);
         flash(SUCCESS, "You have successfully logged out!");
         return redirect(routes.ApplicationLogin.login() );
-    }	
+    }
 
 }

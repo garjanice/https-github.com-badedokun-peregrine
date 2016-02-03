@@ -1,6 +1,7 @@
 
 package com.depth1.grc.controllers;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.UUID;
 
@@ -68,6 +69,21 @@ public class OrganizationResource extends Controller {
 	
 		return ok();
 	}
+	
+	/**
+	 * Creates a Tenant profile
+	 * @param tenant Tenant to create
+	 * @return Result of the tenant created
+	 */
+	public static Result createTenant(Tenant tenant) {
+		try {
+			TenantDao tenantProfile = cassandraFactory.getTenantDao();
+			tenantProfile.createTenant(tenant);
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating a tenant ", e);
+		}
+		return ok();
+	}	
 
 	/**
 	 * Creates a user profile
@@ -533,7 +549,7 @@ public class OrganizationResource extends Controller {
 			tenantDao.updateTenant(criteria);
 			
 		} catch (DaoException e) {
-			Logger.error("Error occurred while updating risk assessment criteria ",	e);
+			Logger.error("Error occurred while updating tenant ",	e);
 		}
 
 		return redirect("/tenant/1/10/descendingName");

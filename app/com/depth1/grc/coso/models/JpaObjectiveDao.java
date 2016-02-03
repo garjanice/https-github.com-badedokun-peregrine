@@ -142,6 +142,7 @@ public class JpaObjectiveDao implements ObjectiveDao {
 	 * @return Set of Strategic objective that were found
 	 * @throws DaoException if error occurs while finding measures in the data store
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set<Objective> getMeasure(long objectiveId) throws DaoException {
 		Query query = null;
@@ -153,8 +154,11 @@ public class JpaObjectiveDao implements ObjectiveDao {
 			resultList = query.getResultList();
 			
 		} catch (DataStoreException e) {
-			Logger.error("Error occurred while retrieving data in Measure table ", e);			
+			Logger.error("Error occurred while retrieving data in Measure table ", e);
+			JpaUtil.rollbackTransaction(entityManager);
 			return null;
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
 		}
 		Set<Objective> measureSet = new LinkedHashSet<Objective>((List<Objective>)resultList);
 		return measureSet;
@@ -190,8 +194,11 @@ public class JpaObjectiveDao implements ObjectiveDao {
 			query.setParameter("objectiveid", objectiveId);
 			query.setParameter("tenantid", tenantId);
 		} catch (DataStoreException e) {
-			Logger.error("Error occurred while retrieving data in Objective tables ", e);			
+			Logger.error("Error occurred while retrieving data in Objective tables ", e);
+			JpaUtil.rollbackTransaction(entityManager);
 			return null;
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
 		}
 		return query.getSingleResult();
 	}
@@ -211,8 +218,11 @@ public class JpaObjectiveDao implements ObjectiveDao {
 			query = entityManager.createQuery("from Objective s WHERE s.name = :name", Objective.class);
 			query.setParameter("name", name);
 		} catch (DataStoreException e) {
-			Logger.error("Error occurred while retrieving data in Objective tables ", e);			
+			Logger.error("Error occurred while retrieving data in Objective tables ", e);
+			JpaUtil.rollbackTransaction(entityManager);
 			return null;
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
 		}
 		return query.getSingleResult();
 	}	
@@ -232,9 +242,34 @@ public class JpaObjectiveDao implements ObjectiveDao {
 			TypedQuery<Measure> query = entityManager.createQuery("from Measure WHERE s.tenantid = :tenantid", Measure.class);
 			query.setParameter("tenantid", tenantId);
 			resultList = query.getResultList();
-			JpaUtil.closeTransaction(entityManager);
 		} catch (DataStoreException e) {
 			Logger.error("Error occurred while retrieving data from Measure table ", e);
+			JpaUtil.rollbackTransaction(entityManager);
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
+		}
+		return resultList;
+	}
+	
+	/**
+	 * List strategic objective in the data store.
+	 * 
+	 * @return list of strategic objectives
+	 * @throws DaoException if error occurs while reading objective from the data store
+	 */
+	@Override
+	public List<Objective> listObjective() throws DaoException {
+		List<Objective> resultList = null;
+		try {
+			JpaUtil.beginTransaction(entityManager);
+			TypedQuery<Objective> query = entityManager.createQuery("from Objective", Objective.class);
+			resultList = query.getResultList();
+			
+		} catch (DataStoreException e) {
+			Logger.error("Error occurred while retrieving data from Objective table ", e);
+			JpaUtil.rollbackTransaction(entityManager);
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
 		}
 		return resultList;
 	}	
@@ -254,12 +289,14 @@ public class JpaObjectiveDao implements ObjectiveDao {
 			TypedQuery<Objective> query = entityManager.createQuery("from Objective WHERE s.tenantid = :tenantid", Objective.class);
 			query.setParameter("tenantid", tenantId);
 			resultList = query.getResultList();
-			JpaUtil.closeTransaction(entityManager);
 		} catch (DataStoreException e) {
 			Logger.error("Error occurred while retrieving data from Objective table ", e);
+			JpaUtil.rollbackTransaction(entityManager);
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
 		}
 		return resultList;
-	}	
+	}
 	
 	/**
 	 * Lists strategic objectives.
@@ -278,8 +315,11 @@ public class JpaObjectiveDao implements ObjectiveDao {
 			query.setParameter("name", name);
 			query.setParameter("tenantid", tenantId);
 		} catch (DataStoreException e) {
-			Logger.error("Error occurred while deleting data in Objective tables ", e);			
+			Logger.error("Error occurred while deleting data in Objective tables ", e);	
+			JpaUtil.rollbackTransaction(entityManager);
 			return null;
+		} finally {
+			JpaUtil.closeTransaction(entityManager);
 		}
 		return query.getResultList();
 	}	

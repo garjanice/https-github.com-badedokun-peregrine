@@ -46,7 +46,7 @@ public class CosoFramework extends Controller {
 	 * @param measure a set containing the measures for the strategic objective
 	 * @throws DaoException if error occurs while updating a strategic objective in the data store
 	 */
-	public Result createStrategicObjective(Objective objective, Set<Measure> measure)  
+	public Result createObjective(Objective objective, Set<Measure> measure)  
 			 throws DaoException {
 
 		try {
@@ -64,7 +64,7 @@ public class CosoFramework extends Controller {
 	 * @param objectiveId strategic objective ID to delete
 	 * @throws DaoException if error occurs while deleting a strategic objective from the data store
 	 */
-	public Result deleteStrategicObjective(long objectiveId, long tenantId) throws DaoException {
+	public Result deleteObjective(long objectiveId, long tenantId) throws DaoException {
 
 		try {
 			ObjectiveDao obj = new JpaObjectiveDao();
@@ -84,6 +84,7 @@ public class CosoFramework extends Controller {
 	 */
 	
 	public Result listMeasure(long tenantId) throws DaoException {
+		@SuppressWarnings("unused")
 		List<Measure> list = new ArrayList<>();
 		try {
 			ObjectiveDao obj = new JpaObjectiveDao();
@@ -96,13 +97,34 @@ public class CosoFramework extends Controller {
 	}	
 	
 	/**
-	 * List strategic objective in the data store.
+	 * List objectives in the data store.
 	 * 
 	 * @return list of strategic objectives
 	 * @throws DaoException if error occurs while reading strategic objective from the data store
 	 */
 	
-	public Result listStrategicObjective(long tenantId) throws DaoException {
+	public Result listObjective() throws DaoException {
+		@SuppressWarnings("unused")
+		List<Objective> list = new ArrayList<>();
+		try {
+			ObjectiveDao obj = new JpaObjectiveDao();
+			list = obj.listObjective();
+		} catch (DataException e) {
+			Logger.error("Error occured while reading strategic objective", e);
+		}
+		
+		return ok();		
+	}	
+	
+	/**
+	 * List objectives in the data store.
+	 * 
+	 * @return list of strategic objectives
+	 * @throws DaoException if error occurs while reading strategic objective from the data store
+	 */
+	
+	public Result listObjective(long tenantId) throws DaoException {
+		@SuppressWarnings("unused")
 		List<Objective> list = new ArrayList<>();
 		try {
 			ObjectiveDao obj = new JpaObjectiveDao();
@@ -115,14 +137,15 @@ public class CosoFramework extends Controller {
 	}
 	
 	/**
-	 * Lists strategic objectives.
+	 * Lists objectives in the data store
 	 * 
 	 * @param name strategic objective name to find
 	 * @param tenantId the tenant ID of the tenant to find
 	 * @return List of Strategic objective that were found
 	 * @throws DaoException if error occurs while finding a strategic objective in the data store
 	 */
-	public Result listStrategicObjective(String name, long tenantId) throws DaoException {	
+	public Result listObjective(String name, long tenantId) throws DaoException {	
+		@SuppressWarnings("unused")
 		List<Objective> list = new ArrayList<>();
 		try {
 			ObjectiveDao obj = new JpaObjectiveDao();
@@ -135,12 +158,12 @@ public class CosoFramework extends Controller {
 	}
 	
 	/**
-	 * Updates Strategic objective and its corresponding measures.
+	 * Updates Objective and its corresponding measures.
 	 * @param measure a map <k,v> where k is the measureId and v is the measure value to update
 	 * @param objective the strategic objective to update
 	 * @throws DaoException if error occurs while updating a strategic objective in the data store
 	 */
-	public Result updateStrategicObjective(Map<Long, Measure> measure, Objective objective)  
+	public Result updateObjective(Map<Long, Measure> measure, Objective objective)  
 			 throws DaoException {
 
 		try {

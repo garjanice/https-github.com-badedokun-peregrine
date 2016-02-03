@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.datastax.driver.core.ResultSetFuture;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Statement;
@@ -54,11 +55,6 @@ public class CassandraTenantDao implements TenantDao
 	 */
 	
 	public void createTenant(Tenant tenant) throws DaoException {
-
-		Map<String, String> cphones = new HashMap<String, String>();
-		Map<String, String> bphones = new HashMap<String, String>();
-		tenant.setContactPersonPhones(cphones);
-		tenant.setPhones(bphones);
 		try {					
 			Statement insert = QueryBuilder
 					.insertInto(Keyspace.valueOf(keyspace), "tenant")
@@ -124,7 +120,6 @@ public class CassandraTenantDao implements TenantDao
 	
 	
 	/**
-<<<<<<< HEAD
 	 * Finds a tenant given a tenant name.
 	 * 
 	 * @param name the tenant name to find
@@ -134,7 +129,6 @@ public class CassandraTenantDao implements TenantDao
 	
 	@Override
 	public boolean findTenant(String name) throws DaoException {
-		
 		try {
 			ResultSetFuture result = getOneTenant(name);
 			if (result == null) {
@@ -143,10 +137,7 @@ public class CassandraTenantDao implements TenantDao
 
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving data from the tenant table ", e);
-		} finally {
-			// dbSession.close();
-			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
-		}
+		} 
 
 		return true;
 	}
@@ -158,10 +149,15 @@ public class CassandraTenantDao implements TenantDao
 	 * @throws DaoException if error occurs while getting user profiles from the user profile table
 	 */
 	private ResultSetFuture getOneTenant(long tenantId) {
+		ResultSetFuture result = null;
 		Select.Where select = null;
 		try {
 			select = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "tenant")
 					.where(eq("tenantid", tenantId));
+			result = CassandraDaoFactory.getSession().executeAsync(select);
+			if (result.getUninterruptibly().one() == null) {
+				return null;
+			}
 
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving a tenant profile from the tenant table ", e);
@@ -169,8 +165,7 @@ public class CassandraTenantDao implements TenantDao
 			// close the connection to the database();
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
-		return CassandraDaoFactory.getSession().executeAsync(select);
-
+		return result;
 	}
 	
 	/**
@@ -180,10 +175,15 @@ public class CassandraTenantDao implements TenantDao
 	 * @throws DaoException if error occurs while getting user profiles from the user profile table
 	 */
 	private ResultSetFuture getOneTenant(String name) {
+		ResultSetFuture result = null;
 		Select.Where select = null;
 		try {
 			select = QueryBuilder.select().all().from(Keyspace.valueOf(keyspace), "tenant")
 					.where(eq("name", name));
+			result = CassandraDaoFactory.getSession().executeAsync(select);
+			if (result.getUninterruptibly().one() == null) {
+				return null;
+			}
 
 		} catch (DriverException e) {
 			Logger.error("Error occurred while retrieving a tenant profile from the tenant table ", e);
@@ -191,8 +191,7 @@ public class CassandraTenantDao implements TenantDao
 			// close the connection to the database();
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
-		return CassandraDaoFactory.getSession().executeAsync(select);
-
+		return result;
 	}
 	
 	/**
@@ -289,7 +288,39 @@ public class CassandraTenantDao implements TenantDao
 		}
 		
 		return list;
-	}		
+	}
+	
+	/**
+	 * Puts Tenant name and tenant ID in a cache for later use.
+	 * 
+	 * @return list of tenants
+	 * @throws DaoException if an error occurs while retrieving tenant from the tenant table
+	 */
+	
+	public Map<String, Long> cacheTenant() throws DaoException {
+		Map<String, Long> map = new HashMap<>();
+		String table = "tenant";
+		try {
+			ResultSetFuture results = DataReaderUtil.getAll(table);
+			if (results == null) {
+				return null;
+			}
+			// get data elements from the Result set
+			for (Row row : results.getUninterruptibly()) {
+				Tenant tenant = new Tenant();
+				setTenantCacheAttributes(tenant, row);
+				map.put(tenant.getName(), tenant.getTenantId());
+			}
+
+		} catch (DriverException e) {
+			Logger.error("Error occurred while retrieving data from the tenant table ", e);
+		} finally {
+			//dbSession.close();
+			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
+		}
+		
+		return map;
+	}			
 
 	/**
 	 * Updates tenant information in the tenant table.
@@ -301,12 +332,6 @@ public class CassandraTenantDao implements TenantDao
 	@Override
 	public boolean updateTenant(final Tenant tenant) throws DaoException {
 		boolean update = false;
-		
-		Map<String, String> cphones = new HashMap<String, String>();
-		Map<String, String> bphones = new HashMap<String, String>();
-		tenant.setContactPersonPhones(cphones);
-		tenant.setPhones(bphones);
-		
 		Assignment phones = QueryBuilder.putAll("phones", tenant.getPhones());
 		Assignment contactPhones = QueryBuilder.putAll("contact_person_phones", tenant.getContactPersonPhones());
 		try {					
@@ -378,7 +403,21 @@ public class CassandraTenantDao implements TenantDao
 		tenant.setCreateDate(date);
 		
 		return tenant;	
-	}	
+	}
+	
+	/**
+	 * Sets user profile attributes
+	 * 
+	 * @param user the user profile attributes to set
+	 * @param row the result of a query 
+	 * @return user profile with the attributes set
+	 */
+	private Tenant setTenantCacheAttributes(Tenant tenant, Row row) {
+		tenant.setTenantId(row.getLong("tenantid"));
+		tenant.setName(row.getString("name"));
+		
+		return tenant;	
+	}		
 	
 }
 

@@ -1,5 +1,6 @@
 package com.depth1.grc.controllers;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -16,9 +17,13 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.lang.Long;
 import org.jsoup.*;
 import play.Logger;
+import play.cache.Cache;
+import play.i18n.Messages;
 import play.data.Form;
 import play.data.Form.Field;
 import play.libs.Json;
@@ -31,6 +36,8 @@ import com.datastax.driver.core.Session;
 import com.depth1.grc.coso.models.JpaObjectiveDao;
 import com.depth1.grc.coso.models.Measure;
 import com.depth1.grc.coso.models.Objective;
+import com.depth1.grc.coso.models.ObjectiveDao;
+import com.depth1.grc.db.util.CacheUtil;
 import com.depth1.grc.db.util.DropDownList;
 import com.depth1.grc.exception.DaoException;
 import com.depth1.grc.exception.DataException;
@@ -42,6 +49,9 @@ import com.depth1.grc.model.ProcedureDao;
 import com.depth1.grc.model.RiskAssessment;
 import com.depth1.grc.model.RiskAssessmentDao;
 import com.depth1.grc.model.RiskAssessmentSort;
+import com.depth1.grc.model.Tenant;
+import com.depth1.grc.model.TenantDao;
+import com.depth1.grc.util.DateUtility;
 import com.depth1.grc.util.IdProducer;
 import com.depth1.grc.model.Policy;
 import com.depth1.grc.model.PolicyDao;
@@ -142,7 +152,7 @@ public class Application extends Controller {
 	 */
 	public Result createSO() {
 		Objective objective;
-		JpaObjectiveDao obj;
+		JpaObjectiveDao obj = new JpaObjectiveDao();
 		try {
 
 			objective = new Objective(25L, "Strategy 2018", "Best Enterprise Risk Management Software", 
@@ -161,7 +171,7 @@ public class Application extends Controller {
 			measureSet.add(measure3);
 			//measureSet.add(measure4);
 			//measureSet.add(measure5);
-			obj = new JpaObjectiveDao();
+			//obj = new JpaObjectiveDao();
 			obj.createObjective(objective, measureSet);
 			Logger.info("Data Transaction persisted successfully.");
 			Logger.info("Strategic Objective ID = " +objective.getObjectiveId());
@@ -262,8 +272,18 @@ public class Application extends Controller {
 	 * 
 	 * @return
 	 */
-	public Result index() {
-		createSO();
+	public Result index() throws DaoException, ParseException {
+		//createSO();
+		//Tenant tenant = setTenant();
+		//createTenant(tenant);
+		//cacheTenant();
+		//listObjective();
+		
+		@SuppressWarnings("unchecked")
+		Map<String, Long> cache = (Map<String, Long>) Cache.get("tenant.key");
+		for (Map.Entry<String, Long> e: cache.entrySet()) {
+			Logger.info("Tenant Name: "+ e.getKey() + ": "+ "Tenant ID: "+ e.getValue());
+		}
 		return ok(index.render());
 	}
 	/**
@@ -896,5 +916,115 @@ public class Application extends Controller {
 		return redirect("/assets/pdf/Procedure.pdf");
 
 	}
+	
+	/**
+	 * Creates a Tenant profile
+	 * @param tenant Tenant to create
+	 * @return Result of the tenant created
+	 */
+	public static Result createTenant(Tenant tenant) {
+		try {
+			TenantDao business = cassandraFactory.getTenantDao();
+			business.createTenant(tenant);
+			Logger.info("Tenant was succesfully created.");
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating a tenant ", e);
+		}
+		return ok();
+	}
+	
+	/**
+	 * Creates a Tenant profile
+	 * @param tenant Tenant to create
+	 * @return Result of the tenant created
+	 */
+	public static Result cacheTenant() {
+		try {
+			TenantDao tenant = cassandraFactory.getTenantDao();
+			Map<String, Long> cache = new HashMap<>();
+			cache = tenant.cacheTenant();
+			for (Map.Entry<String, Long> e: cache.entrySet()) {
+				Logger.info("Tenant Name: "+ e.getKey() + " "+ "Tenant ID: "+ e.getValue());
+			}
+			
+			Logger.info("Tenant was succesfully cached.");
+		} catch (DaoException e) {
+			Logger.error("Error occurred while creating a tenant ", e);
+		}
+		return ok();
+	}
+	
+	/**
+	 * List objectives in the data store.
+	 * 
+	 * @return list of strategic objectives
+	 * @throws DaoException if error occurs while reading strategic objective from the data store
+	 */
+	
+	public Result listObjective() throws DaoException {
+		List<Objective> list = new ArrayList<>();
+		try {
+			ObjectiveDao obj = new JpaObjectiveDao();
+			list = obj.listObjective();
+			list.forEach(objective-> {
+			Logger.info("Objective Name: " + objective.getName());
+			Logger.info("Objective Description: " + objective.getObjective());
+			Logger.info("Objective Level: " + objective.getObjectiveLevel());
+			});
+			;
+		} catch (DataException e) {
+			Logger.error("Error occured while reading strategic objective", e);
+		}
+		
+		return ok();		
+	}		
+	
+	/**
+	 * Provides a test data for Tenant
+	 * @return
+	 */
+	public Tenant setTenant() {
+		Tenant tenant = new Tenant();
+		String value = "01/31/2016";
+		String format = Messages.get("date.out.date.format");
+		Logger.info("The date format is: " + format);
+		try {
+				Timestamp date = DateUtility.toTimestamp(value, format);
+				tenant.setServiceStartDate(date);
+				Logger.info("service start date set to: " + date);
+
+			} catch (ParseException p) {
+
+		}
+		tenant.setTenantId(IdProducer.nextId());
+		tenant.setName("IBM Corporation");
+		tenant.setType("Software, Hardware, and Services");
+		tenant.setStreet1("590 Madison Ave");
+		tenant.setStreet2(" ");
+		tenant.setCity("New York");
+		tenant.setState("NY");
+		tenant.setProvince("  ");
+		tenant.setZipcode("10022");
+		tenant.setCountry("USA");
+		tenant.setLongitude("-74.416855");
+		tenant.setLatitude("40.455281");
+		String workPhone = "732-593-3518";
+		String mobilePhone = "732-874-7610";
+		String work = "Work";
+		String mobile = "Mobile";
+		Map<String, String> phones = new HashMap<String, String>();
+		phones.put(work, workPhone);
+		phones.put(mobile, mobilePhone);
+		tenant.setPhones(phones);
+		tenant.setContactPersonName("Bisi Adedokun");
+		tenant.setContactPersonEmail("aadedokun@us.ibm.com");
+		tenant.setCompanyUrl("http://www.ibm.com");
+		tenant.setContactPersonPhones(phones);
+		tenant.setIpaddress("10.21.2.56");
+		tenant.setStatus("Active");
+
+		return tenant;
+
+	}	
 
 }

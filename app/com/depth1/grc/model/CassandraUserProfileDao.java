@@ -136,7 +136,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.value("title", user.getTitle())
 					.value("salutation", user.getSalutation())
 					.value("username", user.getUsername())
-					.value("password", user.getPassword())
+					//.value("password", user.getPassword())
 					.value("email", user.getEmail())
 					.value("gender", user.getGender())
 					.value("street1", user.getStreet1())
@@ -148,7 +148,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.value("country", user.getCountry())
 					.value("phones", user.getPhones())
 					.value("lineofdefense", user.getLineOfDefense())
-					.value("createdate", user.getCreateDate()) //Timestamp.valueOf(LocalDateTime.now())
+					.value("createdate", UUIDs.timeBased()) //Timestamp.valueOf(LocalDateTime.now())
 					.value("latitude", user.getLatitude())
 					.value("longitude", user.getLongitude())
 					.value("timezone", user.getTimeZone())
@@ -161,8 +161,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.value("status", user.getStatus());	
 					CassandraDaoFactory.getSession().execute(insert);
 					createUserAuth(user); // create user login credentials
-					
-			
+							
 		} catch (DriverException e) {
 			Logger.error("Error occurred while inserting user profile in the user profile table ", e);
 		} finally {
@@ -380,7 +379,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 		user.setLanguage(row.getString("language"));
 		user.setLocale(row.getString("locale"));
 		user.setStatus(row.getString("status"));
-		user.setDeptId(row.getUUID("deptid"));
+		user.setDeptId(row.getInt("deptid"));
 		user.setDeptName(row.getString("deptname"));
 		user.setLodFunctionId(row.getInt("lodfunctionid"));
 		user.setLodFunction(row.getString("lodfunction"));
@@ -398,8 +397,7 @@ public class CassandraUserProfileDao implements UserProfileDao {
 	 * @throws DaoException if error occurs while updating a user profile in the data store
 	 */
 	
-	private void updateUserAuth(final UserProfile user) throws DaoException {
-		//boolean update = false;		
+	private void updateUserAuth(final UserProfile user) throws DaoException {		
 		try {
 			Update.Assignments updateAssignments = QueryBuilder
 					.update(Keyspace.valueOf(keyspace), "userauth")					
@@ -407,16 +405,15 @@ public class CassandraUserProfileDao implements UserProfileDao {
 					.and(set("lname", user.getLastName()))
 					.and(set("fname", user.getFirstName()));
 					Statement updateDetails = updateAssignments
-					.where(eq("username", user.getUsername()));
+					.where(eq("username", user.getUsername()))
+					.and(eq("tenantid", user.getTenantId()));
 			CassandraDaoFactory.getSession().execute(updateDetails);			
-			//update = true;
 		} catch (DriverException e) {
 			Logger.error("Error occurred while updating data in the user profile table ", e);
 		} finally {
 			//close the connection to the database();
 			CassandraDaoFactory.close(CassandraDaoFactory.getSession());
 		}
-		//return update;
 	}	
 	
 	public boolean updateUserProfile(final UserProfile user) throws DaoException {

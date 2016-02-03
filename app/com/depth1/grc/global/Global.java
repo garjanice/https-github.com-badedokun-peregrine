@@ -5,6 +5,7 @@ package com.depth1.grc.global;
 
 import java.util.Date;
 
+import com.depth1.grc.db.util.CacheUtil;
 import com.depth1.grc.model.common.AnnotationDateFormatter;
 import com.depth1.grc.security.GlobalSecurity;
 
@@ -27,16 +28,13 @@ public class Global extends GlobalSettings {
 	
 
     /**
-     * Annotates any object property on a model class to indicate that we want to bind and unbind 
-     * Date from a Form object using the following syntax: @DateFormat("MM-dd-yyyy")
+     * On Start, set Tenant into the Play Cache framework for application wide use
      * 
      * 
      */
     @Override
     public void onStart(Application app) {
-        super.onStart(app);
-        Formatters.register(Date.class, new AnnotationDateFormatter());
-        GlobalSecurity.security();
+        CacheUtil.setTenantInCache(); // Set Tenant into the Play Cache framework
     }	
 
 	 /**

@@ -87,6 +87,14 @@ public interface ObjectiveDao {
 	/**
 	 * List strategic objective in the data store.
 	 * 
+	 * @return List list of strategic objectives
+	 * @throws DaoException if error occurs while reading strategic objective from the data store
+	 */
+	public List<Objective> listObjective() throws DaoException;	
+	
+	/**
+	 * List strategic objective in the data store.
+	 * 
 	 * @param tenantId the tenant ID of the tenant who set the strategic objectives
 	 * @return List list of strategic objectives
 	 * @throws DaoException if error occurs while reading strategic objective from the data store

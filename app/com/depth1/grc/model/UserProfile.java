@@ -65,7 +65,7 @@ public class UserProfile {
     private String salutation;
     private String preferredFirstName;
     private String title;
-	private UUID deptId;
+	private int deptId;
 	private String deptName;
 	private int lodFunctionId;
 	private String lodFunction;
@@ -418,13 +418,13 @@ public class UserProfile {
 	/**
 	 * @return the deptId
 	 */
-	public UUID getDeptId() {
+	public int getDeptId() {
 		return deptId;
 	}
 	/**
 	 * @param deptId the deptId to set
 	 */
-	public void setDeptId(UUID deptId) {
+	public void setDeptId(int deptId) {
 		this.deptId = deptId;
 	}	
 	/**
