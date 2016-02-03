@@ -1,53 +1,69 @@
-@import com.depth1.grc.jpa.models.Objective
-@(objectives:List[Objective], objectiveSize:Integer)
-
+@import com.depth1.grc.coso.models.Objective
+@(objective:List[Objective], objectiveSize:Integer)
 @header()
+
+
+
+
+ 
+       <ol class="breadcrumb">
+           <li><a class="blue-link" href="#">Home</a></li>
+           <li><a class="blue-link" href="#">Enterprise Risk</a></li>
+           <li><a class="blue-link" href="#">Operation Risk</a></li>
+           <li><a class="blue-link" href="/objective/1/10/ascendingName">>Objective Setting</a></li>
+        </ol>
         
         <center>
-           <h1> Objectives</h1>
+           <h1> Objective</h1>
+           <h6> Front Page</h6>
+           <br>
            <br>
            <br>
         </center>
         <div class="margin-50">
         	
         		<div class="float-box">
-        			<input type="search" id="objectiveListSearchText" class="searchText" onsearch="objectiveListSearch()" value="Search Objective">
+        			<input type="search" id="objectiveListSearchText" onsearch = "searchTable()">
+        			
         		</div>
         	
-        	  <div >
+        	
+        	
+	        <div >
 	          
-	           <div class="tableView">
+	           <div class="objectiveViewTable">
 	              <p> <a class="blue-link" onclick="changeViewObjective(10)"> View 10</a> |
 	              <a class="blue-link" onclick="changeViewObjective(25)"> View 25</a> | 
 	              <a class="blue-link" onclick="changeViewObjective(50)"> View 50</a> </p>
 	           </div>
-	            <p> <b>Instructions:</b> Please select an Objective and then View, Update, or Delete. </p>
+	            <p> <b>Instructions:</b> Please select an Objective and then View, Update, Delete or Print. </p>
 	        </div>
 	        <br>
 	        
 	        <div>
 	           
-	           <table id="objectiveTable" class="frontTable">
+	           <table id="objectiveTable">
 	              <thead>
 	                <tr>
-	                   <th id="objectiveTableCol1" onclick="objectiveListSort('objectiveId')">Objective Id</th>
-	        		   <th id="objectiveTableCol2" onclick="objectiveListSort('tenantId')">Tenant Id</span></th>
+	                   <th align="justify" id="objectiveTableCol1" onclick="objectiveListSort('objectiveId')">Objective Id</th>
+	        		   <th id="objectiveTableCol2" onclick="objectiveListSort('tenantId')">Tenant Id</th>
 					   <th id="objectiveTableCol3" onclick="objectiveListSort('name')">Name</th>
-					   <th id="objectiveTableCol4" onclick="objectiveListSort('objective')">Objective</th>
-					   <th id="objectiveTableCol5" onclick="objectiveListSort('objectivetype')">Objective Type</th>
-					   <th id="objectiveTableCol6" onclick="objectiveListSort('objectivelevel')">Objective Level</th>
-		   
-     			    </tr>
+					   <th id="objectiveTableCol4" onclick="objectiveListSort('objectiveType')">Objective Type</th>
+					   <th id="objectiveTableCol5" onclick="objectiveListSort('objectiveLevel')">Objective Level</th>
+					   <th id="objectiveTableCol6" onclick="objectiveListSort('objectiveSettingBody')">Objective Setting Body</th>
+	                </tr>
 	              </thead>
-	              <tbody>	              	 
-	                 @for(Objective <- objectives) {
+	              <tbody>
+	              	 
+	                 @for(Objective <- objective) {
 				     <tr>
-					    <td>@Objective.getObjectiveId</td>
+					    
+					    <td class="objectiveTableRowCenter">@Objective.getObjectiveId</td>
 					    <td>@Objective.getTenantId</td>
-					    <td>@Objective.getName</td>
-					    <td class="tableRowCenter">@Objective.getObjective</td>
-					    <td class="tableRowCenter">@Objective.getObjectiveType</td>
-					    <td class="tableRowCenter">@Objective.getObjectiveLevel</td>					   
+					    <td class="objectiveTableRowCenter">@Objective.getName</td>
+					    <td>@Objective.getObjectiveType</td>
+					    <td>@Objective.getObjectiveLevel</td>
+					    <td>@Objective.getObjectiveSettingBody</td>
 				    </tr>
 				    }
 	              </tbody>
@@ -62,43 +78,37 @@
         <br>
         <br>
         <center>
-        	<table>
-            	<tr>
-                	<td>
-                	   <FORM ACTION=/objective/create>
-		                 <INPUT TYPE="submit"  id="objectiveCreateButton" class="genericButton" VALUE="Create">
-		               </FORM>
-                		<!-- <input type="button" class="genericButton" onclick="createStrategicObjective()" value="Create"> -->
-                	</td>
-                	<td>
-                	   <FORM ACTION=/objective/view>
-			             <INPUT TYPE="submit" id="objectiveViewButton" class="genericButton" value="View" disabled>
-	                   </FORM>
-                		<!-- <input type="button" class="genericButton" onclick="updateStrategicObjective()" value="Update"> -->
-                	</td>
-                	<td>
-                	   <FORM ACTION=/objective/update>
-			              <INPUT TYPE="submit" id="objectiveUpdateButton" class="genericButton" value="Update" disabled>
-	                   </FORM>
-                		<!-- <input type="button" class="genericButton" onclick="listStrategicObjective()" value="View"> -->
-                	</td>
-                	<td>
-	                   <FORM ACTION=/objective/print>
-			              <INPUT TYPE="submit" id="objectivePrintButton" class="genericButton" value="Print" disabled>
-	                   </FORM>
-	                </td>
-                	<td>
-                	   <input type="button"  id="objectiveDeleteButton" class="genericButton" onclick="deleteObjective()" value="Delete">
-                	</td>
-	          	</tr>
-           	</table>
+           <table>
+              <tr>
+                 <td>
+	                <FORM ACTION=/objective/create>
+		               <INPUT TYPE="submit" class="objectiveList-Button" VALUE="Create">
+		            </FORM>
+		         </td>
+	             <td>
+	                <FORM ACTION=/objective/view>
+			           <INPUT TYPE="submit" id="objectiveViewButton" class="objectiveList-Button" value="View" disabled>
+	                </FORM>
+	             </td>
+	             <td>
+	             <INPUT TYPE="button" id="objectiveDeleteButton" class="objectiveList-Button" value = "Delete" onclick="deleteObjective()" disabled>
+	             </td>
+	             <td>
+	                <FORM ACTION=/objective/update>
+			           <INPUT TYPE="submit" id="objectiveUpdateButton" class="objectiveList-Button" value="Update" disabled>
+	                </FORM>
+	             </td>
+	             
+	          </tr>
+           </table>
         </center>
         <br>
         <br>
         <br>
-        <!-- Needed script to get the total number of Objectives -->
-        <script>
+        <!-- Needed script to get the total number of Risk Assessment -->
+       <script>
            var objectiveFrontListSize = @objectiveSize;
         </script> 
-
+      
 @footer()
+
