@@ -1,4 +1,5 @@
-@import com.depth1.grc.jpa.models.Objective
+@import com.depth1.grc.coso.models.Objective
+
 @header()
 
 
@@ -22,7 +23,7 @@
 	                 	<input type="text" id="name" name="" class="input-style objectiveAdjust-name-text" >
 	                </div>
 					<div>
-						<label for="objectivename" class="label-style objectiveAdjust-name" >Objective Name:</label>
+						<label for="objectivename" class="label-style objectiveAdjust-objectivename" >Objective Name:</label>
 	                 	<input type="text" id="objectivename" name="" class="input-style objectiveAdjust-objectivename-text" >
 	                </div>
 	                <div>
@@ -41,7 +42,7 @@
 	           	<table>
 	           		<tr>
 	           			<td>
-	           				<button type="button" class="genericButton" onclick="objectiveList()">List</button>
+	           				<button type="button" class="genericButton" onclick="goToObjectiveList()">List</button>
 	           			</td>
 	           			<td>
 	           				<button type="submit" class="genericButton">Submit</button>
