@@ -6,32 +6,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.depth1.grc.coso.models.JpaObjectiveDao;
+import com.depth1.grc.coso.models.Measure;
+import com.depth1.grc.coso.models.Objective;
+import com.depth1.grc.coso.models.ObjectiveDao;
 import com.depth1.grc.exception.DaoException;
 import com.depth1.grc.exception.DataException;
-import com.depth1.grc.jpa.models.JpaObjectiveDao;
-import com.depth1.grc.jpa.models.Measure;
-import com.depth1.grc.jpa.models.Objective;
-import com.depth1.grc.jpa.models.ObjectiveDao;
-import com.depth1.grc.jpa.models.ObjectiveSort;
+import com.depth1.grc.coso.models.ObjectiveSort;
 import com.depth1.grc.model.DaoFactory;
-import com.depth1.grc.model.PrintPdfRiskAssessment;
-import com.depth1.grc.model.Tenant;
-import com.depth1.grc.model.TenantDao;
-import com.depth1.grc.views.html.createObjective;
-import com.depth1.grc.views.html.frontObjective;
-import com.depth1.grc.views.html.updateObjective;
-import com.depth1.grc.views.html.viewObjective;
-
-import com.depth1.grc.views.html.viewTenant;
+import com.depth1.grc.model.DepartmentDao;
+import com.depth1.grc.views.html.*;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import play.Logger;
-import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
-import play.libs.Json;
-
+import play.data.Form;
 
 /**
  * This controller class provides operations to support the COSO framework for frontend use.
@@ -50,7 +40,6 @@ public class CosoFramework extends Controller {
 	final static Form<Objective> objectiveForm = Form.form(Objective.class);
 	static List<Objective> objective;
 	static Objective selectedObjective;
-	
 
 	/**
 	 * 
@@ -66,7 +55,7 @@ public class CosoFramework extends Controller {
 	 * @param measure a set containing the measures for the strategic objective
 	 * @throws DaoException if error occurs while updating a strategic objective in the data store
 	 */
-	public Result createStrategicObjective(Objective objective, Set<Measure> measure)  
+	public Result createObjective(Objective objective, Set<Measure> measure)  
 			 throws DaoException {
 
 		try {
@@ -84,7 +73,7 @@ public class CosoFramework extends Controller {
 	 * @param objectiveId strategic objective ID to delete
 	 * @throws DaoException if error occurs while deleting a strategic objective from the data store
 	 */
-	public Result deleteStrategicObjective(long objectiveId, long tenantId) throws DaoException {
+	public Result deleteObjective(long objectiveId, long tenantId) throws DaoException {
 
 		try {
 			ObjectiveDao obj = new JpaObjectiveDao();
@@ -104,6 +93,7 @@ public class CosoFramework extends Controller {
 	 */
 	
 	public Result listMeasure(long tenantId) throws DaoException {
+		@SuppressWarnings("unused")
 		List<Measure> list = new ArrayList<>();
 		try {
 			ObjectiveDao obj = new JpaObjectiveDao();
@@ -116,13 +106,34 @@ public class CosoFramework extends Controller {
 	}	
 	
 	/**
-	 * List strategic objective in the data store.
+	 * List objectives in the data store.
 	 * 
 	 * @return list of strategic objectives
 	 * @throws DaoException if error occurs while reading strategic objective from the data store
 	 */
 	
-	public Result listStrategicObjective(long tenantId) throws DaoException {
+	public Result listObjective() throws DaoException {
+		@SuppressWarnings("unused")
+		List<Objective> list = new ArrayList<>();
+		try {
+			ObjectiveDao obj = new JpaObjectiveDao();
+			list = obj.listObjective();
+		} catch (DataException e) {
+			Logger.error("Error occured while reading strategic objective", e);
+		}
+		
+		return ok();		
+	}	
+	
+	/**
+	 * List objectives in the data store.
+	 * 
+	 * @return list of strategic objectives
+	 * @throws DaoException if error occurs while reading strategic objective from the data store
+	 */
+	
+	public Result listObjective(long tenantId) throws DaoException {
+		@SuppressWarnings("unused")
 		List<Objective> list = new ArrayList<>();
 		try {
 			ObjectiveDao obj = new JpaObjectiveDao();
@@ -135,14 +146,15 @@ public class CosoFramework extends Controller {
 	}
 	
 	/**
-	 * Lists strategic objectives.
+	 * Lists objectives in the data store
 	 * 
 	 * @param name strategic objective name to find
 	 * @param tenantId the tenant ID of the tenant to find
 	 * @return List of Strategic objective that were found
 	 * @throws DaoException if error occurs while finding a strategic objective in the data store
 	 */
-	public Result listStrategicObjective(String name, long tenantId) throws DaoException {	
+	public Result listObjective(String name, long tenantId) throws DaoException {	
+		@SuppressWarnings("unused")
 		List<Objective> list = new ArrayList<>();
 		try {
 			ObjectiveDao obj = new JpaObjectiveDao();
@@ -155,12 +167,12 @@ public class CosoFramework extends Controller {
 	}
 	
 	/**
-	 * Updates Strategic objective and its corresponding measures.
+	 * Updates Objective and its corresponding measures.
 	 * @param measure a map <k,v> where k is the measureId and v is the measure value to update
 	 * @param objective the strategic objective to update
 	 * @throws DaoException if error occurs while updating a strategic objective in the data store
 	 */
-	public Result updateStrategicObjective(Map<Long, Measure> measure, Objective objective)  
+	public Result updateObjective(Map<Long, Measure> measure, Objective objective)  
 			 throws DaoException {
 
 		try {
@@ -187,80 +199,28 @@ public class CosoFramework extends Controller {
 		int size = 0;
 						
 		try {
-			
-			ObjectiveSort objectiveSort = new ObjectiveSort();
-			ObjectiveDao objectiveDao = cassandraFactory.getObjectiveDao();
-			objective = objectiveDao.listObjective();
-			
-			size = objective.size();
+			ObjectiveSort objectiveSort = new ObjectiveSort();	
+			ObjectiveDao objectives = new JpaObjectiveDao();
+			objectives.listObjective();
+		   
 			if(query.compareTo("")!= 0){
 				objective = objectiveSort.filterDataByQuery(objective, query);
-				size = objective.size();
-				
+				size = (objective).size();
 			}
+			
 			if(size > 0){
 				objective = objectiveSort.sortObjective(objective, order);
 				objective = objectiveSort.paginateObjective(objective, view, page);
 			}
+			
 		} catch (DaoException e) {
 			Logger.error("Error occurred while creating Objective Front ", e);
 		}
 			
-		return ok(frontObjective.render(objective, size));
+		return ok();
 	}
 	
 	
-	/**
-	 * Shows the ViewObjectives Page with the currently selected Objectives
-	 * information.
-	 * @return Result of the viewing the Objective Information
-	 */
-	public Result showViewObjective() {
-
-		return ok(viewObjective.render(selectedObjective));
-	}
-	
-	/**
-	 * Updates the selected Objective information and then displays
-	 * the list of Objective on the FrontObjective Page
-	 * @return Result of updating the Objective
-	 */
-	public Result updateObjective() {
-		Form<Objective> filledObjective = objectiveForm.bindFromRequest();
-		Objective criteria = filledObjective.get();
-		criteria.setObjectiveId(selectedObjective.getTenantId());
-		criteria.setObjectiveId(selectedObjective.getObjectiveId());
-		try {
-			ObjectiveDao objectiveDao = cassandraFactory.getObjectiveDao();
-			objectiveDao.updateObjective(criteria);
-			
-		} catch (DaoException e) {
-			Logger.error("Error occurred while updating objectives ",	e);
-		}
-
-		return redirect("/objective/1/10/descendingName");
-	}
-	
-	/**
-	 * Shows the UpdateObjective Page with the Objective Information Populating
-	 * the fields.
-	 * @return Result of updating the Objective information
-	 */
-	public Result showUpdateObjective() {
-		return ok(updateObjective.render(selectedObjective));
-	}	
-	
-	
-	/**
-	 * Shows the Objective Creation Page
-	 * @return Result of the Objective creation
-	 */
-	public Result showCreateObjective() {
-		
-		return ok(createObjective.render());
-	}
-	
-
 	/**
 	 * Sets the Objective that the user picks from the list of Objective
 	 * on the FrontObjective Page.   Uses Ajax and JSON.
@@ -276,28 +236,41 @@ public class CosoFramework extends Controller {
 		String inputString = node.textValue();
 		
 		int index = Integer.parseInt(inputString);
-		
-		
+				
 		selectedObjective = objective.get(index);
 		return ok();
 	}
 	
 	
 	/**
-	 * Deletes the selected Objective from the database.  Uses Ajax and JSON.
-	 * Shows the FrontObjective Page.
-	 * @return Result of the deleting the Objective.
+	 * Shows the ViewObjectives Page with the currently selected Objectives
+	 * information.
+	 * @return Result of the viewing the Objective Information
 	 */
-	public Result deleteObjective() {
-		try {
-			ObjectiveDao objectiveDao = cassandraFactory.getObjectiveDao();
-			objectiveDao.deleteObjective(selectedObjective.getObjectiveId(), selectedObjective.getTenantId());
-		} catch (DaoException e) {
-			Logger.error("Error occurred while deleting objective ", e);
-		}
+	public Result showViewObjectivePage() {
 
-		return redirect("/objective/1/10/ascendingName");
+		return ok(viewObjective.render(selectedObjective));
 	}
 	
+	
+	
+	/**
+	 * Shows the UpdateObjective Page with the Objective Information Populating
+	 * the fields.
+	 * @return Result of updating the Objective information
+	 */
+	public Result showUpdateObjectivePage() {
+		return ok(updateObjective.render(selectedObjective));
+	}	
+	
+	
+	/**
+	 * Shows the Objective Creation Page
+	 * @return Result of the Objective creation
+	 */
+	public Result showCreateObjectivePage() {
+		
+		return ok(createObjective.render());
+	}
 	
 }
