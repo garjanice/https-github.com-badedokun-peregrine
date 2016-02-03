@@ -1740,3 +1740,387 @@ a:hover {
 	left: 600px;
     width: 175px;
 	}
+	
+/*-------------------front procedure---------------*/
+  
+.pList-Button {
+    width: 100px;
+    height: 30px;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color:Blue;
+    color: #ffffff;
+    border-color: lightblue;
+    }
+    
+    #pListSearchText{
+    float: right;
+    clear: both;
+    border-radius: 10px;
+    }
+
+ .pTableView{
+    float: right;
+    
+    }
+ .highlight{
+    background-color: blue;
+    color: #ffffff;
+    }
+ 
+    #pTable {
+    width: 100%;
+    
+    }
+#pTableCol1 {
+    width: 20%;
+     border-radius: 10px 0px 0px 0px;
+    }
+#pTableCol2 {
+    width: 20%;
+    
+   
+    }
+ #pTableCol3 {
+    width: 25%;
+    }   
+#pTableCol4 {
+    width: 20%;
+
+    }  
+#pTableCol5 {
+    width: 40%;
+    border-radius: 0px 10px 0px 0px;
+     
+    }  
+ 
+#pTable thead th{
+    
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    border-bottom-width: 3px;
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    background: blue;
+    color: #ffffff;
+    }
+
+#pTable td {
+    padding: 5px 10px 5px 10px;
+  
+    } 
+   
+#pTable tr {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    }
+.pTableRowCenter {
+    text-align: left;
+    }
+        
+#pViewTable tr td{
+    padding-top: 25px;
+    }
+    
+.pViewBoxTitle{
+    
+    }
+.pViewBox{
+    border: 2px solid black;
+    padding: 10px;
+    width: 1000px
+    }
+
+
+.pViewRow1{
+    width: 120px;
+    vertical-align: top;
+    
+    }
+#pViewTable{
+    width: 960px;
+    }
+.select-style createprocedure-language-text{
+	
+	width: 175px;
+	}	
+	
+/*--------------------------Create Procedure--------------------*/
+
+
+.procedure-position-fieldset {
+	position: absolute;
+	top: 350px;
+	left: 200px;
+	border: 2px solid black;
+    width: 1050px;
+    height: 300px;
+	}
+.procedure-name{
+	position: absolute;
+	top: 25px;
+	left: 25px;
+	}
+.procedure-name-text{
+	position: absolute;
+	top: 25px;
+	left: 175px;
+	}
+.version{
+	position: absolute;
+	top: 25px;
+	left: 375px;
+	}
+.version-text{
+	position: absolute;
+	top: 25px;
+	left: 475px;
+	}
+.author{
+	position: absolute;
+	top: 25px;
+	left: 700px;
+	}
+.author-text{
+	position: absolute;
+	top: 25px;
+	left: 845px;
+	}
+.procedure-description{
+	position: absolute;
+	top: 75px;
+	left: 25px;
+	}
+.procedure-description-text{
+	position: absolute;
+	top: 75px;
+	left: 175px;
+	}
+.format {
+	position: absolute;
+	top: 150px;
+	left: 25px;
+	}
+.format-text{
+	position: absolute;
+	top: 150px;
+	left: 175px;
+	}
+.language {
+	position: absolute;
+	top: 150px;
+	left: 375px;
+	}
+.language-text{
+	position: absolute;
+	top: 150px;
+	left: 475px;
+	}
+.subject {
+	position: absolute;
+	top: 150px;
+	left: 700px;
+	}
+.subject-text{
+	position: absolute;
+	top: 150px;
+	left: 845px;
+	}
+.reference {
+	position: absolute;
+	top: 200px;
+	left: 25px;
+	}
+.reference-text{
+	position: absolute;
+	top: 200px;
+	left: 175px;
+	}
+.approver {
+	position: absolute;
+	top: 200px;
+	left: 375px;
+	}
+.approver-text{
+	position: absolute;
+	top: 200px;
+	left: 475px;
+	}
+.owner {
+	position: absolute;
+	top: 200px;
+	left: 700px;
+	}
+.owner-text{
+	position: absolute;
+	top: 200px;
+	left: 845px;
+	}
+	.procedure-position-fieldset-procedure-body {
+	position: absolute;
+	top: 650px;
+	left: 200px;
+	
+    width: 1050px;
+	}
+	
+	
+		/*-------------------front objective---------------*/
+  
+.objectiveList-Button {
+    width: 100px;
+    height: 30px;
+    margin-right: 30px;
+    margin-left: 30px;
+    background-color:Blue;
+    color: #ffffff;
+    border-color: lightblue;
+    }
+    
+#objectiveListSearchText{
+    float: right;
+    clear: both;
+    border-radius: 10px;
+    }
+
+.objectiveTableView{
+    float: right;
+    
+    }
+.highlight{
+    background-color: blue;
+    color: #ffffff;
+    }
+ 
+#objectiveTable {
+    width: 100%;
+    
+    }
+#objectiveTableCol1 {
+    width: 20%;
+     border-radius: 10px 0px 0px 0px;
+    }
+#objectiveTableCol2 {
+    width: 20%;
+    
+   
+    }
+ #objectiveTableCol3 {
+    width: 25%;
+    }   
+#objectiveTableCol4 {
+    width: 20%;
+
+    }  
+#objectiveTableCol5 {
+    width: 40%;
+    border-radius: 0px 10px 0px 0px;
+     
+    }  
+    
+#objectiveTableCol6 {
+    width: 40%;
+    border-radius: 0px 10px 0px 0px;
+     
+    }  
+ 
+#objectiveTable thead th{
+    
+    border-bottom-style: solid;
+    border-bottom-color: black;
+    border-bottom-width: 3px;
+    padding: 10px 20px 10px 20px;
+    font-size: 16px;
+    background: blue;
+    color: #ffffff;
+    }
+
+#objectiveTable td {
+    padding: 5px 10px 5px 10px;
+  
+    } 
+   
+#objectiveTable tr {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    }
+.objectiveTableRowCenter {
+    text-align: left;
+    }
+        
+#objectiveViewTable tr td {
+    padding-top: 25px;
+    }
+    
+#objectiveViewTable {
+    width: 960px;
+    }
+    
+.objectiveAdjust-type {
+	position: absolute;
+	top: 75px;
+	left: 600px;
+    }
+
+objectiveAdjust-type-text {
+	position: absolute;
+	top: 20px;
+	left: 150px;
+	}
+
+.objectiveAdjust-name {
+	position: absolute;
+	top: 90px;
+	left: 25px;
+    }
+
+objectiveAdjust-type-name-text {
+	position: absolute;
+	top: 20px;
+	left: 150px;
+	}
+
+.objectiveAdjust-objectivename {
+	position: absolute;
+	top: 75px;
+	left: 150px;
+    }
+
+.objectiveAdjust-objectivename-text {
+	position: absolute;
+	top: 20px;
+	left: 150px;
+    }
+
+.objectiveAdjust-objectivelevel {
+	position: absolute;
+	top: 75px;
+	left: 150px;
+    }
+
+.objectiveAdjust-objectivelevel-text {
+	position: absolute;
+	top: 20px;
+	left: 150px;
+	}
+	
+	
+objectiveAdjust-objectivesettingbody{
+	position: absolute;
+	top: 75px;
+	left: 150px;
+    }	
+	
+	
+.objectiveAdjust-objectivesettingbody-text {
+    position: absolute;
+	top: 20px;
+	left: 150px;
+	}
+	
+.objectiveFieldset-01{
+	position: relative;
+	width: 960px;
+	height: 230px;
+}	
+	
