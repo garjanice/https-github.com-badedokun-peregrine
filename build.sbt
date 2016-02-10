@@ -1,4 +1,4 @@
-name := """depth1grc"""
+name := "depth1grc"
 
 version := "1.0-SNAPSHOT"
 

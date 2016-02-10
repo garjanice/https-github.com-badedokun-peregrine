@@ -89,7 +89,7 @@ public interface ControlAssessmentQuestionDao {
 	 * @return true if the Control Assessment questionnaire is successfully deleted, false otherwise
 	 * @throws DaoException if error occurs while deleting a control assessment questionnaire from the data store
 	 */
-	public boolean ControlAssessmentQuestionnaire(long questionnaireId, long tenantId) throws DaoException;
+	public boolean deleteControlAssessmentQuestionnaire(long questionnaireId, long tenantId) throws DaoException;
 	
 	
 	/**
@@ -130,7 +130,4 @@ public interface ControlAssessmentQuestionDao {
 	 */
 	public boolean updateControlAssessmentQuestionnaire(ControlAssessmentQuestionnaire questionnaire) throws DaoException; 	
 	
-	
-		
-
 }
